@@ -257,8 +257,8 @@
             <h3 class="text-lg font-bold text-[#1A1A24] mb-1">📜 Chính sách sử dụng lớp học</h3>
             <p class="text-xs text-gray-400 italic mb-4">Ngoc Quyen's Classroom — áp dụng cho toàn bộ học viên</p>
             <div class="flex flex-col gap-3 text-sm text-[#3D3D4E] leading-relaxed">
-                <p>Chào mừng các bạn đã đến với Ngoc Quyen's Classroom! Đây là không gian ôn luyện từ vựng &amp; ngữ pháp được xây dựng riêng cho lớp học của chúng ta.</p>
-                <p><b>1. Bản quyền nội dung:</b> Toàn bộ bài giảng, dữ liệu từ vựng, ngữ pháp và bài luyện tập trên nền tảng thuộc quyền sở hữu của lớp học. Vui lòng không tải xuống, chụp/quay lại màn hình hay chia sẻ ra ngoài dưới mọi hình thức.</p>
+                <p>Chào mừng các bạn đã đến với Ngoc Quyen's Classroom! Đây là không gian ôn luyện ngữ pháp được xây dựng riêng cho lớp học TOPIK.</p>
+                <p><b>1. Bản quyền nội dung:</b> Toàn bộ bài giảng, dữ liệu ngữ pháp và bài luyện tập trên nền tảng thuộc quyền sở hữu của lớp học. Vui lòng không tải xuống, chụp/quay lại màn hình hay chia sẻ ra ngoài dưới mọi hình thức.</p>
                 <p><b>2. Tài khoản cá nhân:</b> Mỗi học viên chịu trách nhiệm bảo mật tên đăng nhập/mật khẩu của mình, không chia sẻ cho người khác sử dụng.</p>
                 <p><b>3. Tinh thần học tập:</b> Luôn giữ thái độ tôn trọng, trung thực khi làm bài luyện tập để việc ôn luyện đạt hiệu quả tốt nhất cho chính bạn.</p>
             </div>
@@ -309,7 +309,7 @@
             <nav class="flex flex-row md:flex-col gap-1.5 md:gap-2 overflow-x-auto md:overflow-visible pb-0.5 md:pb-0">
                 <a href="#" class="sidebar-nav-item" data-active="true" id="tab-notebook">
                     <span class="sidebar-nav-icon-box" data-theme-icon="notebook"></span>
-                    <span class="sidebar-nav-label">Sổ tay từ vựng</span>
+                    <span class="sidebar-nav-label">Sổ từ vựng</span>
                     <svg class="sidebar-nav-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
                 <a href="#" class="sidebar-nav-item" data-active="false" id="tab-full-topik">
@@ -331,7 +331,7 @@
             <!-- VIEW TRANG CHỦ: SỔ TAY TỪ VỰNG -->
             <div id="view-notebook-home" class="view-group">
                 <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
-                    <h2 class="text-2xl font-bold text-[#1A1A24] tracking-wide">Sổ tay từ vựng</h2>
+                    <h2 class="text-2xl font-bold text-[#1A1A24] tracking-wide">Sổ từ vựng</h2>
                     <button class="neo-button px-5 py-2.5 text-white bg-point font-bold flex items-center text-sm gap-2" onclick="openCreateNotebookModal()">
                         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                         Tạo sổ tay mới
@@ -354,7 +354,7 @@
                     <div class="flex justify-between items-center mb-5">
                         <h3 class="text-xs font-bold text-[#6A6A7F] tracking-widest flex items-center gap-2">
                             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
-                            SỔ TAY CỦA TÔI
+                            SỔ TỪ VỰNG CỦA TÔI
                         </h3>
                     </div>
 
@@ -364,9 +364,9 @@
                             <div class="w-14 h-14 rounded-2xl neo-sunk flex items-center justify-center text-point">
                                 <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
                             </div>
-                            <p class="text-sm font-bold text-[#2D2D3A]">Bạn chưa có sổ tay từ vựng nào</p>
-                            <p class="text-xs text-gray-400 max-w-[360px]">Tạo sổ tay đầu tiên để bắt đầu gom từ vựng và luyện tập theo Flashcard, Trắc nghiệm, Viết từ...</p>
-                            <button class="neo-button px-5 py-2.5 text-white bg-point font-bold text-xs mt-1" onclick="openCreateNotebookModal()">+ Tạo sổ tay mới</button>
+                            <p class="text-sm font-bold text-[#2D2D3A]">Bạn chưa có sổ từ vựng nào</p>
+                            <p class="text-xs text-gray-400 max-w-[360px]">Tạo sổ từ vựng đầu tiên để bắt đầu gom từ vựng và luyện tập theo Flashcard, Trắc nghiệm, Viết từ...</p>
+                            <button class="neo-button px-5 py-2.5 text-white bg-point font-bold text-xs mt-1" onclick="openCreateNotebookModal()">+ Tạo sổ mới</button>
                         </div>
                     </div>
                 </section>
@@ -400,7 +400,7 @@
                     <!-- CỘT 2 — CARD CHI TIẾT TỪ VỰNG (giữ nguyên nội dung, đổi vị trí sang trái) -->
                     <aside class="w-full lg:w-[440px] shrink-0 lg:sticky lg:top-8" id="right-detail-panel">
                         <div class="m-card-base flex flex-col min-h-[500px] justify-center items-center text-center text-gray-400" id="dynamic-detail-card">
-                            <span class="font-medium" style="font-family: 'Plus Jakarta Sans', sans-serif !important;">Bấm vào một từ bất kỳ để xem chi tiết nha Pen!</span>
+                            <span class="font-medium" style="font-family: 'Plus Jakarta Sans', sans-serif !important;">Bấm vào một từ bất kỳ để xem chi tiết</span>
                         </div>
                     </aside>
 
@@ -449,11 +449,11 @@
             <!-- VIEW ÔN TẬP SỔ TAY (Flashcard / Trắc nghiệm / Viết từ / Nghe...) -->
             <div class="view-group hidden" id="view-practice-stage">
                 <div class="flex items-center gap-3 sm:gap-4 mb-5 sm:mb-6">
-                    <button class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl neo-button flex items-center justify-center text-gray-400 shrink-0" onclick="closePracticeView()" title="Quay lại Sổ tay">
+                    <button class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl neo-button flex items-center justify-center text-gray-400 shrink-0" onclick="closePracticeView()" title="Quay lại Sổ từ vựng">
                         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
                     </button>
                     <div class="min-w-0">
-                        <h2 class="text-lg sm:text-xl font-bold text-[#1A1A24] leading-tight truncate" id="practice-title">Ôn tập sổ tay</h2>
+                        <h2 class="text-lg sm:text-xl font-bold text-[#1A1A24] leading-tight truncate" id="practice-title">Ôn tập sổ từ vựng</h2>
                         <p class="text-xs text-gray-400 font-mono mt-0.5" id="practice-subtitle">0 từ vựng</p>
                     </div>
                 </div>
@@ -479,7 +479,7 @@
                     <!-- CỘT TRÁI 30% — CARD CHI TIẾT -->
                     <aside class="w-full lg:w-[32%] shrink-0 lg:sticky lg:top-8">
                         <div class="m-card-base flex flex-col min-h-[400px] justify-center items-center text-center text-gray-400" id="search-detail-card">
-                            <span class="font-medium" style="font-family: 'Plus Jakarta Sans', sans-serif !important;">Bấm vào 1 kết quả để xem chi tiết nha Pen!</span>
+                            <span class="font-medium" style="font-family: 'Plus Jakarta Sans', sans-serif !important;">Bấm vào 1 kết quả để xem chi tiết!</span>
                         </div>
                     </aside>
                     <!-- CỘT PHẢI 70% — BẢNG KẾT QUẢ -->
@@ -536,7 +536,7 @@
         // Ánh xạ 6 màu đại diện Level chuẩn khít theo spec của Pen (Hình 2)
         const levelColorsMap = {
             '1': '#95B157', '2': '#61B4BD', '3': '#B39EE4', 
-            '4': '#E46679', '5': '#E18243', '6': '#E8D41A'
+            '4': '#E46679', '5': '#E18243', '6': '#DCC91E'
         };
 
         // ============================================================
@@ -545,7 +545,7 @@
         // ============================================================
         const ICON_TONES = {
             brand: { light: '#D6D0FF', dark: '#5B4FCF' },  // xanh tím chủ đạo của web
-            mono: { light: '#D8DEE8', dark: '#1F2430' },   // xám/đen
+            mono: { light: '#B2C1DA', dark: '#1F2430' },   // xám/đen
             light: { light: 'rgba(255,255,255,0.35)', dark: '#FFFFFF' }, // trắng/xám cho nền tối
         };
 
@@ -622,7 +622,7 @@
             document.querySelectorAll('[data-theme-icon]').forEach(el => {
                 const name = el.getAttribute('data-theme-icon');
                 if (el.dataset.iconInjected) return;
-                el.innerHTML = `<span class="icon-mono-variant">${themeIcon(name, 'mono', 17)}</span><span class="icon-light-variant">${themeIcon(name, 'light', 17)}</span>`;
+                el.innerHTML = `<span class="icon-mono-variant">${themeIcon(name, 'mono', 24)}</span><span class="icon-light-variant">${themeIcon(name, 'light', 24)}</span>`;
                 el.dataset.iconInjected = 'true';
             });
         }
@@ -641,9 +641,9 @@
                 <div class="w-14 h-14 rounded-2xl neo-sunk flex items-center justify-center text-point">
                     <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
                 </div>
-                <p class="text-sm font-bold text-[#2D2D3A]">Bạn chưa có sổ tay từ vựng nào</p>
-                <p class="text-xs text-gray-400 max-w-[360px]">Tạo sổ tay đầu tiên để bắt đầu gom từ vựng và luyện tập theo Flashcard, Trắc nghiệm, Viết từ...</p>
-                <button class="neo-button px-5 py-2.5 text-white bg-point font-bold text-xs mt-1" onclick="openCreateNotebookModal()">+ Tạo sổ tay mới</button>
+                <p class="text-sm font-bold text-[#2D2D3A]">Bạn chưa có sổ từ vựng nào</p>
+                <p class="text-xs text-gray-400 max-w-[360px]">Tạo sổ từ vựng đầu tiên để bắt đầu gom từ vựng và luyện tập theo Flashcard, Trắc nghiệm, Viết từ...</p>
+                <button class="neo-button px-5 py-2.5 text-white bg-point font-bold text-xs mt-1" onclick="openCreateNotebookModal()">+ Tạo sổ mới</button>
             </div>
         `;
 
@@ -671,7 +671,7 @@
                         body: JSON.stringify(payload),
                     });
                 } catch (e) {
-                    console.error('Không lưu được sổ tay lên server:', e);
+                    console.error('Không lưu được sổ lên server:', e);
                 }
             }, 800);
         }
@@ -695,7 +695,7 @@
                 }
                 renderAllLessonCardsFromNotebooksList();
             } catch (e) {
-                console.error('Không tải được sổ tay từ server:', e);
+                console.error('Không tải được sổ từ server:', e);
             }
         }
 
@@ -739,7 +739,7 @@
 
         function speakKorean(text, gender) {
             if (!('speechSynthesis' in window)) {
-                alert('Trình duyệt của bạn chưa hỗ trợ phát âm giọng nói (Web Speech API). Hãy thử với Chrome nha Pen!');
+                alert('Trình duyệt của bạn chưa hỗ trợ phát âm giọng nói (Web Speech API). Hãy thử mở với Chrome nhé!');
                 return;
             }
             window.speechSynthesis.cancel(); // dừng câu đang đọc dở nếu có
@@ -837,8 +837,8 @@
             const panel = document.getElementById('dynamic-detail-card');
             if(!list || !panel) return;
             
-            list.innerHTML = '<div class="text-center text-gray-400 py-12 font-medium text-sm">Gem đang chuyển đổi cấu trúc Sheet thực tế, Pen chờ xíu nha...</div>';
-            panel.innerHTML = '<span class="font-medium" style="font-family: \'Plus Jakarta Sans\', sans-serif !important;">Bấm vào một từ bất kỳ để xem chi tiết nha Pen!</span>';
+            list.innerHTML = '<div class="text-center text-gray-400 py-12 font-medium text-sm">Đang chuyển đổi cấu trúc Sheet thực tế, bạn chờ xíu nha...</div>';
+            panel.innerHTML = '<span class="font-medium" style="font-family: \'Plus Jakarta Sans\', sans-serif !important;">Bấm vào một từ bất kỳ để xem chi tiết!</span>';
 
             try {
                 currentSource = sourceType;
@@ -868,7 +868,7 @@
                 ensureAllLibraryLoaded();
             } catch (error) {
                 console.error("Lỗi dòng chảy dữ liệu:", error);
-                list.innerHTML = '<div class="text-center text-red-400 py-10 font-medium text-sm">Lỗi đọc cấu trúc! Pen hãy kiểm tra xem tên file JSON trong thư mục DATA đã đúng là full_topik.json hoặc fast_pace.json chưa nha ❤</div>';
+                list.innerHTML = '<div class="text-center text-red-400 py-10 font-medium text-sm">Lỗi đọc cấu trúc! Hãy kiểm tra xem tên file JSON trong thư mục DATA đã đúng là full_topik.json hoặc fast_pace.json chưa nha ❤</div>';
             }
         }
 
@@ -1003,7 +1003,7 @@
                     <span class="text-xs font-semibold text-gray-500">${libSelectedIds.size} từ đã chọn</span>
                     <div class="flex items-center gap-2">
                         <button class="neo-button px-3.5 py-1.5 text-xs font-bold text-gray-400" onclick="libSelectedIds.clear(); renderFilterBar(); renderVocabRows();">Bỏ chọn hết</button>
-                        <button class="neo-button px-4 py-1.5 text-xs font-bold text-white" style="background:#6C63FF;" onclick="openAddSelectedToNotebookPopup(event)" ${libSelectedIds.size ? '' : 'disabled style="opacity:.5;"'}>+ Thêm vào Sổ tay</button>
+                        <button class="neo-button px-4 py-1.5 text-xs font-bold text-white" style="background:#6C63FF;" onclick="openAddSelectedToNotebookPopup(event)" ${libSelectedIds.size ? '' : 'disabled style="opacity:.5;"'}>+ Thêm vào Sổ từ vựng</button>
                     </div>
                 </div>` : ''}
             `;
@@ -1067,7 +1067,7 @@
                         </div>
                         <div class="flex-1 min-w-0 flex flex-col justify-center self-center">
                             <span class="text-[13px] font-semibold text-[#2d3a54] truncate leading-tight">${item.vietnamese || item.deep_meaning || item.literal || '—'}</span>
-                            ${hanLine ? `<span class="text-[9px] text-[#b8c4d4] font-medium truncate mt-0.5 leading-tight">${hanLine}</span>` : ''}
+                            ${hanLine ? `<span class="text-[10px] text-[#9FACBD] font-medium truncate mt-0.5 leading-tight">${hanLine}</span>` : ''}
                         </div>
                         <div class="hidden md:flex items-center gap-0 shrink-0">
                             <span class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[9px] font-bold whitespace-nowrap tracking-wide shrink-0" style="background:${c}22; color:${c};">
@@ -1084,7 +1084,7 @@
                             <button class="vr-status-btn ${item.learned ? 'vr-active' : ''}" title="${item.learned ? 'Đã học — click để bỏ' : 'Chưa học — click để đánh dấu'}" onclick="toggleLearned(${globalIndex})">
                                 <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="${item.learned ? '#2ec65e' : '#c0cad8'}" stroke-width="${item.learned ? 2.5 : 1.5}"><polyline points="20 6 9 17 4 12"></polyline></svg>
                             </button>
-                            <button class="vr-status-btn ${item.savedNotebooks.length > 0 ? 'vr-active' : ''}" id="bm-btn-${globalIndex}" title="Lưu vào Sổ tay" onclick="openBookmarkPopup(${globalIndex}, this)">
+                            <button class="vr-status-btn ${item.savedNotebooks.length > 0 ? 'vr-active' : ''}" id="bm-btn-${globalIndex}" title="Lưu vào Sổ từ vựng" onclick="openBookmarkPopup(${globalIndex}, this)">
                                 ${item.savedNotebooks.length > 0
                                     ? `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#5b4fcf" stroke-width="2.5"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path><path d="M9 10l1.5 1.5L15 7"></path></svg>`
                                     : `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#c0cad8" stroke-width="1.5"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>`}
@@ -1202,13 +1202,13 @@
             popup.style.left = `${Math.max(12, left)}px`;
             popup.onclick = (e) => e.stopPropagation();
             popup.innerHTML = `
-                <p class="text-[10px] font-bold text-[#8290aa] uppercase tracking-widest px-2 pb-2">Thêm ${libSelectedIds.size} từ vào Sổ tay</p>
+                <p class="text-[10px] font-bold text-[#8290aa] uppercase tracking-widest px-2 pb-2">Thêm ${libSelectedIds.size} từ vào Sổ từ vựng</p>
                 ${notebooksList.length ? notebooksList.map(nb => `
                     <button class="bookmark-popup-item" onclick="addLibSelectedToNotebook('${nb.id}')">
                         <span class="bookmark-dot" style="background:${nb.color};"></span>
                         <span class="flex-1 truncate">${nb.name}</span>
                         <span class="text-[10px] text-gray-400 font-mono">${nb.count} từ</span>
-                    </button>`).join('') : `<p class="text-[11px] text-gray-400 px-2 py-2 max-w-[190px]">Bạn chưa có sổ tay nào, tạo mới bên dưới nha!</p>`}
+                    </button>`).join('') : `<p class="text-[11px] text-gray-400 px-2 py-2 max-w-[190px]">Bạn chưa có sổ từ vựng nào, tạo mới bên dưới nha!</p>`}
                 <div class="w-full h-[1.5px] my-1.5" style="background:linear-gradient(90deg,transparent,#d8e0ec,transparent);"></div>
                 <button class="bookmark-popup-item" style="color:#6C63FF;" onclick="closeBookmarkPopup(); openCreateNotebookModal();">
                     <span class="flex items-center justify-center w-4 h-4">+</span>
@@ -1250,14 +1250,14 @@
             addList(freeWords);
             if (dupWords.length) {
                 showConfirmModal({
-                    title: 'Có từ đã ở sổ tay khác',
-                    message: `Đã thêm ${freeWords.length} từ mới vào "${nb.name}". Ngoài ra còn ${dupWords.length} từ bạn chọn đã có ở sổ tay khác — bạn có muốn thêm luôn không?`,
+                    title: 'Có từ đã ở sổ từ vựng khác',
+                    message: `Đã thêm ${freeWords.length} từ mới vào "${nb.name}". Ngoài ra còn ${dupWords.length} từ bạn chọn đã có ở sổ khác — bạn có muốn thêm luôn không?`,
                     confirmText: `Thêm luôn ${dupWords.length} từ trùng`,
                     cancelText: 'Không cần',
                     onConfirm: () => addList(dupWords),
                 });
             } else if (!freeWords.length) {
-                alert('Tất cả từ đã chọn đều đã có sẵn trong sổ tay này rồi.');
+                alert('Tất cả từ đã chọn đều đã có sẵn trong sổ này rồi.');
             }
         }
 
@@ -1309,7 +1309,7 @@
             popup.onclick = (e) => e.stopPropagation();
 
             popup.innerHTML = `
-                <p class="text-[10px] font-bold text-[#8290aa] uppercase tracking-widest px-2 pb-2">Lưu vào Sổ tay</p>
+                <p class="text-[10px] font-bold text-[#8290aa] uppercase tracking-widest px-2 pb-2">Lưu vào Sổ từ vựng</p>
                 ${notebooksList.map(nb => {
                     const active = data.savedNotebooks.includes(nb.id);
                     return `
@@ -1445,7 +1445,7 @@
             const subtitle = document.getElementById('search-results-subtitle');
             if (subtitle) subtitle.textContent = `cho "${query}"`;
             const detailCard = document.getElementById('search-detail-card');
-            if (detailCard) detailCard.innerHTML = '<span class="font-medium" style="font-family: \'Plus Jakarta Sans\', sans-serif !important;">Bấm vào 1 kết quả để xem chi tiết nha Pen!</span>';
+            if (detailCard) detailCard.innerHTML = '<span class="font-medium" style="font-family: \'Plus Jakarta Sans\', sans-serif !important;">Bấm vào 1 kết quả để xem chi tiết nha!</span>';
             renderSearchResultsTable(query);
         }
 
@@ -1595,10 +1595,10 @@
                     <div class="flex items-center justify-between mb-3">
                         <span class="text-white px-2.5 py-0.5 rounded-lg text-xs font-extrabold" style="background-color:${c};">Lv.${data.level}</span>
                         <div class="flex items-center gap-2">
-                            <button class="m-pressed-btn text-point" onclick="speakKorean('${data.word.replace(/'/g, "\\'")}')" title="Nghe phát âm">
+                            <button class="m-pressed-btn text-point" onclick="speakKorean('${data.word.replace(/'/g, "\\'")}')" title="Nghe">
                                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
                             </button>
-                            <button class="m-pressed-btn" id="generic-bm-btn-${data.id}" style="color:${isSaved ? '#5b4fcf' : '#9CA3AF'};" onclick="openBookmarkPopupForWord('${data.id}', this)" title="Lưu vào Sổ tay">
+                            <button class="m-pressed-btn" id="generic-bm-btn-${data.id}" style="color:${isSaved ? '#5b4fcf' : '#9CA3AF'};" onclick="openBookmarkPopupForWord('${data.id}', this)" title="Lưu vào Sổ từ vựng">
                                 <svg viewBox="0 0 24 24" width="14" height="14" fill="${isSaved ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2.2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
                             </button>
                         </div>
@@ -1669,7 +1669,7 @@
             popup.onclick = (e) => e.stopPropagation();
 
             popup.innerHTML = `
-                <p class="text-[10px] font-bold text-[#8290aa] uppercase tracking-widest px-2 pb-2">Lưu vào Sổ tay</p>
+                <p class="text-[10px] font-bold text-[#8290aa] uppercase tracking-widest px-2 pb-2">Lưu vào Sổ từ vựng</p>
                 ${notebooksList.length ? notebooksList.map(nb => {
                     const active = data.savedNotebooks.includes(nb.id);
                     return `
@@ -1679,7 +1679,7 @@
                         <span class="text-[10px] text-gray-400 font-mono">${nb.count} từ</span>
                         ${active ? `<span style="color:${nb.color};">✓</span>` : ''}
                     </button>`;
-                }).join('') : `<p class="text-[11px] text-gray-400 px-2 py-2 max-w-[190px]">Bạn chưa có sổ tay nào, tạo mới bên dưới nha!</p>`}
+                }).join('') : `<p class="text-[11px] text-gray-400 px-2 py-2 max-w-[190px]">Bạn chưa có sổ từ vựng nào, tạo mới bên dưới nha!</p>`}
                 <div class="w-full h-[1.5px] my-1.5" style="background:linear-gradient(90deg,transparent,#d8e0ec,transparent);"></div>
                 <button class="bookmark-popup-item" style="color:#6C63FF;" onclick="closeBookmarkPopup(); openCreateNotebookModal();">
                     <span class="flex items-center justify-center w-4 h-4">+</span>
@@ -1776,8 +1776,8 @@
 
         function renderModalStep1() {
             document.getElementById('step-1-container').innerHTML = `
-                <h3 class="text-xl font-bold text-[#2D2D3A]">📔 Tạo sổ tay mới</h3>
-                <p class="text-xs text-gray-400 -mt-2.5">Đặt tên và ghi chú cho sổ tay của bạn</p>
+                <h3 class="text-xl font-bold text-[#2D2D3A]">📔 Tạo sổ mới</h3>
+                <p class="text-xs text-gray-400 -mt-2.5">Đặt tên và ghi chú cho sổ từ vựng của bạn</p>
                 <div class="flex items-center gap-2 text-xs font-bold mt-1">
                     <span class="w-6 h-6 rounded-full flex items-center justify-center text-white" style="background:#6C63FF;">1</span>
                     <span class="text-point">Thông tin</span>
@@ -1786,14 +1786,14 @@
                     <span class="text-gray-400">Từ vựng</span>
                 </div>
                 <div>
-                    <label class="text-xs font-bold text-gray-500 mb-1.5 block">Tên sổ tay <span class="text-red-400">*</span></label>
+                    <label class="text-xs font-bold text-gray-500 mb-1.5 block">Tên sổ từ vựng <span class="text-red-400">*</span></label>
                     <div class="neo-sunk p-[2px] !rounded-2xl"><input id="nb-name-input" type="text" placeholder="VD: Từ vựng TOPIK II Cấp 4..." class="w-full px-5 py-3.5 bg-transparent border-none outline-none text-sm text-[#2D2D3A]"></div>
                 </div>
                 <div>
                     <label class="text-xs font-bold text-gray-500 mb-1.5 block">Ghi chú</label>
                     <div class="neo-sunk p-[2px] !rounded-2xl"><input id="nb-note-input" type="text" placeholder="VD: từ vựng đề TOPIK 101..." class="w-full px-5 py-3.5 bg-transparent border-none outline-none text-sm text-[#2D2D3A]"></div>
                 </div>
-                <p id="nb-step1-error" class="text-xs text-red-400 font-semibold hidden">Vui lòng nhập tên sổ tay nha Pen!</p>
+                <p id="nb-step1-error" class="text-xs text-red-400 font-semibold hidden">Vui lòng nhập tên sổ từ vựng</p>
                 <button class="neo-button w-full py-4 mt-1 text-white bg-point font-bold !rounded-2xl" id="btn-next-step">Tiếp theo ➔</button>
             `;
             document.getElementById('btn-next-step').addEventListener('click', () => {
@@ -1844,7 +1844,7 @@
                 <div id="modal-selected-list-wrap"></div>
                 <div class="flex gap-3 mt-1">
                     ${isEditing ? `<button class="neo-button px-6 py-3.5 text-sm font-bold text-gray-400 !rounded-2xl" onclick="closeCreateNotebookModal()">Huỷ</button>` : `<button class="neo-button px-6 py-3.5 text-sm font-bold text-gray-400 !rounded-2xl" onclick="backToModalStep1()">← Quay lại</button>`}
-                    <button class="neo-button flex-1 py-3.5 text-sm font-bold text-white bg-point !rounded-2xl" id="btn-submit-notebook">${isEditing ? 'Thêm vào sổ tay' : 'Tạo sổ tay'}</button>
+                    <button class="neo-button flex-1 py-3.5 text-sm font-bold text-white bg-point !rounded-2xl" id="btn-submit-notebook">${isEditing ? 'Thêm vào sổ' : 'Tạo sổ'}</button>
                 </div>
             `;
             document.getElementById('btn-submit-notebook').addEventListener('click', submitCreateNotebook);
@@ -1902,7 +1902,7 @@
                 el.innerHTML = `
                     <div class="neo-sunk p-3 !rounded-2xl flex flex-col gap-2.5 sticky -top-0.5 z-10" style="background:#E6EBF3;">
                         <div class="flex items-center justify-between gap-2 flex-wrap">
-                            <span class="text-xs font-semibold text-gray-500">${matches.length} từ phù hợp bộ lọc${dupCount ? ` <span class="text-[10px] text-amber-500 font-bold">(${dupCount} từ đã ở sổ tay khác)</span>` : ''}</span>
+                            <span class="text-xs font-semibold text-gray-500">${matches.length} từ phù hợp bộ lọc${dupCount ? ` <span class="text-[10px] text-amber-500 font-bold">(${dupCount} từ đã ở sổ khác)</span>` : ''}</span>
                             <button class="neo-button px-4 py-2 text-xs font-bold text-point !rounded-xl shrink-0" onclick="addAllBulkMatches()">+ Thêm tất cả</button>
                         </div>
                         <div class="flex items-center gap-2">
@@ -1958,10 +1958,10 @@
             const owner = getWordOwnershipMap(nbModalState.editingNotebookId).get(id);
             if (owner) {
                 showConfirmModal({
-                    title: 'Từ này đã có ở sổ tay khác',
-                    message: `"${w.word}" đã có trong sổ tay "${owner.nbName}". Bạn vẫn muốn thêm vào sổ tay này chứ?`,
+                    title: 'Từ này đã có ở sổ từ vựng khác',
+                    message: `"${w.word}" đã có trong sổ từ vựng "${owner.nbName}". Bạn vẫn muốn thêm vào sổ này chứ?`,
                     confirmText: 'Vẫn thêm',
-                    cancelText: 'Thôi',
+                    cancelText: 'Không',
                     onConfirm: doAdd,
                 });
             } else {
@@ -2046,8 +2046,8 @@
             addList(freeWords);
             if (dupWords.length) {
                 showConfirmModal({
-                    title: 'Có từ đã ở sổ tay khác',
-                    message: `Đã thêm ${freeWords.length} từ mới. Ngoài ra còn ${dupWords.length} từ trong bộ lọc này đã có ở sổ tay khác — bạn có muốn thêm luôn không?`,
+                    title: 'Có từ đã ở sổ khác',
+                    message: `Đã thêm ${freeWords.length} từ mới. Ngoài ra còn ${dupWords.length} từ trong bộ lọc này đã có ở sổ khác — bạn có muốn thêm luôn không?`,
                     confirmText: `Thêm luôn ${dupWords.length} từ trùng`,
                     cancelText: 'Không cần',
                     onConfirm: () => addList(dupWords),
@@ -2079,7 +2079,7 @@
                 const extraAvailable = Math.min(shortBy, dupWords.length);
                 showConfirmModal({
                     title: 'Không đủ từ chưa trùng',
-                    message: `Với bộ lọc này bạn đã cho ${dupWords.length} từ vào sổ tay khác, nên chỉ lấy được ${picked.length}/${qty} từ chưa trùng. Bạn có muốn lấy ngẫu nhiên thêm ${extraAvailable} từ trùng để đủ ${qty} từ không?`,
+                    message: `Với bộ lọc này bạn đã cho ${dupWords.length} từ vào sổ khác, nên chỉ lấy được ${picked.length}/${qty} từ chưa trùng. Bạn có muốn lấy ngẫu nhiên thêm ${extraAvailable} từ trùng để đủ ${qty} từ không?`,
                     confirmText: `Thêm ${extraAvailable} từ trùng`,
                     cancelText: `Giữ ${picked.length} từ thôi`,
                     onConfirm: () => addList(shuffleArr(dupWords).slice(0, extraAvailable)),
@@ -2092,7 +2092,7 @@
         function submitCreateNotebook() {
             if (nbModalState.editingNotebookId) { submitAddWordsToExistingNotebook(); return; }
             if (!nbModalState.selectedWords.length) {
-                if (!confirm('Sổ tay chưa có từ vựng nào, bạn vẫn muốn tạo chứ?')) return;
+                if (!confirm('Sổ chưa có từ vựng nào, bạn vẫn muốn tạo chứ?')) return;
             }
             const palette = ['#2ec65e', '#3b82f6', '#f59e0b', '#ef4444', '#a855f7', '#14b8a6'];
             const newNb = {
@@ -2147,7 +2147,7 @@
                             </div>
                             <div class="min-w-0">
                                 <h4 class="text-base font-extrabold text-[#2D2D3A] truncate">${nb.name}</h4>
-                                <p class="text-[11px] text-gray-400 font-mono mt-0.5 truncate"><span class="lesson-date">🕒 Tạo: ${dateStr}</span><span class="lesson-note-sep" style="${nb.note ? '' : 'display:none;'}">  ·  </span><span class="lesson-note">${nb.note || ''}</span></p>
+                                <p class="text-[13px] text-gray-400 font-mono mt-0.5 truncate"><span class="lesson-date">🕒 Tạo: ${dateStr}</span><span class="lesson-note-sep" style="${nb.note ? '' : 'display:none;'}">  ·  </span><span class="lesson-note">${nb.note || ''}</span></p>
                             </div>
                         </div>
                         <div class="mt-4 flex flex-col gap-1">
@@ -2156,7 +2156,7 @@
                                 <span class="text-xs text-gray-400 ml-1.5 font-bold">từ vựng</span>
                             </div>
                             <p class="text-xs text-gray-500 font-bold tracking-wide mt-1 truncate">
-                                ${previewWords || 'Sổ tay của bạn đang chờ được học!'}
+                                ${previewWords || 'Sổ từ vựng của bạn đang chờ được học!'}
                             </p>
                         </div>
                     </div>
@@ -2300,9 +2300,9 @@
             const nbId = card.dataset.nbId;
             const nb = notebooksList.find(n => n.id === nbId);
             showConfirmModal({
-                title: 'Xoá sổ tay này?',
-                message: `Sổ tay "${nb ? nb.name : ''}" sẽ được chuyển vào mục "Những sổ tay đã xoá" trong Dashboard, bạn có thể khôi phục lại sau.`,
-                confirmText: 'Xoá sổ tay',
+                title: 'Xoá sổ từ vựng này?',
+                message: `Sổ từ vựng "${nb ? nb.name : ''}" sẽ được chuyển vào mục "Những sổ đã xoá" trong Trang cá nhân, bạn có thể khôi phục lại sau.`,
+                confirmText: 'Xoá sổ từ vựng',
                 danger: true,
                 onConfirm: () => {
                     notebooksList = notebooksList.filter(n => n.id !== nbId);
@@ -2484,9 +2484,9 @@
 
 
         async function openPracticeView(nbId, initialTab) {
-            if (!nbId) { alert('Không tìm thấy sổ tay này.'); return; }
+            if (!nbId) { alert('Không tìm thấy sổ từ vựng này.'); return; }
             const words = getNotebookWordsById(nbId);
-            if (!words.length) { alert('Sổ tay này chưa có từ vựng nào để ôn tập nha Pen!'); return; }
+            if (!words.length) { alert('Sổ này chưa có từ vựng!'); return; }
             const nb = notebooksList.find(n => n.id === nbId);
 
             practiceState.nbId = nbId;
@@ -2584,7 +2584,7 @@
                 <div class="flex flex-col lg:flex-row gap-5 lg:gap-6 items-stretch lg:items-start w-full">
                     <aside class="w-full lg:w-[32%] shrink-0 lg:sticky lg:top-8">
                         <div class="m-card-base flex flex-col min-h-[400px] justify-center items-center text-center text-gray-400" id="pl-detail-card">
-                            <span class="font-medium" style="font-family: 'Plus Jakarta Sans', sans-serif !important;">Bấm "Xem chi tiết" ở 1 từ để xem đầy đủ thông tin nha Pen!</span>
+                            <span class="font-medium" style="font-family: 'Plus Jakarta Sans', sans-serif !important;">Bấm "Xem chi tiết" ở 1 từ để xem đầy đủ thông tin!</span>
                         </div>
                     </aside>
                     <div class="flex-1 w-full min-w-0 neo-raised !rounded-[28px] overflow-hidden">
@@ -2917,7 +2917,7 @@
                     ${buildInlinePracticeProgressHtml(funcKey)}
                     <div class="w-16 h-16 rounded-full flex items-center justify-center text-3xl mt-4 ${meta.gradientClass}">🎉</div>
                     <p class="text-lg font-bold text-[#1e2a4a] text-center">Bạn đã hoàn thành ${meta.label}!</p>
-                    <p class="text-xs text-gray-400 text-center">Tất cả từ trong sổ tay đã được luyện qua chức năng này.</p>
+                    <p class="text-xs text-gray-400 text-center">Tất cả từ trong sổ đã được luyện qua chức năng này.</p>
                 </div>
             `;
         }
@@ -2926,7 +2926,7 @@
         function showPracticeCompletionPopup(funcKey) {
             const meta = PRACTICE_FUNC_META[funcKey];
             const nb = getCurrentNotebook();
-            const nbName = nb ? nb.name : 'Sổ tay của bạn';
+            const nbName = nb ? nb.name : 'Sổ từ vựng của bạn';
             const overlay = document.createElement('div');
             overlay.className = 'fixed inset-0 z-[120] flex items-center justify-center p-4';
             overlay.style.background = 'rgba(26,32,44,0.45)';
@@ -3012,7 +3012,7 @@
             });
             const isCorrect = options[selectedIdx] === correct;
             const fb = document.getElementById('pq-feedback');
-            fb.innerHTML = isCorrect ? '<span class="text-[#2ec65e]">🎉 Chính xác!</span>' : '<span class="text-[#ef4444]">😢 Chưa đúng, đáp án đúng đã tô xanh.</span>';
+            fb.innerHTML = isCorrect ? '<span class="text-[#2ec65e]">🎉 Chính xác!</span>' : '<span class="text-[#ef4444]">😢 Chưa đúng rồi, đáp án đúng là ô được tô xanh.</span>';
             document.getElementById('pq-next-btn').classList.remove('hidden');
             document.getElementById('pq-skip-btn').classList.add('hidden');
             const item = practiceState.words[st.queue[0]];
@@ -3027,7 +3027,7 @@
             if (!st.queue.length) { el.innerHTML = buildPracticeDoneStateHtml('typing'); return; }
             const item = practiceState.words[st.queue[0]];
             const prompt = st.direction === 'vi-to-ko' ? (item.vietnamese || '—') : item.word;
-            const label = st.direction === 'vi-to-ko' ? 'Hãy gõ từ tiếng Hàn tương ứng:' : 'Hãy gõ nghĩa tiếng Việt tương ứng:';
+            const label = st.direction === 'vi-to-ko' ? 'Hãy viết từ tiếng Hàn tương ứng:' : 'Hãy viết nghĩa tiếng Việt tương ứng:';
             el.innerHTML = `
                 <div class="flex flex-col items-center gap-5 w-full pt-4">
                     ${buildInlinePracticeProgressHtml('typing')}
@@ -3076,7 +3076,7 @@
                 input.classList.remove('quiz-wrong'); input.classList.add('quiz-correct');
             } else {
                 fb.className = `${baseClass} quiz-wrong`;
-                fb.innerHTML = `😢 Chưa đúng — đáp án: <b class="ml-1">${target}</b>`;
+                fb.innerHTML = `😢 Chưa đúng — đáp án là: <b class="ml-1">${target}</b>`;
                 input.classList.remove('quiz-correct'); input.classList.add('quiz-wrong');
             }
             document.getElementById('pt-next-btn').classList.remove('hidden');
@@ -3101,7 +3101,7 @@
                 <div class="flex flex-col items-center gap-6 w-full pt-4">
                     ${buildInlinePracticeProgressHtml('listen')}
                     <button class="w-20 h-20 rounded-full neo-raised flex items-center justify-center text-3xl text-point" onclick="speakKorean('${item.word.replace(/'/g, "\\'")}')">🔊</button>
-                    <p class="text-xs text-gray-400">Nghe rồi chọn đúng từ tiếng Hàn</p>
+                    <p class="text-xs text-gray-400">Nghe và chọn đúng từ tiếng Hàn</p>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-lg" id="pl-opts">
                         ${options.map((opt, i) => `<button class="neo-button py-4 px-4 text-base font-kr-serif font-bold text-[#2d3a54]" data-opt-i="${i}" onclick="handlePracticeListenAnswer(this)">${opt}</button>`).join('')}
                     </div>
@@ -3127,7 +3127,7 @@
             });
             const isCorrect = options[selectedIdx] === correct;
             const fb = document.getElementById('pl-feedback');
-            fb.innerHTML = isCorrect ? '<span class="text-[#2ec65e]">🎉 Nghe chuẩn quá!</span>' : '<span class="text-[#ef4444]">😢 Chưa đúng, thử nghe lại nhé.</span>';
+            fb.innerHTML = isCorrect ? '<span class="text-[#2ec65e]">🎉 Nghe chuẩn rồi!</span>' : '<span class="text-[#ef4444]">😢 Chưa đúng, thử nghe lại nhé.</span>';
             document.getElementById('pl-next-btn').classList.remove('hidden');
             document.getElementById('pl-skip-btn').classList.add('hidden');
             const item = practiceState.words[st.queue[0]];
@@ -3151,7 +3151,7 @@
                 <div class="flex flex-col items-center gap-6 w-full pt-4">
                     ${buildInlinePracticeProgressHtml('guess')}
                     <button class="w-20 h-20 rounded-full neo-raised flex items-center justify-center text-3xl text-point" onclick="speakKorean('${item.word.replace(/'/g, "\\'")}')">🔊</button>
-                    <p class="text-xs text-gray-400">Nghe rồi chọn đúng nghĩa tiếng Việt</p>
+                    <p class="text-xs text-gray-400">Nghe và chọn đúng nghĩa tiếng Việt</p>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-lg" id="pg-opts">
                         ${options.map((opt, i) => `<button class="neo-button py-4 px-4 text-sm font-bold text-[#2d3a54]" data-opt-i="${i}" onclick="handlePracticeGuessAnswer(this)">${opt}</button>`).join('')}
                     </div>
@@ -3204,7 +3204,7 @@
                                 <button class="m-pressed-btn text-[#9CA3AF]" id="speak-word-btn" title="Nghe phát âm">
                                     <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
                                 </button>
-                                <button class="m-pressed-btn ${data.savedNotebooks.length ? 'text-point' : 'text-[#9CA3AF]'}" id="detail-bookmark-btn" title="Lưu vào Sổ tay">
+                                <button class="m-pressed-btn ${data.savedNotebooks.length ? 'text-point' : 'text-[#9CA3AF]'}" id="detail-bookmark-btn" title="Lưu vào Sổ">
                                     <svg viewBox="0 0 24 24" width="15" height="15" fill="${data.savedNotebooks.length ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2.5"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
                                 </button>
                             </div>
@@ -3417,7 +3417,7 @@
                 }
 
                 if (!data.success) {
-                    if (errEl) { errEl.textContent = data.message || 'Sai tên đăng nhập hoặc mật khẩu, thử lại nha Pen!'; errEl.classList.remove('hidden'); }
+                    if (errEl) { errEl.textContent = data.message || 'Sai tên đăng nhập hoặc mật khẩu, thử lại nhé!'; errEl.classList.remove('hidden'); }
                     return;
                 }
                 const expiryStr = data.expiresAt || '';
@@ -3620,7 +3620,7 @@
         function handleAvatarFileChange(e) {
             const file = e.target.files && e.target.files[0];
             if (!file || !currentUser) return;
-            if (file.size > 5 * 1024 * 1024) { alert('Ảnh quá lớn (tối đa 5MB), Pen chọn ảnh nhỏ hơn nha!'); return; }
+            if (file.size > 5 * 1024 * 1024) { alert('Ảnh quá lớn (tối đa 5MB), bạn chọn ảnh nhỏ hơn nhé!'); return; }
             const reader = new FileReader();
             reader.onload = (ev) => {
                 const img = new Image();
@@ -3637,7 +3637,7 @@
                     applyUserToUI();
                     renderProfilePopupContent(); // vẽ lại popup để cập nhật ảnh preview, không đóng/mở lại
                 };
-                img.onerror = () => alert('Không đọc được ảnh này, Pen thử ảnh khác nha!');
+                img.onerror = () => alert('Không đọc được ảnh này, bạn thử ảnh khác nha!');
                 img.src = ev.target.result;
             };
             reader.readAsDataURL(file);
@@ -3856,25 +3856,25 @@
                 <!-- Thống kê -->
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="neo-raised p-5 flex flex-col gap-2">
-                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">${themeIcon('clock', 'brand', 15)} Giờ học tập</span>
+                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">${themeIcon('clock', 'brand', 18)} Giờ học tập</span>
                         <span class="text-2xl font-black text-point">${formatDurationVN(currentUser.totalActiveMs)}</span>
                         <span class="text-[10px] text-gray-400">Chỉ tính lúc bạn thực sự tương tác trên trang</span>
                     </div>
                     <div class="neo-raised p-5 flex flex-col gap-2 text-left cursor-pointer hover:shadow-inner transition-all" onclick="openLearnedWordsModal()" role="button" title="Bấm để xem danh sách chi tiết">
-                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">${themeIcon('bookCheck', 'brand', 15)} Từ vựng đã học</span>
+                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">${themeIcon('bookCheck', 'brand', 18)} Từ vựng đã học</span>
                         <span class="text-2xl font-black" style="color:#2ec65e;">${learnedCount} từ</span>
                         <span class="text-[10px] text-gray-400">Bấm vào đây để xem chi tiết theo bộ lọc</span>
                     </div>
                     <div class="neo-raised p-5 flex flex-col gap-2">
-                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">${themeIcon('warning', 'brand', 15)} Từ đã từng sai</span>
+                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">${themeIcon('warning', 'brand', 18)} Từ cần luyện thêm</span>
                         <span class="text-2xl font-black" style="color:#ef4444;">${wrongWords.length} từ</span>
                         <span class="text-[10px] text-gray-400">Bấm vào từ bên dưới để xem lại chi tiết</span>
                     </div>
                 </div>
 
                 ${wrongWords.length ? `
-                <div class="neo-raised p-5">                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Danh sách từ đã từng sai</p>
-                    <p class="text-[11px] text-gray-400 mb-3">Bấm vào từ để xem chi tiết, hoặc bấm ✓ nếu bạn đã thuộc để bỏ khỏi danh sách này.</p>
+                <div class="neo-raised p-5">                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Danh sách từ cần luyện thêm</p>
+                    <p class="text-[11px] text-gray-400 mb-3">Bấm vào từ để xem chi tiết, hoặc bấm ✓ nếu bạn đã thuộc để xoá khỏi danh sách này.</p>
                     <div class="flex flex-wrap gap-2">
                         ${wrongWords.map(w => `
                             <div class="neo-button px-1.5 py-1 text-xs font-bold text-[#2d3a54] flex items-center gap-1">
@@ -3882,7 +3882,7 @@
                                     <span class="font-kr-serif">${w.word}</span>
                                     <span class="text-gray-400 font-normal">· ${w.vietnamese || ''}</span>
                                 </button>
-                                <button class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0" style="background:#dff5e8;" title="Đã thuộc từ này, bỏ khỏi danh sách" onclick="markWrongWordAsKnown('${w.id}')">
+                                <button class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0" style="background:#dff5e8;" title="Đã thuộc từ này, xoá khỏi danh sách" onclick="markWrongWordAsKnown('${w.id}')">
                                     <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#1a8a45" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
                                 </button>
                             </div>
@@ -3890,12 +3890,12 @@
                     </div>
                 </div>` : ''}
 
-                <!-- Sổ tay của tôi -->
+                <!-- Sổ từ vựng của tôi -->
                 <div class="neo-raised p-6">
                     <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
-                        <p class="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1.5">${themeIcon('folder', 'brand', 15)} Sổ tay của tôi</p>
+                        <p class="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1.5">${themeIcon('folder', 'brand', 18)} Sổ từ vựng của tôi</p>
                         <button class="text-[11px] font-bold text-gray-400 hover:text-point flex items-center gap-1.5" onclick="openTrashedNotebooksModal()">
-                            ${themeIcon('trash', 'mono', 14)} Những sổ tay đã xoá ${deletedNotebooksList.length ? `<span class="text-point">(${deletedNotebooksList.length})</span>` : ''}
+                            ${themeIcon('trash', 'mono', 14)} Những sổ đã xoá ${deletedNotebooksList.length ? `<span class="text-point">(${deletedNotebooksList.length})</span>` : ''}
                         </button>
                     </div>
                     ${notebooksList.length ? `
@@ -3910,7 +3910,7 @@
                                 </div>
                             `).join('')}
                         </div>
-                    ` : `<p class="text-xs text-gray-400">Bạn chưa có sổ tay nào. Tạo sổ tay đầu tiên ở trang "Sổ tay từ vựng" nhé!</p>`}
+                    ` : `<p class="text-xs text-gray-400">Bạn chưa có sổ từ vựng nào. Tạo sổ đầu tiên ở trang "Sổ từ vựng" nhé!</p>`}
                 </div>
             `;
         }
@@ -3932,7 +3932,7 @@
             overlay.innerHTML = `
                 <div class="neo-raised p-7 w-full max-w-[460px] max-h-[80vh] overflow-y-auto flex flex-col gap-4 !rounded-[26px] relative">
                     <button class="absolute top-5 right-5 w-9 h-9 rounded-full neo-button flex items-center justify-center text-gray-400" onclick="document.getElementById('trashed-notebooks-modal').remove()">✕</button>
-                    <h3 class="text-base font-extrabold text-[#1A1A24] flex items-center gap-2">${themeIcon('trash', 'brand', 18)} Những sổ tay đã xoá</h3>
+                    <h3 class="text-base font-extrabold text-[#1A1A24] flex items-center gap-2">${themeIcon('trash', 'brand', 18)} Những sổ từ vựng đã xoá</h3>
                     ${deletedNotebooksList.length ? `
                         <div class="flex flex-col gap-2">
                             ${deletedNotebooksList.map(nb => `
@@ -3945,7 +3945,7 @@
                                 </div>
                             `).join('')}
                         </div>
-                    ` : `<p class="text-xs text-gray-400 text-center py-6">Chưa có sổ tay nào bị xoá.</p>`}
+                    ` : `<p class="text-xs text-gray-400 text-center py-6">Chưa có sổ từ vựng nào bị xoá.</p>`}
                 </div>
             `;
         }
@@ -4217,7 +4217,7 @@
                 e.preventDefault(); clearSidebarActive();
                 tabFullTopik.setAttribute('data-active', 'true');
                 document.getElementById('library-title').textContent = "Thư viện FULL TOPIK";
-                document.getElementById('library-sub-title').textContent = "TOPIK II · Cấp 3–6";
+                document.getElementById('library-sub-title').textContent = "TOPIK II · Cấp 3–6  · Bản đầy đủ";
                 viewLibraryStage.classList.remove('hidden');
                 fetchLibraryData('full');
             });
@@ -4226,7 +4226,7 @@
                 e.preventDefault(); clearSidebarActive();
                 tabFastPace.setAttribute('data-active', 'true');
                 document.getElementById('library-title').textContent = "Thư viện FAST-PACE";
-                document.getElementById('library-sub-title').textContent = "TOPIK II · Cấp 3–6 · Cốt lõi";
+                document.getElementById('library-sub-title').textContent = "TOPIK II · Cấp 3–6  · Bản rút gọn";
                 viewLibraryStage.classList.remove('hidden');
                 fetchLibraryData('fast');
             });
