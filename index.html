@@ -113,6 +113,12 @@
         .filter-dd-checkbox { width: 14px; height: 14px; border-radius: 5px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #E6EBF3; box-shadow: var(--shadow-sunk); }
         .filter-dd-checkbox.checked { background: linear-gradient(135deg, #7c6ee8, #5b4fcf); box-shadow: none; }
 
+        /* Checkbox neumorphism dùng chung (VD: Quiz Maze setup) — thay cho checkbox mặc định của trình duyệt */
+        .neo-checkbox { appearance: none; -webkit-appearance: none; width: 20px; height: 20px; border-radius: 7px; flex-shrink: 0; background: #E6EBF3; box-shadow: var(--shadow-sunk); cursor: pointer; position: relative; transition: all .15s ease; margin: 0; }
+        .neo-checkbox:checked { background: linear-gradient(135deg, #7c6ee8, #5b4fcf); box-shadow: none; }
+        .neo-checkbox:checked::after { content: ''; position: absolute; left: 7px; top: 3px; width: 5px; height: 10px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+        .neo-checkbox:active { transform: scale(0.92); }
+
         .bookmark-popup { position: fixed; z-index: 60; min-width: 200px; background: #E6EBF3; border-radius: 20px; box-shadow: 10px 10px 24px #BEC8E4, -6px -6px 18px #ffffff; padding: 10px; font-family: 'Plus Jakarta Sans', sans-serif !important; }
         .bookmark-popup-item { display: flex; align-items: center; gap: 8px; width: 100%; padding: 8px 10px; border-radius: 12px; font-size: 12px; font-weight: 700; color: #4B5563; transition: all .1s ease; border: none; background: transparent; text-align: left; }
         .bookmark-popup-item:hover { background: rgba(108,99,255,0.06); }
@@ -433,7 +439,7 @@
                             GẦN ĐÂY
                         </h3>
                     </div>
-                    <div class="flex flex-col gap-2" id="recent-activity-list"></div>
+                    <div class="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-1" id="recent-activity-list"></div>
                 </section>
 
                 <!-- 📚 SECTION: SỔ TAY CỦA TÔI -->
@@ -1255,7 +1261,7 @@
                                 <span class="vr-korean text-base font-black leading-snug block whitespace-normal break-words text-left" style="color:${selected ? '#3d2fa8' : '#1e2a4a'};">${item.word}</span>
                                 <span class="sm:hidden inline-flex items-center gap-1 rounded-full px-1.5 py-0.5 text-[9px] font-bold whitespace-nowrap tracking-wide shrink-0" style="background:${c}22; color:${c};">${item.level}급</span>
                             </div>
-                            <div class="flex-1 min-w-[70px] flex flex-col justify-center self-start sm:self-center text-left">
+                            <div class="flex-1 min-w-[70px] lg:min-w-0 flex flex-col justify-center self-start sm:self-center text-left">
                                 <span class="text-[13px] font-semibold text-[#2d3a54] truncate leading-tight">${item.vietnamese || item.deep_meaning || item.literal || '—'}</span>
                                 ${hanLine ? `<span class="hidden sm:block text-[10px] text-[#9FACBD] font-medium truncate mt-0.5 leading-tight">${hanLine}</span>` : ''}
                             </div>
@@ -2713,22 +2719,26 @@
         }
 
         // Dựng HTML khung tiến độ hiển thị trên card "Bài học của tôi"
-        function buildProgressBoxHtml(nb) {
+        // Tính % hoàn thành + số câu đúng/sai của 1 chức năng ôn tập trong 1 sổ — dùng chung cho khung
+        // tiến độ nhỏ trên card "Sổ từ vựng của tôi" và card "Gần đây".
+        function computeFuncProgress(nb, key) {
             const prog = ensureNotebookProgress(nb);
+            const meta = PRACTICE_FUNC_META[key];
             const total = (nb.words && nb.words.length) || 0;
-            const rows = Object.keys(PRACTICE_FUNC_META).map(key => {
-                const meta = PRACTICE_FUNC_META[key];
-                const p = prog[key];
-                const isFlashcard = key === 'flashcard';
-                const doneCount = isFlashcard ? p.viewedIds.length : (p.correctIds.length + p.wrongIds.length);
-                const correctCount = isFlashcard ? null : p.correctIds.length;
-                const wrongCount = isFlashcard ? null : p.wrongIds.length;
-                const pct = total ? Math.round((doneCount / total) * 100) : 0;
-                return { key, meta, pct, doneCount, correctCount, wrongCount, total };
-            });
-            const activeRows = rows.filter(r => r.doneCount > 0);
+            const p = prog[key];
+            const isFlashcard = key === 'flashcard';
+            const doneCount = isFlashcard ? p.viewedIds.length : (p.correctIds.length + p.wrongIds.length);
+            const correctCount = isFlashcard ? null : p.correctIds.length;
+            const wrongCount = isFlashcard ? null : p.wrongIds.length;
+            const pct = total ? Math.round((doneCount / total) * 100) : 0;
+            return { key, meta, pct, doneCount, correctCount, wrongCount, total };
+        }
 
-            if (!activeRows.length) {
+        function buildProgressBoxHtml(nb) {
+            const total = (nb.words && nb.words.length) || 0;
+            const rows = Object.keys(PRACTICE_FUNC_META).map(key => computeFuncProgress(nb, key));
+
+            if (!total) {
                 return `
                     <div class="flex flex-col items-center justify-center gap-1.5 p-4 neo-sunk rounded-[24px] mt-4 text-center nb-progress-box" style="min-height:88px;">
                         <span class="text-xs font-semibold text-gray-400">📭 Chưa có bài kiểm tra nào</span>
@@ -2738,24 +2748,27 @@
                 `;
             }
 
+            // Mỗi hoạt động = 1 khung nhỏ kiểu "pin điện thoại": xanh lá dâng dần từ trái sang phải theo % đã
+            // làm, xám ở phần còn lại; 100% thì tô xanh toàn khung + tick tròn; 0% thì xám toàn khung.
             return `
-                <div class="flex flex-col gap-2.5 p-4 neo-sunk rounded-[24px] mt-4 nb-progress-box">
-                    ${activeRows.map((r, i) => `
-                        <div class="flex flex-col gap-1">
-                            <div class="flex items-center justify-between">
-                                <span class="text-xs font-bold text-gray-600 flex items-center gap-1">${r.meta.icon} ${r.meta.label}</span>
-                                <span class="text-xs font-bold font-mono" style="color:${r.meta.color};">${r.pct}%</span>
+                <div class="grid grid-cols-5 gap-1.5 sm:gap-2 mt-4 nb-progress-box">
+                    ${rows.map(r => {
+                        const isEmpty = r.doneCount === 0;
+                        const isFull = r.pct >= 100;
+                        const bg = isEmpty ? '#E1E5EC' : `linear-gradient(to right, #55E6C1 0%, #2ec65e ${r.pct}%, #E1E5EC ${r.pct}%, #E1E5EC 100%)`;
+                        const scoreLabel = isEmpty ? '—' : (r.correctCount === null
+                            ? `${r.doneCount}/${r.total}`
+                            : `<span style="color:#1a8a45;">✓${r.correctCount}</span><span class="ml-1" style="color:#ef4444;">✕${r.wrongCount}</span>`);
+                        return `
+                            <div class="flex flex-col items-center gap-1" title="${r.meta.label}: ${r.pct}%">
+                                <div class="relative w-full rounded-xl flex items-center justify-center shadow-sm" style="aspect-ratio:1/1; background:${bg};">
+                                    ${isFull ? `<span class="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-[9px] text-white shrink-0" style="background:#1a8a45; box-shadow:0 0 0 2px #E6EBF3;">✓</span>` : ''}
+                                    <span class="text-base leading-none">${r.meta.icon}</span>
+                                </div>
+                                <span class="text-[9px] font-bold text-gray-500 font-mono leading-none whitespace-nowrap">${scoreLabel}</span>
                             </div>
-                            <div class="w-full h-3 neo-raised overflow-hidden p-[2px] rounded-full">
-                                <div class="h-full rounded-full transition-all duration-500 ${r.meta.gradientClass}" style="width:${r.pct}%;"></div>
-                            </div>
-                            <div class="flex justify-between items-center text-[10px] text-gray-400 font-mono font-bold">
-                                <span>${r.doneCount}/${r.total} từ</span>
-                                ${r.correctCount !== null ? `<span><span style="color:#2ec65e;">✓${r.correctCount}</span> <span style="color:#ef4444;" class="ml-1.5">✕${r.wrongCount}</span></span>` : ''}
-                            </div>
-                        </div>
-                        ${i < activeRows.length - 1 ? '<div class="w-full h-px bg-gray-300/50"></div>' : ''}
-                    `).join('')}
+                        `;
+                    }).join('')}
                 </div>
             `;
         }
@@ -4242,13 +4255,17 @@
                         <div class="flex flex-col gap-2 max-h-[220px] overflow-y-auto pr-1">
                             ${notebooksList.length ? notebooksList.map(nb => `
                                 <label class="flex items-center gap-3 p-3 rounded-xl neo-sunk cursor-pointer">
-                                    <input type="checkbox" class="qm-nb-checkbox" value="${nb.id}" style="width:16px;height:16px;accent-color:#6C63FF;">
+                                    <input type="checkbox" class="qm-nb-checkbox neo-checkbox" value="${nb.id}">
                                     <span class="flex-1 text-sm font-bold text-[#2D2D3A] truncate">${nb.name}</span>
                                     <span class="text-[11px] text-gray-400">${(nb.words || []).length} từ</span>
                                 </label>
                             `).join('') : `<p class="text-xs text-gray-400 text-center py-4">Bạn chưa có sổ từ vựng nào.</p>`}
                         </div>
                     </div>
+                    <label class="flex items-center gap-3 p-3 rounded-xl neo-sunk cursor-pointer">
+                        <input type="checkbox" class="neo-checkbox" id="qm-include-learned">
+                        <span class="flex-1 text-xs font-bold text-[#2D2D3A]">Bao gồm cả từ đã học thuộc</span>
+                    </label>
                     <div>
                         <label class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5 block">Số câu muốn làm</label>
                         <input type="number" min="1" id="qm-question-count" placeholder="VD: 10" class="w-full px-4 py-2.5 rounded-xl outline-none border-none text-sm" style="background:#E6EBF3; box-shadow: var(--shadow-sunk);">
@@ -4266,6 +4283,7 @@
             const qtyInput = document.getElementById('qm-question-count');
             const qty = parseInt(qtyInput.value, 10);
             if (!qty || qty < 1) { qtyInput.focus(); return; }
+            const includeLearned = !!document.getElementById('qm-include-learned')?.checked;
 
             // Gom từ vựng từ các sổ đã chọn (kèm _nbId để biết ghi nhận kết quả vào đúng sổ), loại trùng theo id
             const poolMap = new Map();
@@ -4273,11 +4291,16 @@
                 const nb = notebooksList.find(n => n.id === nbId);
                 if (!nb) return;
                 (nb.words || []).forEach(w => {
+                    // Mặc định không đưa từ đã "Đã học thuộc" vào bài quiz, trừ khi bấm chọn "Bao gồm cả từ đã học thuộc"
+                    if (!includeLearned && learnedWordsMap[w.id]) return;
                     if (!poolMap.has(w.id)) poolMap.set(w.id, { ...w, _nbId: nbId });
                 });
             });
             let pool = [...poolMap.values()];
-            if (!pool.length) { alert('Các sổ đã chọn chưa có từ vựng nào.'); return; }
+            if (!pool.length) {
+                alert(includeLearned ? 'Các sổ đã chọn chưa có từ vựng nào.' : 'Các từ trong sổ đã chọn đều đã được đánh dấu học thuộc — bấm "Bao gồm cả từ đã học thuộc" nếu bạn vẫn muốn ôn lại.');
+                return;
+            }
 
             if (mode === 'longtime') {
                 // Từ mới đánh dấu "Đã học" được coi như vừa "gặp lại" (dùng learnedAt làm mốc thời gian
@@ -4471,16 +4494,19 @@
             section.style.display = '';
             list.innerHTML = items.map(item => {
                 const meta = PRACTICE_FUNC_META[item.funcKey];
+                const nb = notebooksList.find(n => n.id === item.nbId);
+                const prog = nb ? computeFuncProgress(nb, item.funcKey) : { pct: 0 };
                 return `
-                    <button class="w-full flex items-center justify-between gap-3 p-3 rounded-2xl neo-raised text-left" onclick="openPracticeView('${item.nbId}', '${item.funcKey}')">
-                        <div class="flex items-center gap-3 min-w-0">
-                            <span class="w-9 h-9 rounded-xl flex items-center justify-center text-white text-sm shrink-0 ${meta.gradientClass}">${meta.icon}</span>
-                            <div class="min-w-0">
-                                <p class="text-sm font-bold text-[#2D2D3A] truncate">${meta.label}</p>
-                                <p class="text-[11px] text-gray-400 truncate">${item.nbName}</p>
+                    <button class="shrink-0 snap-start flex flex-col rounded-2xl neo-raised p-3 gap-2 text-left" style="width:112px; aspect-ratio:2/3;" onclick="openPracticeView('${item.nbId}', '${item.funcKey}')">
+                        <span class="w-9 h-9 rounded-xl flex items-center justify-center text-white text-base shrink-0 ${meta.gradientClass}">${meta.icon}</span>
+                        <div class="flex-1 min-h-0 flex flex-col justify-end gap-1.5 min-w-0">
+                            <p class="text-xs font-bold text-[#2D2D3A] truncate">${meta.label}</p>
+                            <p class="text-[10px] text-gray-400 truncate">${item.nbName}</p>
+                            <div class="w-full h-1.5 rounded-full overflow-hidden" style="background:rgba(0,0,0,0.08);">
+                                <div class="h-full rounded-full bg-black" style="width:${prog.pct}%;"></div>
                             </div>
+                            <p class="text-[9px] text-gray-400 font-mono">${relativeTimeVN(item.ts)}</p>
                         </div>
-                        <span class="text-[10px] text-gray-400 font-mono shrink-0">${relativeTimeVN(item.ts)}</span>
                     </button>
                 `;
             }).join('');
