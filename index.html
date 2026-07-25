@@ -223,6 +223,7 @@
             .pg-btn { min-width: 38px; height: 38px; padding: 0 10px; }
             .gup-chip { padding: 9px 14px; }
             .m-card-base { padding: 16px; }
+            .vocab-row { padding: 6px 10px; border-radius: 14px; }
         }
     </style>
 </head>
@@ -288,7 +289,7 @@
             <div class="w-9 h-9 rounded-xl bg-white flex items-center justify-center overflow-hidden shrink-0 shadow-sm">
                 <img src="assets/logo-web.png" alt="Logo Ngoc Quyen's Classroom" class="w-full h-full object-contain p-1" onerror="this.style.display='none'">
             </div>
-            <span class="text-sm sm:text-base font-bold text-white tracking-wide whitespace-nowrap">Ngoc Quyen's Classroom</span>
+            <span class="hidden sm:inline text-sm sm:text-base font-bold text-white tracking-wide whitespace-nowrap">Ngoc Quyen's Classroom</span>
         </div>
 
         <div class="order-3 sm:order-2 w-full sm:flex-1 sm:max-w-[480px] sm:mx-6 relative">
@@ -355,7 +356,7 @@
                 <!-- SECTION 1: STATUS -->
                 <section class="mb-8">
                     <h3 class="text-xs font-bold text-[#6A6A7F] tracking-widest mb-4">STATUS</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4" id="home-status-cards"></div>
+                    <div class="grid grid-cols-3 gap-2 sm:gap-4" id="home-status-cards"></div>
                 </section>
 
                 <!-- SECTION 2: QUIZ MAZE -->
@@ -389,7 +390,7 @@
                                     <input type="text" id="home-allwords-search" placeholder="Tìm trong sổ đã bỏ..." class="w-full bg-transparent border-none outline-none text-xs text-[#3D3D4E]" oninput="renderHomeAllWordsTable()">
                                 </div>
                             </div>
-                            <div class="overflow-x-auto" style="max-height:60vh; overflow-y:auto;">
+                            <div class="hidden sm:block overflow-x-auto" style="max-height:60vh; overflow-y:auto;">
                                 <table class="w-full text-sm" style="border-collapse:collapse;">
                                     <thead>
                                         <tr class="text-left">
@@ -401,6 +402,7 @@
                                     <tbody id="home-allwords-tbody"></tbody>
                                 </table>
                             </div>
+                            <div class="sm:hidden flex gap-3 overflow-x-auto snap-x snap-mandatory px-4 py-4" id="home-allwords-cards"></div>
                         </div>
                         <aside class="w-full lg:flex-[2_1_0%] lg:min-w-[340px] shrink-0 lg:sticky lg:top-8">
                             <div class="m-card-base flex flex-col min-h-[400px] justify-center items-center text-center text-gray-400" id="home-allwords-detail-card">
@@ -481,17 +483,17 @@
                 <div class="flex flex-col lg:flex-row gap-6 items-start w-full">
 
                     <!-- CỘT TRÁI 60% — FILTER BAR (nằm trên) + LIST TỪ VỰNG DẠNG ROWS -->
-                    <div class="w-full lg:flex-[3_1_0%] min-w-0 flex flex-col gap-4">
+                    <div class="contents lg:flex lg:w-full lg:flex-[3_1_0%] lg:min-w-0 lg:flex-col lg:gap-4">
 
                         <!-- FILTER BAR NGANG -->
                         <div class="neo-raised !rounded-2xl overflow-visible" id="vocab-filter-bar">
                             <!-- JS render nội dung filter bar (급 chips + dropdown Chủ đề/Loại từ/Dạng câu) -->
                         </div>
 
-                        <!-- LIST PANEL -->
-                        <div class="neo-raised flex flex-col overflow-hidden !rounded-[28px]" style="min-height:0;">
-                            <!-- Column header -->
-                            <div class="flex items-center gap-3 px-4 pt-4 pb-2.5 shrink-0 border-b border-[#d8e0ec]">
+                        <!-- LIST PANEL — mobile: sticky, fix height ~1/3 màn hình để đẩy card chi tiết lên gần, dễ vuốt xuống xem -->
+                        <div class="neo-raised flex flex-col overflow-hidden !rounded-[28px] sticky top-2 z-20 h-[34vh] lg:static lg:top-auto lg:z-auto lg:h-auto" style="min-height:0;">
+                            <!-- Column header (ẩn trên mobile để dành chỗ cho rows) -->
+                            <div class="hidden lg:flex items-center gap-3 px-4 pt-4 pb-2.5 shrink-0 border-b border-[#d8e0ec]">
                                 <span class="w-4 shrink-0"></span>
                                 <span class="w-[3px] shrink-0"></span>
                                 <span class="hidden sm:inline text-[9px] text-[#b0bad0] font-bold uppercase tracking-wider sm:w-[150px] md:w-[190px] shrink-0" style="font-family:'DM Mono',monospace !important;">Từ vựng</span>
@@ -512,7 +514,7 @@
                                 <span class="text-[11px] text-[#9aa4b8] font-medium">Đang tải dữ liệu...</span>
                             </div>
                             <!-- Rows -->
-                            <div class="flex-1 overflow-y-auto px-3 pb-3 flex flex-col gap-0.5" id="library-vocab-list" style="min-height:260px; max-height:70vh;">
+                            <div class="flex-1 min-h-0 overflow-y-auto px-3 pb-3 flex flex-col gap-0.5 lg:min-h-[260px] lg:max-h-[70vh]" id="library-vocab-list">
                                 <!-- JS vẽ list rows ra đây -->
                             </div>
                             <!-- Phân trang -->
@@ -1077,32 +1079,56 @@
                             ${count > 0 ? `<span class="inline-flex items-center justify-center w-4 h-4 rounded-full text-[9px] font-bold text-white" style="background:linear-gradient(135deg,#7c6ee8,#5b4fcf);">${count}</span>` : ''}
                             <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" style="transform:${open ? 'rotate(180deg)' : 'rotate(0deg)'}; transition: transform .2s;"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </button>
-                        ${open ? `<div class="filter-dd-panel">${optsHtml}</div>` : ''}
+                        ${open ? `<div class="hidden lg:block filter-dd-panel">${optsHtml}</div>` : ''}
                     </div>`;
             }).join('');
 
-            bar.innerHTML = `
-                <div class="flex items-center gap-0 px-2 py-2 flex-wrap">
-                    <div class="flex items-center gap-1.5 px-2 py-1">
-                        <span class="text-[10px] font-bold text-[#8290aa] uppercase tracking-widest mr-1">급</span>
-                        <div class="flex items-center gap-1 flex-wrap">${gupChipsHtml}</div>
+            // Mobile/Tablet: khi đang mở 1 dropdown thì xổ khung dài ~1/3 màn hình để cuộn chọn,
+            // chọn xong bấm "Xong" thì rút lại còn 1 hàng gọn như cũ.
+            const openDd = ddDef.find(dd => dd.key === openDropdownKey);
+            const mobileExpandHtml = openDd ? `
+                <div class="lg:hidden flex flex-col border-t border-[#d8e0ec]" style="height:33vh;">
+                    <div class="flex items-center justify-between px-4 py-2.5 shrink-0 border-b border-[#eef1f7]">
+                        <span class="text-xs font-bold text-[#4B5563]">${openDd.label}${filterState[openDd.key].length ? ` · Đã chọn ${filterState[openDd.key].length}` : ''}</span>
+                        <button class="flex items-center gap-1 text-xs font-bold text-point" onclick="toggleDropdown('${openDd.key}')">Xong <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></button>
                     </div>
-                    <div class="w-px h-6 mx-2 shrink-0" style="background:linear-gradient(180deg,transparent,#d0d8e8,transparent);"></div>
-                    <div class="flex items-center gap-2 px-1 flex-wrap">${ddHtml}</div>
-                    <div class="flex-1"></div>
-                    <div class="flex items-center gap-2 px-2">
-                        <button class="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[10px] font-semibold" style="background:${libSelectMode ? 'linear-gradient(135deg,#7c6ee8,#5b4fcf)' : '#E6EBF3'}; box-shadow:${libSelectMode ? 'none' : 'var(--shadow-btn)'}; color:${libSelectMode ? '#fff' : '#8290aa'};" onclick="toggleLibSelectMode()">
+                    <div class="flex-1 min-h-0 overflow-y-auto p-2 flex flex-col gap-0.5">
+                        ${openDd.opts.length ? openDd.opts.map(opt => {
+                            const active = filterState[openDd.key].includes(opt);
+                            return `
+                                <button class="filter-dd-option !text-[13px] !py-3 ${active ? 'dd-opt-active' : ''}" onclick="toggleFilterVal('${openDd.key}','${opt.replace(/'/g, "\\'")}')">
+                                    <span class="filter-dd-checkbox ${active ? 'checked' : ''}">${active ? '✓' : ''}</span>
+                                    <span class="truncate">${opt}</span>
+                                </button>`;
+                        }).join('') : `<p class="text-center text-gray-400 text-xs py-8">Không có dữ liệu</p>`}
+                    </div>
+                </div>
+            ` : '';
+
+            bar.innerHTML = `
+                <div class="flex items-center gap-2 px-3 py-2 overflow-x-auto lg:flex-wrap lg:overflow-visible lg:gap-0 lg:px-2">
+                    <div class="flex items-center gap-1.5 shrink-0 lg:px-2 lg:py-1">
+                        <span class="text-[10px] font-bold text-[#8290aa] uppercase tracking-widest mr-1 shrink-0">급</span>
+                        <div class="flex items-center gap-1 shrink-0 lg:flex-wrap">${gupChipsHtml}</div>
+                    </div>
+                    <div class="w-px h-6 shrink-0" style="background:linear-gradient(180deg,transparent,#d0d8e8,transparent);"></div>
+                    <div class="flex items-center gap-2 shrink-0 lg:flex-wrap lg:px-1">${ddHtml}</div>
+                    <div class="w-px h-6 shrink-0" style="background:linear-gradient(180deg,transparent,#d0d8e8,transparent);"></div>
+                    <div class="hidden lg:block lg:flex-1"></div>
+                    <div class="flex items-center gap-2 shrink-0 lg:px-2">
+                        <button class="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[10px] font-semibold shrink-0" style="background:${libSelectMode ? 'linear-gradient(135deg,#7c6ee8,#5b4fcf)' : '#E6EBF3'}; box-shadow:${libSelectMode ? 'none' : 'var(--shadow-btn)'}; color:${libSelectMode ? '#fff' : '#8290aa'};" onclick="toggleLibSelectMode()">
                             ☑️ ${libSelectMode ? `Đã chọn ${libSelectedIds.size}` : 'Chọn nhiều'}
                         </button>
-                        <span class="text-[11px] font-semibold tabular-nums" style="color:${filteredDatabase.length < vocabDatabase.length ? '#5b4fcf' : '#9aa4b8'}">
+                        <span class="text-[11px] font-semibold tabular-nums shrink-0" style="color:${filteredDatabase.length < vocabDatabase.length ? '#5b4fcf' : '#9aa4b8'}">
                             ${filteredDatabase.length}<span class="text-[#b0bad0] font-normal">/${vocabDatabase.length}</span>
                         </span>
                         ${activeTotal > 0 ? `
-                        <button class="flex items-center gap-1 rounded-lg px-2 py-1 text-[10px] font-semibold" style="background:#E6EBF3; box-shadow:var(--shadow-btn); color:#8290aa;" onclick="resetFilters()">
+                        <button class="flex items-center gap-1 rounded-lg px-2 py-1 text-[10px] font-semibold shrink-0" style="background:#E6EBF3; box-shadow:var(--shadow-btn); color:#8290aa;" onclick="resetFilters()">
                             ✕ Xoá lọc
                         </button>` : ''}
                     </div>
                 </div>
+                ${mobileExpandHtml}
                 ${libSelectMode ? `
                 <div class="flex items-center justify-between gap-3 px-4 py-2.5 border-t border-[#d8e0ec] flex-wrap">
                     <span class="text-xs font-semibold text-gray-500">${libSelectedIds.size} từ đã chọn</span>
@@ -1168,13 +1194,13 @@
                         <span class="text-[10px] text-[#c0cad8] w-4 text-right shrink-0 font-mono tabular-nums">${rowIndex + 1}</span>
                         <div class="vr-strip" style="background: linear-gradient(180deg, ${c}, ${c}44);"></div>
                         <div class="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-0 self-center">
-                            <div class="sm:w-[150px] md:w-[190px] shrink-0 min-w-0 self-center flex items-center gap-1.5">
-                                <span class="vr-korean text-base font-black leading-snug block whitespace-normal break-words" style="color:${selected ? '#3d2fa8' : '#1e2a4a'};">${item.word}</span>
+                            <div class="sm:w-[150px] md:w-[190px] shrink-0 min-w-0 self-start sm:self-center flex items-center gap-1.5 text-left">
+                                <span class="vr-korean text-base font-black leading-snug block whitespace-normal break-words text-left" style="color:${selected ? '#3d2fa8' : '#1e2a4a'};">${item.word}</span>
                                 <span class="sm:hidden inline-flex items-center gap-1 rounded-full px-1.5 py-0.5 text-[9px] font-bold whitespace-nowrap tracking-wide shrink-0" style="background:${c}22; color:${c};">${item.level}급</span>
                             </div>
-                            <div class="flex-1 min-w-[70px] flex flex-col justify-center self-center">
+                            <div class="flex-1 min-w-[70px] flex flex-col justify-center self-start sm:self-center text-left">
                                 <span class="text-[13px] font-semibold text-[#2d3a54] truncate leading-tight">${item.vietnamese || item.deep_meaning || item.literal || '—'}</span>
-                                ${hanLine ? `<span class="text-[10px] text-[#9FACBD] font-medium truncate mt-0.5 leading-tight">${hanLine}</span>` : ''}
+                                ${hanLine ? `<span class="hidden sm:block text-[10px] text-[#9FACBD] font-medium truncate mt-0.5 leading-tight">${hanLine}</span>` : ''}
                             </div>
                         </div>
                         <div class="hidden lg:flex items-center gap-0 shrink-0">
@@ -1225,7 +1251,18 @@
             }
 
             container.innerHTML = `
-                <div class="flex items-center justify-center gap-1.5 flex-wrap">
+                <!-- Mobile/Tablet: pager gọn 1 dòng -->
+                <div class="flex lg:hidden items-center justify-between gap-2">
+                    <button class="pg-btn pg-nav shrink-0" onclick="goToPage(${currentPage - 1})" ${currentPage <= 1 ? 'disabled' : ''}>‹</button>
+                    <div class="flex items-center gap-1.5 min-w-0">
+                        <span class="text-[10px] text-gray-400 font-semibold whitespace-nowrap">Trang</span>
+                        <input type="number" min="1" max="${totalPages}" id="pg-jump-input-mobile" value="${currentPage}" class="w-11 text-center text-xs font-bold rounded-lg py-1.5" style="background:#E6EBF3; box-shadow:var(--shadow-sunk); border:none; outline:none; color:#3D3D4E;" onkeydown="if(event.key==='Enter'){event.preventDefault(); jumpToPageInputMobile();}" onblur="jumpToPageInputMobile()">
+                        <span class="text-[10px] text-gray-400 font-semibold whitespace-nowrap">/ ${totalPages}</span>
+                    </div>
+                    <button class="pg-btn pg-nav shrink-0" onclick="goToPage(${currentPage + 1})" ${currentPage >= totalPages ? 'disabled' : ''}>›</button>
+                </div>
+                <!-- Desktop: đầy đủ số trang -->
+                <div class="hidden lg:flex items-center justify-center gap-1.5 flex-wrap">
                     <button class="pg-btn pg-nav" onclick="goToPage(${currentPage - 1})" ${currentPage <= 1 ? 'disabled' : ''}>‹</button>
                     ${start > 1 ? `<button class="pg-btn" onclick="goToPage(1)">1</button><span class="text-gray-400 text-xs px-1">…</span>` : ''}
                     ${pageBtnsHtml}
@@ -1255,6 +1292,13 @@
             if (!input || !input.value) return;
             const val = parseInt(input.value, 10);
             if (!isNaN(val)) goToPage(val);
+        }
+
+        function jumpToPageInputMobile() {
+            const input = document.getElementById('pg-jump-input-mobile');
+            if (!input || !input.value) return;
+            const val = parseInt(input.value, 10);
+            if (!isNaN(val) && val !== currentPage) goToPage(val);
         }
 
         // Chọn 1 dòng từ vựng → hiện Card chi tiết (cột 2)
@@ -1651,24 +1695,24 @@
             const c = levelColorsMap[data.level] || '#6C63FF';
             const isSaved = data.savedNotebooks.length > 0;
             const hanjaHtml = (data.hanja && data.hanja.length) ? `
-                <div class="flex flex-col gap-2 text-left mt-4">
+                <div class="flex flex-col gap-1.5 sm:gap-2 text-left mt-2.5 sm:mt-4">
                     <div style="font-size:10px; font-weight:700; color:#9CA3AF; letter-spacing:0.14em; text-transform:uppercase; font-family:'DM Mono',monospace;">Gốc Hán · Sino-Korean</div>
-                    <div class="flex flex-wrap gap-2">
+                    <div class="flex flex-wrap gap-1.5 sm:gap-2">
                         ${data.hanja.map(h => `
-                            <div class="m-pressed-block py-3 px-[17px] flex flex-col items-center justify-center text-center flex-initial" style="min-height:90px;">
-                                <span class="font-kr-serif font-bold text-[1.3rem] text-[#4F46E5] leading-none">${h.kr}</span>
-                                <span class="text-1rem text-[#4B5563] font-serif mt-[2px]" style="${h.cn ? '' : 'visibility:hidden;'}">${h.cn || '·'}</span>
-                                <span class="text-[10px] text-[#9CA3AF] mt-1">${h.vi}</span>
+                            <div class="m-pressed-block py-1.5 px-2.5 sm:py-3 sm:px-[17px] flex flex-col items-center justify-center text-center flex-initial sm:min-h-[90px]">
+                                <span class="font-kr-serif font-bold text-base sm:text-[1.3rem] text-[#4F46E5] leading-none">${h.kr}</span>
+                                <span class="text-xs sm:text-1rem text-[#4B5563] font-serif mt-[2px]" style="${h.cn ? '' : 'visibility:hidden;'}">${h.cn || '·'}</span>
+                                <span class="text-[9px] sm:text-[10px] text-[#9CA3AF] mt-0.5 sm:mt-1">${h.vi}</span>
                             </div>
                         `).join('')}
                     </div>
                 </div>
             ` : '';
             const examplesHtml = (data.examples && data.examples.length) ? `
-                <div class="flex flex-col gap-2 text-left mt-4">
+                <div class="flex flex-col gap-1.5 sm:gap-2 text-left mt-2.5 sm:mt-4">
                     <div style="font-size:10px; font-weight:700; color:#6366F1; letter-spacing:0.14em; text-transform:uppercase; font-family:'DM Mono',monospace;">Ví dụ · ${data.examples.length} câu</div>
                     ${data.examples.map(ex => `
-                        <div class="m-pressed-block p-3 flex flex-col gap-1">
+                        <div class="m-pressed-block p-2.5 sm:p-3 flex flex-col gap-1">
                             <p class="text-sm font-medium text-[#1C1917] font-kr-serif">${ex.kr}</p>
                             <p class="text-xs italic text-[#6B7280]">↳ ${ex.vi}</p>
                         </div>
@@ -1702,7 +1746,7 @@
             return `
                 <div class="modern-card-wrapper w-full flex flex-col text-left">
                     ${backBtnHtml}
-                    <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center justify-between mb-1.5 sm:mb-3">
                         <span class="text-white px-2.5 py-0.5 rounded-lg text-xs font-extrabold" style="background-color:${c};">Lv.${data.level}</span>
                         <div class="flex items-center gap-2">
                             <button class="m-pressed-btn text-point" onclick="speakKorean('${data.word.replace(/'/g, "\\'")}')" title="Nghe">
@@ -1713,9 +1757,9 @@
                             </button>
                         </div>
                     </div>
-                    <h1 class="font-bold text-[2rem] text-[#1A1520] font-kr-serif leading-[1.1] mb-2 break-words">${data.word}</h1>
-                    <span class="m-raised-block px-3 py-1 text-[11px] font-semibold text-[#374151] rounded-[7px] w-fit mb-3">${data.topic || 'Tổng quát'}</span>
-                    <div class="m-pressed-block p-4 border-l-4 border-[#4F46E5] rounded-r-xl text-[14px] font-semibold text-[#1A1520] leading-[1.7]">
+                    <h1 class="font-bold text-2xl sm:text-[2rem] text-[#1A1520] font-kr-serif leading-[1.1] mb-1 sm:mb-2 break-words">${data.word}</h1>
+                    <span class="m-raised-block px-3 py-1 text-[11px] font-semibold text-[#374151] rounded-[7px] w-fit mb-1.5 sm:mb-3">${data.topic || 'Tổng quát'}</span>
+                    <div class="m-pressed-block p-2.5 sm:p-4 border-l-4 border-[#4F46E5] rounded-r-xl text-[14px] font-semibold text-[#1A1520] leading-[1.4] sm:leading-[1.7]">
                         ${data.vietnamese || data.deep_meaning || '—'}
                     </div>
                     ${hanjaHtml}
@@ -2694,20 +2738,23 @@
             el.className = 'w-full';
             el.innerHTML = `
                 <div class="flex flex-col lg:flex-row gap-5 lg:gap-6 items-stretch lg:items-start w-full">
-                    <aside class="w-full lg:w-[32%] shrink-0 lg:sticky lg:top-8">
-                        <div class="m-card-base flex flex-col min-h-[400px] justify-center items-center text-center text-gray-400" id="pl-detail-card">
-                            <span class="font-medium" style="font-family: 'Plus Jakarta Sans', sans-serif !important;">Bấm "Xem chi tiết" ở 1 từ để xem đầy đủ thông tin!</span>
-                        </div>
-                    </aside>
-                    <div class="flex-1 w-full min-w-0 neo-raised !rounded-[28px] overflow-hidden">
-                        <div id="pl-toolbar"></div>
-                        <div class="overflow-x-auto" style="max-height:520px; overflow-y:auto;">
+                    <!-- List: mobile sticky ~1/3 màn hình, đẩy lên trước card chi tiết; desktop quay lại vị trí phải 68% -->
+                    <div class="order-1 lg:order-2 lg:flex-1 w-full min-w-0 neo-raised !rounded-[28px] overflow-hidden flex flex-col sticky top-2 z-20 h-[34vh] lg:static lg:top-auto lg:z-auto lg:h-auto">
+                        <div id="pl-toolbar" class="shrink-0"></div>
+                        <div class="hidden lg:block overflow-x-auto" style="max-height:520px; overflow-y:auto;">
                             <table class="w-full text-sm" style="border-collapse:collapse;">
                                 <thead id="pl-thead"></thead>
                                 <tbody id="pl-tbody"></tbody>
                             </table>
                         </div>
+                        <div class="lg:hidden flex-1 min-h-0 overflow-y-auto flex flex-col gap-2 p-3" id="pl-cards"></div>
                     </div>
+                    <!-- Card chi tiết: mobile nằm dưới list, vuốt xuống để xem; desktop quay lại vị trí trái 32% -->
+                    <aside class="order-2 lg:order-1 w-full lg:w-[32%] shrink-0 lg:sticky lg:top-8">
+                        <div class="m-card-base flex flex-col min-h-[400px] justify-center items-center text-center text-gray-400" id="pl-detail-card">
+                            <span class="font-medium" style="font-family: 'Plus Jakarta Sans', sans-serif !important;">Bấm "Xem chi tiết" ở 1 từ để xem đầy đủ thông tin!</span>
+                        </div>
+                    </aside>
                 </div>
             `;
             renderPracticeListToolbar();
@@ -2726,14 +2773,14 @@
             `;
 
             toolbarEl.innerHTML = `
-                <div class="flex flex-wrap items-center justify-between gap-3 p-4 border-b border-[#eef1f7]">
-                    <div class="flex flex-wrap gap-2">
+                <div class="flex items-center gap-2 p-2.5 lg:p-4 border-b border-[#eef1f7] overflow-x-auto lg:flex-wrap lg:justify-between lg:gap-3 lg:overflow-visible">
+                    <div class="flex items-center gap-1.5 lg:gap-2 shrink-0 lg:flex-wrap">
                         ${chip(pls.blurKo, `🙈 Hàn: ${pls.blurKo ? 'Ẩn' : 'Hiện'}`, `togglePracticeListOpt('blurKo')`)}
                         ${chip(pls.blurVi, `🙈 Việt: ${pls.blurVi ? 'Ẩn' : 'Hiện'}`, `togglePracticeListOpt('blurVi')`)}
                         ${chip(!pls.hideEx, `📝 Ví dụ: ${pls.hideEx ? 'Ẩn' : 'Hiện'}`, `togglePracticeListOpt('hideEx')`)}
                         ${chip(pls.starOnly, `⭐ Từ khó nhớ (${pls.starOnly ? 'Đã đánh dấu' : 'Tất cả'})`, `togglePracticeListOpt('starOnly')`, '#f59e0b')}
                     </div>
-                    <div class="neo-sunk flex items-center px-3 py-2 !rounded-2xl w-full sm:w-[220px]">
+                    <div class="neo-sunk flex items-center px-3 py-2 !rounded-2xl shrink-0 w-[150px] lg:w-[220px]">
                         <span class="text-gray-400 mr-2 text-xs">🔍</span>
                         <input type="text" id="pl-search-input" value="${(pls.search || '').replace(/"/g, '&quot;')}" placeholder="Tìm từ vựng nhanh..." class="w-full bg-transparent border-none outline-none text-xs" oninput="practiceListState.search = this.value; renderPracticeListRowsOnly();">
                     </div>
@@ -2746,6 +2793,7 @@
             const pls = practiceListState;
             const thead = document.getElementById('pl-thead');
             const tbody = document.getElementById('pl-tbody');
+            const cardsWrap = document.getElementById('pl-cards');
             if (!thead || !tbody) return;
 
             thead.innerHTML = `
@@ -2770,9 +2818,11 @@
             if (!rows.length) {
                 const colCount = 4 + (!pls.hideEx ? 1 : 0);
                 tbody.innerHTML = `<tr><td colspan="${colCount}" class="text-center text-gray-400 text-sm py-10">Không có từ vựng phù hợp</td></tr>`;
+                if (cardsWrap) cardsWrap.innerHTML = `<p class="text-center text-gray-400 text-xs py-6">Không có từ vựng phù hợp</p>`;
                 return;
             }
 
+            const cardsHtml = [];
             tbody.innerHTML = rows.map(({ w, i, full }) => {
                 const hanLine = (full && full.hanja && full.hanja.length) ? full.hanja.map(h => `${h.kr}(${h.vi})`).join(' — ') : '';
                 const c = full ? (levelColorsMap[full.level] || '#B39EE4') : '#c8cee0';
@@ -2815,6 +2865,37 @@
                 const starOnSvg = `<svg viewBox="0 0 24 24" width="15" height="15" fill="#f59e0b" stroke="#f59e0b" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`;
                 const starOffSvg = `<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#c0cad8" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`;
 
+                cardsHtml.push(`
+                    <div class="vocab-row flex flex-col gap-2 shrink-0" data-row-idx="${i}">
+                        <div class="flex items-start gap-2.5">
+                            <div class="vr-strip" style="background: linear-gradient(180deg, ${c}, ${c}44); min-height:32px;"></div>
+                            <div class="flex-1 min-w-0 flex flex-col gap-1">
+                                <div class="pl-blur-wrap cursor-pointer ${koBlurred ? 'pl-blur-cell' : ''}" onclick="handlePlWordClick(${i}, 'ko')">
+                                    <span class="vr-korean text-base font-black">${w.word}</span>
+                                    ${hanLine ? `<span class="text-[10px] text-[#9FACBD] block mt-0.5">${hanLine}</span>` : ''}
+                                </div>
+                                <div class="pl-blur-wrap cursor-pointer ${viBlurred ? 'pl-blur-cell' : ''}" onclick="handlePlWordClick(${i}, 'vi')">
+                                    <span class="text-[13px] font-semibold text-[#2d3a54]">${w.vietnamese || (full && (full.deep_meaning || full.literal)) || '—'}</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1.5 shrink-0" onclick="event.stopPropagation();">
+                                <button class="vr-status-btn" title="Nghe phát âm" onclick="speakKorean('${w.word.replace(/'/g, "\\'")}')">
+                                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#9CA3AF" stroke-width="2.5"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                                </button>
+                                <button class="vr-status-btn ${w._starred ? 'vr-active' : ''}" title="Từ khó nhớ" onclick="toggleWordStar(${i})">
+                                    ${w._starred ? starOnSvg : starOffSvg}
+                                </button>
+                            </div>
+                        </div>
+                        ${!pls.hideEx && full && full.examples && full.examples.length ? `
+                        <div class="text-xs rounded-xl p-2" style="background:rgba(108,99,255,0.05);">
+                            <p class="font-semibold text-[#1e2a4a]">${full.examples[0].kr}</p>
+                            <p class="text-gray-400 italic mt-0.5">${full.examples[0].vi}</p>
+                        </div>` : ''}
+                        <input type="text" value="${(w._note || '').replace(/"/g, '&quot;')}" placeholder="Ghi chú..." class="neo-sunk px-2.5 py-1.5 !rounded-xl text-[11px] w-full outline-none border-none bg-transparent" oninput="updateWordNote(${i}, this.value)" onclick="event.stopPropagation();">
+                    </div>
+                `);
+
                 return `
                     <tr class="border-b border-[#f2f4f9] hover:bg-[rgba(108,99,255,0.03)] transition-colors" data-row-idx="${i}">
                         ${koCell}${viCell}${exCell}
@@ -2834,12 +2915,15 @@
                     </tr>
                 `;
             }).join('');
+            if (cardsWrap) cardsWrap.innerHTML = cardsHtml.join('');
 
             // Nếu từ đang được chọn xem chi tiết đã bị lọc mất khỏi danh sách hiện tại thì bỏ highlight
             if (plSelectedIdx != null) {
                 const stillVisible = rows.some(r => r.i === plSelectedIdx);
                 const rowEl = document.querySelector(`#pl-tbody tr[data-row-idx="${plSelectedIdx}"]`);
                 if (stillVisible && rowEl) rowEl.classList.add('search-row-active');
+                const cardEl = document.querySelector(`#pl-cards [data-row-idx="${plSelectedIdx}"]`);
+                if (stillVisible && cardEl) cardEl.classList.add('row-selected');
             }
         }
 
@@ -3869,20 +3953,20 @@
             const learnedCount = computeLearnedWordCount();
             const wrongWords = collectWrongWords();
             el.innerHTML = `
-                <div class="neo-raised p-5 flex flex-col gap-2">
-                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">${themeIcon('clock', 'brand', 15)} Giờ học tập</span>
-                    <span class="text-2xl font-black text-point">${formatDurationVN(currentUser.totalActiveMs)}</span>
-                    <span class="text-[10px] text-gray-400">Chỉ tính lúc bạn thực sự tương tác trên trang</span>
+                <div class="neo-raised p-2.5 sm:p-5 flex flex-col gap-1 sm:gap-2 min-w-0">
+                    <span class="text-[8px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1 sm:gap-1.5 min-w-0"><span class="shrink-0">${themeIcon('clock', 'brand', 15)}</span><span class="truncate">Giờ học tập</span></span>
+                    <span class="text-base sm:text-2xl font-black text-point truncate">${formatDurationVN(currentUser.totalActiveMs)}</span>
+                    <span class="hidden sm:block text-[10px] text-gray-400">Chỉ tính lúc bạn thực sự tương tác trên trang</span>
                 </div>
-                <div class="neo-raised p-5 flex flex-col gap-2 cursor-pointer hover:shadow-inner transition-all" onclick="openLearnedWordsModal()" role="button" title="Bấm để xem danh sách chi tiết">
-                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">${themeIcon('bookCheck', 'brand', 15)} Từ vựng đã học</span>
-                    <span class="text-2xl font-black" style="color:#2ec65e;">${learnedCount} từ</span>
-                    <span class="text-[10px] text-gray-400">Bấm vào đây để xem chi tiết theo bộ lọc</span>
+                <div class="neo-raised p-2.5 sm:p-5 flex flex-col gap-1 sm:gap-2 min-w-0 cursor-pointer hover:shadow-inner transition-all" onclick="openLearnedWordsModal()" role="button" title="Bấm để xem danh sách chi tiết">
+                    <span class="text-[8px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1 sm:gap-1.5 min-w-0"><span class="shrink-0">${themeIcon('bookCheck', 'brand', 15)}</span><span class="truncate">Đã học</span></span>
+                    <span class="text-base sm:text-2xl font-black truncate" style="color:#2ec65e;">${learnedCount} từ</span>
+                    <span class="hidden sm:block text-[10px] text-gray-400">Bấm vào đây để xem chi tiết theo bộ lọc</span>
                 </div>
-                <div class="neo-raised p-5 flex flex-col gap-2 cursor-pointer hover:shadow-inner transition-all" onclick="openNeedPracticeWordsModal()" role="button" title="Bấm để xem danh sách chi tiết">
-                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">${themeIcon('warning', 'brand', 15)} Từ cần luyện thêm</span>
-                    <span class="text-2xl font-black" style="color:#ef4444;">${wrongWords.length} từ</span>
-                    <span class="text-[10px] text-gray-400">Bấm vào từ bên dưới để xem lại chi tiết</span>
+                <div class="neo-raised p-2.5 sm:p-5 flex flex-col gap-1 sm:gap-2 min-w-0 cursor-pointer hover:shadow-inner transition-all" onclick="openNeedPracticeWordsModal()" role="button" title="Bấm để xem danh sách chi tiết">
+                    <span class="text-[8px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1 sm:gap-1.5 min-w-0"><span class="shrink-0">${themeIcon('warning', 'brand', 15)}</span><span class="truncate">Cần luyện</span></span>
+                    <span class="text-base sm:text-2xl font-black truncate" style="color:#ef4444;">${wrongWords.length} từ</span>
+                    <span class="hidden sm:block text-[10px] text-gray-400">Bấm vào từ bên dưới để xem lại chi tiết</span>
                 </div>
             `;
         }
@@ -3941,6 +4025,7 @@
 
         async function renderHomeAllWordsTable() {
             const tbody = document.getElementById('home-allwords-tbody');
+            const cardsWrap = document.getElementById('home-allwords-cards');
             if (!tbody) return;
             await ensureAllLibraryLoaded();
             const all = collectAllNotebookWords();
@@ -3948,7 +4033,9 @@
             const filtered = q ? all.filter(w => w.word.toLowerCase().includes(q) || (w.vietnamese || '').toLowerCase().includes(q)) : all;
 
             if (!filtered.length) {
-                tbody.innerHTML = `<tr><td colspan="3" class="text-center text-gray-400 text-sm py-10">${all.length ? 'Không tìm thấy từ phù hợp' : 'Bạn chưa bỏ từ vựng nào vào sổ cả'}</td></tr>`;
+                const emptyMsg = all.length ? 'Không tìm thấy từ phù hợp' : 'Bạn chưa bỏ từ vựng nào vào sổ cả';
+                tbody.innerHTML = `<tr><td colspan="3" class="text-center text-gray-400 text-sm py-10">${emptyMsg}</td></tr>`;
+                if (cardsWrap) cardsWrap.innerHTML = `<p class="text-center text-gray-400 text-xs py-6 w-full">${emptyMsg}</p>`;
                 return;
             }
             tbody.innerHTML = filtered.map(w => `
@@ -3958,6 +4045,15 @@
                     <td class="py-2.5 px-4 text-xs text-gray-500 truncate max-w-[200px]">${w._notebookNames.join(', ')}</td>
                 </tr>
             `).join('');
+            if (cardsWrap) {
+                cardsWrap.innerHTML = filtered.map(w => `
+                    <button class="mini-card-3d shrink-0 snap-start w-[148px] text-left flex flex-col gap-1.5" style="padding:14px;" onclick="selectHomeAllWordsDetail('${w.id}')">
+                        <span class="font-kr-serif font-bold text-[#1e2a4a] text-base truncate">${w.word}</span>
+                        <span class="text-xs text-gray-500 truncate">${w.vietnamese || '—'}</span>
+                        <span class="text-[10px] text-gray-400 truncate mt-auto pt-1 border-t border-[#eef1f7]">${w._notebookNames.join(', ')}</span>
+                    </button>
+                `).join('');
+            }
         }
 
         function selectHomeAllWordsDetail(wordId) {
@@ -4308,21 +4404,21 @@
                 </div>
 
                 <!-- Thống kê -->
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div class="neo-raised p-5 flex flex-col gap-2">
-                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">${themeIcon('clock', 'brand', 18)} Giờ học tập</span>
-                        <span class="text-2xl font-black text-point">${formatDurationVN(currentUser.totalActiveMs)}</span>
-                        <span class="text-[10px] text-gray-400">Chỉ tính lúc bạn thực sự tương tác trên trang</span>
+                <div class="grid grid-cols-3 gap-2 sm:gap-4">
+                    <div class="neo-raised p-2.5 sm:p-5 flex flex-col gap-1 sm:gap-2 min-w-0">
+                        <span class="text-[8px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1 sm:gap-1.5 min-w-0"><span class="shrink-0">${themeIcon('clock', 'brand', 18)}</span><span class="truncate">Giờ học tập</span></span>
+                        <span class="text-base sm:text-2xl font-black text-point truncate">${formatDurationVN(currentUser.totalActiveMs)}</span>
+                        <span class="hidden sm:block text-[10px] text-gray-400">Chỉ tính lúc bạn thực sự tương tác trên trang</span>
                     </div>
-                    <div class="neo-raised p-5 flex flex-col gap-2 text-left cursor-pointer hover:shadow-inner transition-all" onclick="openLearnedWordsModal()" role="button" title="Bấm để xem danh sách chi tiết">
-                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">${themeIcon('bookCheck', 'brand', 18)} Từ vựng đã học</span>
-                        <span class="text-2xl font-black" style="color:#2ec65e;">${learnedCount} từ</span>
-                        <span class="text-[10px] text-gray-400">Bấm vào đây để xem chi tiết theo bộ lọc</span>
+                    <div class="neo-raised p-2.5 sm:p-5 flex flex-col gap-1 sm:gap-2 min-w-0 text-left cursor-pointer hover:shadow-inner transition-all" onclick="openLearnedWordsModal()" role="button" title="Bấm để xem danh sách chi tiết">
+                        <span class="text-[8px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1 sm:gap-1.5 min-w-0"><span class="shrink-0">${themeIcon('bookCheck', 'brand', 18)}</span><span class="truncate">Đã học</span></span>
+                        <span class="text-base sm:text-2xl font-black truncate" style="color:#2ec65e;">${learnedCount} từ</span>
+                        <span class="hidden sm:block text-[10px] text-gray-400">Bấm vào đây để xem chi tiết theo bộ lọc</span>
                     </div>
-                    <div class="neo-raised p-5 flex flex-col gap-2">
-                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">${themeIcon('warning', 'brand', 18)} Từ cần luyện thêm</span>
-                        <span class="text-2xl font-black" style="color:#ef4444;">${wrongWords.length} từ</span>
-                        <span class="text-[10px] text-gray-400">Bấm vào từ bên dưới để xem lại chi tiết</span>
+                    <div class="neo-raised p-2.5 sm:p-5 flex flex-col gap-1 sm:gap-2 min-w-0">
+                        <span class="text-[8px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1 sm:gap-1.5 min-w-0"><span class="shrink-0">${themeIcon('warning', 'brand', 18)}</span><span class="truncate">Cần luyện</span></span>
+                        <span class="text-base sm:text-2xl font-black truncate" style="color:#ef4444;">${wrongWords.length} từ</span>
+                        <span class="hidden sm:block text-[10px] text-gray-400">Bấm vào từ bên dưới để xem lại chi tiết</span>
                     </div>
                 </div>
 
