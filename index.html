@@ -61,7 +61,7 @@
         .neo-sunk { background: #E6EBF3; box-shadow: var(--shadow-sunk); border-radius: 28px; }
         .neo-button { background: #E6EBF3; box-shadow: var(--shadow-btn); border-radius: 24px; transition: all 0.2s ease; }
         .neo-button:active { box-shadow: var(--shadow-sunk); transform: scale(0.98); }
-        .hidden { display: none !important; }
+        .hidden { display: none; }
 
         /* ÉP FONT PLUS JAKARTA SANS TRÒN MỊN CHO NỘI DUNG MODERN CARD CHI TIẾT (CỘT PHẢI) */
         .modern-card-wrapper, .modern-card-wrapper p, .modern-card-wrapper span, .modern-card-wrapper div, .modern-card-wrapper button { 
@@ -106,7 +106,7 @@
 
         .filter-dd-trigger { display: flex; align-items: center; gap: 6px; border-radius: 12px; padding: 7px 12px; font-size: 11.5px; font-weight: 700; background: #E6EBF3; box-shadow: var(--shadow-btn); color: #6b7a99; transition: all .15s ease; white-space: nowrap; border: none; }
         .filter-dd-trigger.dd-open, .filter-dd-trigger.dd-has-selection { box-shadow: var(--shadow-sunk); color: #4F46E5; }
-        .filter-dd-panel { position: absolute; top: calc(100% + 8px); left: 0; z-index: 40; min-width: 190px; max-height: 240px; overflow-y: auto; background: #E6EBF3; border-radius: 18px; box-shadow: 8px 8px 20px #BEC8E4, -6px -6px 16px #ffffff; padding: 8px; }
+        .filter-dd-panel { position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); z-index: 40; width: max-content; min-width: 190px; max-width: calc(100vw - 32px); max-height: 240px; overflow-y: auto; background: #E6EBF3; border-radius: 18px; box-shadow: 8px 8px 20px #BEC8E4, -6px -6px 16px #ffffff; padding: 8px; }
         .filter-dd-option { display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; padding: 7px 10px; border-radius: 10px; font-size: 11.5px; font-weight: 600; color: #6b7a99; background: transparent; transition: all .1s ease; border: none; }
         .filter-dd-option:hover { background: rgba(108,99,255,0.05); color: #4F46E5; }
         .filter-dd-option.dd-opt-active { background: rgba(108,99,255,0.09); color: #3d2fa8; }
@@ -204,10 +204,25 @@
         .login-submit-btn:hover { background: #5b52e6; }
         .login-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
         @media (max-width: 720px) {
-            .login-card-shell { flex-direction: column; max-width: 420px; min-height: unset; }
+            .login-card-shell { flex-direction: column; max-width: 420px; min-height: unset; max-height: 100%; overflow-y: auto; }
             .login-left-panel { padding: 28px; }
             .login-book-float { width: 100px; height: 100px; margin-bottom: 14px; }
             .login-right-panel { padding: 30px 26px; }
+        }
+        @media (max-width: 420px) {
+            .login-left-panel { display: none; }
+            .login-right-panel { padding: 26px 20px; }
+        }
+
+        /* ============================================================ */
+        /* TỐI ƯU VÙNG CHẠM (TOUCH TARGET) TRÊN MOBILE/TABLET — tối thiểu ~40px */
+        /* ============================================================ */
+        @media (max-width: 767px) {
+            .vr-status-btn { width: 40px; height: 40px; }
+            .m-pressed-btn { width: 40px; height: 40px; }
+            .pg-btn { min-width: 38px; height: 38px; padding: 0 10px; }
+            .gup-chip { padding: 9px 14px; }
+            .m-card-base { padding: 16px; }
         }
     </style>
 </head>
@@ -216,7 +231,7 @@
     <!-- ========================================== -->
     <!-- 0. MÀN HÌNH ĐĂNG NHẬP (đối chiếu qua Google Apps Script Web App) -->
     <!-- ========================================== -->
-    <div class="fixed inset-0 z-[100] flex items-center justify-center p-4" id="login-screen" style="background:#E6EBF3;">
+    <div class="fixed inset-0 z-[100] flex items-center justify-center p-4 overflow-y-auto" id="login-screen" style="background:#E6EBF3;">
         <div class="login-card-shell">
             <div class="login-left-panel">
                 <div class="login-book-float">
@@ -252,7 +267,7 @@
 
     <!-- POPUP CHÍNH SÁCH SỬ DỤNG LỚP HỌC -->
     <div class="fixed inset-0 z-[110] hidden items-center justify-center p-4" id="policy-modal" style="background:rgba(26,32,44,0.4);">
-        <div class="neo-raised p-8 w-full max-w-[520px] max-h-[80vh] overflow-y-auto relative !rounded-[28px]">
+        <div class="neo-raised p-5 sm:p-8 w-full max-w-[520px] max-h-[80vh] overflow-y-auto relative !rounded-[28px]">
             <button class="absolute top-5 right-5 w-9 h-9 rounded-full neo-button flex items-center justify-center text-gray-400" onclick="closePolicyModal()">✕</button>
             <h3 class="text-lg font-bold text-[#1A1A24] mb-1">📜 Chính sách sử dụng lớp học</h3>
             <p class="text-xs text-gray-400 italic mb-4">Ngoc Quyen's Classroom — áp dụng cho toàn bộ học viên</p>
@@ -287,7 +302,7 @@
         </div>
 
         <div class="order-2 sm:order-3 flex items-center gap-2.5 ml-auto sm:ml-0">
-            <button class="px-3 sm:px-5 py-2 sm:py-2.5 text-point bg-white hover:bg-opacity-90 font-bold flex items-center text-sm gap-2 rounded-2xl shadow-sm" id="quick-add-btn">
+            <button class="p-2.5 sm:px-5 sm:py-2.5 text-point bg-white hover:bg-opacity-90 font-bold flex items-center text-sm gap-2 rounded-2xl shadow-sm" id="quick-add-btn" aria-label="Thêm sổ tay">
                 <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                 <span class="hidden sm:inline">Thêm số tay</span>
             </button>
@@ -479,16 +494,16 @@
                             <div class="flex items-center gap-3 px-4 pt-4 pb-2.5 shrink-0 border-b border-[#d8e0ec]">
                                 <span class="w-4 shrink-0"></span>
                                 <span class="w-[3px] shrink-0"></span>
-                                <span class="text-[9px] text-[#b0bad0] font-bold uppercase tracking-wider w-[150px] sm:w-[190px] shrink-0" style="font-family:'DM Mono',monospace !important;">Từ vựng</span>
-                                <span class="text-[9px] text-[#b0bad0] font-bold uppercase tracking-wider flex-1" style="font-family:'DM Mono',monospace !important;">Nghĩa · 기(Âm) — 의(Nghĩa)</span>
-                                <div class="hidden md:flex items-center gap-0 shrink-0">
+                                <span class="hidden sm:inline text-[9px] text-[#b0bad0] font-bold uppercase tracking-wider sm:w-[150px] md:w-[190px] shrink-0" style="font-family:'DM Mono',monospace !important;">Từ vựng</span>
+                                <span class="text-[9px] text-[#b0bad0] font-bold uppercase tracking-wider flex-1" style="font-family:'DM Mono',monospace !important;"><span class="sm:hidden">Từ vựng · </span>Nghĩa · 기(Âm) — 의(Nghĩa)</span>
+                                <div class="hidden lg:flex items-center gap-0 shrink-0">
                                     <span class="text-[9px] text-[#b0bad0] font-bold uppercase tracking-wider" style="width:46px; font-family:'DM Mono',monospace !important;">급</span>
-                                    <span class="mx-2.5 opacity-0 text-[11px]">|</span>
-                                    <span class="text-[9px] text-[#b0bad0] font-bold uppercase tracking-wider w-[86px] truncate" style="font-family:'DM Mono',monospace !important;">Chủ đề</span>
-                                    <span class="mx-2.5 opacity-0 text-[11px]">|</span>
-                                    <span class="text-[9px] text-[#b0bad0] font-bold uppercase tracking-wider w-[104px] truncate" style="font-family:'DM Mono',monospace !important;">Loại từ</span>
-                                    <span class="mx-2.5 opacity-0 text-[11px]">|</span>
-                                    <span class="text-[9px] text-[#b0bad0] font-bold uppercase tracking-wider w-[88px] truncate" style="font-family:'DM Mono',monospace !important;">Dạng câu</span>
+                                    <span class="mx-2 opacity-0 text-[11px]">|</span>
+                                    <span class="text-[9px] text-[#b0bad0] font-bold uppercase tracking-wider w-[72px] truncate" style="font-family:'DM Mono',monospace !important;">Chủ đề</span>
+                                    <span class="mx-2 opacity-0 text-[11px]">|</span>
+                                    <span class="text-[9px] text-[#b0bad0] font-bold uppercase tracking-wider w-[88px] truncate" style="font-family:'DM Mono',monospace !important;">Loại từ</span>
+                                    <span class="mx-2 opacity-0 text-[11px]">|</span>
+                                    <span class="text-[9px] text-[#b0bad0] font-bold uppercase tracking-wider w-[72px] truncate" style="font-family:'DM Mono',monospace !important;">Dạng câu</span>
                                 </div>
                                 <span class="w-[70px] text-[9px] text-[#b0bad0] font-bold uppercase tracking-wider text-center ml-2 shrink-0" style="font-family:'DM Mono',monospace !important;">Trạng thái</span>
                             </div>
@@ -526,7 +541,7 @@
                     </div>
                 </div>
 
-                <div class="neo-sunk p-1.5 flex gap-1 !rounded-2xl flex-wrap mb-5 sm:mb-6" id="practice-tabs"></div>
+                <div class="neo-sunk p-1.5 flex gap-1 !rounded-2xl overflow-x-auto sm:flex-wrap mb-5 sm:mb-6" id="practice-tabs"></div>
 
                 <div class="neo-raised p-4 sm:p-8 flex items-start justify-center" id="practice-content" style="min-height:440px;"></div>
             </div>
@@ -1152,23 +1167,26 @@
                         </button>` : ''}
                         <span class="text-[10px] text-[#c0cad8] w-4 text-right shrink-0 font-mono tabular-nums">${rowIndex + 1}</span>
                         <div class="vr-strip" style="background: linear-gradient(180deg, ${c}, ${c}44);"></div>
-                        <div class="w-[150px] sm:w-[190px] shrink-0 min-w-0 self-center">
-                            <span class="vr-korean text-base font-black leading-snug block whitespace-normal break-words" style="color:${selected ? '#3d2fa8' : '#1e2a4a'};">${item.word}</span>
+                        <div class="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-0 self-center">
+                            <div class="sm:w-[150px] md:w-[190px] shrink-0 min-w-0 self-center flex items-center gap-1.5">
+                                <span class="vr-korean text-base font-black leading-snug block whitespace-normal break-words" style="color:${selected ? '#3d2fa8' : '#1e2a4a'};">${item.word}</span>
+                                <span class="sm:hidden inline-flex items-center gap-1 rounded-full px-1.5 py-0.5 text-[9px] font-bold whitespace-nowrap tracking-wide shrink-0" style="background:${c}22; color:${c};">${item.level}급</span>
+                            </div>
+                            <div class="flex-1 min-w-[70px] flex flex-col justify-center self-center">
+                                <span class="text-[13px] font-semibold text-[#2d3a54] truncate leading-tight">${item.vietnamese || item.deep_meaning || item.literal || '—'}</span>
+                                ${hanLine ? `<span class="text-[10px] text-[#9FACBD] font-medium truncate mt-0.5 leading-tight">${hanLine}</span>` : ''}
+                            </div>
                         </div>
-                        <div class="flex-1 min-w-0 flex flex-col justify-center self-center">
-                            <span class="text-[13px] font-semibold text-[#2d3a54] truncate leading-tight">${item.vietnamese || item.deep_meaning || item.literal || '—'}</span>
-                            ${hanLine ? `<span class="text-[10px] text-[#9FACBD] font-medium truncate mt-0.5 leading-tight">${hanLine}</span>` : ''}
-                        </div>
-                        <div class="hidden md:flex items-center gap-0 shrink-0">
+                        <div class="hidden lg:flex items-center gap-0 shrink-0">
                             <span class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[9px] font-bold whitespace-nowrap tracking-wide shrink-0" style="background:${c}22; color:${c};">
                                 <span class="w-1.5 h-1.5 rounded-full" style="background:${c};"></span>${item.level}급
                             </span>
-                            <span class="mx-2.5 text-[#d0d8e8] text-[11px] select-none">|</span>
-                            <span class="w-[86px] text-[10px] font-medium text-[#9aa4b8] truncate">${item.topic || '—'}</span>
-                            <span class="mx-2.5 text-[#d0d8e8] text-[11px] select-none">|</span>
-                            <span class="w-[104px] text-[10px] font-medium text-[#9aa4b8] truncate">${item.word_type || '—'}</span>
-                            <span class="mx-2.5 text-[#d0d8e8] text-[11px] select-none">|</span>
-                            <span class="w-[88px] text-[10px] font-medium text-[#9aa4b8] truncate">${item.exam_type || '—'}</span>
+                            <span class="mx-2 text-[#d0d8e8] text-[11px] select-none">|</span>
+                            <span class="w-[72px] text-[10px] font-medium text-[#9aa4b8] truncate">${item.topic || '—'}</span>
+                            <span class="mx-2 text-[#d0d8e8] text-[11px] select-none">|</span>
+                            <span class="w-[88px] text-[10px] font-medium text-[#9aa4b8] truncate">${item.word_type || '—'}</span>
+                            <span class="mx-2 text-[#d0d8e8] text-[11px] select-none">|</span>
+                            <span class="w-[72px] text-[10px] font-medium text-[#9aa4b8] truncate">${item.exam_type || '—'}</span>
                         </div>
                         <div class="flex items-center gap-1.5 shrink-0 ml-2" onclick="event.stopPropagation();">
                             <button class="vr-status-btn ${item.learned ? 'vr-active' : ''}" title="${item.learned ? 'Đã học — click để bỏ' : 'Chưa học — click để đánh dấu'}" onclick="toggleLearned(${globalIndex})">
@@ -1934,7 +1952,7 @@
                 </div>
                 <div id="modal-tab-content" class="flex flex-col gap-3 overflow-y-auto pr-1" style="max-height:42vh;"></div>
                 <div id="modal-selected-list-wrap"></div>
-                <div class="flex gap-3 mt-1">
+                <div class="flex gap-3 mt-1 sticky bottom-0 sm:static bg-[#E6EBF3] sm:bg-transparent pt-2 pb-1 sm:pt-0 sm:pb-0 -mx-1 px-1 sm:mx-0 sm:px-0">
                     ${isEditing ? `<button class="neo-button px-6 py-3.5 text-sm font-bold text-gray-400 !rounded-2xl" onclick="closeCreateNotebookModal()">Huỷ</button>` : `<button class="neo-button px-6 py-3.5 text-sm font-bold text-gray-400 !rounded-2xl" onclick="backToModalStep1()">← Quay lại</button>`}
                     <button class="neo-button flex-1 py-3.5 text-sm font-bold text-white bg-point !rounded-2xl" id="btn-submit-notebook">${isEditing ? 'Thêm vào sổ' : 'Tạo sổ'}</button>
                 </div>
@@ -1963,7 +1981,7 @@
                     </div>
                     <div class="neo-sunk p-4 !rounded-2xl flex flex-col gap-3">
                         <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Không tìm thấy? Thêm từ mới thủ công</p>
-                        <div class="grid grid-cols-2 gap-3">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div>
                                 <label class="text-[10px] font-bold text-gray-400 flex items-center gap-1 mb-1">🇰🇷 Tiếng Hàn</label>
                                 <div class="neo-sunk p-[2px] !rounded-xl"><input id="nb-manual-kr" type="text" placeholder="예: 사랑하다" class="w-full px-3 py-2.5 bg-transparent border-none outline-none text-sm"></div>
@@ -2369,7 +2387,7 @@
             overlay.style.background = 'rgba(26,32,44,0.45)';
             overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
             overlay.innerHTML = `
-                <div class="neo-raised p-7 w-full max-w-[380px] flex flex-col items-center text-center gap-3 !rounded-[26px]">
+                <div class="neo-raised p-7 w-full max-w-[380px] max-h-[85vh] overflow-y-auto flex flex-col items-center text-center gap-3 !rounded-[26px]">
                     <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl" style="background:${danger ? '#ffeaea' : '#E6EBF3'};">${danger ? '⚠️' : '❓'}</div>
                     <h3 class="text-base font-extrabold text-[#1A1A24]">${title || 'Xác nhận'}</h3>
                     <p class="text-xs text-gray-500">${message || ''}</p>
@@ -2631,7 +2649,7 @@
             const el = document.getElementById('practice-tabs');
             if (!el) return;
             el.innerHTML = PRACTICE_TABS.map(t => `
-                <button class="flex-1 min-w-[120px] py-2.5 px-3 text-xs font-bold rounded-xl transition-all ${practiceState.activeTab === t.key ? 'text-point' : 'text-gray-400'}"
+                <button class="shrink-0 sm:flex-1 min-w-[110px] sm:min-w-[120px] py-2.5 px-3 text-xs font-bold rounded-xl transition-all whitespace-nowrap ${practiceState.activeTab === t.key ? 'text-point' : 'text-gray-400'}"
                     style="${practiceState.activeTab === t.key ? 'background:#E6EBF3; box-shadow: var(--shadow-btn);' : ''}"
                     onclick="switchPracticeTab('${t.key}')">${t.label}</button>
             `).join('');
@@ -3025,7 +3043,7 @@
             overlay.className = 'fixed inset-0 z-[120] flex items-center justify-center p-4';
             overlay.style.background = 'rgba(26,32,44,0.45)';
             overlay.innerHTML = `
-                <div class="neo-raised p-8 w-full max-w-[420px] flex flex-col items-center text-center gap-3 !rounded-[28px]">
+                <div class="neo-raised p-8 w-full max-w-[420px] max-h-[85vh] overflow-y-auto flex flex-col items-center text-center gap-3 !rounded-[28px]">
                     <div class="w-16 h-16 rounded-full flex items-center justify-center text-3xl ${meta.gradientClass}">🎉</div>
                     <h3 class="text-lg font-bold text-[#1A1A24]">Chúc mừng bạn đã hoàn thành hoạt động ôn tập "${meta.label}" cho list "${nbName}"!</h3>
                     <button class="neo-button px-6 py-3 text-sm font-bold text-white mt-2" style="background:#6C63FF;" onclick="this.closest('.fixed').remove()">Tuyệt vời!</button>
@@ -3137,7 +3155,7 @@
                     </div>
                     <input type="text" id="pt-input" class="neo-sunk px-5 py-3.5 !rounded-2xl text-center text-lg font-semibold w-full max-w-sm outline-none border-none bg-transparent" placeholder="Nhập câu trả lời..." autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault(); submitPracticeTyping();}">
                     <div id="pt-feedback" class="text-sm font-bold text-center min-h-[44px] w-full max-w-sm rounded-2xl flex items-center justify-center px-4"></div>
-                    <div class="flex gap-3">
+                    <div class="flex gap-3 flex-wrap justify-center w-full sm:w-auto sticky bottom-2 sm:static z-10 bg-[#E6EBF3]/95 backdrop-blur-sm rounded-2xl p-2 sm:p-0 sm:bg-transparent">
                         <button class="neo-button px-5 py-2.5 text-xs font-bold text-gray-400" id="pt-skip-btn" onclick="advancePracticeQueue('typing', true)">Bỏ qua, làm lại sau</button>
                         <button class="neo-button px-6 py-3 text-sm font-bold text-gray-500" id="pt-check-btn" onclick="submitPracticeTyping()">Kiểm tra</button>
                         <button class="neo-button px-6 py-3 text-sm font-bold text-point hidden" id="pt-next-btn" onclick="advancePracticeQueue('typing', false)">Câu tiếp theo →</button>
@@ -3377,7 +3395,7 @@
                         </div>
                         <div class="flex flex-col gap-2.5 transition-all duration-200 text-left" id="example-content-box">
                             ${data.examples && data.examples.length ? data.examples.map((ex, i) => `
-                                <div class="m-pressed-block p-[13px] px-15 flex flex-col gap-1.5 relative text-left">
+                                <div class="m-pressed-block p-[13px] px-[15px] flex flex-col gap-1.5 relative text-left">
                                     <div class="flex items-start gap-2 text-left">
                                         <span class="text-[9px] font-mono font-extrabold bg-[#6B7280] text-white px-[7px] py-0.5 rounded-[5px] mt-[3px] shrink-0 modern-font-mono">예${i+1}</span>
                                         <p class="font-medium text-sm text-[#1C1917] leading-[1.65] font-kr-serif text-left">${ex.kr}</p>
@@ -4157,7 +4175,7 @@
             overlay.className = 'fixed inset-0 z-[120] flex items-center justify-center p-4';
             overlay.style.background = 'rgba(26,32,44,0.45)';
             overlay.innerHTML = `
-                <div class="neo-raised p-8 w-full max-w-[420px] flex flex-col items-center text-center gap-3 !rounded-[28px]">
+                <div class="neo-raised p-8 w-full max-w-[420px] max-h-[85vh] overflow-y-auto flex flex-col items-center text-center gap-3 !rounded-[28px]">
                     <div class="w-16 h-16 rounded-full flex items-center justify-center text-3xl gradient-act-2">🎉</div>
                     <h3 class="text-lg font-bold text-[#1A1A24]">Hoàn thành Quiz Maze!</h3>
                     <p class="text-sm text-gray-500">Bạn đã trả lời đúng ${correctCount}/${total} câu.</p>
