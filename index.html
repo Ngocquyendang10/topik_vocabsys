@@ -343,12 +343,12 @@
                 </a>
                 <a href="#" class="sidebar-nav-item" data-active="false" id="tab-full-topik">
                     <span class="sidebar-nav-icon-box" data-theme-icon="libraryFull"></span>
-                    <span class="sidebar-nav-label">Thư viện FULL TOPIK</span>
+                    <span class="sidebar-nav-label">Thư viện FULL MASTER</span>
                     <svg class="sidebar-nav-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
                 <a href="#" class="sidebar-nav-item" data-active="false" id="tab-fast-pace">
                     <span class="sidebar-nav-icon-box" data-theme-icon="libraryFast"></span>
-                    <span class="sidebar-nav-label">Thư viện FAST-PACE</span>
+                    <span class="sidebar-nav-label">Thư viện FOCUS</span>
                     <svg class="sidebar-nav-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
             </nav>
@@ -361,41 +361,38 @@
             <div id="view-home-dashboard" class="view-group">
                 <h2 class="text-2xl font-bold text-[#1A1A24] tracking-wide mb-6">Trang chủ</h2>
 
-                <!-- SECTION 1: STATUS -->
+                <!-- SECTION 1: TỔNG QUAN -->
                 <section class="mb-8">
-                    <h3 class="text-xs font-bold text-[#6A6A7F] tracking-widest mb-4">STATUS</h3>
+                    <h3 class="text-xs font-bold text-[#6A6A7F] tracking-widest mb-4">TỔNG QUAN</h3>
                     <div class="grid grid-cols-3 gap-2 sm:gap-4" id="home-status-cards"></div>
                 </section>
 
                 <!-- SECTION 2: QUIZ MAZE -->
                 <section class="mb-8">
-                    <h3 class="text-xs font-bold text-[#6A6A7F] tracking-widest mb-4 flex items-center gap-2">
-                        <span data-theme-icon="maze" style="display:inline-flex; width:16px; height:16px;"></span>
-                        QUIZ MAZE
-                    </h3>
+                    <h3 class="text-xs font-bold text-[#6A6A7F] tracking-widest mb-4"> QUIZ NHANH</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <button class="neo-raised p-6 flex flex-col items-start gap-2 text-left hover:shadow-inner transition-all" onclick="openQuizMazeSetupModal('longtime')">
                             <span class="text-2xl">🕰️</span>
-                            <span class="text-base font-extrabold text-[#1A1A24]">Lâu rồi không gặp</span>
-                            <span class="text-xs text-gray-400">Ôn lại những từ đã lâu bạn chưa gặp lại (hoặc chưa từng làm) trong sổ đã chọn</span>
+                            <span class="text-base font-extrabold text-[#1A1A24]">Ôn lại từ cũ</span>
+                            <span class="text-xs text-gray-400">Ôn lại những từ đã lâu bạn chưa gặp lại</span>
                         </button>
                         <button class="neo-raised p-6 flex flex-col items-start gap-2 text-left hover:shadow-inner transition-all" onclick="openQuizMazeSetupModal('general')">
                             <span class="text-2xl">🔀</span>
                             <span class="text-base font-extrabold text-[#1A1A24]">Ôn tập tổng hợp</span>
-                            <span class="text-xs text-gray-400">Lấy ngẫu nhiên bất kỳ từ nào đã có trong sổ đã chọn để ôn tập</span>
+                            <span class="text-xs text-gray-400">Ôn ngẫu nhiên tất cả các từ vựng bạn đã thuộc</span>
                         </button>
                     </div>
                 </section>
 
-                <!-- SECTION 3: TẤT CẢ TỪ VỰNG ĐÃ BỎ SỔ -->
+                <!-- SECTION 3: TỪ VỰNG TRONG SỔ -->
                 <section class="mb-6">
-                    <h3 class="text-xs font-bold text-[#6A6A7F] tracking-widest mb-4">TẤT CẢ TỪ VỰNG ĐÃ BỎ SỔ</h3>
+                    <h3 class="text-xs font-bold text-[#6A6A7F] tracking-widest mb-4">TỪ VỰNG TRONG SỔ</h3>
                     <div class="flex flex-col lg:flex-row gap-5 lg:gap-6 items-stretch lg:items-start w-full">
                         <div class="w-full lg:flex-[3_1_0%] min-w-0 neo-raised !rounded-[28px] overflow-hidden">
                             <div class="p-4 border-b border-[#d8e0ec]">
                                 <div class="neo-sunk flex items-center px-4 py-2 !rounded-2xl w-full sm:w-[280px]">
                                     <span class="text-gray-400 mr-2.5 text-xs">🔍</span>
-                                    <input type="text" id="home-allwords-search" placeholder="Tìm trong sổ đã bỏ..." class="w-full bg-transparent border-none outline-none text-xs text-[#3D3D4E]" oninput="renderHomeAllWordsTable()">
+                                    <input type="text" id="home-allwords-search" placeholder="Tìm trong sổ..." class="w-full bg-transparent border-none outline-none text-xs text-[#3D3D4E]" oninput="renderHomeAllWordsTable()">
                                 </div>
                             </div>
                             <div class="hidden sm:block overflow-x-auto" style="max-height:60vh; overflow-y:auto;">
@@ -404,7 +401,7 @@
                                         <tr class="text-left">
                                             <th class="py-2.5 px-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Từ vựng</th>
                                             <th class="py-2.5 px-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Nghĩa</th>
-                                            <th class="py-2.5 px-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Có trong sổ</th>
+                                            <th class="py-2.5 px-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Tên sổ</th>
                                         </tr>
                                     </thead>
                                     <tbody id="home-allwords-tbody"></tbody>
@@ -427,7 +424,7 @@
                     <h2 class="text-2xl font-bold text-[#1A1A24] tracking-wide">Sổ từ vựng</h2>
                     <button class="neo-button px-5 py-2.5 text-white bg-point font-bold flex items-center text-sm gap-2" onclick="openCreateNotebookModal()">
                         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                        Tạo sổ tay mới
+                        Tạo sổ mới
                     </button>
                 </div>
 
@@ -436,7 +433,7 @@
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="text-xs font-bold text-[#6A6A7F] tracking-widest flex items-center gap-2">
                             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                            GẦN ĐÂY
+                            HOẠT ĐỘNG GẦN ĐÂY
                         </h3>
                     </div>
                     <div class="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-1" id="recent-activity-list"></div>
@@ -503,9 +500,9 @@
                                 <span class="w-4 shrink-0"></span>
                                 <span class="w-[3px] shrink-0"></span>
                                 <span class="hidden sm:inline text-[9px] text-[#b0bad0] font-bold uppercase tracking-wider sm:w-[150px] md:w-[190px] shrink-0" style="font-family:'DM Mono',monospace !important;">Từ vựng</span>
-                                <span class="text-[9px] text-[#b0bad0] font-bold uppercase tracking-wider flex-1" style="font-family:'DM Mono',monospace !important;"><span class="sm:hidden">Từ vựng · </span>Nghĩa · 기(Âm) — 의(Nghĩa)</span>
+                                <span class="text-[9px] text-[#b0bad0] font-bold uppercase tracking-wider flex-1" style="font-family:'DM Mono',monospace !important;"><span class="sm:hidden">Từ vựng · </span>Nghĩa</span>
                                 <div class="hidden min-[1750px]:flex items-center gap-0 shrink-0">
-                                    <span class="text-[9px] text-[#b0bad0] font-bold uppercase tracking-wider" style="width:46px; font-family:'DM Mono',monospace !important;">급</span>
+                                    <span class="text-[9px] text-[#b0bad0] font-bold uppercase tracking-wider" style="width:46px; font-family:'DM Mono',monospace !important;">Cấp độ</span>
                                     <span class="mx-2 opacity-0 text-[11px]">|</span>
                                     <span class="text-[9px] text-[#b0bad0] font-bold uppercase tracking-wider w-[72px] truncate" style="font-family:'DM Mono',monospace !important;">Chủ đề</span>
                                     <span class="mx-2 opacity-0 text-[11px]">|</span>
@@ -1742,7 +1739,7 @@
             thead.innerHTML = `
                 <tr class="text-left">
                     <th class="py-2.5 px-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Từ vựng</th>
-                    <th class="py-2.5 px-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">급</th>
+                    <th class="py-2.5 px-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Cấp độ</th>
                     <th class="py-2.5 px-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Chủ đề</th>
                     <th class="py-2.5 px-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Loại từ</th>
                     <th class="py-2.5 px-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Dạng câu</th>
@@ -1757,7 +1754,7 @@
 
             tbody.innerHTML = results.map((w) => {
                 const c = levelColorsMap[w.level] || '#6C63FF';
-                const libLabel = w.source === 'fast' ? 'FAST-PACE' : 'FULL TOPIK';
+                const libLabel = w.source === 'fast' ? 'FOCUS' : 'FULL MASTER';
                 return `
                     <tr class="border-b border-[#f2f4f9] hover:bg-[rgba(108,99,255,0.03)] cursor-pointer transition-colors" onclick="selectSearchResult('${w.id}', this)">
                         <td class="py-3 px-3">
@@ -2009,7 +2006,7 @@
         // option còn tồn tại trong phạm vi đã bị các lựa chọn phía trước thu hẹp)
         const BULK_CASCADE_ORDER = ['libs', 'levels', 'wordTypes', 'topics'];
         const BULK_FIELD_MAP = { libs: 'source', levels: 'level', wordTypes: 'word_type', topics: 'topic' };
-        const BULK_LIB_LABELS = { full: 'FULL TOPIK', fast: 'FAST-PACE' };
+        const BULK_LIB_LABELS = { full: 'FULL MASTER', fast: 'FOCUS' };
 
         function computeBulkOptionsCascaded() {
             let data = allLibraryCache || [];
@@ -2117,8 +2114,8 @@
                     <span class="text-point">Từ vựng</span>
                 </div>`}
                 <div class="neo-sunk p-1 flex gap-1 !rounded-2xl">
-                    <button class="flex-1 py-2 text-xs font-bold !rounded-xl transition-all ${nbModalState.activeTab === 'add' ? 'text-point' : 'text-gray-400'}" style="${nbModalState.activeTab === 'add' ? 'background:#E6EBF3; box-shadow: var(--shadow-btn);' : ''}" onclick="switchModalTab('add')">✏️ Thêm từ</button>
-                    <button class="flex-1 py-2 text-xs font-bold !rounded-xl transition-all ${nbModalState.activeTab === 'bulk' ? 'text-point' : 'text-gray-400'}" style="${nbModalState.activeTab === 'bulk' ? 'background:#E6EBF3; box-shadow: var(--shadow-btn);' : ''}" onclick="switchModalTab('bulk')">⚡ Lọc hàng loạt</button>
+                    <button class="flex-1 py-2 text-xs font-bold !rounded-xl transition-all ${nbModalState.activeTab === 'add' ? 'text-point' : 'text-gray-400'}" style="${nbModalState.activeTab === 'add' ? 'background:#E6EBF3; box-shadow: var(--shadow-btn);' : ''}" onclick="switchModalTab('add')">Thêm từ</button>
+                    <button class="flex-1 py-2 text-xs font-bold !rounded-xl transition-all ${nbModalState.activeTab === 'bulk' ? 'text-point' : 'text-gray-400'}" style="${nbModalState.activeTab === 'bulk' ? 'background:#E6EBF3; box-shadow: var(--shadow-btn);' : ''}" onclick="switchModalTab('bulk')">Lọc hàng loạt</button>
                 </div>
                 <div id="modal-tab-content" class="flex flex-col gap-3 overflow-y-auto pr-1" style="max-height:42vh;"></div>
                 <div id="modal-selected-list-wrap"></div>
@@ -2150,15 +2147,15 @@
                         <div id="nb-suggestions-box" class="flex flex-col gap-1 mt-2"></div>
                     </div>
                     <div class="neo-sunk p-4 !rounded-2xl flex flex-col gap-3">
-                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Không tìm thấy? Thêm từ mới thủ công</p>
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Thêm từ mới thủ công</p>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div>
                                 <label class="text-[10px] font-bold text-gray-400 flex items-center gap-1 mb-1">🇰🇷 Tiếng Hàn</label>
-                                <div class="neo-sunk p-[2px] !rounded-xl"><input id="nb-manual-kr" type="text" placeholder="예: 사랑하다" class="w-full px-3 py-2.5 bg-transparent border-none outline-none text-sm"></div>
+                                <div class="neo-sunk p-[2px] !rounded-xl"><input id="nb-manual-kr" type="text" placeholder="예: 냉면" class="w-full px-3 py-2.5 bg-transparent border-none outline-none text-sm"></div>
                             </div>
                             <div>
                                 <label class="text-[10px] font-bold text-gray-400 flex items-center gap-1 mb-1">🇻🇳 Tiếng Việt</label>
-                                <div class="neo-sunk p-[2px] !rounded-xl"><input id="nb-manual-vi" type="text" placeholder="VD: Yêu" class="w-full px-3 py-2.5 bg-transparent border-none outline-none text-sm"></div>
+                                <div class="neo-sunk p-[2px] !rounded-xl"><input id="nb-manual-vi" type="text" placeholder="VD: Mì lạnh" class="w-full px-3 py-2.5 bg-transparent border-none outline-none text-sm"></div>
                             </div>
                         </div>
                         <button class="neo-button w-full py-3 text-xs font-bold text-point !rounded-xl" id="nb-add-custom-btn">+ Thêm từ</button>
@@ -2191,7 +2188,7 @@
                         </div>
                     </div>
                     ${section('📚', 'Thư viện', 'libs', bulkOptions.libs, v => BULK_LIB_LABELS[v] || v)}
-                    ${section('📊', 'Level', 'levels', bulkOptions.levels, v => `Cấp ${v}`)}
+                    ${section('📊', 'Cấp độ', 'levels', bulkOptions.levels, v => `Cấp ${v}`)}
                     ${section('🧩', 'Loại từ', 'wordTypes', bulkOptions.wordTypes)}
                     ${section('📁', 'Chủ đề', 'topics', bulkOptions.topics)}
                 `;
@@ -2207,7 +2204,7 @@
                 w.word.toLowerCase().includes(q) || (w.vietnamese || '').toLowerCase().includes(q)
             ).slice(0, 8);
             if (!matches.length) {
-                box.innerHTML = `<p class="text-[11px] text-gray-400 px-2 py-1">Không tìm thấy trong thư viện — thêm thủ công bên dưới nha!</p>`;
+                box.innerHTML = `<p class="text-[11px] text-gray-400 px-2 py-1">Nếu không tìm thấy trong thư viện, bạn có thể nhập thủ công!</p>`;
                 return;
             }
             const ownership = getWordOwnershipMap(nbModalState.editingNotebookId);
@@ -2218,7 +2215,7 @@
                 <button class="flex items-center justify-between gap-2 w-full text-left px-3 py-2 rounded-xl transition-all ${already ? 'opacity-40 pointer-events-none' : ''}" style="background:#E6EBF3;" onclick="selectSuggestion('${w.id}')">
                     <span class="font-bold text-sm font-kr-serif shrink-0">${w.word}</span>
                     <span class="text-xs text-gray-400 truncate flex-1 text-right">${w.vietnamese || w.deep_meaning || ''}</span>
-                    ${owner ? `<span class="text-[9px] text-amber-500 font-bold shrink-0 whitespace-nowrap">Đã ở "${owner.nbName}"</span>` : ''}
+                    ${owner ? `<span class="text-[9px] text-amber-500 font-bold shrink-0 whitespace-nowrap">Đã có trong "${owner.nbName}"</span>` : ''}
                     ${already ? '<span class="text-point text-xs shrink-0">✓</span>' : ''}
                 </button>`;
             }).join('');
@@ -2254,7 +2251,7 @@
                     title: '⚠️ Từ này đã học thuộc',
                     message: `"${w.word}" bạn đã đánh dấu học thuộc rồi. Vẫn muốn thêm vào sổ này chứ?`,
                     confirmText: 'Vẫn thêm vào sổ',
-                    cancelText: 'Thôi khỏi',
+                    cancelText: 'Không thêm',
                     onConfirm: checkOwnership,
                 });
             } else {
@@ -4661,7 +4658,7 @@
                                         <p class="text-sm font-bold text-[#2D2D3A] truncate">${nb.name}</p>
                                         <p class="text-[11px] text-gray-400">${(nb.words || []).length} từ vựng</p>
                                     </div>
-                                    <button class="neo-button px-4 py-2 text-xs font-bold text-point shrink-0" onclick="restoreDeletedNotebook('${nb.id}')">↩️ Khôi phục</button>
+                                    <button class="neo-button px-4 py-2 text-xs font-bold text-point shrink-0" onclick="restoreDeletedNotebook('${nb.id}')"> Khôi phục</button>
                                 </div>
                             `).join('')}
                         </div>
@@ -4785,7 +4782,7 @@
                         <p class="text-xs text-gray-400 mt-1">${filtered.length}/${allLearned.length} từ — lọc theo thư viện, level, chủ đề, loại từ bên dưới</p>
                     </div>
                     <div class="flex flex-wrap gap-4">
-                        ${section('📚', 'Thư viện', 'libs', opts.libs, v => v === 'fast' ? 'FAST-PACE' : 'FULL TOPIK')}
+                        ${section('📚', 'Thư viện', 'libs', opts.libs, v => v === 'fast' ? 'FOCUS' : 'FULL MASTER')}
                         ${section('급', 'Level', 'levels', opts.levels, v => `${v}급`)}
                         ${section('🧩', 'Loại từ', 'wordTypes', opts.wordTypes)}
                         ${section('📁', 'Chủ đề', 'topics', opts.topics)}
@@ -4810,7 +4807,7 @@
                                         <td class="py-2.5 px-3"><span class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[9px] font-bold" style="background:${c}22; color:${c};">${w.level}급</span></td>
                                         <td class="py-2.5 px-3 text-xs text-gray-500">${w.topic || '—'}</td>
                                         <td class="py-2.5 px-3 text-xs text-gray-500">${w.word_type || '—'}</td>
-                                        <td class="py-2.5 px-3 text-xs font-bold" style="color:${w.source === 'fast' ? '#f59e0b' : '#6C63FF'};">${w.source === 'fast' ? 'FAST-PACE' : 'FULL TOPIK'}</td>
+                                        <td class="py-2.5 px-3 text-xs font-bold" style="color:${w.source === 'fast' ? '#f59e0b' : '#6C63FF'};">${w.source === 'fast' ? 'FOCUS' : 'FULL MASTER'}</td>
                                     </tr>`;
                                 }).join('') : `<tr><td colspan="5" class="text-center text-gray-400 text-sm py-10">Không có từ phù hợp bộ lọc</td></tr>`}
                             </tbody>
@@ -4953,7 +4950,7 @@
             tabFullTopik.addEventListener('click', (e) => {
                 e.preventDefault(); clearSidebarActive();
                 tabFullTopik.setAttribute('data-active', 'true');
-                document.getElementById('library-title').textContent = "Thư viện FULL TOPIK";
+                document.getElementById('library-title').textContent = "Thư viện FULL MASTER";
                 document.getElementById('library-sub-title').textContent = "TOPIK II · Cấp 3–6  · Bản đầy đủ";
                 viewLibraryStage.classList.remove('hidden');
                 fetchLibraryData('full');
@@ -4962,8 +4959,8 @@
             tabFastPace.addEventListener('click', (e) => {
                 e.preventDefault(); clearSidebarActive();
                 tabFastPace.setAttribute('data-active', 'true');
-                document.getElementById('library-title').textContent = "Thư viện FAST-PACE";
-                document.getElementById('library-sub-title').textContent = "TOPIK II · Cấp 3–6  · Bản rút gọn";
+                document.getElementById('library-title').textContent = "Thư viện FOCUS";
+                document.getElementById('library-sub-title').textContent = "TOPIK II · Cấp 3–6  · Bản tập trung";
                 viewLibraryStage.classList.remove('hidden');
                 fetchLibraryData('fast');
             });
