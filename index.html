@@ -504,7 +504,7 @@
                                 <span class="w-[3px] shrink-0"></span>
                                 <span class="hidden sm:inline text-[9px] text-[#b0bad0] font-bold uppercase tracking-wider sm:w-[150px] md:w-[190px] shrink-0" style="font-family:'DM Mono',monospace !important;">Từ vựng</span>
                                 <span class="text-[9px] text-[#b0bad0] font-bold uppercase tracking-wider flex-1" style="font-family:'DM Mono',monospace !important;"><span class="sm:hidden">Từ vựng · </span>Nghĩa · 기(Âm) — 의(Nghĩa)</span>
-                                <div class="hidden lg:flex items-center gap-0 shrink-0">
+                                <div class="hidden min-[1750px]:flex items-center gap-0 shrink-0">
                                     <span class="text-[9px] text-[#b0bad0] font-bold uppercase tracking-wider" style="width:46px; font-family:'DM Mono',monospace !important;">급</span>
                                     <span class="mx-2 opacity-0 text-[11px]">|</span>
                                     <span class="text-[9px] text-[#b0bad0] font-bold uppercase tracking-wider w-[72px] truncate" style="font-family:'DM Mono',monospace !important;">Chủ đề</span>
@@ -519,8 +519,8 @@
                             <div class="flex items-center gap-3 px-5 py-2 shrink-0" id="vocab-list-stats">
                                 <span class="text-[11px] text-[#9aa4b8] font-medium">Đang tải dữ liệu...</span>
                             </div>
-                            <!-- Rows -->
-                            <div class="flex-1 min-h-0 overflow-y-auto lg:overflow-x-auto px-3 pb-3 flex flex-col gap-0.5 lg:min-h-[260px] lg:max-h-[70vh]" id="library-vocab-list">
+                            <!-- Rows: cố định bề ngang, chỉ cuộn dọc — không cho phép cuộn ngang ở bất kỳ kích thước màn hình nào -->
+                            <div class="flex-1 min-h-0 overflow-y-auto overflow-x-hidden px-3 pb-3 flex flex-col gap-0.5 lg:min-h-[260px] lg:max-h-[70vh]" id="library-vocab-list">
                                 <!-- JS vẽ list rows ra đây -->
                             </div>
                             <!-- Phân trang -->
@@ -1256,17 +1256,17 @@
                         </button>` : ''}
                         <span class="text-[10px] text-[#c0cad8] w-4 text-right shrink-0 font-mono tabular-nums">${rowIndex + 1}</span>
                         <div class="vr-strip" style="background: linear-gradient(180deg, ${c}, ${c}44);"></div>
-                        <div class="flex-1 min-w-0 lg:min-w-[210px] flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-0 self-center">
+                        <div class="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-0 self-center">
                             <div class="sm:w-[150px] md:w-[190px] shrink-0 min-w-0 self-start sm:self-center flex items-center gap-1.5 text-left">
                                 <span class="vr-korean text-base font-black leading-snug block whitespace-normal break-words text-left" style="color:${selected ? '#3d2fa8' : '#1e2a4a'};">${item.word}</span>
-                                <span class="sm:hidden inline-flex items-center gap-1 rounded-full px-1.5 py-0.5 text-[9px] font-bold whitespace-nowrap tracking-wide shrink-0" style="background:${c}22; color:${c};">${item.level}급</span>
+                                <span class="min-[1750px]:hidden inline-flex items-center gap-1 rounded-full px-1.5 py-0.5 text-[9px] font-bold whitespace-nowrap tracking-wide shrink-0 self-start mt-0.5" style="background:${c}22; color:${c};">${item.level}급</span>
                             </div>
-                            <div class="flex-1 min-w-[70px] lg:min-w-0 flex flex-col justify-center self-start sm:self-center text-left">
-                                <span class="text-[13px] font-semibold text-[#2d3a54] truncate leading-tight">${item.vietnamese || item.deep_meaning || item.literal || '—'}</span>
+                            <div class="flex-1 min-w-0 flex flex-col justify-center self-stretch sm:self-center text-left">
+                                <span class="block w-full text-[13px] font-semibold text-[#2d3a54] truncate leading-tight">${item.vietnamese || item.deep_meaning || item.literal || '—'}</span>
                                 ${hanLine ? `<span class="hidden sm:block text-[10px] text-[#9FACBD] font-medium truncate mt-0.5 leading-tight">${hanLine}</span>` : ''}
                             </div>
                         </div>
-                        <div class="hidden lg:flex items-center gap-0 shrink-0">
+                        <div class="hidden min-[1750px]:flex items-center gap-0 shrink-0">
                             <span class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[9px] font-bold whitespace-nowrap tracking-wide shrink-0" style="background:${c}22; color:${c};">
                                 <span class="w-1.5 h-1.5 rounded-full" style="background:${c};"></span>${item.level}급
                             </span>
@@ -3595,10 +3595,11 @@
                                     <p class="text-xs text-gray-700 font-medium whitespace-pre-line leading-relaxed">${data.explanation || '—'}</p>
                                 </div>
                             </div>
+                            ${data.literal ? `
                             <div class="flex flex-col gap-2 text-left">
                                 <div style="font-size:10px; font-weight:700; color:#9CA3AF; letter-spacing:0.14em; text-transform:uppercase; font-family:'DM Mono',monospace; margin-bottom:4px;">Nghĩa đen</div>
-                                <p class="text-xs italic text-[#4B5563] leading-[1.7] border-l-3 border-[#D1D5DB] pl-[13px] text-left">${data.literal || '—'}</p>
-                            </div>
+                                <p class="text-xs italic text-[#4B5563] leading-[1.7] border-l-3 border-[#D1D5DB] pl-[13px] text-left">${data.literal}</p>
+                            </div>` : ''}
                             <div class="inner-rule"></div>
                             <div class="flex flex-col gap-2 text-left">
                                 <div style="font-size:10px; font-weight:700; color:#374151; letter-spacing:0.14em; text-transform:uppercase; font-family:'DM Mono',monospace; margin-bottom:4px;">Ý nghĩa</div>
