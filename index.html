@@ -514,7 +514,7 @@
                                 <span class="text-[11px] text-[#9aa4b8] font-medium">Đang tải dữ liệu...</span>
                             </div>
                             <!-- Rows -->
-                            <div class="flex-1 min-h-0 overflow-y-auto px-3 pb-3 flex flex-col gap-0.5 lg:min-h-[260px] lg:max-h-[70vh]" id="library-vocab-list">
+                            <div class="flex-1 min-h-0 overflow-y-auto lg:overflow-x-auto px-3 pb-3 flex flex-col gap-0.5 lg:min-h-[260px] lg:max-h-[70vh]" id="library-vocab-list">
                                 <!-- JS vẽ list rows ra đây -->
                             </div>
                             <!-- Phân trang -->
@@ -762,6 +762,11 @@
         let notebooksSaveTimer = null;
         // Sổ tay đã xoá (giữ lại để có thể khôi phục) — xem mục "Những sổ tay đã xoá" trong Dashboard
         let deletedNotebooksList = [];
+        // Bản đồ từ đã đánh dấu "Đã học" (id -> thời điểm đánh dấu, epoch ms) — nguồn dữ liệu
+        // DUY NHẤT cho trạng thái "đã học", lưu kèm sổ tay lên server để không bị mất khi
+        // đổi tab thư viện hoặc tải lại trang (vocabDatabase/allLibraryCache được nạp lại
+        // hoàn toàn mới mỗi lần, nên không thể tự giữ trạng thái learned nếu không có map này).
+        let learnedWordsMap = {};
 
         function saveNotebooksToServer() {
             if (!LOGIN_SCRIPT_URL || !currentUser || !currentUser.username) return;
@@ -769,7 +774,7 @@
             // Gộp nhiều thay đổi liên tiếp thành 1 lần lưu (debounce) để đỡ tốn request lên Apps Script
             notebooksSaveTimer = setTimeout(async () => {
                 try {
-                    const bundle = { notebooks: notebooksList, deletedNotebooks: deletedNotebooksList };
+                    const bundle = { notebooks: notebooksList, deletedNotebooks: deletedNotebooksList, learnedWords: learnedWordsMap };
                     const payload = { action: 'saveNotebooks', user: currentUser.username, notebooksJson: JSON.stringify(bundle) };
                     await fetch(LOGIN_SCRIPT_URL, {
                         method: 'POST',
@@ -791,14 +796,19 @@
                 const data = JSON.parse(rawText);
                 if (!data.success) return;
                 const loaded = JSON.parse(data.notebooksJson || '[]');
-                // Tương thích ngược: dữ liệu cũ lưu thẳng mảng notebooks, dữ liệu mới lưu { notebooks, deletedNotebooks }
+                // Tương thích ngược: dữ liệu cũ lưu thẳng mảng notebooks, dữ liệu mới lưu { notebooks, deletedNotebooks, learnedWords }
                 if (Array.isArray(loaded)) {
                     notebooksList = loaded;
                     deletedNotebooksList = [];
+                    learnedWordsMap = {};
                 } else {
                     notebooksList = Array.isArray(loaded.notebooks) ? loaded.notebooks : [];
                     deletedNotebooksList = Array.isArray(loaded.deletedNotebooks) ? loaded.deletedNotebooks : [];
+                    learnedWordsMap = (loaded.learnedWords && typeof loaded.learnedWords === 'object') ? loaded.learnedWords : {};
                 }
+                // Đồng bộ lại trạng thái "đã học" lên dữ liệu từ vựng đang có sẵn trong bộ nhớ (nếu thư viện đã tải trước đó)
+                applyLearnedStateToArray(vocabDatabase);
+                applyLearnedStateToArray(allLibraryCache);
                 renderAllLessonCardsFromNotebooksList();
             } catch (e) {
                 console.error('Không tải được sổ từ server:', e);
@@ -932,9 +942,32 @@
                     examples,
                     synonyms: item["ĐỒNG NGHIA/TRÁI NGHĨA"] || item["synonyms"] || "",
                     learned: false,
+                    learnedAt: null,
                     savedNotebooks: []
                 };
             });
+        }
+
+        // Đồng bộ trạng thái "Đã học" (learnedWordsMap là nguồn dữ liệu duy nhất, luôn thắng)
+        // lên 1 mảng từ vựng vừa nạp — gọi lại mỗi khi vocabDatabase/allLibraryCache được tạo mới
+        // hoặc mỗi khi learnedWordsMap vừa được tải xong từ server (tránh trường hợp thư viện
+        // tải xong trước khi tải sổ tay/learnedWordsMap từ server).
+        function applyLearnedStateToArray(arr) {
+            if (!Array.isArray(arr)) return;
+            arr.forEach(w => {
+                const ts = learnedWordsMap[w.id] || null;
+                w.learned = !!ts;
+                w.learnedAt = ts;
+            });
+        }
+
+        // Sắp xếp mặc định toàn bộ từ vựng theo bảng chữ cái tiếng Hàn (가나다라...) —
+        // áp dụng 1 lần ngay khi nạp dữ liệu, các bước lọc phía sau (Array.filter) giữ
+        // nguyên thứ tự tương đối nên bộ lọc cũng tự động hiển thị đúng theo ㄱㄴㄷㄹ.
+        function sortWordsKoreanAlpha(arr) {
+            if (!Array.isArray(arr)) return arr;
+            arr.sort((a, b) => (a.word || '').localeCompare(b.word || '', 'ko'));
+            return arr;
         }
 
         // HÀM FETCH ĐỌC DỮ LIỆU TỪ TỆP JSON THẬT
@@ -964,6 +997,8 @@
                 
                 // Gọi bộ lọc Adapter xử lý đồng bộ mảng dữ liệu khổng lồ của Pen
                 vocabDatabase = normalizeRealSheetData(rawData, sourceType);
+                sortWordsKoreanAlpha(vocabDatabase);
+                applyLearnedStateToArray(vocabDatabase);
                 filteredDatabase = [...vocabDatabase];
 
                 // Tính các option lọc thực tế từ dữ liệu (Chủ đề / Loại từ / Dạng câu / 급)
@@ -1192,7 +1227,7 @@
                         </button>` : ''}
                         <span class="text-[10px] text-[#c0cad8] w-4 text-right shrink-0 font-mono tabular-nums">${rowIndex + 1}</span>
                         <div class="vr-strip" style="background: linear-gradient(180deg, ${c}, ${c}44);"></div>
-                        <div class="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-0 self-center">
+                        <div class="flex-1 min-w-0 lg:min-w-[210px] flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-0 self-center">
                             <div class="sm:w-[150px] md:w-[190px] shrink-0 min-w-0 self-start sm:self-center flex items-center gap-1.5 text-left">
                                 <span class="vr-korean text-base font-black leading-snug block whitespace-normal break-words text-left" style="color:${selected ? '#3d2fa8' : '#1e2a4a'};">${item.word}</span>
                                 <span class="sm:hidden inline-flex items-center gap-1 rounded-full px-1.5 py-0.5 text-[9px] font-bold whitespace-nowrap tracking-wide shrink-0" style="background:${c}22; color:${c};">${item.level}급</span>
@@ -1377,8 +1412,12 @@
             nb.words = nb.words || [];
             const ownership = getWordOwnershipMap(nbId);
             const selectedData = [...libSelectedIds].map(id => vocabDatabase.find(w => w.id === id)).filter(Boolean);
-            const freeWords = selectedData.filter(w => !ownership.has(w.id) && !nb.words.some(x => x.id === w.id));
-            const dupWords = selectedData.filter(w => ownership.has(w.id) && !nb.words.some(x => x.id === w.id));
+            const notInNbYet = w => !nb.words.some(x => x.id === w.id);
+            // Tách riêng các từ đã "Đã học thuộc" — mặc định không tự thêm vào sổ, phải xác nhận lại
+            const learnedWords = selectedData.filter(w => w.learned && notInNbYet(w));
+            const notLearned = selectedData.filter(w => !w.learned && notInNbYet(w));
+            const freeWords = notLearned.filter(w => !ownership.has(w.id));
+            const dupWords = notLearned.filter(w => ownership.has(w.id));
 
             const addList = (list) => {
                 list.forEach(w => {
@@ -1399,6 +1438,15 @@
             };
 
             addList(freeWords);
+            if (learnedWords.length) {
+                showConfirmModal({
+                    title: '⚠️ Có từ đã học thuộc',
+                    message: `${learnedWords.length} từ bạn chọn đã được đánh dấu "Đã học thuộc" rồi. Bạn vẫn muốn thêm vào sổ "${nb.name}" chứ?`,
+                    confirmText: `Vẫn thêm ${learnedWords.length} từ này`,
+                    cancelText: 'Bỏ qua từ đã học',
+                    onConfirm: () => addList(learnedWords),
+                });
+            }
             if (dupWords.length) {
                 showConfirmModal({
                     title: 'Có từ đã ở sổ từ vựng khác',
@@ -1407,7 +1455,8 @@
                     cancelText: 'Không cần',
                     onConfirm: () => addList(dupWords),
                 });
-            } else if (!freeWords.length) {
+            }
+            if (!freeWords.length && !learnedWords.length && !dupWords.length) {
                 alert('Tất cả từ đã chọn đều đã có sẵn trong sổ này rồi.');
             }
         }
@@ -1427,11 +1476,23 @@
             selectVocabRow(gIdx);
         }
 
-        // Toggle trạng thái Đã học / Chưa học
+        // Đặt trạng thái "Đã học" cho 1 từ theo id — cập nhật learnedWordsMap (nguồn dữ liệu
+        // duy nhất, được lưu lên server), đồng bộ lại lên cả vocabDatabase lẫn allLibraryCache
+        // (2 mảng object riêng biệt, không share reference) rồi lưu lên server.
+        function setWordLearnedState(wordId, learned) {
+            if (learned) learnedWordsMap[wordId] = Date.now();
+            else delete learnedWordsMap[wordId];
+            const ts = learnedWordsMap[wordId] || null;
+            const syncOne = w => { if (w && w.id === wordId) { w.learned = !!ts; w.learnedAt = ts; } };
+            (vocabDatabase || []).forEach(syncOne);
+            (allLibraryCache || []).forEach(syncOne);
+            saveNotebooksToServer();
+        }
+
         function toggleLearned(globalIndex) {
             const data = vocabDatabase[globalIndex];
             if (!data) return;
-            data.learned = !data.learned;
+            setWordLearnedState(data.id, !data.learned);
             renderVocabRows();
         }
 
@@ -1492,11 +1553,24 @@
             const data = vocabDatabase[globalIndex];
             if (!data) return;
             const nb = notebooksList.find(n => n.id === notebookId);
+            const finish = () => {
+                if (nb) {
+                    nb.count = (nb.words || []).length;
+                    const countEl = document.getElementById(`nb-count-${nb.id}`);
+                    if (countEl) countEl.textContent = nb.count;
+                }
+                renderVocabRows();
+                saveNotebooksToServer();
+            };
             const i = data.savedNotebooks.indexOf(notebookId);
             if (i > -1) {
                 data.savedNotebooks.splice(i, 1);
                 if (nb) nb.words = (nb.words || []).filter(w => w.id !== data.id);
-            } else {
+                closeBookmarkPopup();
+                finish();
+                return;
+            }
+            const doAdd = () => {
                 data.savedNotebooks.push(notebookId);
                 if (nb) {
                     nb.words = nb.words || [];
@@ -1504,15 +1578,20 @@
                         nb.words.push({ id: data.id, word: data.word, vietnamese: data.vietnamese || data.deep_meaning || '—', source: 'library' });
                     }
                 }
-            }
-            if (nb) {
-                nb.count = (nb.words || []).length;
-                const countEl = document.getElementById(`nb-count-${nb.id}`);
-                if (countEl) countEl.textContent = nb.count;
-            }
+                finish();
+            };
             closeBookmarkPopup();
-            renderVocabRows();
-            saveNotebooksToServer();
+            if (data.learned) {
+                showConfirmModal({
+                    title: '⚠️ Từ này đã học thuộc',
+                    message: `"${data.word}" bạn đã đánh dấu học thuộc rồi. Vẫn muốn thêm vào sổ${nb ? ` "${nb.name}"` : ''} chứ?`,
+                    confirmText: 'Vẫn thêm vào sổ',
+                    cancelText: 'Thôi khỏi',
+                    onConfirm: doAdd,
+                });
+                return;
+            }
+            doAdd();
         }
 
         // ============================================================
@@ -1551,6 +1630,7 @@
                     ...normalizeRealSheetData(fullRaw, 'full'),
                     ...normalizeRealSheetData(fastRaw, 'fast'),
                 ];
+                applyLearnedStateToArray(allLibraryCache);
             } catch (e) {
                 console.error('Không tải được toàn bộ thư viện để tìm kiếm/lọc:', e);
                 allLibraryCache = [...vocabDatabase];
@@ -1848,11 +1928,30 @@
             if (!data) return;
             const nb = notebooksList.find(n => n.id === notebookId);
             if (!data.savedNotebooks) data.savedNotebooks = [];
+            const finish = () => {
+                if (nb) {
+                    nb.count = (nb.words || []).length;
+                    const countEl = document.getElementById(`nb-count-${nb.id}`);
+                    if (countEl) countEl.textContent = nb.count;
+                }
+                // Cập nhật icon bookmark ngay trên nút, không cần vẽ lại cả card
+                const btn = document.getElementById(`generic-bm-btn-${wordId}`);
+                if (btn) {
+                    const nowSaved = data.savedNotebooks.length > 0;
+                    btn.style.color = nowSaved ? '#5b4fcf' : '#9CA3AF';
+                    btn.innerHTML = `<svg viewBox="0 0 24 24" width="14" height="14" fill="${nowSaved ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2.2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>`;
+                }
+                saveNotebooksToServer();
+            };
             const i = data.savedNotebooks.indexOf(notebookId);
             if (i > -1) {
                 data.savedNotebooks.splice(i, 1);
                 if (nb) nb.words = (nb.words || []).filter(x => x.id !== data.id);
-            } else {
+                closeBookmarkPopup();
+                finish();
+                return;
+            }
+            const doAdd = () => {
                 data.savedNotebooks.push(notebookId);
                 if (nb) {
                     nb.words = nb.words || [];
@@ -1860,21 +1959,20 @@
                         nb.words.push({ id: data.id, word: data.word, vietnamese: data.vietnamese || data.deep_meaning || '—', source: 'library' });
                     }
                 }
-            }
-            if (nb) {
-                nb.count = (nb.words || []).length;
-                const countEl = document.getElementById(`nb-count-${nb.id}`);
-                if (countEl) countEl.textContent = nb.count;
-            }
-            // Cập nhật icon bookmark ngay trên nút, không cần vẽ lại cả card
-            const btn = document.getElementById(`generic-bm-btn-${wordId}`);
-            if (btn) {
-                const nowSaved = data.savedNotebooks.length > 0;
-                btn.style.color = nowSaved ? '#5b4fcf' : '#9CA3AF';
-                btn.innerHTML = `<svg viewBox="0 0 24 24" width="14" height="14" fill="${nowSaved ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2.2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>`;
-            }
+                finish();
+            };
             closeBookmarkPopup();
-            saveNotebooksToServer();
+            if (data.learned) {
+                showConfirmModal({
+                    title: '⚠️ Từ này đã học thuộc',
+                    message: `"${data.word}" bạn đã đánh dấu học thuộc rồi. Vẫn muốn thêm vào sổ${nb ? ` "${nb.name}"` : ''} chứ?`,
+                    confirmText: 'Vẫn thêm vào sổ',
+                    cancelText: 'Thôi khỏi',
+                    onConfirm: doAdd,
+                });
+                return;
+            }
+            doAdd();
         }
 
 
@@ -2108,17 +2206,30 @@
                 renderSuggestions('');
                 refreshModalSelectionUI();
             };
-            const owner = getWordOwnershipMap(nbModalState.editingNotebookId).get(id);
-            if (owner) {
+            const checkOwnership = () => {
+                const owner = getWordOwnershipMap(nbModalState.editingNotebookId).get(id);
+                if (owner) {
+                    showConfirmModal({
+                        title: 'Từ này đã có ở sổ từ vựng khác',
+                        message: `"${w.word}" đã có trong sổ từ vựng "${owner.nbName}". Bạn vẫn muốn thêm vào sổ này chứ?`,
+                        confirmText: 'Vẫn thêm',
+                        cancelText: 'Không',
+                        onConfirm: doAdd,
+                    });
+                } else {
+                    doAdd();
+                }
+            };
+            if (w.learned) {
                 showConfirmModal({
-                    title: 'Từ này đã có ở sổ từ vựng khác',
-                    message: `"${w.word}" đã có trong sổ từ vựng "${owner.nbName}". Bạn vẫn muốn thêm vào sổ này chứ?`,
-                    confirmText: 'Vẫn thêm',
-                    cancelText: 'Không',
-                    onConfirm: doAdd,
+                    title: '⚠️ Từ này đã học thuộc',
+                    message: `"${w.word}" bạn đã đánh dấu học thuộc rồi. Vẫn muốn thêm vào sổ này chứ?`,
+                    confirmText: 'Vẫn thêm vào sổ',
+                    cancelText: 'Thôi khỏi',
+                    onConfirm: checkOwnership,
                 });
             } else {
-                doAdd();
+                checkOwnership();
             }
         }
 
@@ -2175,6 +2286,8 @@
         function getBulkMatches() {
             const f = nbModalState.bulkFilters;
             return (allLibraryCache || []).filter(w => {
+                // Mặc định không đưa từ đã "Đã học thuộc" vào diện thêm hàng loạt/ngẫu nhiên vào sổ
+                if (w.learned) return false;
                 if (f.libs.length && !f.libs.includes(w.source)) return false;
                 if (f.levels.length && !f.levels.includes(w.level)) return false;
                 if (f.wordTypes.length && !f.wordTypes.includes(w.word_type)) return false;
@@ -4140,7 +4253,11 @@
             if (!pool.length) { alert('Các sổ đã chọn chưa có từ vựng nào.'); return; }
 
             if (mode === 'longtime') {
-                pool.sort((a, b) => (a.lastSeenAt || 0) - (b.lastSeenAt || 0)); // chưa từng thấy (0) lên trước, cũ nhất lên trước
+                // Từ mới đánh dấu "Đã học" được coi như vừa "gặp lại" (dùng learnedAt làm mốc thời gian
+                // tương đương lastSeenAt) nên sẽ không trồi lên ngay — chỉ tự động lặp lại sau một thời
+                // gian đủ lâu, giống hệt các từ đã lâu chưa luyện tập khác.
+                const effectiveSeenAt = w => Math.max(w.lastSeenAt || 0, learnedWordsMap[w.id] || 0);
+                pool.sort((a, b) => effectiveSeenAt(a) - effectiveSeenAt(b)); // chưa từng thấy (0) lên trước, cũ nhất lên trước
             } else {
                 pool = shuffleArr(pool);
             }
