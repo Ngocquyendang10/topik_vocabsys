@@ -774,7 +774,16 @@
             // Gộp nhiều thay đổi liên tiếp thành 1 lần lưu (debounce) để đỡ tốn request lên Apps Script
             notebooksSaveTimer = setTimeout(async () => {
                 try {
-                    const bundle = { notebooks: notebooksList, deletedNotebooks: deletedNotebooksList, learnedWords: learnedWordsMap };
+                    // userProfile được đẩy kèm ở đây để đồng bộ xuyên thiết bị (đổi tên/ảnh đại diện/giờ học
+                    // tích luỹ ở máy này) — trước đây các trường này chỉ nằm trong localStorage của từng máy
+                    // nên đăng nhập ở thiết bị khác sẽ bị mất/không thấy.
+                    const userProfile = currentUser ? {
+                        displayName: currentUser.displayName,
+                        avatarDataUrl: currentUser.avatarDataUrl || null,
+                        joinedAt: currentUser.joinedAt,
+                        totalActiveMs: currentUser.totalActiveMs || 0,
+                    } : null;
+                    const bundle = { notebooks: notebooksList, deletedNotebooks: deletedNotebooksList, learnedWords: learnedWordsMap, userProfile };
                     const payload = { action: 'saveNotebooks', user: currentUser.username, notebooksJson: JSON.stringify(bundle) };
                     await fetch(LOGIN_SCRIPT_URL, {
                         method: 'POST',
@@ -796,7 +805,7 @@
                 const data = JSON.parse(rawText);
                 if (!data.success) return;
                 const loaded = JSON.parse(data.notebooksJson || '[]');
-                // Tương thích ngược: dữ liệu cũ lưu thẳng mảng notebooks, dữ liệu mới lưu { notebooks, deletedNotebooks, learnedWords }
+                // Tương thích ngược: dữ liệu cũ lưu thẳng mảng notebooks, dữ liệu mới lưu { notebooks, deletedNotebooks, learnedWords, userProfile }
                 if (Array.isArray(loaded)) {
                     notebooksList = loaded;
                     deletedNotebooksList = [];
@@ -805,6 +814,20 @@
                     notebooksList = Array.isArray(loaded.notebooks) ? loaded.notebooks : [];
                     deletedNotebooksList = Array.isArray(loaded.deletedNotebooks) ? loaded.deletedNotebooks : [];
                     learnedWordsMap = (loaded.learnedWords && typeof loaded.learnedWords === 'object') ? loaded.learnedWords : {};
+                    // Đồng bộ hồ sơ (tên hiển thị/ảnh/ngày tham gia/giờ học) xuyên thiết bị — server là nguồn
+                    // dữ liệu chính thức 1 khi đã có; giờ học tích luỹ lấy giá trị LỚN HƠN giữa máy hiện tại
+                    // (vừa mới tương tác vài giây trước khi tải xong) và server, tránh mất giờ của bên nào.
+                    if (loaded.userProfile && currentUser) {
+                        const p = loaded.userProfile;
+                        if (p.displayName) currentUser.displayName = p.displayName;
+                        if (p.avatarDataUrl) currentUser.avatarDataUrl = p.avatarDataUrl;
+                        if (p.joinedAt) currentUser.joinedAt = p.joinedAt;
+                        currentUser.totalActiveMs = Math.max(currentUser.totalActiveMs || 0, p.totalActiveMs || 0);
+                        persistSession();
+                        applyUserToUI();
+                        renderHomeStatusSection();
+                        renderActivityDashboardContent();
+                    }
                 }
                 // Đồng bộ lại trạng thái "đã học" lên dữ liệu từ vựng đang có sẵn trong bộ nhớ (nếu thư viện đã tải trước đó)
                 applyLearnedStateToArray(vocabDatabase);
@@ -2851,7 +2874,7 @@
             el.innerHTML = `
                 <div class="flex flex-col lg:flex-row gap-5 lg:gap-6 items-stretch lg:items-start w-full">
                     <!-- List: mobile sticky ~1/3 màn hình, đẩy lên trước card chi tiết; desktop quay lại vị trí phải 68% -->
-                    <div class="lib-list-panel-mobile-light order-1 lg:order-2 lg:flex-1 w-full min-w-0 neo-raised !rounded-[28px] overflow-hidden flex flex-col sticky top-2 z-20 h-[34vh] lg:static lg:top-auto lg:z-auto lg:h-auto">
+                    <div class="lib-list-panel-mobile-light order-1 lg:flex-1 w-full min-w-0 neo-raised !rounded-[28px] overflow-hidden flex flex-col sticky top-2 z-20 h-[34vh] lg:static lg:top-auto lg:z-auto lg:h-auto">
                         <div id="pl-toolbar" class="shrink-0"></div>
                         <div class="hidden lg:block overflow-x-auto" style="max-height:520px; overflow-y:auto;">
                             <table class="w-full text-sm" style="border-collapse:collapse;">
@@ -2862,7 +2885,7 @@
                         <div class="lg:hidden flex-1 min-h-0 overflow-y-auto flex flex-col gap-2 p-3" id="pl-cards"></div>
                     </div>
                     <!-- Card chi tiết: mobile nằm dưới list, vuốt xuống để xem; desktop quay lại vị trí trái 32% -->
-                    <aside class="order-2 lg:order-1 w-full lg:w-[32%] shrink-0 lg:sticky lg:top-8">
+                    <aside class="order-2 w-full lg:w-[32%] shrink-0 lg:sticky lg:top-8">
                         <div class="m-card-base flex flex-col min-h-[220px] sm:min-h-[400px] justify-center items-center text-center text-gray-400" id="pl-detail-card">
                             <span class="font-medium" style="font-family: 'Plus Jakarta Sans', sans-serif !important;">Bấm "Xem chi tiết" ở 1 từ để xem đầy đủ thông tin!</span>
                         </div>
@@ -3919,6 +3942,7 @@
             if (!val) return;
             currentUser.displayName = val;
             persistSession();
+            saveNotebooksToServer(); // đồng bộ tên hiển thị lên server để đổi thiết bị khác vẫn thấy
             applyUserToUI();
             profilePopupEditMode = false;
             renderProfilePopupContent();
@@ -3942,6 +3966,7 @@
                     ctx.drawImage(img, sx, sy, minSide, minSide, 0, 0, size, size);
                     currentUser.avatarDataUrl = canvas.toDataURL('image/jpeg', 0.85);
                     persistSession();
+                    saveNotebooksToServer(); // đồng bộ ảnh đại diện lên server để đổi thiết bị khác vẫn thấy
                     applyUserToUI();
                     renderProfilePopupContent(); // vẽ lại popup để cập nhật ảnh preview, không đóng/mở lại
                 };
@@ -3954,6 +3979,7 @@
             if (!currentUser) return;
             delete currentUser.avatarDataUrl;
             persistSession();
+            saveNotebooksToServer();
             applyUserToUI();
             renderProfilePopupContent();
         }
@@ -3990,8 +4016,9 @@
                 else { activityTracker.lastTickTs = Date.now(); activityTracker.isIdle = false; }
             });
             // Lưu định kỳ để không mất dữ liệu nếu người dùng tắt tab đột ngột
-            setInterval(() => { tickActivity(); if (currentUser) persistSession(); }, 15000);
-            window.addEventListener('beforeunload', () => { tickActivity(); if (currentUser) persistSession(); });
+            // Đồng bộ giờ học tích luỹ lên server định kỳ để đổi thiết bị khác vẫn thấy đúng tổng giờ học
+            setInterval(() => { tickActivity(); if (currentUser) { persistSession(); saveNotebooksToServer(); } }, 15000);
+            window.addEventListener('beforeunload', () => { tickActivity(); if (currentUser) { persistSession(); saveNotebooksToServer(); } });
             markUserActive();
         }
 
