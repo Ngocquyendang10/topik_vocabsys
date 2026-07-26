@@ -3820,6 +3820,7 @@
             applyUserToUI();
             const loginScreen = document.getElementById('login-screen');
             if (loginScreen) loginScreen.classList.add('hidden');
+            startAccountStatusWatcher();
             loadNotebooksFromServer(); // nạp lại sổ tay đã lưu của tài khoản này (nếu có cấu hình server)
         }
 
@@ -3859,10 +3860,58 @@
         function logoutUser() {
             try { localStorage.removeItem('classroom_session'); sessionStorage.removeItem('classroom_session'); } catch (e) {}
             currentUser = null;
+            stopAccountStatusWatcher();
             const loginScreen = document.getElementById('login-screen');
             if (loginScreen) loginScreen.classList.remove('hidden');
             const uEl = document.getElementById('login-username'), pEl = document.getElementById('login-password');
             if (uEl) uEl.value = ''; if (pEl) pEl.value = '';
+        }
+
+        // Kiểm tra định kỳ tài khoản có vừa bị giáo viên vô hiệu hoá (cột Status="OUT" trong Sheet USER)
+        // hoặc bị xoá khỏi bảng USER hay không, để đá ra ngay khi đang dùng dở — không cần chờ user tự
+        // đăng xuất rồi đăng nhập lại mới biết. Cần backend Apps Script có action "checkStatus".
+        let accountStatusTimer = null;
+        const ACCOUNT_STATUS_CHECK_MS = 60000;
+
+        function startAccountStatusWatcher() {
+            stopAccountStatusWatcher();
+            if (!LOGIN_SCRIPT_URL || !currentUser || !currentUser.username) return;
+            checkAccountStatus(); // kiểm tra ngay, quan trọng với phiên khôi phục từ cache (chưa từng hỏi server)
+            accountStatusTimer = setInterval(checkAccountStatus, ACCOUNT_STATUS_CHECK_MS);
+            document.addEventListener('visibilitychange', onVisibilityRecheckAccountStatus);
+        }
+
+        function stopAccountStatusWatcher() {
+            if (accountStatusTimer) { clearInterval(accountStatusTimer); accountStatusTimer = null; }
+            document.removeEventListener('visibilitychange', onVisibilityRecheckAccountStatus);
+        }
+
+        function onVisibilityRecheckAccountStatus() {
+            if (document.visibilityState === 'visible') checkAccountStatus();
+        }
+
+        async function checkAccountStatus() {
+            if (!LOGIN_SCRIPT_URL || !currentUser || !currentUser.username) return;
+            try {
+                const url = `${LOGIN_SCRIPT_URL}?action=checkStatus&user=${encodeURIComponent(currentUser.username)}`;
+                const res = await fetch(url);
+                const data = JSON.parse(await res.text());
+                if (!data.success) {
+                    const msg = data.reason === 'blocked'
+                        ? 'Tài khoản của bạn đã vô hiệu hoá. Vui lòng liên hệ giáo viên để được hỗ trợ đăng nhập lại.'
+                        : 'Tài khoản của bạn không tồn tại.';
+                    forceLogoutWithMessage(msg);
+                }
+            } catch (e) {
+                // Lỗi mạng tạm thời — bỏ qua, lần kiểm tra tiếp theo sẽ thử lại, không đăng xuất oan user.
+            }
+        }
+
+        function forceLogoutWithMessage(message) {
+            logoutUser();
+            const errEl = document.getElementById('login-error');
+            if (errEl) { errEl.textContent = message; errEl.classList.remove('hidden'); }
+            else alert(message);
         }
 
         // ─── Popup chỉnh sửa hồ sơ (đổi tên hiển thị + tải ảnh đại diện) + đăng xuất ───
@@ -4841,6 +4890,7 @@
             if (currentUser) {
                 applyUserToUI();
                 if (loginScreen) loginScreen.classList.add('hidden');
+                startAccountStatusWatcher();
                 loadNotebooksFromServer(); // phiên đăng nhập cũ còn hạn → nạp lại sổ tay đã lưu của tài khoản này
             } else if (!LOGIN_SCRIPT_URL) {
                 loginSuccess({ username: 'guest', unlockedUnits: [], expiresAt: null }, true);
