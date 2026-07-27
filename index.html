@@ -951,8 +951,13 @@
                 const ex3_vi = item["NGHĨA TIẾNG VIỆT 3"] || "";
                 if (ex3_kr) examples.push({ kr: ex3_kr, vi: ex3_vi });
 
+                // Mã ID cố định lấy từ cột "ID" trong Sheet (full_td_0000001, focus_resipi1_0000001...) —
+                // không đổi khi thêm/xoá/sắp xếp lại dòng trong Sheet, khác với cách tính theo vị trí
+                // dòng (idx) trước đây. Nếu 1 dòng nào đó lỡ chưa có mã ID (dữ liệu cũ/sót), tự động rớt
+                // về cách tính theo vị trí như cũ để không bị trùng/rỗng id giữa các từ.
+                const stableId = item["ID"] && String(item["ID"]).trim();
                 return {
-                    id: `${sourceType}-${idx}`,
+                    id: stableId || `${sourceType}-${idx}`,
                     tab: item["tab"] || "",
                     source: sourceType,
                     word,
