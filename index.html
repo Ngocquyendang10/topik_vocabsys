@@ -545,6 +545,8 @@
                     </div>
                 </div>
 
+                <div id="new-words-banner"></div>
+
                 <div class="neo-sunk p-1.5 flex gap-1 !rounded-2xl overflow-x-auto sm:flex-wrap mb-5 sm:mb-6" id="practice-tabs"></div>
 
                 <div class="neo-raised p-4 sm:p-8 flex items-start justify-center" id="practice-content" style="min-height:440px;"></div>
@@ -1481,10 +1483,15 @@
             const freeWords = notLearned.filter(w => !ownership.has(w.id));
             const dupWords = notLearned.filter(w => ownership.has(w.id));
 
+            // Sổ đã bắt đầu luyện tập chưa — chốt 1 lần trước khi thêm, để mọi từ thêm trong lượt
+            // này đều được đánh dấu "newlyAdded" nhất quán (kể cả các nhóm thêm sau qua confirm).
+            const nbHadProgress = notebookHasAnyProgress(nb);
             const addList = (list) => {
                 list.forEach(w => {
                     if (!nb.words.some(x => x.id === w.id)) {
-                        nb.words.push({ id: w.id, word: w.word, vietnamese: w.vietnamese || w.deep_meaning || '—', source: 'library' });
+                        const entry = { id: w.id, word: w.word, vietnamese: w.vietnamese || w.deep_meaning || '—', source: 'library' };
+                        if (nbHadProgress) entry.newlyAdded = true;
+                        nb.words.push(entry);
                         w.savedNotebooks = w.savedNotebooks || [];
                         if (!w.savedNotebooks.includes(nbId)) w.savedNotebooks.push(nbId);
                     }
@@ -1500,28 +1507,30 @@
                 renderVocabRows();
             };
 
-            addList(freeWords);
-            if (learnedWords.length) {
-                showConfirmModal({
-                    title: '⚠️ Có từ đã học thuộc',
-                    message: `${learnedWords.length} từ bạn chọn đã được đánh dấu "Đã học thuộc" rồi. Bạn vẫn muốn thêm vào sổ "${nb.name}" chứ?`,
-                    confirmText: `Vẫn thêm ${learnedWords.length} từ này`,
-                    cancelText: 'Bỏ qua từ đã học',
-                    onConfirm: () => addList(learnedWords),
-                });
-            }
-            if (dupWords.length) {
-                showConfirmModal({
-                    title: 'Có từ đã ở sổ từ vựng khác',
-                    message: `Đã thêm ${freeWords.length} từ mới vào "${nb.name}". Ngoài ra còn ${dupWords.length} từ bạn chọn đã có ở sổ khác — bạn có muốn thêm luôn không?`,
-                    confirmText: `Thêm luôn ${dupWords.length} từ trùng`,
-                    cancelText: 'Không cần',
-                    onConfirm: () => addList(dupWords),
-                });
-            }
-            if (!freeWords.length && !learnedWords.length && !dupWords.length) {
-                alert('Tất cả từ đã chọn đều đã có sẵn trong sổ này rồi.');
-            }
+            confirmIfNotebookHasProgress(nb, () => {
+                addList(freeWords);
+                if (learnedWords.length) {
+                    showConfirmModal({
+                        title: '⚠️ Có từ đã học thuộc',
+                        message: `${learnedWords.length} từ bạn chọn đã được đánh dấu "Đã học thuộc" rồi. Bạn vẫn muốn thêm vào sổ "${nb.name}" chứ?`,
+                        confirmText: `Vẫn thêm ${learnedWords.length} từ này`,
+                        cancelText: 'Bỏ qua từ đã học',
+                        onConfirm: () => addList(learnedWords),
+                    });
+                }
+                if (dupWords.length) {
+                    showConfirmModal({
+                        title: 'Có từ đã ở sổ từ vựng khác',
+                        message: `Đã thêm ${freeWords.length} từ mới vào "${nb.name}". Ngoài ra còn ${dupWords.length} từ bạn chọn đã có ở sổ khác — bạn có muốn thêm luôn không?`,
+                        confirmText: `Thêm luôn ${dupWords.length} từ trùng`,
+                        cancelText: 'Không cần',
+                        onConfirm: () => addList(dupWords),
+                    });
+                }
+                if (!freeWords.length && !learnedWords.length && !dupWords.length) {
+                    alert('Tất cả từ đã chọn đều đã có sẵn trong sổ này rồi.');
+                }
+            });
         }
 
         // Điều hướng bằng phím ↑ ↓ — di chuyển qua danh sách đã lọc, tự nhảy trang nếu cần
@@ -1634,16 +1643,19 @@
                 finish();
                 return;
             }
-            const doAdd = () => {
+            const performAdd = () => {
                 data.savedNotebooks.push(notebookId);
                 if (nb) {
                     nb.words = nb.words || [];
                     if (!nb.words.some(w => w.id === data.id)) {
-                        nb.words.push({ id: data.id, word: data.word, vietnamese: data.vietnamese || data.deep_meaning || '—', source: 'library' });
+                        const entry = { id: data.id, word: data.word, vietnamese: data.vietnamese || data.deep_meaning || '—', source: 'library' };
+                        if (notebookHasAnyProgress(nb)) entry.newlyAdded = true;
+                        nb.words.push(entry);
                     }
                 }
                 finish();
             };
+            const doAdd = () => confirmIfNotebookHasProgress(nb, performAdd);
             closeBookmarkPopup();
             if (data.learned) {
                 showConfirmModal({
@@ -2017,16 +2029,19 @@
                 finish();
                 return;
             }
-            const doAdd = () => {
+            const performAdd = () => {
                 data.savedNotebooks.push(notebookId);
                 if (nb) {
                     nb.words = nb.words || [];
                     if (!nb.words.some(x => x.id === data.id)) {
-                        nb.words.push({ id: data.id, word: data.word, vietnamese: data.vietnamese || data.deep_meaning || '—', source: 'library' });
+                        const entry = { id: data.id, word: data.word, vietnamese: data.vietnamese || data.deep_meaning || '—', source: 'library' };
+                        if (notebookHasAnyProgress(nb)) entry.newlyAdded = true;
+                        nb.words.push(entry);
                     }
                 }
                 finish();
             };
+            const doAdd = () => confirmIfNotebookHasProgress(nb, performAdd);
             closeBookmarkPopup();
             if (data.learned) {
                 showConfirmModal({
@@ -2447,18 +2462,25 @@
             const nb = notebooksList.find(n => n.id === nbModalState.editingNotebookId);
             closeCreateNotebookModal();
             if (!nb) return;
-            nb.words = nb.words || [];
-            let addedCount = 0;
-            nbModalState.selectedWords.forEach(w => {
-                if (!nb.words.some(x => x.id === w.id)) { nb.words.push(w); addedCount++; }
+            confirmIfNotebookHasProgress(nb, () => {
+                nb.words = nb.words || [];
+                const nbHadProgress = notebookHasAnyProgress(nb);
+                let addedCount = 0;
+                nbModalState.selectedWords.forEach(w => {
+                    if (!nb.words.some(x => x.id === w.id)) {
+                        if (nbHadProgress) w.newlyAdded = true;
+                        nb.words.push(w);
+                        addedCount++;
+                    }
+                });
+                nb.count = nb.words.length;
+                const countEl = document.getElementById(`nb-count-${nb.id}`);
+                if (countEl) countEl.textContent = nb.count;
+                syncSavedNotebooksEverywhere();
+                updateNotebookCardProgressUI(nb);
+                renderRecentActivitySection();
+                saveNotebooksToServer();
             });
-            nb.count = nb.words.length;
-            const countEl = document.getElementById(`nb-count-${nb.id}`);
-            if (countEl) countEl.textContent = nb.count;
-            syncSavedNotebooksEverywhere();
-            updateNotebookCardProgressUI(nb);
-            renderRecentActivitySection();
-            saveNotebooksToServer();
         }
 
         // Vẽ 1 card mới vào section "BÀI HỌC CỦA TÔI" ngay khi vừa tạo sổ tay
@@ -2716,6 +2738,66 @@
             return nb.progress;
         }
 
+        // ============================================================
+        // CẢNH BÁO KHI THÊM TỪ VÀO SỔ ĐÃ TỪNG LUYỆN TẬP
+        // Sổ đã có ít nhất 1 kết quả (đúng/sai/đã xem flashcard) ở bất kỳ chức năng nào thì coi
+        // là "đã bắt đầu luyện tập" — thêm từ mới vào sổ đó cần hỏi xác nhận trước, và từ mới thêm
+        // sẽ được đánh dấu "newlyAdded" để hiện tem "Mới" + banner nhắc luyện tập ở đầu sổ.
+        // ============================================================
+        function notebookHasAnyProgress(nb) {
+            if (!nb || !nb.progress) return false;
+            return Object.keys(nb.progress).some(k => {
+                const p = nb.progress[k];
+                return p && ((p.correctIds && p.correctIds.length) || (p.wrongIds && p.wrongIds.length) || (p.viewedIds && p.viewedIds.length));
+            });
+        }
+
+        // Hỏi xác nhận trước khi thêm từ vào 1 sổ ĐÃ có kết quả luyện tập — nếu sổ chưa luyện tập
+        // gì thì thêm luôn không cần hỏi. onProceed chỉ chạy khi được phép (sổ trống hoặc user xác nhận).
+        function confirmIfNotebookHasProgress(nb, onProceed) {
+            if (!notebookHasAnyProgress(nb)) { onProceed(); return; }
+            showConfirmModal({
+                title: '⚠️ Sổ này đã bắt đầu luyện tập',
+                message: `Sổ "${nb.name}" đã có kết quả luyện tập trước đó. Thêm từ mới vẫn được, nhưng từ mới sẽ chưa nằm trong các lượt luyện tập cũ. Bạn có chắc muốn thêm không?`,
+                confirmText: 'Vẫn thêm vào sổ',
+                cancelText: 'Thôi khỏi',
+                onConfirm: onProceed,
+            });
+        }
+
+        // Xoá tem "Mới" của 1 từ trong sổ ngay khi từ đó được luyện tập lần đầu (bất kỳ chức năng nào)
+        function clearNewlyAddedFlag(nb, wordId) {
+            const w = nb && (nb.words || []).find(x => x.id === wordId);
+            if (w && w.newlyAdded) delete w.newlyAdded;
+        }
+
+        // Banner nhắc "có từ mới thêm vào, chưa luyện tập" ở đầu màn Ôn tập sổ tay — chỉ hiện tối đa 3 lần
+        function renderNewWordsBanner() {
+            const el = document.getElementById('new-words-banner');
+            if (!el) return;
+            const nb = getCurrentNotebook();
+            const dismissCount = nb ? (nb.newWordsBannerDismissCount || 0) : 3;
+            const newWords = nb ? (nb.words || []).filter(w => w.newlyAdded) : [];
+            if (!nb || !newWords.length || dismissCount >= 3) { el.innerHTML = ''; return; }
+            el.innerHTML = `
+                <div class="neo-raised !rounded-2xl px-4 py-3 mb-5 sm:mb-6 flex items-center gap-3" style="background:linear-gradient(90deg, rgba(108,99,255,0.08), rgba(108,99,255,0.02));">
+                    <span class="text-xl animate-bounce shrink-0">🆕</span>
+                    <p class="text-sm font-medium text-[#4B5563] flex-1">
+                        Sổ này vừa có <b class="text-point">${newWords.length} từ mới</b> thêm vào, chưa luyện tập lần nào — để ý mấy tem "Mới" ở dưới nha!
+                    </p>
+                    <button class="px-4 py-1.5 rounded-xl text-xs font-bold text-white shrink-0" style="background:#6C63FF;" onclick="dismissNewWordsBanner()">OK</button>
+                </div>
+            `;
+        }
+
+        function dismissNewWordsBanner() {
+            const nb = getCurrentNotebook();
+            if (!nb) return;
+            nb.newWordsBannerDismissCount = (nb.newWordsBannerDismissCount || 0) + 1;
+            renderNewWordsBanner();
+            saveNotebooksToServer();
+        }
+
         function getCurrentNotebook() {
             return notebooksList.find(n => n.id === practiceState.nbId) || null;
         }
@@ -2739,6 +2821,7 @@
             prog.lastActivityAt = Date.now();
             const wordObj = (nb.words || []).find(w => w.id === wordId);
             if (wordObj) wordObj.lastSeenAt = Date.now();
+            clearNewlyAddedFlag(nb, wordId);
             updateNotebookCardProgressUI(nb);
             saveNotebooksToServer();
         }
@@ -2751,6 +2834,7 @@
             prog.lastActivityAt = Date.now();
             if (!prog.viewedIds.includes(wordId)) {
                 prog.viewedIds.push(wordId);
+                clearNewlyAddedFlag(nb, wordId);
                 updateNotebookCardProgressUI(nb);
                 saveNotebooksToServer();
             }
@@ -2845,6 +2929,7 @@
 
             document.getElementById('practice-title').textContent = nb ? nb.name : 'Ôn tập từ vựng';
             document.getElementById('practice-subtitle').textContent = `${words.length} từ vựng`;
+            renderNewWordsBanner();
 
             document.querySelectorAll('.view-group').forEach(v => v.classList.add('hidden'));
             document.getElementById('view-practice-stage').classList.remove('hidden');
@@ -3012,6 +3097,8 @@
             tbody.innerHTML = rows.map(({ w, i, full }) => {
                 const hanLine = (full && full.hanja && full.hanja.length) ? full.hanja.map(h => `${h.kr}(${h.vi})`).join(' — ') : '';
                 const c = full ? (levelColorsMap[full.level] || '#B39EE4') : '#c8cee0';
+                // Tem "Mới" — từ vừa thêm vào 1 sổ đã từng luyện tập, chưa luyện tập lần nào (xem clearNewlyAddedFlag)
+                const newBadge = w.newlyAdded ? `<span class="ml-1.5 px-1.5 py-0.5 rounded-full text-[9px] font-bold text-white align-middle" style="background:#FF6B6B;">Mới</span>` : '';
 
                 const koBlurred = pls.blurKo && !w._revealedKo;
                 const koCell = `
@@ -3019,7 +3106,7 @@
                         <div class="flex items-start gap-2.5">
                             <div class="vr-strip" style="background: linear-gradient(180deg, ${c}, ${c}44); min-height:32px;"></div>
                             <div class="pl-blur-wrap cursor-pointer ${koBlurred ? 'pl-blur-cell' : ''}" onclick="handlePlWordClick(${i}, 'ko')" title="Bấm để xem chi tiết">
-                                <span class="font-kr-serif font-bold text-base text-[#1e2a4a]">${w.word}</span>
+                                <span class="font-kr-serif font-bold text-base text-[#1e2a4a]">${w.word}</span>${newBadge}
                                 ${hanLine ? `<span class="text-[10px] text-gray-400 block mt-0.5">${hanLine}</span>` : ''}
                             </div>
                         </div>
@@ -3057,7 +3144,7 @@
                             <div class="vr-strip" style="background: linear-gradient(180deg, ${c}, ${c}44); min-height:32px;"></div>
                             <div class="flex-1 min-w-0 flex flex-col gap-1">
                                 <div class="pl-blur-wrap cursor-pointer ${koBlurred ? 'pl-blur-cell' : ''}" onclick="handlePlWordClick(${i}, 'ko')">
-                                    <span class="vr-korean text-base font-black">${w.word}</span>
+                                    <span class="vr-korean text-base font-black">${w.word}</span>${newBadge}
                                     ${hanLine ? `<span class="text-[10px] text-[#9FACBD] block mt-0.5">${hanLine}</span>` : ''}
                                 </div>
                                 <div class="pl-blur-wrap cursor-pointer ${viBlurred ? 'pl-blur-cell' : ''}" onclick="handlePlWordClick(${i}, 'vi')">
