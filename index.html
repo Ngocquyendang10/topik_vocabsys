@@ -79,6 +79,25 @@
         .m-pressed-block { background: #E6EBF3; box-shadow: var(--pressed-block); border-radius: 12px; }
         .m-pressed-btn { background: #E6EBF3; box-shadow: var(--pressed-btn); border-radius: 9px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; border: none; }
 
+        /* Nút mini trên từng câu ví dụ (phát âm / ẩn-hiện KR / ẩn-hiện VN) trong card từ vựng chi tiết */
+        .ex-mini-btn { height: 22px; padding: 0 8px; border-radius: 8px; background: #E6EBF3; box-shadow: var(--shadow-btn); display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; font-size: 9px; font-weight: 800; color: #6B7280; flex-shrink: 0; transition: all .12s ease; }
+        .ex-mini-btn.ex-speak-btn { width: 22px; padding: 0; color: #6C63FF; }
+        .ex-mini-btn:hover { transform: scale(1.06); }
+        .ex-mini-btn.ex-toggled-off { background: #6C63FF; color: #fff; box-shadow: inset 2px 2px 5px rgba(0,0,0,0.25); }
+        .ex-mini-btn.ex-playing { background: #6C63FF; color: #fff; box-shadow: inset 2px 2px 5px rgba(0,0,0,0.25); animation: exIconPulse 1.2s ease infinite; }
+        @keyframes exIconPulse { 0%, 100% { transform: scale(0.95); } 50% { transform: scale(1.08); } }
+
+        /* Toggle nhỏ ẩn/hiện nghĩa tiếng Việt trên card từ vựng chi tiết */
+        .meaning-toggle-switch { width: 34px; height: 19px; border-radius: 999px; background: #d7dce6; box-shadow: var(--shadow-sunk); border: none; cursor: pointer; position: relative; padding: 2px; transition: background .2s ease; flex-shrink: 0; }
+        .meaning-toggle-switch.is-on { background: linear-gradient(135deg, #7c6ee8, #5b4fcf); box-shadow: none; }
+        .meaning-toggle-knob { display: block; width: 15px; height: 15px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.25); transform: translateX(0); transition: transform .2s ease; }
+        .meaning-toggle-switch.is-on .meaning-toggle-knob { transform: translateX(15px); }
+
+        /* Thanh chạy từ vựng ngẫu nhiên ở Trang chủ — hiệu ứng trượt lên đổi từ mỗi N giây */
+        .ticker-slide-item { position: absolute; inset: 0; display: flex; align-items: center; gap: 10px; padding: 0 22px; transform: translateY(100%); transition: transform .45s cubic-bezier(.4,0,.2,1); }
+        .ticker-slide-item.ticker-active { transform: translateY(0); }
+        .ticker-slide-item.ticker-exit { transform: translateY(-100%); }
+
         /* CARD MINI PHONG CÁCH XÁM XANH ĐỒNG BỘ NỀN TẢNG WEBSITE GỐC */
         .mini-card-3d { background: #E6EBF3; box-shadow: var(--shadow-raised); border-radius: 28px; padding: 20px; transition: all 0.2s ease; border: 2.5px solid transparent; }
         .mini-card-3d.active-selected { border-color: #6C63FF; box-shadow: var(--shadow-sunk); background: #E1E6EE; transform: translateY(-1px); }
@@ -164,6 +183,17 @@
             .sidebar-nav-chevron { display: none; }
             .sidebar-nav-item { padding: 7px 11px; }
         }
+
+        /* Sidebar thu gọn (chỉ áp dụng desktop — mobile vẫn giữ layout hàng ngang cuộn) */
+        @media (min-width: 768px) {
+            #app-sidebar.sidebar-collapsed { width: 68px !important; padding-left: 8px; padding-right: 8px; }
+            #app-sidebar.sidebar-collapsed .sidebar-nav-label,
+            #app-sidebar.sidebar-collapsed .sidebar-nav-chevron { display: none; }
+            #app-sidebar.sidebar-collapsed .sidebar-nav-item { justify-content: center; padding: 8px; gap: 0; }
+        }
+        #sidebar-toggle-btn svg { transition: transform .2s ease; }
+        #sidebar-toggle-btn.is-collapsed svg { transform: rotate(90deg); }
+
         .search-row-active { background: rgba(108,99,255,0.07) !important; }
 
         /* Ô che mờ Hàn/Việt trong tab "List từ vựng" của sổ tay — bấm vào để lộ riêng ô đó */
@@ -294,6 +324,9 @@
     <!-- ========================================== -->
     <header class="w-full px-4 sm:px-6 py-2.5 sm:py-0 sm:h-[56px] flex flex-wrap items-center justify-between gap-2.5" style="background:linear-gradient(120deg, #6C63FF 0%, #8b7cf6 55%, #6ea8fe 100%); border-radius:20px; box-shadow: 0 6px 18px rgba(108,99,255,0.28);">
         <div class="flex items-center gap-2.5">
+            <button class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 text-white hidden md:flex" style="background:rgba(255,255,255,0.18);" id="sidebar-toggle-btn" onclick="toggleSidebarCollapse()" title="Đóng/mở menu">
+                <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="17" x2="20" y2="17"></line></svg>
+            </button>
             <div class="w-9 h-9 rounded-xl bg-white flex items-center justify-center overflow-hidden shrink-0 shadow-sm">
                 <img src="assets/logo-web.png" alt="Logo Ngoc Quyen's Classroom" class="w-full h-full object-contain p-1" onerror="this.style.display='none'">
             </div>
@@ -329,24 +362,24 @@
     <div class="flex flex-col md:flex-row gap-5 md:gap-6 lg:gap-8 items-stretch md:items-start">
         
         <!-- SIDEBAR TRÁI -->
-        <aside class="w-full md:w-[250px] neo-raised !rounded-[26px] p-3 sm:p-3.5 md:sticky md:top-8 shrink-0">
+        <aside class="w-full md:w-[250px] neo-raised !rounded-[26px] p-3 sm:p-3.5 md:sticky md:top-8 shrink-0" id="app-sidebar">
             <nav class="flex flex-row md:flex-col gap-1.5 md:gap-2 overflow-x-auto md:overflow-visible pb-0.5 md:pb-0">
-                <a href="#" class="sidebar-nav-item" data-active="true" id="tab-home">
+                <a href="#" class="sidebar-nav-item" data-active="true" id="tab-home" title="Trang chủ">
                     <span class="sidebar-nav-icon-box" data-theme-icon="home"></span>
                     <span class="sidebar-nav-label">Trang chủ</span>
                     <svg class="sidebar-nav-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
-                <a href="#" class="sidebar-nav-item" data-active="false" id="tab-notebook">
+                <a href="#" class="sidebar-nav-item" data-active="false" id="tab-notebook" title="Sổ từ vựng">
                     <span class="sidebar-nav-icon-box" data-theme-icon="notebook"></span>
                     <span class="sidebar-nav-label">Sổ từ vựng</span>
                     <svg class="sidebar-nav-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
-                <a href="#" class="sidebar-nav-item" data-active="false" id="tab-full-topik">
+                <a href="#" class="sidebar-nav-item" data-active="false" id="tab-full-topik" title="Thư viện FULL MASTER">
                     <span class="sidebar-nav-icon-box" data-theme-icon="libraryFull"></span>
                     <span class="sidebar-nav-label">Thư viện FULL MASTER</span>
                     <svg class="sidebar-nav-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
-                <a href="#" class="sidebar-nav-item" data-active="false" id="tab-fast-pace">
+                <a href="#" class="sidebar-nav-item" data-active="false" id="tab-fast-pace" title="Thư viện FOCUS">
                     <span class="sidebar-nav-icon-box" data-theme-icon="libraryFast"></span>
                     <span class="sidebar-nav-label">Thư viện FOCUS</span>
                     <svg class="sidebar-nav-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 18 15 12 9 6"></polyline></svg>
@@ -365,6 +398,11 @@
                 <section class="mb-8">
                     <h3 class="text-xs font-bold text-[#6A6A7F] tracking-widest mb-4">TỔNG QUAN</h3>
                     <div class="grid grid-cols-3 gap-2 sm:gap-4" id="home-status-cards"></div>
+                </section>
+
+                <!-- THANH CHẠY TỪ VỰNG NGẪU NHIÊN (đã học + trong sổ tay) -->
+                <section class="mb-8">
+                    <div class="m-pressed-block" id="random-word-ticker" style="height:60px; position:relative; overflow:hidden;"></div>
                 </section>
 
                 <!-- SECTION 2: QUIZ MAZE -->
@@ -399,8 +437,8 @@
                                 <table class="w-full text-sm" style="border-collapse:collapse;">
                                     <thead>
                                         <tr class="text-left">
-                                            <th class="py-2.5 px-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Từ vựng</th>
-                                            <th class="py-2.5 px-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Nghĩa</th>
+                                            <th class="py-2.5 px-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider" style="min-width:220px;">Từ vựng</th>
+                                            <th class="py-2.5 px-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider" style="max-width:160px;">Nghĩa</th>
                                             <th class="py-2.5 px-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Tên sổ</th>
                                         </tr>
                                     </thead>
@@ -484,22 +522,28 @@
                     </div>
                 </section>
 
-                <!-- BỐ CỤC MỚI: Cột trái 60% = Filter bar + List từ vựng · Cột phải 40% = Card chi tiết -->
-                <!-- Dùng CSS Grid (thay vì flex + display:contents) để khung list có "hộp chứa" đủ cao cho sticky hoạt động ổn định trên mọi trình duyệt, kể cả Safari iOS -->
-                <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] gap-x-6 gap-y-4 items-start w-full">
+                <!-- BỐ CỤC: Cột trái 50% = Filter bar + List từ vựng · Cột phải 50% = Card chi tiết -->
+                <!-- Dùng CSS Grid 2 cột, MỖI CỘT CHỈ 1 Ô (không dùng row-span nữa) để tránh lỗi grid tự
+                     giãn track hàng 1/2 theo chiều cao của card chi tiết (cột 2) rồi đẩy khung list (cột 1)
+                     thụt xuống dưới khi danh sách lọc còn ít dòng — dồn filter-bar + list vào 1 div flex-col
+                     duy nhất chiếm trọn cột 1, độc lập hoàn toàn với chiều cao cột 2. Vẫn giữ CSS Grid (không
+                     quay lại flex ngang) để sticky ở cột 2 hoạt động ổn định trên mọi trình duyệt, kể cả Safari iOS -->
+                <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-x-6 gap-y-4 items-start w-full">
 
+                    <!-- CỘT TRÁI: FILTER BAR + LIST PANEL gộp chung 1 khối, không còn tách hàng riêng -->
+                    <div class="flex flex-col gap-4 lg:col-start-1 min-w-0">
                     <!-- FILTER BAR NGANG -->
-                    <div class="neo-raised !rounded-2xl overflow-visible lg:col-start-1 lg:row-start-1" id="vocab-filter-bar">
+                    <div class="neo-raised !rounded-2xl overflow-visible" id="vocab-filter-bar">
                         <!-- JS render nội dung filter bar (급 chips + dropdown Chủ đề/Loại từ/Dạng câu) -->
                     </div>
 
                     <!-- LIST PANEL — mobile: sticky, fix height ~1/3 màn hình để đẩy card chi tiết lên gần, dễ vuốt xuống xem -->
-                    <div class="lib-list-panel-mobile-light neo-raised flex flex-col overflow-hidden !rounded-[28px] sticky top-2 z-20 h-[34vh] lg:static lg:top-auto lg:z-auto lg:h-auto lg:col-start-1 lg:row-start-2" style="min-height:0;">
+                    <div class="lib-list-panel-mobile-light neo-raised flex flex-col overflow-hidden !rounded-[28px] sticky top-2 z-20 h-[34vh] lg:static lg:top-auto lg:z-auto lg:h-auto" style="min-height:0;">
                             <!-- Column header (ẩn trên mobile để dành chỗ cho rows) -->
                             <div class="hidden lg:flex items-center gap-3 px-4 pt-4 pb-2.5 shrink-0 border-b border-[#d8e0ec]">
                                 <span class="w-4 shrink-0"></span>
                                 <span class="w-[3px] shrink-0"></span>
-                                <span class="hidden sm:inline text-[9px] text-[#b0bad0] font-bold uppercase tracking-wider sm:w-[150px] md:w-[190px] shrink-0" style="font-family:'DM Mono',monospace !important;">Từ vựng</span>
+                                <span class="hidden sm:inline text-[9px] text-[#b0bad0] font-bold uppercase tracking-wider sm:w-[38%] md:w-[42%] shrink min-w-[130px]" style="font-family:'DM Mono',monospace !important;">Từ vựng</span>
                                 <span class="text-[9px] text-[#b0bad0] font-bold uppercase tracking-wider flex-1" style="font-family:'DM Mono',monospace !important;"><span class="sm:hidden">Từ vựng · </span>Nghĩa</span>
                                 <div class="hidden min-[1750px]:flex items-center gap-0 shrink-0">
                                     <span class="text-[9px] text-[#b0bad0] font-bold uppercase tracking-wider" style="width:46px; font-family:'DM Mono',monospace !important;">Cấp độ</span>
@@ -523,9 +567,10 @@
                             <!-- Phân trang -->
                             <div class="shrink-0 px-4 py-3 border-t border-[#d8e0ec]" id="vocab-pagination"></div>
                         </div>
+                    </div>
 
-                    <!-- CỘT PHẢI 40% — CARD CHI TIẾT TỪ VỰNG -->
-                    <aside class="w-full lg:min-w-[340px] lg:sticky lg:top-8 lg:col-start-2 lg:row-start-1 lg:row-span-2" id="right-detail-panel">
+                    <!-- CỘT PHẢI 50% — CARD CHI TIẾT TỪ VỰNG -->
+                    <aside class="w-full lg:min-w-[340px] lg:sticky lg:top-8 lg:col-start-2" id="right-detail-panel">
                         <div class="m-card-base flex flex-col min-h-[220px] sm:min-h-[500px] justify-center items-center text-center text-gray-400" id="dynamic-detail-card">
                             <span class="font-medium" style="font-family: 'Plus Jakarta Sans', sans-serif !important;">Bấm vào một từ bất kỳ để xem chi tiết</span>
                         </div>
@@ -579,14 +624,8 @@
                 </div>
 
                 <div class="flex flex-col lg:flex-row gap-5 lg:gap-6 items-stretch lg:items-start w-full">
-                    <!-- CỘT TRÁI 30% — CARD CHI TIẾT -->
-                    <aside class="w-full lg:w-[32%] shrink-0 lg:sticky lg:top-8">
-                        <div class="m-card-base flex flex-col min-h-[220px] sm:min-h-[400px] justify-center items-center text-center text-gray-400" id="search-detail-card">
-                            <span class="font-medium" style="font-family: 'Plus Jakarta Sans', sans-serif !important;">Bấm vào 1 kết quả để xem chi tiết!</span>
-                        </div>
-                    </aside>
-                    <!-- CỘT PHẢI 70% — BẢNG KẾT QUẢ -->
-                    <div class="flex-1 w-full min-w-0 neo-raised !rounded-[28px] overflow-hidden">
+                    <!-- CỘT TRÁI 50% — BẢNG KẾT QUẢ (mobile: hiện trên card chi tiết) -->
+                    <div class="w-full lg:flex-1 lg:basis-0 min-w-0 neo-raised !rounded-[28px] overflow-hidden">
                         <div class="overflow-x-auto" style="max-height:70vh; overflow-y:auto;">
                             <table class="w-full text-sm" style="border-collapse:collapse;">
                                 <thead id="search-results-thead"></thead>
@@ -594,6 +633,12 @@
                             </table>
                         </div>
                     </div>
+                    <!-- CỘT PHẢI 50% — CARD CHI TIẾT -->
+                    <aside class="w-full lg:flex-1 lg:basis-0 min-w-0 lg:sticky lg:top-8">
+                        <div class="m-card-base flex flex-col min-h-[220px] sm:min-h-[400px] justify-center items-center text-center text-gray-400" id="search-detail-card">
+                            <span class="font-medium" style="font-family: 'Plus Jakarta Sans', sans-serif !important;">Bấm vào 1 kết quả để xem chi tiết!</span>
+                        </div>
+                    </aside>
                 </div>
             </div>
 
@@ -867,35 +912,171 @@
         // Lưu ý: chất lượng giọng đọc phụ thuộc vào trình duyệt/hệ điều hành của
         // người dùng — Chrome trên máy có kết nối mạng thường cho giọng tự nhiên nhất.
         // ============================================================
-        let cachedKoreanVoices = { female: null, male: null };
+        let cachedKoreanVoices = { female: [], male: [] };
+        // Giọng "mạng" (localService === false, vd. Google 한국의 trên Chrome) là giọng AI tự nhiên tải
+        // qua mạng — nghe tự nhiên hẳn so với giọng "local" cài sẵn trong máy (thường robot, ít ngữ điệu).
+        // QUAN TRỌNG: không chỉnh utter.pitch để giả giọng nam/nữ nữa — pitch-shift 1 giọng có sẵn là
+        // nguyên nhân chính khiến giọng nghe robot/giả tạo dù bản thân giọng gốc đã tự nhiên. Thay vào đó
+        // tìm đúng giọng có tên gợi ý đúng giới tính; nếu máy không có giọng nào khớp thì dùng chung pool,
+        // giữ nguyên pitch mặc định của giọng — thà giống nhau còn hơn nghe giả.
         function pickBestKoreanVoice(gender) {
-            if (!('speechSynthesis' in window)) return null;
+            if (!('speechSynthesis' in window)) return [];
             const voices = window.speechSynthesis.getVoices() || [];
             const koreanVoices = voices.filter(v => v.lang && v.lang.toLowerCase().startsWith('ko'));
-            if (!koreanVoices.length) return null;
-            // Ưu tiên giọng mạng (localService === false) — thường là giọng neural tự nhiên
+            if (!koreanVoices.length) return [];
             const networkVoices = koreanVoices.filter(v => v.localService === false);
             const pool = networkVoices.length ? networkVoices : koreanVoices;
-            const femaleHint = pool.find(v => /female|여성|Yuna|SunHi/i.test(v.name));
-            const maleHint = pool.find(v => /male|남성|InJoon|Shinji/i.test(v.name) && !/female|여성/i.test(v.name));
-            if (gender === 'male') return maleHint || pool.find(v => v !== femaleHint) || pool[0];
-            return femaleHint || pool[0];
+            if (!gender) return pool;
+            const femaleMatches = pool.filter(v => /female|여성|Yuna|SunHi/i.test(v.name));
+            const maleMatches = pool.filter(v => /male|남성|InJoon|Shinji/i.test(v.name) && !/female|여성/i.test(v.name));
+            const matched = gender === 'male' ? maleMatches : femaleMatches;
+            return matched.length ? matched : pool;
         }
 
-        function speakKorean(text, gender) {
+        function speakKorean(text, gender, onEnd) {
             if (!('speechSynthesis' in window)) {
                 alert('Trình duyệt của bạn chưa hỗ trợ phát âm giọng nói (Web Speech API). Hãy thử mở với Chrome nhé!');
+                if (onEnd) onEnd();
                 return;
             }
             window.speechSynthesis.cancel(); // dừng câu đang đọc dở nếu có
             const utter = new SpeechSynthesisUtterance(text);
             utter.lang = 'ko-KR';
-            utter.rate = 0.92;
-            utter.pitch = gender === 'male' ? 0.88 : 1.05;
-            const cacheKey = gender === 'male' ? 'male' : 'female';
-            const voice = cachedKoreanVoices[cacheKey] || pickBestKoreanVoice(gender);
-            if (voice) utter.voice = voice;
+            utter.rate = 0.85; // chậm hơn ~15% giúp phát âm rõ, tự nhiên hơn tốc độ mặc định
+            const cacheKey = gender === 'male' ? 'male' : gender === 'female' ? 'female' : null;
+            const pool = (cacheKey && cachedKoreanVoices[cacheKey] && cachedKoreanVoices[cacheKey].length)
+                ? cachedKoreanVoices[cacheKey]
+                : pickBestKoreanVoice(gender);
+            // Random giữa các giọng khớp (nếu máy có nhiều giọng mạng tiếng Hàn) để đỡ đơn điệu,
+            // giống cách dự án Ngữ pháp TOPIK đang làm.
+            if (pool.length) utter.voice = pool[Math.floor(Math.random() * pool.length)];
+            if (onEnd) { utter.onend = onEnd; utter.onerror = onEnd; }
             window.speechSynthesis.speak(utter);
+        }
+
+        // ============================================================
+        // TỪNG CÂU VÍ DỤ: nút phát âm riêng + ẩn/hiện riêng Hàn/Việt (card chi tiết từ vựng)
+        // ============================================================
+        let vocabExampleVisState = {}; // `${wordId}#${idx}#kr|vi` -> false khi user bấm ẩn (mặc định true/hiện)
+        function isVocabExVisible(wordId, idx, lang) { return vocabExampleVisState[`${wordId}#${idx}#${lang}`] !== false; }
+        function toggleVocabExVisible(wordId, idx, lang) {
+            const key = `${wordId}#${idx}#${lang}`;
+            vocabExampleVisState[key] = !isVocabExVisible(wordId, idx, lang);
+        }
+        function playExampleAudio(btnEl, text) {
+            btnEl.classList.add('ex-playing');
+            let done = false;
+            const finish = () => { if (done) return; done = true; btnEl.classList.remove('ex-playing'); };
+            speakKorean(text, undefined, finish);
+            setTimeout(finish, 4000); // an toàn: gỡ hiệu ứng nếu utterance không bắn sự kiện 'end'
+        }
+
+        // Card chi tiết dựng từ buildGenericDetailCardHtml (Sổ tay / Tìm kiếm / Từ đã sai...) đều
+        // gắn data-current-word-id lên container ngay sau khi render — dùng lại để vẽ lại đúng từ
+        // đang hiện, không cần biết trước data/containerId cụ thể từ đâu gọi tới.
+        function rerenderGenericDetailCard(containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            const wordId = container.dataset.currentWordId;
+            const data = GENERIC_DETAIL_DATA_MAP[wordId];
+            if (!data) return;
+            container.innerHTML = buildGenericDetailCardHtml(data, containerId);
+        }
+
+        // HTML dùng chung cho 1 câu ví dụ trong card chi tiết từ vựng (số thứ tự, nút loa,
+        // nút ẩn/hiện KR/VN) — mỗi câu là 1 khối full-width riêng biệt, không rút gọn.
+        // ============================================================
+        // TOGGLE ẨN/HIỆN NGHĨA TIẾNG VIỆT — riêng từng từ, mặc định ẨN (trừ khi
+        // user đổi mặc định trong Cài đặt). Trạng thái chỉ lưu tạm trong phiên làm
+        // việc (không đồng bộ server) — giống cơ chế ẩn/hiện câu ví dụ ở trên.
+        // ============================================================
+        let vocabMeaningVisState = {}; // wordId -> true/false, ghi đè mặc định của Cài đặt khi user tự bấm
+        function getDefaultMeaningVisible() {
+            return localStorage.getItem('vocabapp_defaultShowMeaning') === '1';
+        }
+        // Đổi trong popup Cài đặt — chỉ ảnh hưởng từ NÀO CHƯA từng bị user tự bấm ẩn/hiện riêng
+        // (vocabMeaningVisState không bị xoá), vì đây là mặc định áp dụng cho từ mới gặp.
+        function toggleDefaultMeaningVisible() {
+            const next = !getDefaultMeaningVisible();
+            localStorage.setItem('vocabapp_defaultShowMeaning', next ? '1' : '0');
+            renderProfilePopupContent();
+        }
+
+        const TICKER_SEC_DEFAULT = 10;
+        function getTickerIntervalSec() {
+            const v = parseInt(localStorage.getItem('vocabapp_tickerIntervalSec'), 10);
+            return (Number.isFinite(v) && v >= 3 && v <= 60) ? v : TICKER_SEC_DEFAULT;
+        }
+        function setTickerIntervalSec(value) {
+            let v = parseInt(value, 10);
+            if (!Number.isFinite(v)) v = TICKER_SEC_DEFAULT;
+            v = Math.min(60, Math.max(3, v));
+            localStorage.setItem('vocabapp_tickerIntervalSec', String(v));
+            restartRandomWordTicker(); // áp dụng ngay tốc độ mới nếu thanh chạy từ đang hoạt động
+        }
+        function isMeaningVisible(wordId) {
+            return Object.prototype.hasOwnProperty.call(vocabMeaningVisState, wordId)
+                ? vocabMeaningVisState[wordId]
+                : getDefaultMeaningVisible();
+        }
+        function toggleMeaningVisible(wordId) {
+            vocabMeaningVisState[wordId] = !isMeaningVisible(wordId);
+        }
+        function buildMeaningToggleHtml(wordId, rerenderExpr) {
+            const visible = isMeaningVisible(wordId);
+            return `
+                <button class="meaning-toggle-switch ${visible ? 'is-on' : ''}" title="${visible ? 'Ẩn nghĩa tiếng Việt' : 'Hiện nghĩa tiếng Việt'}" onclick="toggleMeaningVisible('${wordId}'); ${rerenderExpr};">
+                    <span class="meaning-toggle-knob"></span>
+                </button>
+            `;
+        }
+        // Khối 1 dòng nhãn (uppercase) + toggle ở góc phải + nội dung nghĩa — dùng chung cho mọi
+        // card chi tiết từ vựng. Khi đang ẩn, hiện 1 nút mờ "Bấm để xem nghĩa" thay vì để trống hẳn.
+        function buildMeaningSectionHtml(labelText, meaningText, wordId, rerenderExpr, extraLabelClass) {
+            const visible = isMeaningVisible(wordId);
+            return `
+                <div class="flex flex-col gap-2 text-left">
+                    <div class="flex items-center justify-between gap-2">
+                        <div style="font-size:10px; font-weight:700; color:#374151; letter-spacing:0.14em; text-transform:uppercase; font-family:'DM Mono',monospace;" class="${extraLabelClass || ''}">${labelText}</div>
+                        ${buildMeaningToggleHtml(wordId, rerenderExpr)}
+                    </div>
+                    ${visible
+                        ? `<div class="m-pressed-block p-2.5 sm:p-4 border-l-4 border-[#4F46E5] rounded-r-xl text-[14px] font-semibold text-[#1A1520] leading-[1.4] sm:leading-[1.7] text-left"><p class="text-left">${meaningText || '—'}</p></div>`
+                        : `<button class="m-pressed-block p-2.5 sm:p-4 rounded-xl text-[12.5px] font-semibold text-[#9CA3AF] text-left w-full flex items-center gap-1.5" style="border:none; cursor:pointer;" onclick="toggleMeaningVisible('${wordId}'); ${rerenderExpr};">
+                            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                            Bấm để xem nghĩa tiếng Việt
+                        </button>`
+                    }
+                </div>
+            `;
+        }
+
+        // rerenderExpr: đoạn JS (dạng chuỗi) để vẽ lại đúng card đang hiện sau khi bấm ẩn/hiện,
+        // vì mỗi nơi gọi (Thư viện/Sổ tay/Tìm kiếm...) có cách vẽ lại card khác nhau.
+        function buildVocabExampleRowHtml(ex, idx, wordId, rerenderExpr) {
+            const krHidden = !isVocabExVisible(wordId, idx, 'kr');
+            const viHidden = !isVocabExVisible(wordId, idx, 'vi');
+            const krEsc = (ex.kr || '').replace(/'/g, "\\'");
+            return `
+                <div class="m-pressed-block p-[13px] px-[15px] flex flex-col gap-1.5 relative text-left">
+                    <div class="flex items-center gap-1.5">
+                        <span class="text-[9px] font-mono font-extrabold bg-[#6B7280] text-white px-[7px] py-0.5 rounded-[5px] shrink-0 modern-font-mono">예${idx + 1}</span>
+                        <span class="flex-1"></span>
+                        <button class="ex-mini-btn ex-speak-btn" title="Phát âm" onclick="playExampleAudio(this, '${krEsc}')">
+                            <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.6"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                        </button>
+                        <button class="ex-mini-btn ${krHidden ? 'ex-toggled-off' : ''}" title="Ẩn/hiện câu Hàn" onclick="toggleVocabExVisible('${wordId}',${idx},'kr'); ${rerenderExpr};">KR</button>
+                        ${ex.vi ? `<button class="ex-mini-btn ${viHidden ? 'ex-toggled-off' : ''}" title="Ẩn/hiện dịch nghĩa" onclick="toggleVocabExVisible('${wordId}',${idx},'vi'); ${rerenderExpr};">VN</button>` : ''}
+                    </div>
+                    ${!krHidden ? `<p class="font-medium text-sm text-[#1C1917] leading-[1.65] font-kr-serif text-left">${ex.kr}</p>` : ''}
+                    ${(ex.vi && !viHidden) ? `
+                    <div class="flex gap-[7px] items-start text-left">
+                        <span class="text-[11px] text-[#9CA3AF] mt-[1px] shrink-0">↳</span>
+                        <p class="text-xs italic text-[#6B7280] leading-[1.6] text-left">${ex.vi}</p>
+                    </div>` : ''}
+                    ${(krHidden && (viHidden || !ex.vi)) ? `<p class="text-[11px] font-semibold italic text-[#B0B4C4]">Câu đã ẩn — bấm KR / VN để hiện</p>` : ''}
+                </div>
+            `;
         }
 
         // Danh sách giọng nói tải bất đồng bộ ở 1 số trình duyệt (Chrome) — bắt sự kiện để cache lại
@@ -1204,7 +1385,7 @@
             ` : '';
 
             bar.innerHTML = `
-                <div class="flex items-center gap-2 px-3 py-2 overflow-x-auto lg:flex-wrap lg:overflow-visible lg:gap-0 lg:px-2">
+                <div class="flex items-center gap-2 px-3 py-2 overflow-x-auto lg:flex-wrap lg:overflow-visible lg:gap-x-0 lg:gap-y-3 lg:px-2">
                     <div class="flex items-center gap-1.5 shrink-0 lg:px-2 lg:py-1">
                         <span class="text-[10px] font-bold text-[#8290aa] uppercase tracking-widest mr-1 shrink-0">급</span>
                         <div class="flex items-center gap-1 shrink-0 lg:flex-wrap">${gupChipsHtml}</div>
@@ -1292,7 +1473,7 @@
                         <span class="text-[10px] text-[#c0cad8] w-4 text-right shrink-0 font-mono tabular-nums">${rowIndex + 1}</span>
                         <div class="vr-strip" style="background: linear-gradient(180deg, ${c}, ${c}44);"></div>
                         <div class="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-0 self-center">
-                            <div class="sm:w-[150px] md:w-[190px] shrink-0 min-w-0 self-start sm:self-center flex items-center gap-1.5 text-left">
+                            <div class="sm:w-[38%] md:w-[42%] shrink min-w-[130px] self-start sm:self-center flex items-center gap-1.5 text-left">
                                 <span class="vr-korean text-base font-black leading-snug block whitespace-normal break-words text-left" style="color:${selected ? '#3d2fa8' : '#1e2a4a'};">${item.word}</span>
                                 <span class="min-[1750px]:hidden inline-flex items-center gap-1 rounded-full px-1.5 py-0.5 text-[9px] font-bold whitespace-nowrap tracking-wide shrink-0 self-start mt-0.5" style="background:${c}22; color:${c};">${item.level}급</span>
                             </div>
@@ -1818,8 +1999,8 @@
                             </div>
                         </td>
                         <td class="py-3 px-3">
-                            <span class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[9px] font-bold" style="background:${c}22; color:${c};">
-                                <span class="w-1.5 h-1.5 rounded-full" style="background:${c};"></span>${w.level}급
+                            <span class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[9px] font-bold whitespace-nowrap" style="background:${c}22; color:${c};">
+                                <span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:${c};"></span>${w.level}급
                             </span>
                         </td>
                         <td class="py-3 px-3 text-xs text-gray-500">${w.topic || '—'}</td>
@@ -1867,12 +2048,7 @@
             const examplesHtml = (data.examples && data.examples.length) ? `
                 <div class="flex flex-col gap-1.5 sm:gap-2 text-left mt-2.5 sm:mt-4">
                     <div style="font-size:10px; font-weight:700; color:#6366F1; letter-spacing:0.14em; text-transform:uppercase; font-family:'DM Mono',monospace;">Ví dụ · ${data.examples.length} câu</div>
-                    ${data.examples.map(ex => `
-                        <div class="m-pressed-block p-2.5 sm:p-3 flex flex-col gap-1">
-                            <p class="text-sm font-medium text-[#1C1917] font-kr-serif">${ex.kr}</p>
-                            <p class="text-xs italic text-[#6B7280]">↳ ${ex.vi}</p>
-                        </div>
-                    `).join('')}
+                    ${data.examples.map((ex, i) => buildVocabExampleRowHtml(ex, i, data.id, `rerenderGenericDetailCard('${containerId}')`)).join('')}
                 </div>
             ` : '';
 
@@ -1915,9 +2091,7 @@
                     </div>
                     <h1 class="font-bold text-2xl sm:text-[2rem] text-[#1A1520] font-kr-serif leading-[1.1] mb-1 sm:mb-2 break-words">${data.word}</h1>
                     <span class="m-raised-block px-3 py-1 text-[11px] font-semibold text-[#374151] rounded-[7px] w-fit mb-1.5 sm:mb-3">${data.topic || 'Tổng quát'}</span>
-                    <div class="m-pressed-block p-2.5 sm:p-4 border-l-4 border-[#4F46E5] rounded-r-xl text-[14px] font-semibold text-[#1A1520] leading-[1.4] sm:leading-[1.7]">
-                        ${data.vietnamese || data.deep_meaning || '—'}
-                    </div>
+                    ${buildMeaningSectionHtml('Ý nghĩa', data.vietnamese || data.deep_meaning, data.id, `rerenderGenericDetailCard('${containerId}')`)}
                     ${hanjaHtml}
                     ${examplesHtml}
                     ${relatedHtml}
@@ -3069,8 +3243,8 @@
 
             thead.innerHTML = `
                 <tr class="text-left">
-                    <th class="py-2.5 px-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider" style="min-width:220px;">Tiếng Hàn</th>
-                    <th class="py-2.5 px-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Tiếng Việt</th>
+                    <th class="py-2.5 px-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider" style="min-width:280px;">Tiếng Hàn</th>
+                    <th class="py-2.5 px-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider" style="max-width:180px;">Tiếng Việt</th>
                     ${!pls.hideEx ? `<th class="py-2.5 px-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Ví dụ</th>` : ''}
                     <th class="py-2.5 px-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider" style="width:110px;">Ghi chú</th>
                     <th class="py-2.5 px-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider text-center">Trạng thái</th>
@@ -3102,7 +3276,7 @@
 
                 const koBlurred = pls.blurKo && !w._revealedKo;
                 const koCell = `
-                    <td class="py-3 px-3 align-top" style="min-width:220px;">
+                    <td class="py-3 px-3 align-top" style="min-width:280px;">
                         <div class="flex items-start gap-2.5">
                             <div class="vr-strip" style="background: linear-gradient(180deg, ${c}, ${c}44); min-height:32px;"></div>
                             <div class="pl-blur-wrap cursor-pointer ${koBlurred ? 'pl-blur-cell' : ''}" onclick="handlePlWordClick(${i}, 'ko')" title="Bấm để xem chi tiết">
@@ -3114,7 +3288,7 @@
 
                 const viBlurred = pls.blurVi && !w._revealedVi;
                 const viCell = `
-                    <td class="py-3 px-3 align-top font-semibold text-[#2d3a54]">
+                    <td class="py-3 px-3 align-top font-semibold text-[#2d3a54]" style="max-width:180px;">
                         <span class="pl-blur-wrap cursor-pointer ${viBlurred ? 'pl-blur-cell' : ''}" onclick="handlePlWordClick(${i}, 'vi')" title="Bấm để xem chi tiết">
                             ${w.vietnamese || (full && (full.deep_meaning || full.literal)) || '—'}
                         </span>
@@ -3701,12 +3875,7 @@
                                     `).join('')}
                                 </div>
                             </div>` : ''}
-                            <div class="flex flex-col gap-2 text-left">
-                                <div style="font-size:10px; font-weight:700; color:#374151; letter-spacing:0.14em; text-transform:uppercase; font-family:'DM Mono',monospace; margin-bottom:4px;">Nghĩa tiếng Việt</div>
-                                <div class="m-pressed-block p-4 border-l-4 border-[#4F46E5] rounded-r-xl text-[14px] font-semibold text-[#1A1520] leading-[1.7]">
-                                    <p class="text-left">${data.vietnamese}</p>
-                                </div>
-                            </div>
+                            ${buildMeaningSectionHtml('Nghĩa tiếng Việt', data.vietnamese, data.id, `renderDetailCard(${globalIndex})`)}
                         `;
                     } else {
                         bodyHtml += `
@@ -3726,12 +3895,7 @@
                                 <p class="text-xs italic text-[#4B5563] leading-[1.7] border-l-3 border-[#D1D5DB] pl-[13px] text-left">${data.literal}</p>
                             </div>` : ''}
                             <div class="inner-rule"></div>
-                            <div class="flex flex-col gap-2 text-left">
-                                <div style="font-size:10px; font-weight:700; color:#374151; letter-spacing:0.14em; text-transform:uppercase; font-family:'DM Mono',monospace; margin-bottom:4px;">Ý nghĩa</div>
-                                <div class="m-pressed-block p-4 border-l-4 border-[#4F46E5] rounded-r-xl text-[14px] font-semibold text-[#1A1520] leading-[1.75] text-left">
-                                    <p class="text-left">${data.deep_meaning || data.vietnamese}</p>
-                                </div>
-                            </div>
+                            ${buildMeaningSectionHtml('Ý nghĩa', data.deep_meaning || data.vietnamese, data.id, `renderDetailCard(${globalIndex})`)}
                         `;
                     }
 
@@ -3752,18 +3916,7 @@
                             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#6366F1" stroke-width="2.5" class="transition-transform duration-200 mt-[-6px]" id="example-chevron"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </div>
                         <div class="flex flex-col gap-2.5 transition-all duration-200 text-left" id="example-content-box">
-                            ${data.examples && data.examples.length ? data.examples.map((ex, i) => `
-                                <div class="m-pressed-block p-[13px] px-[15px] flex flex-col gap-1.5 relative text-left">
-                                    <div class="flex items-start gap-2 text-left">
-                                        <span class="text-[9px] font-mono font-extrabold bg-[#6B7280] text-white px-[7px] py-0.5 rounded-[5px] mt-[3px] shrink-0 modern-font-mono">예${i+1}</span>
-                                        <p class="font-medium text-sm text-[#1C1917] leading-[1.65] font-kr-serif text-left">${ex.kr}</p>
-                                    </div>
-                                    <div class="flex gap-[7px] items-start padding-left-[2px] text-left">
-                                        <span class="text-[11px] text-[#9CA3AF] mt-[1px] shrink-0">↳</span>
-                                        <p class="text-xs italic text-[#6B7280] leading-[1.6] text-left">${ex.vi}</p>
-                                    </div>
-                                </div>
-                            `).join('') : '<p class="text-xs text-gray-400">Không có câu ví dụ cho từ này</p>'}
+                            ${data.examples && data.examples.length ? data.examples.map((ex, i) => buildVocabExampleRowHtml(ex, i, data.id, `renderDetailCard(${globalIndex})`)).join('') : '<p class="text-xs text-gray-400">Không có câu ví dụ cho từ này</p>'}
                         </div>
                     </div>`;
 
@@ -4044,10 +4197,12 @@
 
         // ─── Popup chỉnh sửa hồ sơ (đổi tên hiển thị + tải ảnh đại diện) + đăng xuất ───
         let profilePopupEditMode = false;
+        let profilePopupSettingsMode = false;
 
         function openProfilePopup(btnEl) {
             closeProfilePopup();
             profilePopupEditMode = false;
+            profilePopupSettingsMode = false;
             const rect = btnEl.getBoundingClientRect();
             const popup = document.createElement('div');
             popup.className = 'bookmark-popup';
@@ -4068,7 +4223,7 @@
             const hasAvatar = !!(currentUser && currentUser.avatarDataUrl);
             const displayName = currentUser ? currentUser.displayName : 'NQ';
 
-            if (!profilePopupEditMode) {
+            if (!profilePopupEditMode && !profilePopupSettingsMode) {
                 popup.innerHTML = `
                     <div class="px-2 pb-2 flex items-center gap-3">
                         <span class="w-14 h-14 rounded-full neo-raised flex items-center justify-center text-base font-mono font-bold text-point shrink-0 overflow-hidden">
@@ -4084,8 +4239,47 @@
                     </div>
                     <div class="w-full h-[1.5px] my-1.5" style="background:linear-gradient(90deg,transparent,#d8e0ec,transparent);"></div>
                     <button class="bookmark-popup-item" onclick="closeProfilePopup(); openActivityDashboard();">${themeIcon('activity', 'brand', 18)}<span>Hoạt động của bạn</span></button>
+                    <button class="bookmark-popup-item" onclick="profilePopupSettingsMode = true; renderProfilePopupContent();">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                        <span>Cài đặt</span>
+                    </button>
                     <div class="w-full h-[1.5px] my-1.5" style="background:linear-gradient(90deg,transparent,#d8e0ec,transparent);"></div>
                     <button class="bookmark-popup-item" style="color:#ef4444;" onclick="closeProfilePopup(); logoutUser();">${themeIcon('logout', 'brand', 18)}<span>Đăng xuất</span></button>
+                `;
+                return;
+            }
+
+            if (profilePopupSettingsMode) {
+                const defaultShowMeaning = getDefaultMeaningVisible();
+                const tickerSec = getTickerIntervalSec();
+                popup.innerHTML = `
+                    <div class="flex items-center gap-2 px-2 pb-2">
+                        <button class="w-7 h-7 rounded-full neo-button flex items-center justify-center text-gray-400 shrink-0" title="Quay lại" onclick="profilePopupSettingsMode = false; renderProfilePopupContent();">
+                            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        </button>
+                        <p class="text-[10px] font-bold text-[#8290aa] uppercase tracking-widest">Cài đặt</p>
+                    </div>
+                    <div class="px-2 pb-2 flex flex-col gap-4">
+                        <div class="flex items-center justify-between gap-2">
+                            <div class="min-w-0">
+                                <p class="text-xs font-bold text-[#1A1A24]">Mặc định hiện nghĩa tiếng Việt</p>
+                                <p class="text-[10px] text-gray-400 mt-0.5">Áp dụng cho từ chưa từng bấm ẩn/hiện</p>
+                            </div>
+                            <button class="meaning-toggle-switch ${defaultShowMeaning ? 'is-on' : ''}" onclick="toggleDefaultMeaningVisible()">
+                                <span class="meaning-toggle-knob"></span>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between gap-2">
+                            <div class="min-w-0">
+                                <p class="text-xs font-bold text-[#1A1A24]">Tốc độ chạy từ ngẫu nhiên</p>
+                                <p class="text-[10px] text-gray-400 mt-0.5">Số giây hiển thị 1 từ ở Trang chủ</p>
+                            </div>
+                            <div class="flex items-center gap-1.5 shrink-0">
+                                <input type="number" min="3" max="60" value="${tickerSec}" class="neo-sunk px-2 py-1.5 !rounded-xl text-xs w-14 text-center outline-none border-none bg-transparent font-bold" id="ticker-sec-input" onchange="setTickerIntervalSec(this.value)">
+                                <span class="text-[11px] text-gray-400 font-bold">giây</span>
+                            </div>
+                        </div>
+                    </div>
                 `;
                 return;
             }
@@ -4296,6 +4490,72 @@
                     <span class="hidden sm:block text-[10px] text-gray-400">Bấm vào từ bên dưới để xem lại chi tiết</span>
                 </div>
             `;
+            startRandomWordTicker();
+        }
+
+        // ============================================================
+        // THANH CHẠY TỪ VỰNG NGẪU NHIÊN (Trang chủ) — random trong (từ đã học +
+        // từ trong mọi sổ tay), đổi từ mỗi N giây (Cài đặt), hiệu ứng trượt lên.
+        // ============================================================
+        let tickerIntervalHandle = null;
+        let tickerCurrentIndex = -1;
+        function buildTickerWordPool() {
+            const map = new Map(); // id -> { word, vietnamese }
+            Object.keys(learnedWordsMap || {}).forEach(id => {
+                const w = (allLibraryCache || []).find(x => x.id === id);
+                if (w) map.set(id, { word: w.word, vietnamese: w.vietnamese || w.deep_meaning || '' });
+            });
+            (notebooksList || []).forEach(nb => {
+                (nb.words || []).forEach(w => {
+                    if (w.word && !map.has(w.id)) map.set(w.id, { word: w.word, vietnamese: w.vietnamese || '' });
+                });
+            });
+            return [...map.values()];
+        }
+        function renderTickerBar() {
+            const el = document.getElementById('random-word-ticker');
+            if (!el) return;
+            const pool = buildTickerWordPool();
+            let contentHtml;
+            if (!pool.length) {
+                contentHtml = `<span class="text-xs text-gray-400 font-medium">Học hoặc lưu vài từ vựng để xem chạy chữ ở đây nhé!</span>`;
+                tickerCurrentIndex = -1;
+            } else {
+                let idx = Math.floor(Math.random() * pool.length);
+                if (pool.length > 1 && idx === tickerCurrentIndex) idx = (idx + 1) % pool.length;
+                tickerCurrentIndex = idx;
+                const w = pool[idx];
+                contentHtml = `<span class="font-kr-serif font-bold text-[15px]" style="color:#111827;">${w.word}</span><span class="text-[13px] font-semibold" style="color:#4B5563;">${w.vietnamese || ''}</span>`;
+            }
+            // Chỉ coi item đang "active" là item cũ cần cho trượt ra — các item khác còn sót lại trong
+            // DOM (do timeout gỡ bị lỡ vì restart quá nhanh) bị dọn sạch NGAY, không chờ transition,
+            // để tránh tình trạng "kẹt chữ cũ mãi" khi querySelector từng bắt nhầm item còn sót thay
+            // vì đúng item đang hiện.
+            const oldItem = el.querySelector('.ticker-slide-item.ticker-active');
+            [...el.querySelectorAll('.ticker-slide-item')].forEach(it => { if (it !== oldItem) it.remove(); });
+            const newItem = document.createElement('div');
+            newItem.className = 'ticker-slide-item';
+            newItem.innerHTML = contentHtml;
+            el.appendChild(newItem);
+            void newItem.offsetWidth; // ép reflow để transition chạy đúng từ trạng thái ban đầu
+            newItem.classList.add('ticker-active');
+            if (oldItem) {
+                oldItem.classList.add('ticker-exit');
+                oldItem.classList.remove('ticker-active');
+                setTimeout(() => oldItem.remove(), 500);
+            }
+        }
+        function startRandomWordTicker() {
+            if (tickerIntervalHandle) return; // đã chạy sẵn rồi, không cần khởi động lại
+            ensureAllLibraryLoaded().then(() => {
+                if (tickerIntervalHandle) return; // an toàn 2 lớp: nơi khác đã khởi động xong trong lúc chờ
+                renderTickerBar();
+                tickerIntervalHandle = setInterval(renderTickerBar, getTickerIntervalSec() * 1000);
+            });
+        }
+        function restartRandomWordTicker() {
+            if (tickerIntervalHandle) { clearInterval(tickerIntervalHandle); tickerIntervalHandle = null; }
+            startRandomWordTicker();
         }
 
         function openNeedPracticeWordsModal() {
@@ -5008,10 +5268,29 @@
         })();
 
         // --- ĐOẠN KHỞI CHẠY TƯƠNG TÁC HỆ THỐNG KHI DOM LOAD ---
+        // ============================================================
+        // ĐÓNG/MỞ SIDEBAR TRÁI (chỉ có tác dụng ở desktop — thu về icon-only để
+        // giải phóng không gian cho nội dung chính). Trạng thái lưu localStorage,
+        // giữ nguyên qua các lần tải lại trang.
+        // ============================================================
+        function applySidebarCollapseState() {
+            const collapsed = localStorage.getItem('vocabapp_sidebarCollapsed') === '1';
+            const aside = document.getElementById('app-sidebar');
+            const btn = document.getElementById('sidebar-toggle-btn');
+            if (aside) aside.classList.toggle('sidebar-collapsed', collapsed);
+            if (btn) btn.classList.toggle('is-collapsed', collapsed);
+        }
+        function toggleSidebarCollapse() {
+            const collapsed = localStorage.getItem('vocabapp_sidebarCollapsed') === '1';
+            localStorage.setItem('vocabapp_sidebarCollapsed', collapsed ? '0' : '1');
+            applySidebarCollapseState();
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
 
             initActivityTracking();
             initThemeIcons();
+            applySidebarCollapseState();
 
             // Khởi tạo màn hình đăng nhập: ẩn đi nếu đã có phiên hợp lệ hoặc chưa cấu hình Apps Script
             const loginScreen = document.getElementById('login-screen');
