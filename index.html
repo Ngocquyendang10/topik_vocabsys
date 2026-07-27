@@ -832,9 +832,10 @@
                         renderActivityDashboardContent();
                     }
                 }
-                // Đồng bộ lại trạng thái "đã học" lên dữ liệu từ vựng đang có sẵn trong bộ nhớ (nếu thư viện đã tải trước đó)
+                // Đồng bộ lại trạng thái "đã học" + "đã lưu vào sổ nào" lên dữ liệu từ vựng đang có sẵn trong bộ nhớ (nếu thư viện đã tải trước đó)
                 applyLearnedStateToArray(vocabDatabase);
                 applyLearnedStateToArray(allLibraryCache);
+                syncSavedNotebooksEverywhere();
                 renderAllLessonCardsFromNotebooksList();
             } catch (e) {
                 console.error('Không tải được sổ từ server:', e);
@@ -992,6 +993,35 @@
             });
         }
 
+        // Đồng bộ trạng thái "đã lưu vào sổ nào" — CÙNG NGUYÊN TẮC như applyLearnedStateToArray
+        // ở trên: notebooksList (nb.words) là nguồn dữ liệu duy nhất, luôn tính lại từ đó thay vì
+        // để rải rác nhiều chỗ tự ghi trực tiếp lên savedNotebooks của từng bản sao khác nhau.
+        // Lý do cần hàm này: vocabDatabase (khi lướt Thư viện) và allLibraryCache (khi mở Sổ tay/
+        // Tìm kiếm) là 2 mảng object HOÀN TOÀN TÁCH BIỆT dù cùng chứa dữ liệu 1 từ — trước đây lưu
+        // từ vào sổ ở Thư viện chỉ sửa bản trong vocabDatabase, khiến nút bookmark ở Sổ tay không
+        // biết là đã lưu (vẫn xám, vẫn cho lưu tiếp — sai với quy tắc "1 từ chỉ thuộc 1 sổ").
+        function computeSavedNotebooksMap() {
+            const map = new Map();
+            notebooksList.forEach(nb => {
+                (nb.words || []).forEach(w => {
+                    if (!map.has(w.id)) map.set(w.id, []);
+                    if (!map.get(w.id).includes(nb.id)) map.get(w.id).push(nb.id);
+                });
+            });
+            return map;
+        }
+        function applySavedNotebooksStateToArray(arr) {
+            if (!Array.isArray(arr)) return;
+            const map = computeSavedNotebooksMap();
+            arr.forEach(w => { w.savedNotebooks = map.get(w.id) || []; });
+        }
+        // Gọi cả 2 cache đang có sẵn trong bộ nhớ (nếu đã tải) — dùng sau MỌI thao tác
+        // thêm/xoá từ khỏi 1 sổ tay bất kỳ, để mọi màn hình đang mở đều thấy đúng trạng thái mới nhất.
+        function syncSavedNotebooksEverywhere() {
+            applySavedNotebooksStateToArray(vocabDatabase);
+            applySavedNotebooksStateToArray(allLibraryCache);
+        }
+
         // Sắp xếp mặc định toàn bộ từ vựng theo bảng chữ cái tiếng Hàn (가나다라...) —
         // áp dụng 1 lần ngay khi nạp dữ liệu, các bước lọc phía sau (Array.filter) giữ
         // nguyên thứ tự tương đối nên bộ lọc cũng tự động hiển thị đúng theo ㄱㄴㄷㄹ.
@@ -1030,6 +1060,7 @@
                 vocabDatabase = normalizeRealSheetData(rawData, sourceType);
                 sortWordsKoreanAlpha(vocabDatabase);
                 applyLearnedStateToArray(vocabDatabase);
+                applySavedNotebooksStateToArray(vocabDatabase);
                 filteredDatabase = [...vocabDatabase];
 
                 // Tính các option lọc thực tế từ dữ liệu (Chủ đề / Loại từ / Dạng câu / 급)
@@ -1461,6 +1492,7 @@
                 nb.count = nb.words.length;
                 const countEl = document.getElementById(`nb-count-${nb.id}`);
                 if (countEl) countEl.textContent = nb.count;
+                syncSavedNotebooksEverywhere();
                 saveNotebooksToServer();
                 libSelectedIds.clear();
                 libSelectMode = false;
@@ -1590,6 +1622,7 @@
                     const countEl = document.getElementById(`nb-count-${nb.id}`);
                     if (countEl) countEl.textContent = nb.count;
                 }
+                syncSavedNotebooksEverywhere();
                 renderVocabRows();
                 saveNotebooksToServer();
             };
@@ -1662,6 +1695,7 @@
                     ...normalizeRealSheetData(fastRaw, 'fast'),
                 ];
                 applyLearnedStateToArray(allLibraryCache);
+                applySavedNotebooksStateToArray(allLibraryCache);
             } catch (e) {
                 console.error('Không tải được toàn bộ thư viện để tìm kiếm/lọc:', e);
                 allLibraryCache = [...vocabDatabase];
@@ -1972,6 +2006,7 @@
                     btn.style.color = nowSaved ? '#5b4fcf' : '#9CA3AF';
                     btn.innerHTML = `<svg viewBox="0 0 24 24" width="14" height="14" fill="${nowSaved ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2.2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>`;
                 }
+                syncSavedNotebooksEverywhere();
                 saveNotebooksToServer();
             };
             const i = data.savedNotebooks.indexOf(notebookId);
@@ -2420,6 +2455,7 @@
             nb.count = nb.words.length;
             const countEl = document.getElementById(`nb-count-${nb.id}`);
             if (countEl) countEl.textContent = nb.count;
+            syncSavedNotebooksEverywhere();
             updateNotebookCardProgressUI(nb);
             renderRecentActivitySection();
             saveNotebooksToServer();
