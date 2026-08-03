@@ -145,6 +145,11 @@
         .gup-chip.gup-active { box-shadow: var(--shadow-sunk); }
         .gup-chip:hover:not(.gup-active) { transform: translateY(-1px); }
 
+        /* Chip lọc nhỏ gọn dùng riêng cho phễu "Lọc từ" trong modal tạo sổ (nhiều option nên cần nhỏ) */
+        .bulk-chip { border-radius: 999px; padding: 3px 9px; font-size: 9.5px; font-weight: 700; transition: all .12s ease; background: #E6EBF3; box-shadow: var(--shadow-btn); color: #9aa4b8; border: 1.5px solid transparent; white-space: nowrap; cursor: pointer; }
+        .bulk-chip.bulk-chip-active { box-shadow: var(--shadow-sunk); color: #5b4fcf; border-color: #5b4fcf55; }
+        .bulk-chip:hover:not(.bulk-chip-active) { transform: translateY(-1px); }
+
         .filter-dd-trigger { display: flex; align-items: center; gap: 6px; border-radius: 12px; padding: 7px 12px; font-size: 11.5px; font-weight: 700; background: #E6EBF3; box-shadow: var(--shadow-btn); color: #6b7a99; transition: all .15s ease; white-space: nowrap; border: none; }
         .filter-dd-trigger.dd-open, .filter-dd-trigger.dd-has-selection { box-shadow: var(--shadow-sunk); color: #4F46E5; }
         .filter-dd-panel { position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); z-index: 40; width: max-content; min-width: 190px; max-width: calc(100vw - 32px); max-height: 240px; overflow-y: auto; background: #E6EBF3; border-radius: 18px; box-shadow: 8px 8px 20px #BEC8E4, -6px -6px 16px #ffffff; padding: 8px; }
@@ -1961,11 +1966,11 @@
         // Gộp chung Thủ công + Tìm kiếm thành 1 tab "Thêm từ", cộng thêm tab "Lọc hàng loạt"
         // ============================================================
         let allLibraryCache = null;    // cache gộp cả full_topik + fast_pace để tìm kiếm/lọc toàn cục
-        let bulkOptions = { libs: [], levels: [], wordTypes: [], topics: [] };
+        let bulkOptions = { libs: [], levels: [], examTypes: [], wordTypes: [], topics: [] };
         let nbModalState = {
             name: '', note: '', activeTab: 'add',
             selectedWords: [], // { id, word, vietnamese, source }
-            bulkFilters: { libs: [], levels: [], wordTypes: [], topics: [] },
+            bulkFilters: { libs: [], levels: [], examTypes: [], wordTypes: [], topics: [] },
             editingNotebookId: null, // nếu khác null: đang "Thêm từ" vào 1 sổ tay đã có sẵn (bỏ qua bước Thông tin)
         };
 
@@ -2336,10 +2341,10 @@
         }
 
 
-        // Phễu lọc hàng loạt: Thư viện → Level → Loại từ → Chủ đề (mỗi bước chỉ hiện
+        // Phễu lọc hàng loạt: Thư viện → Cấp độ → Dạng đề → Loại từ → Chủ đề (mỗi bước chỉ hiện
         // option còn tồn tại trong phạm vi đã bị các lựa chọn phía trước thu hẹp)
-        const BULK_CASCADE_ORDER = ['libs', 'levels', 'wordTypes', 'topics'];
-        const BULK_FIELD_MAP = { libs: 'source', levels: 'level', wordTypes: 'word_type', topics: 'topic' };
+        const BULK_CASCADE_ORDER = ['libs', 'levels', 'examTypes', 'wordTypes', 'topics'];
+        const BULK_FIELD_MAP = { libs: 'source', levels: 'level', examTypes: 'exam_type', wordTypes: 'word_type', topics: 'topic' };
         const BULK_LIB_LABELS = { full: 'FULL MASTER', fast: 'FOCUS' };
 
         function computeBulkOptionsCascaded() {
@@ -2359,7 +2364,7 @@
         }
 
         function openCreateNotebookModal() {
-            nbModalState = { name: '', note: '', activeTab: 'add', selectedWords: [], bulkFilters: { libs: [], levels: [], wordTypes: [], topics: [] }, editingNotebookId: null };
+            nbModalState = { name: '', note: '', activeTab: 'add', selectedWords: [], bulkFilters: { libs: [], levels: [], examTypes: [], wordTypes: [], topics: [] }, editingNotebookId: null };
             document.getElementById('create-notebook-modal').classList.remove('hidden');
             document.getElementById('step-1-container').classList.remove('hidden');
             document.getElementById('step-2-container').classList.add('hidden');
@@ -2370,7 +2375,7 @@
         async function openAddWordsToNotebookModal(nbId) {
             const nb = notebooksList.find(n => n.id === nbId);
             if (!nb) return;
-            nbModalState = { name: nb.name, note: nb.note || '', activeTab: 'add', selectedWords: [], bulkFilters: { libs: [], levels: [], wordTypes: [], topics: [] }, editingNotebookId: nbId };
+            nbModalState = { name: nb.name, note: nb.note || '', activeTab: 'add', selectedWords: [], bulkFilters: { libs: [], levels: [], examTypes: [], wordTypes: [], topics: [] }, editingNotebookId: nbId };
             document.getElementById('create-notebook-modal').classList.remove('hidden');
             document.getElementById('step-1-container').classList.add('hidden');
             const step2 = document.getElementById('step-2-container');
@@ -2503,12 +2508,12 @@
                 const dupCount = matches.filter(w => ownership.has(w.id)).length;
                 const chip = (key, val, label) => {
                     const active = nbModalState.bulkFilters[key].includes(val);
-                    return `<button class="gup-chip ${active ? 'gup-active' : ''}" style="${active ? 'color:#5b4fcf;border-color:#5b4fcf55;' : ''}" onclick="toggleBulkFilterVal('${key}','${val}')">${label}</button>`;
+                    return `<button class="bulk-chip ${active ? 'bulk-chip-active' : ''}" onclick="toggleBulkFilterVal('${key}','${String(val).replace(/'/g, "\\'")}')">${label}</button>`;
                 };
                 const section = (icon, title, key, opts, labelFn) => `
                     <div>
                         <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">${icon} ${title}</p>
-                        <div class="flex flex-wrap gap-1.5">${opts.length ? opts.map(v => chip(key, v, labelFn ? labelFn(v) : v)).join('') : '<span class="text-[11px] text-gray-400">Không có dữ liệu</span>'}</div>
+                        <div class="flex flex-wrap gap-1">${opts.length ? opts.map(v => chip(key, v, labelFn ? labelFn(v) : v)).join('') : '<span class="text-[11px] text-gray-400">Không có dữ liệu</span>'}</div>
                     </div>`;
                 el.innerHTML = `
                     <div class="neo-sunk p-3 !rounded-2xl flex flex-col gap-2.5 sticky -top-0.5 z-10" style="background:#E6EBF3;">
@@ -2523,6 +2528,7 @@
                     </div>
                     ${section('📚', 'Thư viện', 'libs', bulkOptions.libs, v => BULK_LIB_LABELS[v] || v)}
                     ${section('📊', 'Cấp độ', 'levels', bulkOptions.levels, v => `Cấp ${v}`)}
+                    ${section('📝', 'Dạng đề', 'examTypes', bulkOptions.examTypes)}
                     ${section('🧩', 'Loại từ', 'wordTypes', bulkOptions.wordTypes)}
                     ${section('📁', 'Chủ đề', 'topics', bulkOptions.topics)}
                 `;
@@ -2650,6 +2656,7 @@
                 if (w.learned) return false;
                 if (f.libs.length && !f.libs.includes(w.source)) return false;
                 if (f.levels.length && !f.levels.includes(w.level)) return false;
+                if (f.examTypes.length && !f.examTypes.includes(w.exam_type)) return false;
                 if (f.wordTypes.length && !f.wordTypes.includes(w.word_type)) return false;
                 if (f.topics.length && !f.topics.includes(w.topic)) return false;
                 return true;
