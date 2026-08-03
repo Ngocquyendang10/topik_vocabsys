@@ -110,6 +110,16 @@
         .ticker-slide-item.ticker-active { transform: translateY(0); }
         .ticker-slide-item.ticker-exit { transform: translateY(-100%); }
 
+        /* Bảng "Viết từ": trạng thái đúng/sai từng ô + hiệu ứng rung khi sai, bounce khi đúng */
+        .typing-input { border: 2px solid transparent; transition: border-color .15s ease, background .15s ease; }
+        .typing-input.typing-row-correct { border-color: #2ec65e; background: rgba(46,198,94,0.08) !important; color: #1a7a3a; font-weight: 700; }
+        .typing-input.typing-row-wrong { border-color: #ef4444; }
+        @keyframes typingShake { 10%, 90% { transform: translateX(-2px); } 20%, 80% { transform: translateX(3px); } 30%, 50%, 70% { transform: translateX(-5px); } 40%, 60% { transform: translateX(5px); } }
+        .typing-shake { animation: typingShake .5s cubic-bezier(.36,.07,.19,.97) both; }
+        @keyframes typingCheckBounce { 0% { transform: scale(0); } 60% { transform: scale(1.3); } 100% { transform: scale(1); } }
+        .typing-check-bounce { display: inline-flex; animation: typingCheckBounce .4s ease; }
+        .typing-x-icon { display: inline-flex; }
+
         /* CARD MINI PHONG CÁCH XÁM XANH ĐỒNG BỘ NỀN TẢNG WEBSITE GỐC */
         .mini-card-3d { background: #E6EBF3; box-shadow: var(--shadow-raised); border-radius: 28px; padding: 20px; transition: all 0.2s ease; border: 2.5px solid transparent; }
         .mini-card-3d.active-selected { border-color: #6C63FF; box-shadow: var(--shadow-sunk); background: #E1E6EE; transform: translateY(-1px); }
@@ -955,10 +965,14 @@
             const utter = new SpeechSynthesisUtterance(text);
             utter.lang = 'ko-KR';
             utter.rate = 0.85; // chậm hơn ~15% giúp phát âm rõ, tự nhiên hơn tốc độ mặc định
-            const cacheKey = gender === 'male' ? 'male' : gender === 'female' ? 'female' : null;
-            const pool = (cacheKey && cachedKoreanVoices[cacheKey] && cachedKoreanVoices[cacheKey].length)
+            // QUAN TRỌNG: mặc định LUÔN là 'female' khi không truyền gender (đa số lời gọi trong app,
+            // vd nút loa phát âm 1 từ, không truyền gender) — trước đây lỡ đổi thành null khiến các lời
+            // gọi này rơi vào pool KHÔNG lọc giới tính rồi random giữa mọi giọng mạng có sẵn, kể cả giọng
+            // không tự nhiên bằng — đây chính là nguyên nhân "tự nhiên rồi bỗng robot trở lại".
+            const cacheKey = gender === 'male' ? 'male' : 'female';
+            const pool = (cachedKoreanVoices[cacheKey] && cachedKoreanVoices[cacheKey].length)
                 ? cachedKoreanVoices[cacheKey]
-                : pickBestKoreanVoice(gender);
+                : pickBestKoreanVoice(cacheKey);
             // Random giữa các giọng khớp (nếu máy có nhiều giọng mạng tiếng Hàn) để đỡ đơn điệu,
             // giống cách dự án Ngữ pháp TOPIK đang làm.
             if (pool.length) utter.voice = pool[Math.floor(Math.random() * pool.length)];
@@ -1009,7 +1023,7 @@
             const utter = new SpeechSynthesisUtterance(text);
             utter.lang = 'ko-KR';
             utter.rate = 0.85 * getExampleAudioRate(key); // 0.85 = tốc độ đọc chậm-tự-nhiên gốc, nhân thêm hệ số user chọn
-            const pool = pickBestKoreanVoice();
+            const pool = (cachedKoreanVoices.female && cachedKoreanVoices.female.length) ? cachedKoreanVoices.female : pickBestKoreanVoice('female');
             if (pool.length) utter.voice = pool[Math.floor(Math.random() * pool.length)];
             utter.onend = () => {
                 if (audioPlaybackState.key === key) {
@@ -2973,7 +2987,7 @@
             nbId: null, words: [], activeTab: 'list',
             flashcard: { indices: [], current: 0, flipped: false, shuffle: false },
             quiz: { indices: [], current: 0, answered: false },
-            typing: { indices: [], current: 0, direction: 'vi-to-ko' },
+            typing: { direction: 'vi-to-ko', rows: null, status: {}, everWrong: {}, touched: false },
             listen: { indices: [], current: 0, answered: false },
             guess: { indices: [], current: 0, answered: false },
         };
@@ -3188,7 +3202,7 @@
             const fullIdx = words.map((_, i) => i);
             practiceState.flashcard = { indices: [...fullIdx], current: 0, flipped: false, shuffle: false };
             practiceState.quiz = { queue: buildQueueForFunc('quiz', words, nb), answered: false };
-            practiceState.typing = { queue: buildQueueForFunc('typing', words, nb), answered: false, direction: 'vi-to-ko' };
+            practiceState.typing = { direction: 'vi-to-ko', rows: null, status: {}, everWrong: {}, touched: false };
             practiceState.listen = { queue: buildQueueForFunc('listen', words, nb), answered: false };
             practiceState.guess = { queue: buildQueueForFunc('guess', words, nb), answered: false };
 
@@ -3754,69 +3768,305 @@
         }
 
         // ─── 4. VIẾT TỪ ───
+        // ============================================================
+        // 4. VIẾT TỪ — bảng toàn bộ từ vựng, gõ → Enter → gõ → Enter liên tục.
+        // Xem chuẩn hoá đáp án + xử lý IME (composition) ở các hàm bên dưới.
+        // ============================================================
+        const TYPING_CHECK_ICON = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#2ec65e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+        const TYPING_X_ICON = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#ef4444" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
+
+        // Bỏ dấu tiếng Việt (dùng khi chấm chiều Hàn → Việt, cho phép gõ không dấu)
+        function stripVietnameseDiacritics(str) {
+            return (str || '').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');
+        }
+        // Chuẩn hoá: bỏ khoảng trắng đầu/cuối + gộp khoảng trắng thừa, hạ chữ thường,
+        // bỏ mọi ký tự không phải chữ/số (giữ chữ Hàn/Việt có dấu + khoảng trắng)
+        function normalizeTypingAnswer(str, stripDiacritics) {
+            let s = (str || '').trim().toLowerCase();
+            s = s.replace(/[^\p{L}\p{N}\s]/gu, '').replace(/\s+/g, ' ').trim();
+            if (stripDiacritics) s = stripVietnameseDiacritics(s);
+            return s;
+        }
+        function isTypingAnswerCorrect(inputVal, item, direction) {
+            const guess = normalizeTypingAnswer(inputVal, direction === 'ko-to-vi');
+            if (!guess) return false;
+            if (direction === 'vi-to-ko') {
+                return guess === normalizeTypingAnswer(item.word, false);
+            }
+            const raw = item.vietnamese || item.deep_meaning || item.literal || '';
+            const candidates = [raw, ...raw.split(/[;\/\n]/)].map(s => s.trim()).filter(Boolean);
+            return candidates.some(c => normalizeTypingAnswer(c, true) === guess);
+        }
+
+        function initTypingRowsIfNeeded() {
+            const st = practiceState.typing;
+            if (st.rows) return;
+            const nb = getCurrentNotebook();
+            st.rows = buildQueueForFunc('typing', practiceState.words, nb);
+            st.status = {};
+            st.everWrong = {};
+            st.touched = false;
+        }
+
         function renderPracticeTyping() {
             const el = document.getElementById('practice-content');
-            el.className = 'neo-raised p-4 sm:p-8 flex items-start justify-center';
+            el.className = 'w-full';
             const st = practiceState.typing;
-            if (!st.queue.length) { el.innerHTML = buildPracticeDoneStateHtml('typing'); return; }
-            const item = practiceState.words[st.queue[0]];
-            const prompt = st.direction === 'vi-to-ko' ? (item.vietnamese || '—') : item.word;
-            const label = st.direction === 'vi-to-ko' ? 'Hãy viết từ tiếng Hàn tương ứng:' : 'Hãy viết nghĩa tiếng Việt tương ứng:';
+            initTypingRowsIfNeeded();
+
+            if (!st.rows.length) { el.className = 'neo-raised p-4 sm:p-8 flex items-start justify-center'; el.innerHTML = buildPracticeDoneStateHtml('typing'); return; }
+
+            const showKr = st.direction === 'ko-to-vi';
+            const doneCount = Object.values(st.status).filter(s => s === 'correct').length;
+            const total = st.rows.length;
+            const pct = total ? Math.round((doneCount / total) * 100) : 0;
+
+            const rowsHtml = st.rows.map((wordIdx, rowPos) => {
+                const item = practiceState.words[wordIdx];
+                const status = st.status[wordIdx] || 'pending';
+                const promptText = showKr ? item.word : (item.vietnamese || item.deep_meaning || item.literal || '—');
+                const placeholder = st.direction === 'vi-to-ko' ? 'Nhập tiếng Hàn...' : 'Nhập tiếng Việt...';
+                const resultIcon = status === 'correct' ? `<span class="typing-check-bounce">${TYPING_CHECK_ICON}</span>` : '';
+                return `
+                    <tr class="border-b border-[#e4e9f2]" data-row-idx="${wordIdx}">
+                        <td class="py-3 px-4 text-xs text-gray-400 font-mono">${rowPos + 1}</td>
+                        <td class="py-3 px-4">
+                            <div class="flex items-center gap-2">
+                                <span class="${showKr ? 'font-kr-serif text-base font-bold' : 'text-sm font-semibold'} text-[#1e2a4a]">${promptText}</span>
+                                ${showKr ? `<button class="ex-mini-btn" style="width:22px; padding:0; color:#6C63FF;" title="Nghe phát âm" onmousedown="event.preventDefault();" onclick="speakKorean('${item.word.replace(/'/g, "\\'")}')">
+                                    <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.6"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                                </button>` : ''}
+                            </div>
+                        </td>
+                        <td class="py-3 px-4">
+                            <input type="text" class="typing-input neo-sunk px-3.5 py-2.5 !rounded-xl text-sm w-full outline-none bg-transparent ${status === 'correct' ? 'typing-row-correct' : ''}"
+                                data-row-index="${wordIdx}" placeholder="${placeholder}" autocomplete="off" spellcheck="false"
+                                ${status === 'correct' ? 'readonly' : ''}
+                                onkeydown="handleTypingKeydown(event, ${wordIdx})">
+                        </td>
+                        <td class="py-3 px-4 text-center"><span class="typing-result-icon">${resultIcon}</span></td>
+                    </tr>`;
+            }).join('');
+
             el.innerHTML = `
-                <div class="flex flex-col items-center gap-5 w-full pt-4">
-                    ${buildInlinePracticeProgressHtml('typing')}
-                    <button class="neo-button px-4 py-2 text-xs font-bold text-point" onclick="togglePracticeTypingDirection()">
-                        Chế độ: ${st.direction === 'vi-to-ko' ? 'Việt ➔ Hàn' : 'Hàn ➔ Việt'}
-                    </button>
-                    <p class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">${label}</p>
-                    <div class="flex items-center gap-2 px-4">
-                        <p class="text-2xl font-bold text-[#1e2a4a] text-center">${prompt}</p>
-                        ${st.direction === 'ko-to-vi' ? `<button class="m-pressed-btn text-point shrink-0" title="Nghe phát âm" onclick="speakKorean('${item.word.replace(/'/g, "\\'")}')">
-                            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
-                        </button>` : ''}
+                <div class="w-full flex flex-col gap-5">
+                    <div class="flex items-center justify-between flex-wrap gap-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-11 h-11 rounded-2xl neo-raised flex items-center justify-center text-point shrink-0">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-bold text-[#1A1A24]">Viết từ</h3>
+                                <p class="text-xs text-gray-400">Hãy nhập ${st.direction === 'vi-to-ko' ? 'tiếng Hàn' : 'tiếng Việt'} tương ứng với từ vựng bên dưới, xong nhấn Enter.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button class="neo-button px-3.5 py-2 text-xs font-bold text-gray-500 flex items-center gap-1.5" onclick="requestShuffleTypingRows()">
+                                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
+                                Trộn bài
+                            </button>
+                            <button class="neo-button px-3.5 py-2 text-xs font-bold text-point flex items-center gap-1.5" onclick="requestToggleTypingDirection()">
+                                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
+                                Đổi hướng: ${st.direction === 'vi-to-ko' ? 'Việt → Hàn' : 'Hàn → Việt'}
+                            </button>
+                        </div>
                     </div>
-                    <input type="text" id="pt-input" class="neo-sunk px-5 py-3.5 !rounded-2xl text-center text-lg font-semibold w-full max-w-sm outline-none border-none bg-transparent" placeholder="Nhập câu trả lời..." autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault(); submitPracticeTyping();}">
-                    <div id="pt-feedback" class="text-sm font-bold text-center min-h-[44px] w-full max-w-sm rounded-2xl flex items-center justify-center px-4"></div>
-                    <div class="flex gap-3 flex-wrap justify-center w-full sm:w-auto sticky bottom-2 sm:static z-10 bg-[#E6EBF3]/95 backdrop-blur-sm rounded-2xl p-2 sm:p-0 sm:bg-transparent">
-                        <button class="neo-button px-5 py-2.5 text-xs font-bold text-gray-400" id="pt-skip-btn" onclick="advancePracticeQueue('typing', true)">Bỏ qua, làm lại sau</button>
-                        <button class="neo-button px-6 py-3 text-sm font-bold text-gray-500" id="pt-check-btn" onclick="submitPracticeTyping()">Kiểm tra</button>
-                        <button class="neo-button px-6 py-3 text-sm font-bold text-point hidden" id="pt-next-btn" onclick="advancePracticeQueue('typing', false)">Câu tiếp theo →</button>
+
+                    <div class="w-full">
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="text-[11px] font-bold text-gray-500" id="typing-progress-count">${doneCount}/${total} từ</span>
+                            <span class="text-[11px] font-bold font-mono text-gray-400" id="typing-progress-pct">${pct}%</span>
+                        </div>
+                        <div class="w-full h-3 neo-sunk rounded-full overflow-hidden p-[2px]">
+                            <div class="h-full rounded-full gradient-act-3 transition-all duration-500" style="width:${pct}%;" id="typing-progress-bar"></div>
+                        </div>
+                    </div>
+
+                    <div class="neo-raised !rounded-[24px] overflow-hidden">
+                        <div class="overflow-x-auto" style="max-height:60vh; overflow-y:auto;">
+                            <table class="w-full text-sm" style="border-collapse:collapse;">
+                                <thead>
+                                    <tr class="text-left">
+                                        <th class="py-3 px-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider" style="width:50px;">STT</th>
+                                        <th class="py-3 px-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Từ vựng</th>
+                                        <th class="py-3 px-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Nhập đáp án</th>
+                                        <th class="py-3 px-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider text-center whitespace-nowrap" style="width:100px;">Kết quả</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="typing-tbody">${rowsHtml}</tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             `;
-            setTimeout(() => { const inp = document.getElementById('pt-input'); if (inp) inp.focus(); }, 50);
+            bindTypingRowEvents();
+            setTimeout(() => {
+                const firstPending = st.rows.find(idx => st.status[idx] !== 'correct');
+                if (firstPending == null) return;
+                const inp = document.querySelector(`#typing-tbody tr[data-row-idx="${firstPending}"] .typing-input`);
+                if (inp) inp.focus();
+            }, 50);
         }
-        function togglePracticeTypingDirection() {
-            practiceState.typing.direction = practiceState.typing.direction === 'vi-to-ko' ? 'ko-to-vi' : 'vi-to-ko';
+
+        // compositionend PHẢI gắn qua addEventListener (thuộc tính oncompositionend không chạy ổn định)
+        function bindTypingRowEvents() {
+            document.querySelectorAll('#typing-tbody .typing-input').forEach(inp => {
+                inp.addEventListener('compositionstart', () => { inp.dataset.composing = '1'; });
+                inp.addEventListener('compositionend', () => {
+                    inp.dataset.composing = '0';
+                    if (inp.dataset.pendingEnter === '1') {
+                        inp.dataset.pendingEnter = '0';
+                        checkTypingRow(parseInt(inp.dataset.rowIndex, 10));
+                    }
+                });
+            });
+        }
+
+        // Enter lúc đang gõ dở bộ gõ Hàn/Việt (IME) → chỉ đánh dấu chờ, chấm thật sự ở compositionend
+        function handleTypingKeydown(event, wordIndex) {
+            if (event.key !== 'Enter') return;
+            const inp = event.target;
+            if (event.isComposing || event.keyCode === 229 || inp.dataset.composing === '1') {
+                inp.dataset.pendingEnter = '1';
+                return;
+            }
+            event.preventDefault();
+            checkTypingRow(wordIndex);
+        }
+
+        function checkTypingRow(wordIndex) {
+            const st = practiceState.typing;
+            if (st.status[wordIndex] === 'correct') return;
+            const item = practiceState.words[wordIndex];
+            const row = document.querySelector(`#typing-tbody tr[data-row-idx="${wordIndex}"]`);
+            if (!row || !item) return;
+            const input = row.querySelector('.typing-input');
+            const resultCell = row.querySelector('.typing-result-icon');
+            const val = input.value;
+            if (!val.trim()) { input.focus(); return; }
+            st.touched = true;
+
+            if (isTypingAnswerCorrect(val, item, st.direction)) {
+                st.status[wordIndex] = 'correct';
+                input.readOnly = true;
+                input.classList.remove('typing-row-wrong');
+                input.classList.add('typing-row-correct');
+                resultCell.innerHTML = `<span class="typing-check-bounce">${TYPING_CHECK_ICON}</span>`;
+                recordPracticeResult('typing', item.id, true);
+                updateTypingProgressUI();
+                if (isTypingAllDone()) { showTypingCompletionPopup(); return; }
+                focusNextPendingTypingRow(wordIndex);
+            } else {
+                st.everWrong[wordIndex] = true;
+                input.classList.add('typing-row-wrong');
+                resultCell.innerHTML = `<span class="typing-x-icon">${TYPING_X_ICON}</span>`;
+                recordPracticeResult('typing', item.id, false);
+                input.classList.remove('typing-shake');
+                void input.offsetWidth; // ép reflow để animation chạy lại được dù bấm sai liên tiếp
+                input.classList.add('typing-shake');
+                input.focus();
+            }
+        }
+
+        function focusNextPendingTypingRow(fromIndex) {
+            const st = practiceState.typing;
+            const pos = st.rows.indexOf(fromIndex);
+            for (let i = 1; i <= st.rows.length; i++) {
+                const nextIdx = st.rows[(pos + i) % st.rows.length];
+                if (st.status[nextIdx] !== 'correct') {
+                    const nextRow = document.querySelector(`#typing-tbody tr[data-row-idx="${nextIdx}"]`);
+                    const nextInput = nextRow ? nextRow.querySelector('.typing-input') : null;
+                    if (nextInput) {
+                        nextInput.focus();
+                        nextRow.scrollIntoView({ block: 'center', behavior: 'smooth' });
+                    }
+                    return;
+                }
+            }
+        }
+
+        function isTypingAllDone() {
+            const st = practiceState.typing;
+            return st.rows.length > 0 && st.rows.every(idx => st.status[idx] === 'correct');
+        }
+
+        function updateTypingProgressUI() {
+            const st = practiceState.typing;
+            const total = st.rows.length;
+            const doneCount = Object.values(st.status).filter(s => s === 'correct').length;
+            const pct = total ? Math.round((doneCount / total) * 100) : 0;
+            const countEl = document.getElementById('typing-progress-count');
+            const pctEl = document.getElementById('typing-progress-pct');
+            const barEl = document.getElementById('typing-progress-bar');
+            if (countEl) countEl.textContent = `${doneCount}/${total} từ`;
+            if (pctEl) pctEl.textContent = `${pct}%`;
+            if (barEl) barEl.style.width = `${pct}%`;
+        }
+
+        function requestToggleTypingDirection() {
+            const st = practiceState.typing;
+            const curLabel = st.direction === 'vi-to-ko' ? 'Việt → Hàn' : 'Hàn → Việt';
+            const otherLabel = st.direction === 'vi-to-ko' ? 'Hàn → Việt' : 'Việt → Hàn';
+            if (!st.touched) { toggleTypingDirectionNow(); return; }
+            showConfirmModal({
+                title: 'Đổi hướng luyện tập?',
+                message: `Bạn đang làm mode ${curLabel}. Bạn có muốn bắt đầu lại từ đầu với mode ${otherLabel} không?`,
+                confirmText: 'Đồng ý, bắt đầu lại',
+                cancelText: 'Huỷ',
+                onConfirm: toggleTypingDirectionNow,
+            });
+        }
+        function toggleTypingDirectionNow() {
+            const st = practiceState.typing;
+            st.direction = st.direction === 'vi-to-ko' ? 'ko-to-vi' : 'vi-to-ko';
+            st.rows = null; // ép khởi tạo lại sạch ở lần render tới
             renderPracticeTyping();
         }
-        function cleanPracticeStr(s) { return (s || '').toLowerCase().trim().replace(/\s+/g, ' '); }
-        function submitPracticeTyping() {
+
+        function requestShuffleTypingRows() {
             const st = practiceState.typing;
-            if (st.answered) return;
-            const item = practiceState.words[st.queue[0]];
-            const input = document.getElementById('pt-input');
-            const fb = document.getElementById('pt-feedback');
-            if (!input || !fb) return;
-            const val = input.value.trim();
-            if (!val) { input.focus(); return; }
-            st.answered = true;
-            const target = st.direction === 'vi-to-ko' ? item.word : (item.vietnamese || '');
-            const isCorrect = cleanPracticeStr(val) === cleanPracticeStr(target);
-            const baseClass = 'text-sm font-bold text-center min-h-[44px] w-full max-w-sm rounded-2xl flex items-center justify-center px-4';
-            if (isCorrect) {
-                fb.className = `${baseClass} quiz-correct`;
-                fb.innerHTML = '🎉 Chính xác!';
-                input.classList.remove('quiz-wrong'); input.classList.add('quiz-correct');
-            } else {
-                fb.className = `${baseClass} quiz-wrong`;
-                fb.innerHTML = `😢 Chưa đúng — đáp án là: <b class="ml-1">${target}</b>`;
-                input.classList.remove('quiz-correct'); input.classList.add('quiz-wrong');
-            }
-            document.getElementById('pt-next-btn').classList.remove('hidden');
-            document.getElementById('pt-skip-btn').classList.add('hidden');
-            document.getElementById('pt-check-btn').classList.add('hidden');
-            if (item) recordPracticeResult('typing', item.id, isCorrect);
+            if (!st.touched) { shuffleTypingRowsNow(); return; }
+            showConfirmModal({
+                title: 'Trộn lại thứ tự?',
+                message: 'Bạn đang làm dở — trộn bài sẽ xoá hết đáp án đã nhập (giữ nguyên chế độ hiện tại). Tiếp tục?',
+                confirmText: 'Trộn bài',
+                cancelText: 'Huỷ',
+                onConfirm: shuffleTypingRowsNow,
+            });
+        }
+        function shuffleTypingRowsNow() {
+            const st = practiceState.typing;
+            st.rows = shuffleArr(st.rows || buildQueueForFunc('typing', practiceState.words, getCurrentNotebook()));
+            st.status = {};
+            st.everWrong = {};
+            st.touched = false;
+            renderPracticeTyping();
+        }
+
+        function showTypingCompletionPopup() {
+            const st = practiceState.typing;
+            const total = st.rows.length;
+            const wrongCount = Object.keys(st.everWrong).length;
+            const accuracyPct = total ? Math.round(((total - wrongCount) / total) * 100) : 100;
+            const overlay = document.createElement('div');
+            overlay.className = 'fixed inset-0 z-[120] flex items-center justify-center p-4';
+            overlay.style.background = 'rgba(26,32,44,0.45)';
+            overlay.innerHTML = `
+                <div class="neo-raised p-8 w-full max-w-[420px] flex flex-col items-center text-center gap-3 !rounded-[28px]">
+                    <div class="w-16 h-16 rounded-full flex items-center justify-center text-3xl gradient-act-3">🎉</div>
+                    <h3 class="text-lg font-bold text-[#1A1A24]">Chúc mừng hoàn thành!</h3>
+                    <div class="flex items-center gap-4 text-sm font-bold mt-1">
+                        <span style="color:#2ec65e;">✓ ${total}</span>
+                        <span style="color:#ef4444;">✕ ${wrongCount}</span>
+                        <span class="text-gray-400 font-mono">${accuracyPct}% chính xác</span>
+                    </div>
+                    <div class="flex gap-3 mt-3">
+                        <button class="neo-button px-5 py-2.5 text-xs font-bold text-gray-500" onclick="this.closest('.fixed').remove()">Thoát</button>
+                        <button class="neo-button px-5 py-2.5 text-sm font-bold text-white" style="background:#6C63FF;" onclick="this.closest('.fixed').remove(); shuffleTypingRowsNow();">Làm lại</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(overlay);
         }
 
         // ─── 5. NGHE & CHỌN TỪ (nghe rồi chọn đúng từ Hàn) ───
