@@ -120,6 +120,38 @@
         .typing-check-bounce { display: inline-flex; animation: typingCheckBounce .4s ease; }
         .typing-x-icon { display: inline-flex; }
 
+        /* ===== DASHBOARD "HOẠT ĐỘNG CỦA BẠN" — phong cách glass/journey (port từ dự án Ngữ pháp) ===== */
+        .journey-wrap { position:relative; overflow:hidden; border-radius:24px; background:#f0f2f7; }
+        .journey-blob { position:absolute; border-radius:50%; filter:blur(50px); pointer-events:none; z-index:0; }
+        .glass-card { background:rgba(255,255,255,0.2); backdrop-filter:blur(11.5px); -webkit-backdrop-filter:blur(11.5px); border-radius:20px; border:1px solid rgba(255,255,255,0.3); box-shadow:0 4px 30px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.5); position:relative; overflow:hidden; }
+        .journey-icon-slot { width:40px; height:40px; display:flex; align-items:center; justify-content:center; flex:0 0 auto; font-size:26px; line-height:1; }
+        .journey-hero-img { position:absolute; top:-58px; right:32px; width:200px; height:auto; z-index:2; pointer-events:none; }
+        .journey-stat-card { position:relative; display:flex; align-items:center; gap:14px; border-radius:18px; padding:16px 18px; background:rgba(255,255,255,0.28); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border:1px solid rgba(255,255,255,0.4); box-shadow:0 4px 20px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.5); overflow:hidden; }
+        .journey-stat-card.is-clickable { cursor:pointer; transition:transform .2s ease; }
+        .journey-stat-card.is-clickable:hover { transform:translateY(-3px); }
+        .journey-nb-card { background:rgba(255,255,255,0.13); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border-radius:20px; border:1px solid rgba(255,255,255,0.3); box-shadow:0 4px 24px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.4); position:relative; overflow:hidden; padding:18px; transition:transform .3s ease; }
+        .journey-nb-card:hover { transform:translateY(-4px); }
+        .journey-nb-tag { position:absolute; top:-8px; left:18px; width:60px; height:32px; border-radius:10px; transform:rotate(-9deg); filter:blur(1.5px); opacity:.85; z-index:0; }
+        .weak-pill { border:none; border-radius:999px; padding:9px 16px; font-size:13px; font-weight:700; color:#3730a3; cursor:pointer; background:rgba(255,255,255,0.65); border:1px solid rgba(255,255,255,0.8); backdrop-filter:blur(10px); box-shadow:0 4px 10px rgba(108,99,255,0.1); transition:all .2s ease; display:inline-flex; align-items:center; gap:8px; }
+        .weak-pill:hover { box-shadow:0 0 16px rgba(108,99,255,0.3); }
+        .donut-card { background:#f5f7fb; border-radius:24px; box-shadow:8px 8px 20px #d0d4de,-8px -8px 20px #ffffff; padding:24px; }
+        .donut-ring { width:134px; height:134px; border-radius:50%; flex:0 0 auto; display:flex; align-items:center; justify-content:center; box-shadow:6px 6px 14px #d0d4de,-6px -6px 14px #ffffff; position:relative; }
+        .donut-hole { width:98px; height:98px; border-radius:50%; background:#f5f7fb; box-shadow:inset 3px 3px 7px #d7dae4, inset -3px -3px 7px #ffffff; display:flex; align-items:center; justify-content:center; flex-direction:column; }
+        .calendar-daynum { position:relative; z-index:1; aspect-ratio:1; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; }
+        .period-pill { border-radius:999px; padding:7px 14px; background:rgba(255,255,255,0.5); border:1px solid rgba(255,255,255,0.6); font-size:11.5px; font-weight:700; color:#3730a3; cursor:pointer; transition:all .15s ease; }
+        .period-pill.period-active { background:linear-gradient(135deg,#7c6ee8,#5b4fcf); color:#fff; border-color:transparent; }
+        @media (max-width:1023px) {
+            .journey-flexcol { min-width:0 !important; flex-basis:100% !important; }
+            .journey-hero-img { display:none; }
+            .journey-hero-textblock { margin-bottom:18px !important; }
+            .journey-wrap { padding:18px 14px !important; }
+            .donut-card { padding:18px; }
+            .donut-body { flex-direction:column; }
+            .donut-body .donut-ring { margin:0 auto; }
+            .journey-stats-grid { grid-template-columns:1fr !important; }
+            .journey-nb-grid { grid-template-columns:1fr !important; }
+        }
+
         /* CARD MINI PHONG CÁCH XÁM XANH ĐỒNG BỘ NỀN TẢNG WEBSITE GỐC */
         .mini-card-3d { background: #E6EBF3; box-shadow: var(--shadow-raised); border-radius: 28px; padding: 20px; transition: all 0.2s ease; border: 2.5px solid transparent; }
         .mini-card-3d.active-selected { border-color: #6C63FF; box-shadow: var(--shadow-sunk); background: #E1E6EE; transform: translateY(-1px); }
@@ -845,6 +877,44 @@
         // hoàn toàn mới mỗi lần, nên không thể tự giữ trạng thái learned nếu không có map này).
         let learnedWordsMap = {};
 
+        // ===== Nhật ký hoạt động theo ngày (cho Dashboard "Hoạt động của bạn") =====
+        // dailyActivityLog: số lần có hoạt động thực (đánh dấu thuộc/lưu sổ/làm quiz...) mỗi ngày → dùng cho Streak.
+        // dailyLearnedLog: số TỪ VỰNG đánh dấu "đã thuộc" mỗi ngày → dùng cho biểu đồ "Từ vựng đã học theo ngày".
+        // dailyActiveMsLog: tổng thời gian tương tác thực mỗi ngày → để cấp 1 "chấm streak" nếu ≥10 phút/ngày.
+        let dailyActivityLog = {};
+        let dailyLearnedLog = {};
+        let dailyActiveMsLog = {};
+        function dateKeyOf(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+        function recordVocabActivity(n) {
+            const k = dateKeyOf(new Date());
+            dailyActivityLog[k] = (dailyActivityLog[k] || 0) + (n || 1);
+        }
+        function recordVocabLearned(n) {
+            const k = dateKeyOf(new Date());
+            dailyLearnedLog[k] = (dailyLearnedLog[k] || 0) + (n || 1);
+            recordVocabActivity(1);
+        }
+        function computeStreak() {
+            let streak = 0;
+            let d = new Date();
+            if (!(dailyActivityLog[dateKeyOf(d)] > 0)) d.setDate(d.getDate() - 1); // hôm nay chưa có gì thì tính từ hôm qua
+            while (dailyActivityLog[dateKeyOf(d)] > 0) { streak++; d.setDate(d.getDate() - 1); }
+            return streak;
+        }
+        function smoothPath(coords) {
+            if (!coords.length) return '';
+            if (coords.length === 1) return `M${coords[0][0]},${coords[0][1]}`;
+            let d = `M${coords[0][0]},${coords[0][1]}`;
+            for (let i = 0; i < coords.length - 1; i++) {
+                const [x0, y0] = coords[i], [x1, y1] = coords[i + 1];
+                const mx = (x0 + x1) / 2, my = (y0 + y1) / 2;
+                d += ` Q${x0},${y0} ${mx},${my}`;
+            }
+            const last = coords[coords.length - 1];
+            d += ` L${last[0]},${last[1]}`;
+            return d;
+        }
+
         function saveNotebooksToServer() {
             if (!LOGIN_SCRIPT_URL || !currentUser || !currentUser.username) return;
             clearTimeout(notebooksSaveTimer);
@@ -860,7 +930,7 @@
                         joinedAt: currentUser.joinedAt,
                         totalActiveMs: currentUser.totalActiveMs || 0,
                     } : null;
-                    const bundle = { notebooks: notebooksList, deletedNotebooks: deletedNotebooksList, learnedWords: learnedWordsMap, userProfile };
+                    const bundle = { notebooks: notebooksList, deletedNotebooks: deletedNotebooksList, learnedWords: learnedWordsMap, userProfile, dailyActivityLog, dailyLearnedLog, dailyActiveMsLog };
                     const payload = { action: 'saveNotebooks', user: currentUser.username, notebooksJson: JSON.stringify(bundle) };
                     await fetch(LOGIN_SCRIPT_URL, {
                         method: 'POST',
@@ -891,6 +961,9 @@
                     notebooksList = Array.isArray(loaded.notebooks) ? loaded.notebooks : [];
                     deletedNotebooksList = Array.isArray(loaded.deletedNotebooks) ? loaded.deletedNotebooks : [];
                     learnedWordsMap = (loaded.learnedWords && typeof loaded.learnedWords === 'object') ? loaded.learnedWords : {};
+                    dailyActivityLog = (loaded.dailyActivityLog && typeof loaded.dailyActivityLog === 'object') ? loaded.dailyActivityLog : {};
+                    dailyLearnedLog = (loaded.dailyLearnedLog && typeof loaded.dailyLearnedLog === 'object') ? loaded.dailyLearnedLog : {};
+                    dailyActiveMsLog = (loaded.dailyActiveMsLog && typeof loaded.dailyActiveMsLog === 'object') ? loaded.dailyActiveMsLog : {};
                     // Đồng bộ hồ sơ (tên hiển thị/ảnh/ngày tham gia/giờ học) xuyên thiết bị — server là nguồn
                     // dữ liệu chính thức 1 khi đã có; giờ học tích luỹ lấy giá trị LỚN HƠN giữa máy hiện tại
                     // (vừa mới tương tác vài giây trước khi tải xong) và server, tránh mất giờ của bên nào.
@@ -1843,12 +1916,14 @@
         // duy nhất, được lưu lên server), đồng bộ lại lên cả vocabDatabase lẫn allLibraryCache
         // (2 mảng object riêng biệt, không share reference) rồi lưu lên server.
         function setWordLearnedState(wordId, learned) {
+            const wasLearned = !!learnedWordsMap[wordId];
             if (learned) learnedWordsMap[wordId] = Date.now();
             else delete learnedWordsMap[wordId];
             const ts = learnedWordsMap[wordId] || null;
             const syncOne = w => { if (w && w.id === wordId) { w.learned = !!ts; w.learnedAt = ts; } };
             (vocabDatabase || []).forEach(syncOne);
             (allLibraryCache || []).forEach(syncOne);
+            if (learned && !wasLearned) recordVocabLearned(1); // đánh dấu 1 từ mới thuộc → +1 cho biểu đồ & streak
             saveNotebooksToServer();
         }
 
@@ -3108,6 +3183,7 @@
             const wordObj = (nb.words || []).find(w => w.id === wordId);
             if (wordObj) wordObj.lastSeenAt = Date.now();
             clearNewlyAddedFlag(nb, wordId);
+            recordVocabActivity(1); // làm quiz (đúng/sai) đều tính là hoạt động thực trong ngày (streak)
             updateNotebookCardProgressUI(nb);
             saveNotebooksToServer();
         }
@@ -3209,7 +3285,9 @@
             const fullIdx = words.map((_, i) => i);
             practiceState.flashcard = { indices: [...fullIdx], current: 0, flipped: false, shuffle: false };
             practiceState.quiz = { queue: buildQueueForFunc('quiz', words, nb), answered: false };
-            practiceState.typing = { direction: 'vi-to-ko', rows: null, status: {}, everWrong: {}, touched: false };
+            // Viết từ: khôi phục lại đúng phiên đang làm dở của SỔ NÀY (nếu có) để chuyển tab/màn hình
+            // rồi quay lại vẫn giữ nguyên tiến độ — lưu theo nbId trong typingSessionsByNb (bộ nhớ phiên).
+            practiceState.typing = getOrCreateTypingSession(nbId);
             practiceState.listen = { queue: buildQueueForFunc('listen', words, nb), answered: false };
             practiceState.guess = { queue: buildQueueForFunc('guess', words, nb), answered: false };
 
@@ -3800,9 +3878,29 @@
             if (direction === 'vi-to-ko') {
                 return guess === normalizeTypingAnswer(item.word, false);
             }
+            // Chiều Hàn → Việt: chấp nhận rộng rãi. Ngoài cả câu nghĩa đầy đủ và từng cụm nghĩa
+            // (ngăn nhau bằng ; / hoặc xuống dòng), còn chấp nhận nếu học sinh gõ đúng BẤT KỲ 1 từ
+            // đơn nào nằm trong nghĩa — ví dụ 부탁하다 "Nhờ vả / Yêu cầu" nhận cả "nhờ", "nhờ vả",
+            // "yêu cầu". Từ đơn phải dài ≥ 2 ký tự (sau chuẩn hoá) để tránh nhận nhầm chữ lẻ vô nghĩa.
             const raw = item.vietnamese || item.deep_meaning || item.literal || '';
-            const candidates = [raw, ...raw.split(/[;\/\n]/)].map(s => s.trim()).filter(Boolean);
-            return candidates.some(c => normalizeTypingAnswer(c, true) === guess);
+            const accepted = new Set();
+            const addAccepted = (s) => { const n = normalizeTypingAnswer(s, true); if (n) accepted.add(n); };
+            addAccepted(raw);
+            raw.split(/[;\/\n]/).forEach(phrase => {
+                addAccepted(phrase); // nhận nguyên cụm nghĩa
+                normalizeTypingAnswer(phrase, true).split(' ').forEach(tok => { if (tok.length >= 2) accepted.add(tok); }); // và từng từ đơn trong cụm
+            });
+            return accepted.has(guess);
+        }
+
+        // Bộ nhớ phiên "Viết từ" theo từng sổ — giữ tiến độ khi chuyển tab/màn hình rồi quay lại.
+        // inputs: lưu cả chữ đang gõ dở ở dòng chưa xong; status/everWrong: kết quả đã chấm.
+        const typingSessionsByNb = {};
+        function getOrCreateTypingSession(nbId) {
+            if (!typingSessionsByNb[nbId]) {
+                typingSessionsByNb[nbId] = { direction: 'vi-to-ko', rows: null, status: {}, everWrong: {}, touched: false, inputs: {} };
+            }
+            return typingSessionsByNb[nbId];
         }
 
         function initTypingRowsIfNeeded() {
@@ -3812,6 +3910,7 @@
             st.rows = buildQueueForFunc('typing', practiceState.words, nb);
             st.status = {};
             st.everWrong = {};
+            st.inputs = {};
             st.touched = false;
         }
 
@@ -3846,8 +3945,9 @@
                             </div>
                         </td>
                         <td class="py-3 px-4">
-                            <input type="text" class="typing-input neo-sunk px-3.5 py-2.5 !rounded-xl text-sm w-full outline-none bg-transparent ${status === 'correct' ? 'typing-row-correct' : ''}"
+                            <input type="text" class="typing-input neo-sunk px-3.5 py-2.5 !rounded-xl text-sm w-full outline-none bg-transparent ${status === 'correct' ? 'typing-row-correct' : status === 'wrong' ? 'typing-row-wrong' : ''}"
                                 data-row-index="${wordIdx}" placeholder="${placeholder}" autocomplete="off" spellcheck="false"
+                                value="${status === 'correct' ? '' : (st.inputs[wordIdx] || '').replace(/"/g, '&quot;')}"
                                 ${status === 'correct' ? 'readonly' : ''}
                                 onkeydown="handleTypingKeydown(event, ${wordIdx})">
                         </td>
@@ -3926,6 +4026,18 @@
                         checkTypingRow(parseInt(inp.dataset.rowIndex, 10));
                     }
                 });
+                // Lưu chữ đang gõ dở vào phiên để chuyển tab rồi quay lại vẫn còn nguyên
+                inp.addEventListener('input', () => {
+                    const idx = parseInt(inp.dataset.rowIndex, 10);
+                    practiceState.typing.inputs[idx] = inp.value;
+                    // vừa gõ lại sau khi sai → gỡ trạng thái đỏ để đỡ rối
+                    if (practiceState.typing.status[idx] === 'wrong') {
+                        delete practiceState.typing.status[idx];
+                        inp.classList.remove('typing-row-wrong');
+                        const cell = inp.closest('tr').querySelector('.typing-result-icon');
+                        if (cell) cell.innerHTML = '';
+                    }
+                });
             });
         }
 
@@ -3953,8 +4065,10 @@
             if (!val.trim()) { input.focus(); return; }
             st.touched = true;
 
+            st.inputs[wordIndex] = val;
             if (isTypingAnswerCorrect(val, item, st.direction)) {
                 st.status[wordIndex] = 'correct';
+                delete st.inputs[wordIndex]; // ô đúng khoá lại, không cần giữ chữ đã gõ nữa
                 input.readOnly = true;
                 input.classList.remove('typing-row-wrong');
                 input.classList.add('typing-row-correct');
@@ -3965,6 +4079,7 @@
                 focusNextPendingTypingRow(wordIndex);
             } else {
                 st.everWrong[wordIndex] = true;
+                st.status[wordIndex] = 'wrong';
                 input.classList.add('typing-row-wrong');
                 resultCell.innerHTML = `<span class="typing-x-icon">${TYPING_X_ICON}</span>`;
                 recordPracticeResult('typing', item.id, false);
@@ -4027,6 +4142,9 @@
             const st = practiceState.typing;
             st.direction = st.direction === 'vi-to-ko' ? 'ko-to-vi' : 'vi-to-ko';
             st.rows = null; // ép khởi tạo lại sạch ở lần render tới
+            st.status = {};
+            st.everWrong = {};
+            st.inputs = {};
             renderPracticeTyping();
         }
 
@@ -4440,6 +4558,7 @@
                 totalActiveMs: keepActiveMs,
                 unlockedUnits: userData.unlockedUnits || [],
                 expiresAt: userData.expiresAt || null,
+                lastActiveAt: Date.now(), // mốc hoạt động gần nhất — dùng cho quy tắc tự đăng xuất sau 3 ngày
             };
             try {
                 const target = rememberMe ? localStorage : sessionStorage;
@@ -4465,6 +4584,7 @@
         // Lưu lại currentUser vào đúng nơi đang được dùng (localStorage nếu "ghi nhớ", sessionStorage nếu không)
         function persistSession() {
             if (!currentUser) return;
+            currentUser.lastActiveAt = Date.now(); // mỗi lần lưu phiên đều làm mới mốc hoạt động → gia hạn 3 ngày
             try {
                 if (localStorage.getItem('classroom_session')) localStorage.setItem('classroom_session', JSON.stringify(currentUser));
                 else sessionStorage.setItem('classroom_session', JSON.stringify(currentUser));
@@ -4724,7 +4844,13 @@
             const now = Date.now();
             if (currentUser && !document.hidden && !activityTracker.isIdle) {
                 const delta = Math.min(now - activityTracker.lastTickTs, 5000); // chặn cộng dồn bất thường nếu tab bị treo lâu
-                if (delta > 0) currentUser.totalActiveMs = (currentUser.totalActiveMs || 0) + delta;
+                if (delta > 0) {
+                    currentUser.totalActiveMs = (currentUser.totalActiveMs || 0) + delta;
+                    // Tích thời gian tương tác thực theo ngày; đủ ≥10 phút thì cấp 1 "chấm streak" cho ngày đó
+                    const k = dateKeyOf(new Date());
+                    dailyActiveMsLog[k] = (dailyActiveMsLog[k] || 0) + delta;
+                    if (dailyActiveMsLog[k] >= 10 * 60 * 1000 && !(dailyActivityLog[k] > 0)) recordVocabActivity(1);
+                }
             }
             activityTracker.lastTickTs = now;
         }
@@ -5332,89 +5458,301 @@
             }
         }
 
+        function escapeHtmlDash(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+        // Icon 40x40 cạnh mỗi heading Dashboard: ưu tiên ảnh riêng trong assets/, tự rớt về emoji
+        // nếu chưa có file (không vỡ layout). Đặt các file icon-*.png vào thư mục assets/ như demo.
+        function journeyIconHtml(file, emoji) {
+            return `<div class="journey-icon-slot" data-fallback="${escapeHtmlDash(emoji)}"><img src="assets/${file}" alt="" style="width:40px; height:40px; object-fit:contain;" onerror="journeyIconFallback(this)"></div>`;
+        }
+        function journeyIconFallback(imgEl) {
+            const slot = imgEl.parentElement;
+            imgEl.remove();
+            slot.textContent = slot.dataset.fallback;
+        }
+
+        let activityChartPeriod = '7d'; // '7d' | '30d' | '365d'
+        function setActivityChartPeriod(p) { activityChartPeriod = p; renderActivityDashboardContent(); }
+        let weakExpandedDash = false;
+        function toggleWeakExpandedDash() { weakExpandedDash = !weakExpandedDash; renderActivityDashboardContent(); }
+
+        // Tính tỉ lệ làm bài chính xác trên toàn bộ lượt quiz đã lưu (mọi sổ, mọi chức năng)
+        function computeAccuracyPct() {
+            let correct = 0, wrong = 0;
+            notebooksList.forEach(nb => {
+                if (!nb.progress) return;
+                ['quiz', 'typing', 'listen', 'guess'].forEach(k => {
+                    const p = nb.progress[k];
+                    if (!p) return;
+                    correct += (p.correctIds || []).length;
+                    wrong += (p.wrongIds || []).length;
+                });
+            });
+            const denom = correct + wrong;
+            return denom ? Math.round(correct / denom * 100) : 0;
+        }
+
+        // Dữ liệu biểu đồ "Từ vựng đã học theo ngày" theo khoảng thời gian chọn
+        function buildActivityChartData(period) {
+            const dayAbbrev = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+            const pts = [];
+            if (period === '365d') {
+                // 12 tháng gần nhất, gộp theo tháng
+                for (let i = 11; i >= 0; i--) {
+                    const d = new Date(); d.setDate(1); d.setMonth(d.getMonth() - i);
+                    const y = d.getFullYear(), m = d.getMonth();
+                    let sum = 0;
+                    Object.keys(dailyLearnedLog).forEach(k => { const [ky, km] = k.split('-'); if (+ky === y && (+km - 1) === m) sum += dailyLearnedLog[k]; });
+                    pts.push({ label: `T${m + 1}`, value: sum });
+                }
+            } else {
+                const days = period === '30d' ? 30 : 7;
+                for (let i = days - 1; i >= 0; i--) {
+                    const d = new Date(); d.setDate(d.getDate() - i);
+                    const label = period === '30d' ? String(d.getDate()) : dayAbbrev[d.getDay()];
+                    pts.push({ label, value: dailyLearnedLog[dateKeyOf(d)] || 0, showLabel: period === '7d' || (i % 5 === 0) });
+                }
+            }
+            return pts;
+        }
+
         function renderActivityDashboardContent() {
             tickActivity();
             const el = document.getElementById('activity-dashboard-content');
             if (!el || !currentUser) return;
 
-            const hasAvatar = !!currentUser.avatarDataUrl;
-            const joinDate = currentUser.joinedAt ? new Date(currentUser.joinedAt) : new Date();
-            const joinDateStr = `${String(joinDate.getDate()).padStart(2, '0')}.${String(joinDate.getMonth() + 1).padStart(2, '0')}.${joinDate.getFullYear()}`;
-            const learnedCount = computeLearnedWordCount();
+            const all = allLibraryCache || [];
+            const totalAll = all.length;
+            const totalLearned = computeLearnedWordCount();
+            const savedIds = new Set();
+            notebooksList.forEach(nb => (nb.words || []).forEach(w => savedIds.add(w.id)));
+            const totalInProgress = [...savedIds].filter(id => !learnedWordsMap[id]).length;
+            const totalNotStarted = Math.max(0, totalAll - totalLearned - totalInProgress);
+            const overallPct = totalAll ? Math.round(totalLearned / totalAll * 100) : 0;
+            const pctInProgress = totalAll ? Math.round(totalInProgress / totalAll * 100) : 0;
+            const pctNotStarted = Math.max(0, 100 - overallPct - pctInProgress);
+            const accuracyPct = computeAccuracyPct();
+            const streak = computeStreak();
             const wrongWords = collectWrongWords();
+            const displayName = currentUser.displayName || currentUser.username || 'bạn';
+            const joinDate = currentUser.joinedAt ? new Date(currentUser.joinedAt) : new Date();
+            const daysCompanion = Math.max(1, Math.floor((Date.now() - joinDate.getTime()) / 86400000) + 1);
+
+            const journeyStats = [
+                { icon: '🔥', value: String(daysCompanion), label: 'Ngày đồng hành', grad: 'linear-gradient(135deg,#f472b6,#a78bfa)', click: '' },
+                { icon: '🎯', value: `${totalLearned}/${totalAll}`, label: 'Từ vựng đã thuộc', grad: 'linear-gradient(135deg,#8b7bff,#6C63FF)', click: 'openLearnedWordsModal()' },
+                { icon: '⚡', value: `${accuracyPct}%`, label: 'Phản xạ chính xác', grad: 'linear-gradient(135deg,#fbbf24,#f59e0b)', click: "document.getElementById('dash-weak-section')?.scrollIntoView({behavior:'smooth',block:'center'})" },
+            ];
+
+            // ---- Streak calendar (tháng hiện tại) ----
+            const now = new Date();
+            const year = now.getFullYear(), month = now.getMonth();
+            const firstDow = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const monthNames = ['Tháng 1','Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6','Tháng 7','Tháng 8','Tháng 9','Tháng 10','Tháng 11','Tháng 12'];
+            const calendarLabel = monthNames[month] + ' ' + year;
+            let calendarCellsHtml = '';
+            for (let i = 0; i < firstDow; i++) calendarCellsHtml += `<div></div>`;
+            for (let d = 1; d <= daysInMonth; d++) {
+                const cellDate = new Date(year, month, d);
+                const isToday = d === now.getDate();
+                const hasActivity = (dailyActivityLog[dateKeyOf(cellDate)] || 0) > 0 && !isToday;
+                const glow = isToday
+                    ? `position:absolute; width:32px; height:32px; border-radius:50%; background:rgba(245,158,11,0.55); filter:blur(9px); top:-4px; left:50%; transform:translateX(-50%); z-index:0;`
+                    : (hasActivity ? `position:absolute; width:20px; height:20px; border-radius:50%; background:rgba(108,99,255,0.4); filter:blur(6px); top:-2px; left:50%; transform:translateX(-50%); z-index:0;` : '');
+                calendarCellsHtml += `
+                <div style="display:flex; flex-direction:column; align-items:center; gap:2px; position:relative;">
+                    ${glow ? `<div style="${glow}"></div>` : ''}
+                    <div class="calendar-daynum" style="font-weight:${isToday ? 800 : 600}; color:${isToday ? '#ffffff' : '#374151'}; background:${isToday ? 'linear-gradient(135deg,#fbbf24,#f59e0b)' : 'transparent'}; box-shadow:${isToday ? '0 2px 8px rgba(245,158,11,0.45)' : 'none'};">${d}</div>
+                    ${hasActivity ? `<span style="width:4px; height:4px; border-radius:50%; background:#6C63FF; position:relative; z-index:1;"></span>` : ''}
+                </div>`;
+            }
+            const dayAbbrev = ['CN','T2','T3','T4','T5','T6','T7'];
+
+            // ---- Tiến độ sổ từ vựng ----
+            const pastels = ['rgba(108,99,255,0.22)', 'rgba(128,229,217,0.28)', 'rgba(255,183,213,0.3)'];
+            const notebookCardsHtml = notebooksList.map((nb, i) => {
+                const words = nb.words || [];
+                const learnedCount = words.filter(w => learnedWordsMap[w.id]).length;
+                const pct = words.length ? Math.round(learnedCount / words.length * 100) : 0;
+                const prog = nb.progress || {};
+                const doneQuiz = ['quiz','typing','listen','guess'].reduce((s,k)=> s + ((prog[k]&&prog[k].correctIds||[]).length) + ((prog[k]&&prog[k].wrongIds||[]).length), 0);
+                return `
+                <div class="relative">
+                    <div class="journey-nb-tag" style="background:${pastels[i % 3]};"></div>
+                    <div class="journey-nb-card" style="margin-top:18px;">
+                        <p class="text-[13.5px] font-extrabold mb-2.5" style="color:#1e1b4b; position:relative; z-index:1;">${escapeHtmlDash(nb.name)}</p>
+                        <p class="text-[11px] font-semibold mb-3" style="color:#6b7280; position:relative; z-index:1;">${words.length} từ • Đã thuộc ${pct}% • ${doneQuiz} lượt làm bài</p>
+                        <div class="h-[6px] rounded-full overflow-hidden mb-3" style="background:#E8E6F099; position:relative; z-index:1;">
+                            <div style="height:100%; width:${pct}%; border-radius:999px; background:linear-gradient(90deg,#9096a8,#1e1b2e); transition:width .4s ease;"></div>
+                        </div>
+                        <button class="text-[11px] font-extrabold" style="border:none; border-radius:999px; padding:7px 14px; color:#3730a3; cursor:pointer; background:rgba(255,255,255,0.55); border:1px solid rgba(108,99,255,0.25); backdrop-filter:blur(8px); position:relative; z-index:1;" onclick="closeActivityDashboard(); openPracticeView('${nb.id}');">Học tiếp ›</button>
+                    </div>
+                </div>`;
+            }).join('');
+
+            // ---- Biểu đồ theo ngày ----
+            const chartPts = buildActivityChartData(activityChartPeriod);
+            const waveMax = Math.max(5, ...chartPts.map(p => p.value));
+            const waveW = 560, waveH = 160, waveStep = waveW / Math.max(1, chartPts.length - 1);
+            const waveCoords = chartPts.map((p, i) => [i * waveStep, waveH - (p.value / waveMax) * waveH * 0.85]);
+            const waveLinePath = smoothPath(waveCoords);
+            const waveAreaPath = `${waveLinePath} L${waveW},${waveH} L0,${waveH} Z`;
+            const waveYAxisLabels = [waveMax, Math.round(waveMax / 2), 0];
+            const showValueLabels = chartPts.length <= 12;
+            const periodOptions = [{ k: '7d', label: '7 ngày qua' }, { k: '30d', label: '1 tháng qua' }, { k: '365d', label: '1 năm qua' }];
+
+            // ---- Cần chú ý thêm (Section 6) ----
+            const hasMoreWeak = wrongWords.length > 6;
+            const weakVisible = weakExpandedDash ? wrongWords : wrongWords.slice(0, 6);
+
+            const donutDeg1 = overallPct * 3.6, donutDeg2 = (overallPct + pctInProgress) * 3.6;
+            const heroImg = 'assets/dashboard-hero.png';
 
             el.innerHTML = `
-                <!-- Thông tin cá nhân -->
-                <div class="neo-raised p-6 flex items-center gap-4 flex-wrap">
-                    <span class="w-16 h-16 rounded-full neo-raised flex items-center justify-center text-lg font-mono font-bold text-point shrink-0 overflow-hidden">
-                        ${hasAvatar ? `<img class="w-full h-full object-cover" src="${currentUser.avatarDataUrl}" alt="Avatar">` : (currentUser.displayName ? computeInitials(currentUser.displayName) : themeIcon('person', 'brand', 28))}
-                    </span>
-                    <div class="min-w-0">
-                        <p class="text-lg font-extrabold text-[#1A1A24] truncate">${currentUser.displayName}</p>
-                        <p class="text-xs text-gray-400 font-mono mt-0.5 flex items-center gap-1.5">${themeIcon('clock', 'mono', 13)} Tham gia từ: ${joinDateStr}</p>
-                    </div>
-                </div>
+            <div class="journey-wrap" style="padding:28px 32px;">
+                <div class="journey-blob" style="top:120px; left:50px; width:600px; height:420px; background:radial-gradient(circle,rgba(108,99,255,0.35),transparent 70%); opacity:.5;"></div>
+                <div class="journey-blob" style="top:280px; right:-120px; width:380px; height:380px; background:radial-gradient(circle,rgba(128,229,217,0.35),transparent 70%);"></div>
+                <div class="journey-blob" style="top:750px; left:50%; width:360px; height:360px; background:radial-gradient(circle,rgba(255,183,213,0.3),transparent 70%);"></div>
 
-                <!-- Thống kê -->
-                <div class="grid grid-cols-3 gap-2 sm:gap-4">
-                    <div class="neo-raised p-2.5 sm:p-5 flex flex-col gap-1 sm:gap-2 min-w-0">
-                        <span class="text-[8px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1 sm:gap-1.5 min-w-0"><span class="shrink-0">${themeIcon('clock', 'brand', 18)}</span><span class="truncate">Giờ học tập</span></span>
-                        <span class="text-base sm:text-2xl font-black text-point truncate">${formatDurationVN(currentUser.totalActiveMs)}</span>
-                        <span class="hidden sm:block text-[10px] text-gray-400">Chỉ tính lúc bạn thực sự tương tác trên trang</span>
-                    </div>
-                    <div class="neo-raised p-2.5 sm:p-5 flex flex-col gap-1 sm:gap-2 min-w-0 text-left cursor-pointer hover:shadow-inner transition-all" onclick="openLearnedWordsModal()" role="button" title="Bấm để xem danh sách chi tiết">
-                        <span class="text-[8px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1 sm:gap-1.5 min-w-0"><span class="shrink-0">${themeIcon('bookCheck', 'brand', 18)}</span><span class="truncate">Đã học</span></span>
-                        <span class="text-base sm:text-2xl font-black truncate" style="color:#2ec65e;">${learnedCount} từ</span>
-                        <span class="hidden sm:block text-[10px] text-gray-400">Bấm vào đây để xem chi tiết theo bộ lọc</span>
-                    </div>
-                    <div class="neo-raised p-2.5 sm:p-5 flex flex-col gap-1 sm:gap-2 min-w-0">
-                        <span class="text-[8px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1 sm:gap-1.5 min-w-0"><span class="shrink-0">${themeIcon('warning', 'brand', 18)}</span><span class="truncate">Cần luyện</span></span>
-                        <span class="text-base sm:text-2xl font-black truncate" style="color:#ef4444;">${wrongWords.length} từ</span>
-                        <span class="hidden sm:block text-[10px] text-gray-400">Bấm vào từ bên dưới để xem lại chi tiết</span>
-                    </div>
-                </div>
-
-                ${wrongWords.length ? `
-                <div class="neo-raised p-5">                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Danh sách từ cần luyện thêm</p>
-                    <p class="text-[11px] text-gray-400 mb-3">Bấm vào từ để xem chi tiết, hoặc bấm ✓ nếu bạn đã thuộc để xoá khỏi danh sách này.</p>
-                    <div class="flex flex-wrap gap-2">
-                        ${wrongWords.map(w => `
-                            <div class="neo-button px-1.5 py-1 text-xs font-bold text-[#2d3a54] flex items-center gap-1">
-                                <button class="px-2 py-1 flex items-center gap-1.5" onclick="openWrongWordDetailModal('${w.id}')">
-                                    <span class="font-kr-serif">${w.word}</span>
-                                    <span class="text-gray-400 font-normal">· ${w.vietnamese || ''}</span>
-                                </button>
-                                <button class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0" style="background:#dff5e8;" title="Đã thuộc từ này, xoá khỏi danh sách" onclick="markWrongWordAsKnown('${w.id}')">
-                                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#1a8a45" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                </button>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>` : ''}
-
-                <!-- Sổ từ vựng của tôi -->
-                <div class="neo-raised p-6">
-                    <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
-                        <p class="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1.5">${themeIcon('folder', 'brand', 18)} Sổ từ vựng của tôi</p>
-                        <button class="text-[11px] font-bold text-gray-400 hover:text-point flex items-center gap-1.5" onclick="openTrashedNotebooksModal()">
-                            ${themeIcon('trash', 'mono', 14)} Những sổ đã xoá ${deletedNotebooksList.length ? `<span class="text-point">(${deletedNotebooksList.length})</span>` : ''}
-                        </button>
-                    </div>
-                    ${notebooksList.length ? `
-                        <div class="flex flex-col gap-2">
-                            ${notebooksList.map(nb => `
-                                <div class="flex items-center justify-between gap-3 p-3 rounded-xl neo-sunk">
-                                    <div class="min-w-0">
-                                        <p class="text-sm font-bold text-[#2D2D3A] truncate">${nb.name}</p>
-                                        <p class="text-[11px] text-gray-400">${(nb.words || []).length} từ vựng</p>
-                                    </div>
-                                    <button class="neo-button px-4 py-2 text-xs font-bold text-point shrink-0" onclick="closeActivityDashboard(); openPracticeView('${nb.id}');">Ôn tập</button>
+                <div class="flex flex-col gap-[22px] relative" style="z-index:1; max-width:1200px; margin:0 auto;">
+                    <!-- SECTION 1: Chào + thống kê -->
+                    <div class="flex gap-[22px] items-stretch flex-wrap">
+                        <div class="flex-1 journey-flexcol journey-hero-wrap" style="min-width:320px; position:relative;">
+                            <div class="glass-card" style="padding:24px 28px; height:100%;">
+                                <div class="journey-hero-textblock" style="margin-bottom:110px;">
+                                    <div class="font-kr-serif" style="font-size:30px; font-weight:900; color:#1e1b4b; letter-spacing:-0.5px;">Chào ${escapeHtmlDash(displayName)}! 👋</div>
+                                    <div class="text-[13.5px] font-semibold" style="color:#3730a3; line-height:1.7; margin-top:12px;">Hôm nay bạn đã tiến xa hơn một chút rồi đó! ✨ · ⏱ ${formatDurationVN(currentUser.totalActiveMs)} học tập</div>
                                 </div>
-                            `).join('')}
+                                <div class="grid gap-3.5 journey-stats-grid" style="grid-template-columns:repeat(3,1fr);">
+                                    ${journeyStats.map(st => `
+                                    <div class="journey-stat-card ${st.click ? 'is-clickable' : ''}" ${st.click ? `onclick="${st.click}"` : ''}>
+                                        <div class="shrink-0 w-11 h-11 rounded-full flex items-center justify-center text-[19px]" style="background:${st.grad}; box-shadow:0 4px 12px rgba(0,0,0,0.12);">${st.icon}</div>
+                                        <div>
+                                            <div class="font-kr-serif" style="font-weight:700; font-size:20px; color:#1e1b4b; line-height:1.15;">${st.value}</div>
+                                            <div class="text-[11px] font-bold" style="color:#6b6f8a;">${st.label}</div>
+                                        </div>
+                                    </div>`).join('')}
+                                </div>
+                            </div>
+                            <img src="${heroImg}" alt="" class="journey-hero-img" onerror="this.style.display='none'">
                         </div>
-                    ` : `<p class="text-xs text-gray-400">Bạn chưa có sổ từ vựng nào. Tạo sổ đầu tiên ở trang "Sổ từ vựng" nhé!</p>`}
+
+                        <!-- SECTION 3: Streak -->
+                        <div class="glass-card journey-flexcol" style="flex:0 0 32%; min-width:340px; padding:24px; display:flex; flex-direction:column; justify-content:center; gap:16px;">
+                            <div class="flex items-center gap-2.5 relative" style="z-index:1;">
+                                ${journeyIconHtml('icon-streak.png', '🔥')}
+                                <span class="text-[16px] font-extrabold" style="color:#374151;">Streak · ${streak} ngày</span>
+                            </div>
+                            <div class="text-[13.5px] font-bold relative" style="color:#9ca3af; z-index:1;">${calendarLabel}</div>
+                            <div class="grid gap-2 relative" style="grid-template-columns:repeat(7,1fr); z-index:1;">
+                                ${dayAbbrev.map(d => `<span class="text-[12px] font-extrabold text-center" style="color:#9ca3af;">${d}</span>`).join('')}
+                            </div>
+                            <div class="grid gap-2 relative" style="grid-template-columns:repeat(7,1fr); z-index:1;">${calendarCellsHtml}</div>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-[22px] items-start flex-wrap">
+                        <div class="flex-1 flex flex-col gap-[22px] journey-flexcol" style="min-width:340px;">
+                            <!-- SECTION 2: Tiến độ Sổ từ vựng -->
+                            <div>
+                                <div class="flex items-center justify-between gap-2 mb-3 flex-wrap" style="padding-left:6px;">
+                                    <div class="flex items-center gap-2">
+                                        ${journeyIconHtml('icon-notebook-progress.png', '📖')}
+                                        <span class="text-[13px] font-extrabold" style="color:#3730a3;">Tiến độ Sổ từ vựng</span>
+                                    </div>
+                                    <button class="text-[11px] font-bold text-gray-400 hover:text-point flex items-center gap-1.5" onclick="openTrashedNotebooksModal()">${themeIcon('trash', 'mono', 13)} Sổ đã xoá ${deletedNotebooksList.length ? `(${deletedNotebooksList.length})` : ''}</button>
+                                </div>
+                                ${notebooksList.length ? `<div class="grid gap-4 journey-nb-grid" style="grid-template-columns:repeat(2,1fr);">${notebookCardsHtml}</div>` : `<div class="glass-card" style="padding:24px 28px;"><span class="text-[12.5px] font-semibold" style="color:#6b7280;">Chưa có sổ từ vựng nào — tạo sổ ở trang "Sổ từ vựng".</span></div>`}
+                            </div>
+
+                            <!-- SECTION 5: Biểu đồ từ vựng đã học theo ngày -->
+                            <div class="glass-card" style="padding:24px 28px;">
+                                <div class="flex items-center justify-between mb-4 flex-wrap gap-2 relative" style="z-index:1;">
+                                    <div class="flex items-center gap-2">
+                                        ${journeyIconHtml('icon-daily-chart.png', '📈')}
+                                        <span class="text-[14px] font-extrabold" style="color:#1E1B4B;">Từ vựng đã học theo ngày</span>
+                                    </div>
+                                    <div class="flex items-center gap-1.5 flex-wrap">
+                                        ${periodOptions.map(o => `<button class="period-pill ${activityChartPeriod === o.k ? 'period-active' : ''}" onclick="setActivityChartPeriod('${o.k}')">${o.label}</button>`).join('')}
+                                    </div>
+                                </div>
+                                <div class="flex gap-2 relative" style="z-index:1;">
+                                    <div class="flex flex-col justify-between text-[10.5px] font-bold" style="padding:4px 0 22px 0; color:#9ca3af;">
+                                        ${waveYAxisLabels.map(l => `<span>${l}</span>`).join('')}
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <svg viewBox="-22 0 ${waveW + 44} ${waveH}" style="width:100%; aspect-ratio:${(waveW + 44) / waveH}; height:auto; display:block;">
+                                            <defs><linearGradient id="dashWaveGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#6C63FF" stop-opacity="0.35"></stop><stop offset="100%" stop-color="#6C63FF" stop-opacity="0"></stop></linearGradient></defs>
+                                            <path d="${waveAreaPath}" fill="url(#dashWaveGrad)"></path>
+                                            <path d="${waveLinePath}" fill="none" stroke="#6C63FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            ${showValueLabels ? waveCoords.map((p, i) => `<text x="${p[0]}" y="${p[1] - 14}" text-anchor="middle" font-size="12" font-weight="800" fill="#1e1b4b">${chartPts[i].value}</text>`).join('') : ''}
+                                            ${waveCoords.map(p => `<circle cx="${p[0]}" cy="${p[1]}" r="4.5" fill="#6C63FF" stroke="#ffffff" stroke-width="2" style="filter:drop-shadow(0 0 4px rgba(108,99,255,0.6));"></circle>`).join('')}
+                                        </svg>
+                                        <div class="flex justify-between mt-1.5">
+                                            ${chartPts.map(p => `<span class="text-[10px] font-bold flex-1 text-center" style="color:#9096a8;">${(p.showLabel === false) ? '' : p.label}</span>`).join('')}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SECTION 6: Cần chú ý thêm -->
+                            <div class="glass-card" id="dash-weak-section" style="padding:24px 28px;">
+                                <div class="flex items-center justify-between mb-2 relative" style="z-index:1;">
+                                    <div class="flex items-center gap-2">
+                                        ${journeyIconHtml('icon-weak-items.png', '⚠️')}
+                                        <span class="text-[14px] font-extrabold" style="color:#1E1B4B;">Cần chú ý thêm</span>
+                                    </div>
+                                    ${hasMoreWeak ? `<button class="period-pill" onclick="toggleWeakExpandedDash()">${weakExpandedDash ? 'Thu gọn' : 'Xem tất cả'}</button>` : ''}
+                                </div>
+                                <div class="text-[12px] font-semibold mb-3.5 relative" style="color:#6b7280; z-index:1;">Những từ vựng bạn từng làm sai trong Quiz. Hãy ôn lại để ghi nhớ thật chắc nhé!</div>
+                                ${!wrongWords.length ? `<div class="text-[12px] font-semibold relative" style="color:#6b7280; z-index:1;">Chưa có từ nào cần chú ý — làm vài bài Quiz để hệ thống gợi ý cho bạn.</div>` : `
+                                <div class="flex flex-wrap items-center gap-2.5 relative" style="z-index:1;">
+                                    ${weakVisible.map(w => `
+                                    <span class="weak-pill">
+                                        <button style="border:none;background:transparent;cursor:pointer;display:inline-flex;align-items:center;gap:6px;padding:0;color:inherit;font:inherit;" onclick="openWrongWordDetailModal('${w.id}')"><span class="font-kr-serif">${escapeHtmlDash(w.word)}</span><span style="color:#9096a8;font-weight:600;">· ${escapeHtmlDash(w.vietnamese || '')}</span></button>
+                                        <button style="width:18px;height:18px;border-radius:50%;border:none;background:#dff5e8;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;" title="Đã thuộc, xoá khỏi danh sách" onclick="markWrongWordAsKnown('${w.id}')"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="#1a8a45" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></button>
+                                    </span>`).join('')}
+                                </div>`}
+                            </div>
+                        </div>
+
+                        <!-- SECTION 4: Vòng tròn tổng quan -->
+                        <div class="journey-flexcol" style="flex:0 0 32%; min-width:340px;">
+                            <div class="donut-card" style="height:100%; display:flex; flex-direction:column; justify-content:center;">
+                                <div class="flex items-center gap-2.5 mb-7">
+                                    ${journeyIconHtml('icon-overview.png', '📊')}
+                                    <span class="text-[16px] font-extrabold" style="color:#1e1b4b;">Tổng quan từ vựng</span>
+                                </div>
+                                <div class="flex items-center gap-6 donut-body">
+                                    <div class="donut-ring" style="background:conic-gradient(#a99cff 0deg ${donutDeg1}deg, #c9c3ff ${donutDeg1}deg ${donutDeg2}deg, #e4e6ee ${donutDeg2}deg 360deg);">
+                                        <div class="donut-hole">
+                                            <span class="text-[22px] font-extrabold" style="color:#1e1b4b;">${overallPct}%</span>
+                                            <span class="text-[10px] font-bold" style="color:#9096a8;">Đã thuộc</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex-1 flex flex-col gap-4" style="min-width:0;">
+                                        ${[
+                                            { color: '#a99cff', label: 'Đã thuộc', count: totalLearned, pct: overallPct },
+                                            { color: '#c9c3ff', label: 'Đang học', count: totalInProgress, pct: pctInProgress },
+                                            { color: '#e4e6ee', label: 'Chưa học', count: totalNotStarted, pct: pctNotStarted },
+                                        ].map(dl => `
+                                        <div class="flex items-center justify-between gap-2.5">
+                                            <div class="flex items-center gap-2.5"><span class="w-[11px] h-[11px] rounded-full shrink-0" style="background:${dl.color};"></span><span class="text-[14px] font-bold whitespace-nowrap" style="color:#374151;">${dl.label}</span></div>
+                                            <span class="text-[14px] font-extrabold whitespace-nowrap" style="color:#1e1b4b;">${dl.count} (${dl.pct}%)</span>
+                                        </div>`).join('')}
+                                        <div class="h-px" style="margin:6px 0; background:rgba(0,0,0,0.08);"></div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-[13px] font-bold" style="color:#9096a8;">Tổng số</span>
+                                            <span class="text-[14.5px] font-extrabold" style="color:#1e1b4b;">${totalAll} từ vựng</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            `;
+            </div>`;
         }
 
         // Popup "Những sổ tay đã xoá" — cho phép khôi phục
@@ -5604,14 +5942,21 @@
 
         // Khôi phục phiên đăng nhập đã lưu (nếu còn hạn) ngay khi script chạy, để tránh nháy màn hình
         // Ưu tiên localStorage ("ghi nhớ đăng nhập"), sau đó mới xét sessionStorage (phiên tab hiện tại)
+        const SESSION_MAX_IDLE_MS = 3 * 24 * 60 * 60 * 1000; // 3 ngày không hoạt động thì bắt đăng nhập lại
         (function restoreSessionEarly() {
             try {
-                const raw = localStorage.getItem('classroom_session') || sessionStorage.getItem('classroom_session');
+                const fromLocal = localStorage.getItem('classroom_session');
+                const raw = fromLocal || sessionStorage.getItem('classroom_session');
                 const saved = raw ? JSON.parse(raw) : null;
-                if (saved) {
-                    const exp = parseVNDate(saved.expiresAt);
-                    if (!exp || exp >= new Date()) currentUser = saved;
+                if (!saved) return;
+                // Quy tắc tự đăng xuất sau 3 ngày không hoạt động (chỉ áp cho phiên "ghi nhớ" ở localStorage;
+                // sessionStorage vốn đã tự mất khi đóng trình duyệt). lastActiveAt được làm mới ở persistSession.
+                if (fromLocal && saved.lastActiveAt && (Date.now() - saved.lastActiveAt > SESSION_MAX_IDLE_MS)) {
+                    localStorage.removeItem('classroom_session');
+                    return;
                 }
+                const exp = parseVNDate(saved.expiresAt);
+                if (!exp || exp >= new Date()) currentUser = saved;
             } catch (e) {}
         })();
 
