@@ -869,6 +869,12 @@
         // Ở chế độ demo (chưa cấu hình LOGIN_SCRIPT_URL) sẽ bỏ qua, chỉ lưu trong phiên hiện tại.
         // ============================================================
         let notebooksSaveTimer = null;
+        // KHOÁ AN TOÀN chống mất dữ liệu: chỉ cho phép LƯU lên server SAU KHI đã TẢI
+        // xong dữ liệu của tài khoản ít nhất 1 lần thành công. Khi mới mở/F5 trang, các biến
+        // notebooksList/learnedWordsMap còn RỖNG; nếu để hàm lưu (timer 15 giây, beforeunload,
+        // hoặc user bấm tick "Đã học") chạy trước khi tải xong, nó sẽ ghi đè bản RỖNG lên server
+        // và xoá sạch sổ + trạng thái "Đã học" mà không ai bấm xoá. Cờ này chặn đúng tình huống đó.
+        let notebooksServerLoaded = false;
         // Sổ tay đã xoá (giữ lại để có thể khôi phục) — xem mục "Những sổ tay đã xoá" trong Dashboard
         let deletedNotebooksList = [];
         // Bản đồ từ đã đánh dấu "Đã học" (id -> thời điểm đánh dấu, epoch ms) — nguồn dữ liệu
@@ -915,23 +921,110 @@
             return d;
         }
 
+        // Gói dữ liệu chuẩn của 1 tài khoản (dùng chung cho: lưu server, lưu cache cục bộ, đọc cache).
+        function buildNotebooksBundle() {
+            const userProfile = currentUser ? {
+                displayName: currentUser.displayName,
+                avatarDataUrl: currentUser.avatarDataUrl || null,
+                joinedAt: currentUser.joinedAt,
+                totalActiveMs: currentUser.totalActiveMs || 0,
+            } : null;
+            return { notebooks: notebooksList, deletedNotebooks: deletedNotebooksList, learnedWords: learnedWordsMap, userProfile, dailyActivityLog, dailyLearnedLog, dailyActiveMsLog };
+        }
+
+        // Khoá cache cục bộ theo từng tài khoản (không lẫn dữ liệu giữa các user trên cùng máy).
+        function localCacheKey() {
+            return currentUser && currentUser.username ? 'vocabapp_bundle_' + currentUser.username.trim().toLowerCase() : null;
+        }
+        // Lưu ngay 1 bản sao dữ liệu vào localStorage — để F5 hiện lại tức thì và làm phao cứu
+        // dữ liệu nếu server bị ghi rỗng. Chỉ lưu khi bộ nhớ đã đáng tin (đã tải/đã hydrate từ cache).
+        function updateLocalCache() {
+            try {
+                const key = localCacheKey();
+                if (key) localStorage.setItem(key, JSON.stringify(buildNotebooksBundle()));
+            } catch (e) {}
+        }
+        function readLocalCache() {
+            try {
+                const key = localCacheKey();
+                const raw = key ? localStorage.getItem(key) : null;
+                return raw ? JSON.parse(raw) : null;
+            } catch (e) { return null; }
+        }
+        // Một gói được coi là "rỗng" khi không có sổ nào, không có sổ đã xoá, và không có từ Đã học.
+        function bundleIsEmpty(b) {
+            if (!b) return true;
+            if (Array.isArray(b)) return b.length === 0;
+            const nb = Array.isArray(b.notebooks) ? b.notebooks.length : 0;
+            const del = Array.isArray(b.deletedNotebooks) ? b.deletedNotebooks.length : 0;
+            const lw = (b.learnedWords && typeof b.learnedWords === 'object') ? Object.keys(b.learnedWords).length : 0;
+            return nb === 0 && del === 0 && lw === 0;
+        }
+        // Hợp nhất trạng thái "Đã học": giữ tất cả từ đã học của cả 2 nguồn, mỗi từ lấy mốc thời gian
+        // MỚI hơn — bảo đảm không bao giờ mất bản ghi học tập (kể cả bản vừa tạo trong lúc đang tải).
+        function mergeLearned(a, b) {
+            const out = Object.assign({}, a || {});
+            const src = b || {};
+            Object.keys(src).forEach(id => { out[id] = Math.max(out[id] || 0, src[id] || 0); });
+            return out;
+        }
+
+        // Nạp 1 gói dữ liệu (từ server hoặc từ cache) vào bộ nhớ + vẽ lại giao diện.
+        function applyBundleToMemory(loaded) {
+            // Tương thích ngược: dữ liệu cũ lưu thẳng mảng notebooks, dữ liệu mới lưu { notebooks, ... }
+            if (Array.isArray(loaded)) {
+                notebooksList = loaded;
+                deletedNotebooksList = [];
+                learnedWordsMap = {};
+            } else {
+                loaded = loaded || {};
+                notebooksList = Array.isArray(loaded.notebooks) ? loaded.notebooks : [];
+                deletedNotebooksList = Array.isArray(loaded.deletedNotebooks) ? loaded.deletedNotebooks : [];
+                learnedWordsMap = (loaded.learnedWords && typeof loaded.learnedWords === 'object') ? loaded.learnedWords : {};
+                dailyActivityLog = (loaded.dailyActivityLog && typeof loaded.dailyActivityLog === 'object') ? loaded.dailyActivityLog : {};
+                dailyLearnedLog = (loaded.dailyLearnedLog && typeof loaded.dailyLearnedLog === 'object') ? loaded.dailyLearnedLog : {};
+                dailyActiveMsLog = (loaded.dailyActiveMsLog && typeof loaded.dailyActiveMsLog === 'object') ? loaded.dailyActiveMsLog : {};
+                // Đồng bộ hồ sơ (tên hiển thị/ảnh/ngày tham gia/giờ học) xuyên thiết bị — server là nguồn
+                // dữ liệu chính thức 1 khi đã có; giờ học tích luỹ lấy giá trị LỚN HƠN giữa máy hiện tại
+                // (vừa mới tương tác vài giây trước khi tải xong) và server, tránh mất giờ của bên nào.
+                if (loaded.userProfile && currentUser) {
+                    const p = loaded.userProfile;
+                    if (p.displayName) currentUser.displayName = p.displayName;
+                    if (p.avatarDataUrl) currentUser.avatarDataUrl = p.avatarDataUrl;
+                    if (p.joinedAt) currentUser.joinedAt = p.joinedAt;
+                    currentUser.totalActiveMs = Math.max(currentUser.totalActiveMs || 0, p.totalActiveMs || 0);
+                    persistSession();
+                    applyUserToUI();
+                    renderHomeStatusSection();
+                    renderActivityDashboardContent();
+                }
+            }
+            // Đồng bộ lại trạng thái "đã học" + "đã lưu vào sổ nào" lên dữ liệu từ vựng đang có trong bộ nhớ
+            applyLearnedStateToArray(vocabDatabase);
+            applyLearnedStateToArray(allLibraryCache);
+            syncSavedNotebooksEverywhere();
+            renderAllLessonCardsFromNotebooksList();
+        }
+
+        // Hiển thị NGAY dữ liệu đã lưu ở máy này (nếu có) trước khi server phản hồi — để F5 không bị
+        // trống trang, và giữ sẵn dữ liệu làm phao cứu. Server sẽ đối chiếu lại ngay sau đó.
+        function hydrateFromLocalCache() {
+            const cached = readLocalCache();
+            if (cached && !bundleIsEmpty(cached)) applyBundleToMemory(cached);
+        }
+
         function saveNotebooksToServer() {
             if (!LOGIN_SCRIPT_URL || !currentUser || !currentUser.username) return;
+            // Luôn lưu bản sao cục bộ ngay (kể cả khi chưa được phép đẩy lên server) — nhanh & an toàn.
+            updateLocalCache();
+            // Chưa tải xong dữ liệu tài khoản từ server → KHÔNG đẩy lên server, tránh ghi đè bản rỗng
+            // (lúc này notebooksList/learnedWordsMap có thể chỉ là trạng thái khởi tạo rỗng).
+            if (!notebooksServerLoaded) return;
             clearTimeout(notebooksSaveTimer);
             // Gộp nhiều thay đổi liên tiếp thành 1 lần lưu (debounce) để đỡ tốn request lên Apps Script
             notebooksSaveTimer = setTimeout(async () => {
                 try {
-                    // userProfile được đẩy kèm ở đây để đồng bộ xuyên thiết bị (đổi tên/ảnh đại diện/giờ học
-                    // tích luỹ ở máy này) — trước đây các trường này chỉ nằm trong localStorage của từng máy
-                    // nên đăng nhập ở thiết bị khác sẽ bị mất/không thấy.
-                    const userProfile = currentUser ? {
-                        displayName: currentUser.displayName,
-                        avatarDataUrl: currentUser.avatarDataUrl || null,
-                        joinedAt: currentUser.joinedAt,
-                        totalActiveMs: currentUser.totalActiveMs || 0,
-                    } : null;
-                    const bundle = { notebooks: notebooksList, deletedNotebooks: deletedNotebooksList, learnedWords: learnedWordsMap, userProfile, dailyActivityLog, dailyLearnedLog, dailyActiveMsLog };
-                    const payload = { action: 'saveNotebooks', user: currentUser.username, notebooksJson: JSON.stringify(bundle) };
+                    const payload = { action: 'saveNotebooks', user: currentUser.username, notebooksJson: JSON.stringify(buildNotebooksBundle()) };
                     await fetch(LOGIN_SCRIPT_URL, {
                         method: 'POST',
                         headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // tránh CORS preflight, xem ghi chú ở attemptLogin
@@ -945,47 +1038,44 @@
 
         async function loadNotebooksFromServer() {
             if (!LOGIN_SCRIPT_URL || !currentUser || !currentUser.username) return;
+            // Khoá lưu cho tới khi lần tải này hoàn tất (phòng khi đổi tài khoản trong cùng phiên,
+            // tránh ghi dữ liệu cũ/rỗng đè lên tài khoản vừa đăng nhập trước khi tải xong).
+            notebooksServerLoaded = false;
             try {
                 const url = `${LOGIN_SCRIPT_URL}?action=loadNotebooks&user=${encodeURIComponent(currentUser.username)}`;
                 const res = await fetch(url);
                 const rawText = await res.text();
                 const data = JSON.parse(rawText);
-                if (!data.success) return;
-                const loaded = JSON.parse(data.notebooksJson || '[]');
-                // Tương thích ngược: dữ liệu cũ lưu thẳng mảng notebooks, dữ liệu mới lưu { notebooks, deletedNotebooks, learnedWords, userProfile }
-                if (Array.isArray(loaded)) {
-                    notebooksList = loaded;
-                    deletedNotebooksList = [];
-                    learnedWordsMap = {};
-                } else {
-                    notebooksList = Array.isArray(loaded.notebooks) ? loaded.notebooks : [];
-                    deletedNotebooksList = Array.isArray(loaded.deletedNotebooks) ? loaded.deletedNotebooks : [];
-                    learnedWordsMap = (loaded.learnedWords && typeof loaded.learnedWords === 'object') ? loaded.learnedWords : {};
-                    dailyActivityLog = (loaded.dailyActivityLog && typeof loaded.dailyActivityLog === 'object') ? loaded.dailyActivityLog : {};
-                    dailyLearnedLog = (loaded.dailyLearnedLog && typeof loaded.dailyLearnedLog === 'object') ? loaded.dailyLearnedLog : {};
-                    dailyActiveMsLog = (loaded.dailyActiveMsLog && typeof loaded.dailyActiveMsLog === 'object') ? loaded.dailyActiveMsLog : {};
-                    // Đồng bộ hồ sơ (tên hiển thị/ảnh/ngày tham gia/giờ học) xuyên thiết bị — server là nguồn
-                    // dữ liệu chính thức 1 khi đã có; giờ học tích luỹ lấy giá trị LỚN HƠN giữa máy hiện tại
-                    // (vừa mới tương tác vài giây trước khi tải xong) và server, tránh mất giờ của bên nào.
-                    if (loaded.userProfile && currentUser) {
-                        const p = loaded.userProfile;
-                        if (p.displayName) currentUser.displayName = p.displayName;
-                        if (p.avatarDataUrl) currentUser.avatarDataUrl = p.avatarDataUrl;
-                        if (p.joinedAt) currentUser.joinedAt = p.joinedAt;
-                        currentUser.totalActiveMs = Math.max(currentUser.totalActiveMs || 0, p.totalActiveMs || 0);
-                        persistSession();
-                        applyUserToUI();
-                        renderHomeStatusSection();
-                        renderActivityDashboardContent();
-                    }
+                if (!data.success) {
+                    // Server trả lời rõ ràng "chưa có dữ liệu cho tài khoản này" — coi như đã tải xong.
+                    notebooksServerLoaded = true;
+                    return;
                 }
-                // Đồng bộ lại trạng thái "đã học" + "đã lưu vào sổ nào" lên dữ liệu từ vựng đang có sẵn trong bộ nhớ (nếu thư viện đã tải trước đó)
-                applyLearnedStateToArray(vocabDatabase);
-                applyLearnedStateToArray(allLibraryCache);
-                syncSavedNotebooksEverywhere();
-                renderAllLessonCardsFromNotebooksList();
+                const server = JSON.parse(data.notebooksJson || '[]');
+                const cached = readLocalCache();
+                // TỰ KHÔI PHỤC: nếu server rỗng nhưng máy này còn cache có dữ liệu → gần như chắc chắn
+                // server đã từng bị ghi đè rỗng. Dùng lại dữ liệu trong cache và ĐẨY NGƯỢC lên server.
+                if (bundleIsEmpty(server) && cached && !bundleIsEmpty(cached)) {
+                    applyBundleToMemory(cached);
+                    notebooksServerLoaded = true; // cho phép lưu để đẩy bản khôi phục lên server
+                    saveNotebooksToServer();
+                } else {
+                    applyBundleToMemory(server);
+                    // Hợp nhất trạng thái "Đã học" với cache để không mất bản ghi vừa tạo trong lúc tải.
+                    if (cached && cached.learnedWords) {
+                        learnedWordsMap = mergeLearned(learnedWordsMap, cached.learnedWords);
+                        applyLearnedStateToArray(vocabDatabase);
+                        applyLearnedStateToArray(allLibraryCache);
+                    }
+                    notebooksServerLoaded = true; // đã tải xong dữ liệu thật → từ giờ mới được phép lưu
+                    updateLocalCache();            // làm mới cache theo dữ liệu server mới nhất
+                }
             } catch (e) {
                 console.error('Không tải được sổ từ server:', e);
+                // Tải THẤT BẠI (lỗi mạng/JSON hỏng): KHÔNG bật cờ notebooksServerLoaded, nên các
+                // lần lưu tự động sẽ bị chặn → giữ nguyên dữ liệu trên server, không ghi đè bản rỗng.
+                // Thử tải lại sau 5 giây để khôi phục đồng bộ khi mạng ổn định.
+                setTimeout(loadNotebooksFromServer, 5000);
             }
         }
 
@@ -4461,7 +4551,7 @@
         // script chạy dưới quyền của Pen (chủ sở hữu Sheet) và chỉ trả về đúng/sai + vài thông tin
         // cần thiết — không bao giờ trả nguyên bảng mật khẩu ra ngoài.
         // Xem hướng dẫn tạo Apps Script ở cuối tin nhắn chat.
-        const LOGIN_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyke4g4VD809p5u4Gs2kPFtOZRIbqBF8I9pB-qtivNuTKygU5oMnU2W0sKcJaS6uyFt4g/exec"; // ví dụ: "https://script.google.com/macros/s/AKfycbxxxxxxxxxxxx/exec"
+        const LOGIN_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyChVd6RuNN8rdq1QQkPc7ke2CWpkChbk-S5GdP8EsY9G09Q5JdymOk1H3FODi58r82fQ/exec"; // ví dụ: "https://script.google.com/macros/s/AKfycbxxxxxxxxxxxx/exec"
 
         let currentUser = null;
 
@@ -4569,6 +4659,7 @@
             const loginScreen = document.getElementById('login-screen');
             if (loginScreen) loginScreen.classList.add('hidden');
             startAccountStatusWatcher();
+            hydrateFromLocalCache();   // hiện ngay dữ liệu đã lưu ở máy này (nếu có) trong lúc chờ server
             loadNotebooksFromServer(); // nạp lại sổ tay đã lưu của tài khoản này (nếu có cấu hình server)
         }
 
@@ -5991,6 +6082,7 @@
                 applyUserToUI();
                 if (loginScreen) loginScreen.classList.add('hidden');
                 startAccountStatusWatcher();
+                hydrateFromLocalCache();   // hiện ngay dữ liệu đã lưu ở máy này (nếu có) trong lúc chờ server
                 loadNotebooksFromServer(); // phiên đăng nhập cũ còn hạn → nạp lại sổ tay đã lưu của tài khoản này
             } else if (!LOGIN_SCRIPT_URL) {
                 loginSuccess({ username: 'guest', unlockedUnits: [], expiresAt: null }, true);
