@@ -4609,7 +4609,9 @@
                     return;
                 }
                 const unlockedUnits = String(data.unlockedUnits || '').split(',').map(s => s.trim()).filter(Boolean);
-                loginSuccess({ username: data.username || username.trim(), unlockedUnits, expiresAt: expiryStr || null }, rememberMe);
+                // Truyền kèm dữ liệu sổ (nếu backend đã trả về ngay ở bước đăng nhập) để khỏi phải gọi
+                // thêm 1 vòng tải server nữa — giảm 3-5s chờ, tránh cảnh vào thấy 0 sổ / 0 từ.
+                loginSuccess({ username: data.username || username.trim(), unlockedUnits, expiresAt: expiryStr || null, notebooksJson: data.notebooksJson }, rememberMe);
             } catch (e) {
                 console.error(e);
                 if (errEl) { errEl.textContent = 'Không kết nối được tới hệ thống quản lý tài khoản. Thử lại sau nha.'; errEl.classList.remove('hidden'); }
@@ -4663,7 +4665,32 @@
             if (loginScreen) loginScreen.classList.add('hidden');
             startAccountStatusWatcher();
             hydrateFromLocalCache();   // hiện ngay dữ liệu đã lưu ở máy này (nếu có) trong lúc chờ server
-            loadNotebooksFromServer(); // nạp lại sổ tay đã lưu của tài khoản này (nếu có cấu hình server)
+            // Nếu bước đăng nhập đã trả kèm dữ liệu sổ (gộp 2 request thành 1 cho nhanh) thì nạp thẳng,
+            // khỏi phải gọi thêm 1 vòng tải server nữa (đỡ 3-5s chờ "khởi động nguội" của Apps Script).
+            if (userData && typeof userData.notebooksJson === 'string' && userData.notebooksJson) {
+                try {
+                    const server = JSON.parse(userData.notebooksJson);
+                    const cached = readLocalCache();
+                    if (bundleIsEmpty(server) && cached && !bundleIsEmpty(cached)) {
+                        applyBundleToMemory(cached);
+                        notebooksServerLoaded = true;
+                        saveNotebooksToServer();
+                    } else {
+                        applyBundleToMemory(server);
+                        if (cached && cached.learnedWords) {
+                            learnedWordsMap = mergeLearned(learnedWordsMap, cached.learnedWords);
+                            applyLearnedStateToArray(vocabDatabase);
+                            applyLearnedStateToArray(allLibraryCache);
+                        }
+                        notebooksServerLoaded = true;
+                        updateLocalCache();
+                    }
+                } catch (e) {
+                    loadNotebooksFromServer(); // dữ liệu kèm theo lỗi → quay về cách tải riêng
+                }
+            } else {
+                loadNotebooksFromServer(); // backend chưa trả kèm dữ liệu → tải riêng như cũ
+            }
         }
 
         function openPolicyModal() {
