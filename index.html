@@ -1042,8 +1042,11 @@
             // tránh ghi dữ liệu cũ/rỗng đè lên tài khoản vừa đăng nhập trước khi tải xong).
             notebooksServerLoaded = false;
             try {
-                const url = `${LOGIN_SCRIPT_URL}?action=loadNotebooks&user=${encodeURIComponent(currentUser.username)}`;
-                const res = await fetch(url);
+                // Thêm tham số thời gian ngẫu nhiên (_) + cache:'no-store' để BẮT BUỘC lấy dữ liệu TƯƠI
+                // từ server, không dùng bản cũ trong bộ nhớ đệm của trình duyệt. Nếu không, sau khi khôi
+                // phục dữ liệu ở Sheet, trình duyệt có thể trả về bản cache cũ rồi ghi đè ngược lên server.
+                const url = `${LOGIN_SCRIPT_URL}?action=loadNotebooks&user=${encodeURIComponent(currentUser.username)}&_=${Date.now()}`;
+                const res = await fetch(url, { cache: 'no-store' });
                 const rawText = await res.text();
                 const data = JSON.parse(rawText);
                 if (!data.success) {
