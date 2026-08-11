@@ -101,12 +101,13 @@
     .r-row .chev{display:none}
   }
 
-  /* drawer */
-  .backdrop{position:fixed; inset:0; background:rgba(20,22,35,.38); opacity:0; pointer-events:none; transition:.2s; z-index:40}
+  /* modal giữa màn hình */
+  .backdrop{position:fixed; inset:0; background:rgba(20,22,35,.45); opacity:0; pointer-events:none; transition:.2s; z-index:40}
   .backdrop.show{opacity:1; pointer-events:auto}
-  .drawer{position:fixed; top:0; right:0; height:100%; width:min(700px,100%); background:var(--bg); box-shadow:-14px 0 40px rgba(20,22,40,.18); transform:translateX(100%); transition:.25s cubic-bezier(.2,.8,.3,1); z-index:41; display:flex; flex-direction:column}
-  .drawer.show{transform:translateX(0)}
-  .dr-head{padding:18px 20px 14px; display:flex; align-items:flex-start; gap:12px; border-bottom:1px solid var(--line); flex-shrink:0}
+  .drawer{position:fixed; inset:0; margin:auto; width:min(960px,94vw); height:min(90vh,940px); background:var(--card); border-radius:22px; box-shadow:0 30px 80px rgba(20,22,40,.34); opacity:0; transform:translateY(14px) scale(.985); transition:.22s cubic-bezier(.2,.8,.3,1); z-index:41; display:flex; flex-direction:column; overflow:hidden; pointer-events:none}
+  .drawer.show{opacity:1; transform:none; pointer-events:auto}
+  @media(max-width:640px){ .drawer{width:96vw; height:92vh; border-radius:18px} }
+  .dr-head{padding:18px 22px 14px; display:flex; align-items:flex-start; gap:12px; border-bottom:1px solid var(--line); flex-shrink:0}
   .dr-head .avatar{width:46px;height:46px;border-radius:14px;font-size:16px}
   .dr-close{width:32px;height:32px;border-radius:10px;box-shadow:var(--shadow-out-sm);display:flex;align-items:center;justify-content:center;color:var(--muted); flex-shrink:0}
   .dr-tabs{display:flex; gap:4px; padding:12px 20px 0; flex-shrink:0; overflow-x:auto}
@@ -161,6 +162,20 @@
   .learned-row .kr{font-weight:700}
   .learned-row .vi{color:var(--muted); flex:1}
   .warn-line{font-size:11.5px;color:var(--warn);margin-top:8px;font-weight:600}
+
+  /* luyện tập theo từng sổ (kiểu dashboard học sinh) */
+  .pnb{padding:12px 14px; margin-bottom:10px}
+  .pnb-head{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:10px}
+  .pnb-head .nm{font-weight:800; font-size:13.5px}
+  .pnb-head .dt{font-size:11px}
+  .pmodes{display:grid; grid-template-columns:repeat(5,1fr); gap:8px}
+  .pmode{border-radius:12px; padding:9px 5px; text-align:center; box-shadow:var(--shadow-in)}
+  .pmode.on{box-shadow:var(--shadow-out-sm); background:var(--good-soft)}
+  .pmode .ic{font-size:16px}
+  .pmode .lb{font-size:9px; color:var(--muted); font-weight:700; margin-top:3px; line-height:1.15; height:22px; display:flex; align-items:center; justify-content:center}
+  .pmode .st{font-size:11px; font-weight:800; margin-top:3px; font-variant-numeric:tabular-nums}
+  .pmode .c{color:var(--good)} .pmode .w{color:var(--bad)}
+  @media(max-width:520px){ .pmodes{grid-template-columns:repeat(3,1fr)} }
 
   /* quiz / practice */
   .quiz-row{display:flex; gap:10px; align-items:center; padding:9px 13px; border-bottom:1px dashed var(--line); font-size:12px}
@@ -558,7 +573,7 @@ function renderDrawer(){
   else if(drawerTab==="quiz") body=drawerQuiz(st);
   else if(drawerTab==="practice") body=drawerPractice(st);
   else if(drawerTab==="device") body=drawerDevice(st);
-  document.getElementById("drawer").className="drawer neo show";
+  document.getElementById("drawer").className="drawer show";
   document.getElementById("drawer").innerHTML=`
     <div class="dr-head">
       <div class="avatar">${esc(initials(st.username))}</div>
@@ -566,8 +581,7 @@ function renderDrawer(){
         <div style="font-weight:800;font-size:15px">${esc(st.username)}</div>
         <div style="margin-top:4px;display:flex;gap:6px;flex-wrap:wrap">
           <span class="pill ${status.cls}">${status.label}</span>
-          ${st.unlockedUnits?`<span class="pill grey">Unit ${esc(st.unlockedUnits)}</span>`:""}
-          ${st.expiresAt?`<span class="pill grey">Hạn ${esc(st.expiresAt)}</span>`:""}
+          ${lastActive(st)?`<span class="pill grey">🕒 ${fmtDateTime(lastActive(st))}</span>`:""}
         </div>
       </div>
       <button class="dr-close" onclick="closeDrawer()">✕</button>
@@ -626,9 +640,8 @@ function drawerOverview(st){
     </div>
     <div class="section-h">ℹ️ Thông tin khác</div>
     <div class="neo-in" style="padding:12px 15px;font-size:12.5px;line-height:1.9">
-      Unit mở khoá: <b>${st.unlockedUnits?esc(st.unlockedUnits):"—"}</b> · Hết hạn: <b>${st.expiresAt?esc(st.expiresAt):"—"}</b><br>
       ${kind==="vocab"
-        ? `Học 30 ngày: <b>${formatDurationVN(activeMsLastN(st,30))}</b> · Độ chính xác luyện tập: <b>${vocabAccuracy(st)!==null?vocabAccuracy(st)+"%":"—"}</b>`
+        ? `Học trong 30 ngày: <b>${formatDurationVN(activeMsLastN(st,30))}</b> · Độ chính xác luyện tập: <b>${vocabAccuracy(st)!==null?vocabAccuracy(st)+"%":"—"}</b>`
         : `Ngữ pháp chưa vững: <b style="color:var(--bad)">${Object.keys(st.weakMap||{}).length}</b> · Ghi chú cá nhân: <b>${Object.keys(st.userNotes||{}).length}</b> (xem ở tab Quiz)`}
     </div>`;
 }
@@ -810,14 +823,22 @@ function drawerPractice(st){
   const wordById={}; st.notebooks.forEach(nb=>nb.items.forEach(it=>{wordById[it.id]=it;}));
   const wrongWords=[...wrongIdSet].map(id=>wordById[id]||(vocabDB[id]?{kr:vocabDB[id].word,vi:vocabDB[id].vi}:{kr:id,vi:""}));
 
-  const rows=VOCAB_MODES.map(m=>{
-    const a=agg[m.key];
-    if(m.key==="flashcard"){ const pct=a.total?Math.round(a.viewed/a.total*100):0; return `<div class="breakdown-row"><span class="lbl">${m.icon} ${m.label}</span><div class="track"><div class="fillbar" style="width:${pct}%;background:var(--point)"></div></div><span class="amt">${a.viewed}/${a.total} đã xem</span></div>`; }
-    const attempted=a.correct+a.wrong; const pct=a.total?Math.round(attempted/a.total*100):0;
-    return `<div class="breakdown-row"><span class="lbl">${m.icon} ${m.label}</span><div class="track"><div class="fillbar" style="width:${pct}%;background:var(--point)"></div></div><span class="amt" style="color:var(--good);width:34px">${a.correct}Đ</span><span class="amt" style="color:var(--bad);width:34px">${a.wrong}S</span></div>`;
-  }).join("");
-
   if(!anyData && !ms) return `<div class="section-h">🎮 Luyện tập</div><div class="empty">Học sinh chưa luyện tập chức năng nào (Flashcard/Trắc nghiệm/Viết từ/Nghe...).</div>`;
+
+  // Thẻ từng sổ × từng chức năng (giống dashboard của học sinh): mỗi ô = ✓đúng ✕sai
+  const nbHasProgress=nb=>VOCAB_MODES.some(m=>{const p=nb.progress&&nb.progress[m.key]; return p&&((p.correctIds||[]).length||(p.wrongIds||[]).length||(p.viewedIds||[]).length);});
+  const nbCards=[...st.notebooks].sort((a,b)=>(nbHasProgress(b)?1:0)-(nbHasProgress(a)?1:0)).map(nb=>{
+    const cells=VOCAB_MODES.map(m=>{
+      const p=nb.progress&&nb.progress[m.key];
+      let stat, on=false;
+      if(m.key==="flashcard"){ const v=p?(p.viewedIds||[]).length:0; on=v>0; stat=v>0?`👁 ${v}`:"–"; }
+      else { const c=p?(p.correctIds||[]).length:0, w=p?(p.wrongIds||[]).length:0; on=(c+w)>0; stat=(c+w)>0?`<span class="c">✓${c}</span> <span class="w">✕${w}</span>`:"–"; }
+      return `<div class="pmode ${on?'on':''}"><div class="ic">${m.icon}</div><div class="lb">${m.label}</div><div class="st">${stat}</div></div>`;
+    }).join("");
+    return `<div class="pnb neo-in">
+      <div class="pnb-head"><span class="nm">${esc(nb.name||"(không tên)")}</span><span class="dt muted">🕒 ${fmtDate(nb.createdAt)} · ${(nb.words||[]).length} từ</span>${nbHasProgress(nb)?"":`<span class="pill grey">chưa luyện</span>`}</div>
+      <div class="pmodes">${cells}</div></div>`;
+  }).join("");
 
   return `
     <div class="dr-stats" style="grid-template-columns:repeat(3,1fr)">
@@ -825,10 +846,11 @@ function drawerPractice(st){
       <div class="dr-stat neo"><div class="num" style="color:var(--good)">${totalCorrect}</div><div class="lbl">Câu đúng</div></div>
       <div class="dr-stat neo"><div class="num" style="color:var(--bad)">${wrongWords.length}</div><div class="lbl">Từ cần luyện lại</div></div>
     </div>
-    <div class="section-h">🎮 Tiến độ theo từng chức năng<div class="fill"></div><span class="pill grey">Đ đúng · S sai</span></div>
-    <div class="neo-in" style="padding:12px 14px;margin-bottom:16px">${rows}</div>
+    <div class="section-h">🎮 Luyện tập theo từng sổ<div class="fill"></div><span class="pill grey">✓ đúng · ✕ sai</span></div>
+    ${nbCards||`<div class="empty">Chưa luyện tập ở sổ nào.</div>`}
+    <div class="warn-line" style="color:var(--muted)">ℹ️ Lượt “Ôn tập tổng hợp” ở trang chủ được web cộng thẳng vào đúng sổ nguồn của mỗi từ, nên số liệu trên đã bao gồm cả các lượt đó (web không tách riêng lượt tổng hợp).</div>
     ${wrongWords.length?`
-    <div class="section-h">⚠️ Từ hay trả lời sai (${wrongWords.length})<div class="fill"></div>
+    <div class="section-h" style="margin-top:16px">⚠️ Từ hay trả lời sai (${wrongWords.length})<div class="fill"></div>
       <button class="btn" onclick="copyWrongVocab()">📋 Copy để ôn tập</button></div>
     <div class="neo-in" style="padding:10px 12px">
       ${wrongWords.map(w=>`<span class="weak-tag">${esc(w.kr)}${w.vi?` <span style="opacity:.7;font-weight:600">(${esc(w.vi)})</span>`:""}</span>`).join("")}
