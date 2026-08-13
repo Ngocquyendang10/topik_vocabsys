@@ -982,7 +982,7 @@
   {
     "id": "GT0029",
     "stt": 29,
-    "grammar": "-도록",
+    "grammar": "-도록 [1]",
     "topik": "II",
     "level": "3급",
     "category": "Mục đích & Ý chí",
@@ -1472,7 +1472,7 @@
   {
     "id": "GT0043",
     "stt": 43,
-    "grammar": "-도록 하다",
+    "grammar": "-도록 하다 [3]",
     "topik": "II",
     "level": "3급",
     "category": "Lời khuyên",
@@ -1647,7 +1647,7 @@
   {
     "id": "GT0048",
     "stt": 48,
-    "grammar": "-(으)ㄴ/는 대로",
+    "grammar": "-(으)ㄴ/는 대로 [1]",
     "topik": "II",
     "level": "3급",
     "category": "Biểu hiện",
@@ -2032,7 +2032,7 @@
   {
     "id": "GT0059",
     "stt": 59,
-    "grammar": "-(으)ㄴ/는/(으)ㄹ걸(요)",
+    "grammar": "-(으)ㄴ/는/(으)ㄹ걸(요) [1]",
     "topik": "II",
     "level": "3급",
     "category": "Phỏng đoán",
@@ -2102,7 +2102,7 @@
   {
     "id": "GT0061",
     "stt": 61,
-    "grammar": "-(으)ㄴ/는/(으)ㄹ걸(요)",
+    "grammar": "-(으)ㄴ/는/(으)ㄹ걸(요) [2]",
     "topik": "II",
     "level": "3급",
     "category": "Hồi tưởng",
@@ -2662,7 +2662,7 @@
   {
     "id": "GT0077",
     "stt": 77,
-    "grammar": "-(으)ㄴ/는 대로",
+    "grammar": "-(으)ㄴ/는 대로 [2]",
     "topik": "II",
     "level": "3급",
     "category": "Thời gian & Trình tự",
@@ -2705,7 +2705,7 @@
     "similar": "-(으)ㄹ 수 있다, -(으)ㄴ/는 줄 알다",
     "meaning": "Biết cách làm gì / Tưởng là... (nhưng thực tế không phải)",
     "structure": "V-(으)ㄹ 줄 알다",
-    "note": "Có hai ý nghĩa: 1. Biểu hiện năng lực (biết làm gì); 2. Biểu hiện sự phỏng đoán sai lệch ở quá khứ (tưởng là).",
+    "note": "Có hai ý nghĩa: \n1. Biểu hiện năng lực (biết làm gì); \n2. Biểu hiện sự phỏng đoán sai lệch ở quá khứ (\"Tưởng là\").",
     "examples": [
       {
         "text": "저는 한국어로 이메일을 쓸 줄 알아요.",
@@ -3561,41 +3561,6 @@
         "text": "시간이 지나면 오해는 풀리게 마련입니다.",
         "highlight": "풀리게 마련입니다",
         "translation": "Theo thời gian trôi qua, hiểu lầm đương nhiên sẽ được giải tỏa."
-      }
-    ]
-  },
-  {
-    "id": "GT0103",
-    "stt": 103,
-    "grammar": "-(으)ㄴ/는 법이다",
-    "topik": "II",
-    "level": "3급",
-    "category": "Sự tất yếu",
-    "confusing": "",
-    "similar": "-기/게 마련이다, -게 되어 있다",
-    "meaning": "Đương nhiên là, hiển nhiên là (mang tính chân lý, đạo lý)",
-    "structure": "V-는 법이다, A-(으)ㄴ 법이다",
-    "note": "Gần nghĩa với '-기 마련이다', nhấn mạnh vào tính chân lý hoặc quy luật không thể bàn cãi.",
-    "examples": [
-      {
-        "text": "아무리 깊은 밤이라도 결국 아침은 오는 법이에요.",
-        "highlight": "오는 법이에요",
-        "translation": "Cho dù đêm có dài và sâu đến mấy thì buổi sáng đương nhiên cũng sẽ đến thôi."
-      },
-      {
-        "text": "정직하게 살면 언젠가는 보상을 받는 법입니다.",
-        "highlight": "받는 법입니다",
-        "translation": "Nếu sống một cách chính trực, dĩ nhiên một ngày nào đó bạn sẽ nhận được phần thưởng xứng đáng."
-      },
-      {
-        "text": "무리한 투자는 결국 큰 손실을 불러오는 법이다.",
-        "highlight": "불러오는 법이다",
-        "translation": "Việc đầu tư gượng ép đương nhiên sẽ dẫn đến tổn thất lớn."
-      },
-      {
-        "text": "열심히 노력하면 좋은 결과를 얻는 법입니다.",
-        "highlight": "얻는 법입니다",
-        "translation": "Nếu nỗ lực chăm chỉ thì hiển nhiên sẽ nhận được kết quả tốt."
       }
     ]
   },
@@ -6045,7 +6010,7 @@
     "grammar": "-(으)ㄴ/는 셈이다",
     "topik": "II",
     "level": "3급",
-    "category": "Đánh giá",
+    "category": "Cảm xúc",
     "confusing": "",
     "similar": "-(으)ㄴ/는 것과 다름없다, 마찬가지이다",
     "meaning": "Xem như là, coi như là, gần như đã...",
@@ -7442,7 +7407,7 @@
   {
     "id": "GT0214",
     "stt": 214,
-    "grammar": "-도록 하세요",
+    "grammar": "-도록 하세요 [5]",
     "topik": "II",
     "level": "3급",
     "category": "Lời khuyên",
@@ -7477,7 +7442,7 @@
   {
     "id": "GT0215",
     "stt": 215,
-    "grammar": "-도록 하겠습니다",
+    "grammar": "-도록 하겠다 [4]",
     "topik": "II",
     "level": "3급",
     "category": "Mục đích & Ý chí",
@@ -8847,7 +8812,7 @@
     "level": "4급",
     "category": "Sự tương phản",
     "confusing": "",
-    "similar": "-에 반하여, -는 반면에, -치고는",
+    "similar": "-에 반하여, -는 반면에, -치고는, \t-는 데 반해(서)",
     "meaning": "Trái lại hoàn toàn với vế trước thì vế sau lại...",
     "structure": "N에 반해서, V-는 것에 반해서",
     "note": "Thường gắn sau cấu trúc định ngữ để đối chiếu hai sự thật mang tính chất tương phản hoàn toàn.",
@@ -10382,7 +10347,7 @@
   {
     "id": "GT0298",
     "stt": 298,
-    "grammar": "-도록",
+    "grammar": "-도록 [2]",
     "topik": "II",
     "level": "3급",
     "category": "Lời khuyên",
@@ -10417,7 +10382,7 @@
   {
     "id": "GT0299",
     "stt": 299,
-    "grammar": "만큼",
+    "grammar": "만큼 [1]",
     "topik": "II",
     "level": "3급",
     "category": "Nguyên nhân - Kết quả",
@@ -10452,7 +10417,7 @@
   {
     "id": "GT0300",
     "stt": 300,
-    "grammar": "만큼",
+    "grammar": "만큼 [2]",
     "topik": "II",
     "level": "3급",
     "category": "Mức độ",
@@ -10481,6 +10446,811 @@
         "text": "이 샤프심은 연필심만큼 단단해서 잘 부러지지 않습니다.",
         "highlight": "연필심만큼",
         "translation": "Ngòi bút chì bấm này cứng đến mức bằng ngòi bút chì nên không dễ bị gãy."
+      }
+    ]
+  },
+  {
+    "id": "GT0301",
+    "stt": 301,
+    "grammar": "V-아/어/여야 V",
+    "topik": "II",
+    "level": "2급",
+    "category": "Điều kiện & Giả định",
+    "confusing": "",
+    "similar": "-(으)면, -아/어야 하다",
+    "meaning": "Phải làm V1 thì mới có thể/xảy ra V2",
+    "structure": "V-아/어/여야 V2",
+    "note": "V1 là điều kiện cần thiết để V2 xảy ra hoặc có thể thực hiện; thường mang nghĩa “phải… mới…”, “có… thì mới…”. Không dùng để diễn tả đơn thuần hai hành động nối tiếp nhau.",
+    "examples": [
+      {
+        "text": "열심히 공부해야 한국어를 잘할 수 있어요.",
+        "highlight": "공부해야",
+        "translation": "Phải học chăm chỉ thì mới có thể giỏi tiếng Hàn."
+      },
+      {
+        "text": "신분증이 있어야 은행에서 계좌를 만들 수 있습니다.",
+        "highlight": "있어야",
+        "translation": "Phải có chứng minh thư thì mới có thể mở tài khoản ở ngân hàng."
+      },
+      {
+        "text": "아침 8시 전에 출발해야 서울에 제시간에 도착할 수 있어요.",
+        "highlight": "출발해야",
+        "translation": "Phải xuất phát trước 8 giờ sáng thì mới có thể đến Seoul đúng giờ."
+      },
+      {
+        "text": "직접 만나서 이야기해야 오해를 풀 수 있을 것 같아요.",
+        "highlight": "이야기해야",
+        "translation": "Có lẽ phải gặp trực tiếp và nói chuyện thì mới có thể giải tỏa hiểu lầm."
+      }
+    ]
+  },
+  {
+    "id": "GT0302",
+    "stt": 302,
+    "grammar": "-았/었/였어야 하다",
+    "topik": "II",
+    "level": "4급",
+    "category": "Hồi tưởng",
+    "confusing": "",
+    "similar": "-았/었/였어야 했다, -았/었/였으면 좋았을 텐데, -(으)ㄹ 걸 그랬다",
+    "meaning": "Đáng lẽ ra đã phải làm gì đó nhưng thực tế đã không làm",
+    "structure": "V-았/었/였어야 하다",
+    "note": "Diễn tả một việc đáng lẽ phải làm trong quá khứ nhưng đã không thực hiện, thường hàm ý tiếc nuối, trách móc hoặc nhận ra sai lầm sau khi sự việc đã xảy ra.\nThường kết hợp với -는데 ở dạng -았/었/였어야 했는데.",
+    "examples": [
+      {
+        "text": "어제는 일찍 잤어야 했어요.",
+        "highlight": "잤어야 했어요",
+        "translation": "Hôm qua đáng lẽ tôi đã phải ngủ sớm."
+      },
+      {
+        "text": "시험 전에 더 열심히 공부했어야 했어요.",
+        "highlight": "공부했어야 했어요",
+        "translation": "Đáng lẽ tôi đã phải học chăm chỉ hơn trước kỳ thi."
+      },
+      {
+        "text": "비가 올 줄 알았으면 우산을 가져왔어야 했어요.",
+        "highlight": "가져왔어야 했어요",
+        "translation": "Nếu biết trời sẽ mưa thì đáng lẽ tôi đã phải mang ô theo."
+      },
+      {
+        "text": "그 사람의 말을 믿지 말았어야 했어요.",
+        "highlight": "믿지 말았어야 했어요",
+        "translation": "Đáng lẽ tôi không nên tin lời người đó."
+      }
+    ]
+  },
+  {
+    "id": "GT0303",
+    "stt": 303,
+    "grammar": "-기도 하다",
+    "topik": "II",
+    "level": "2급",
+    "category": "Liệt kê bổ sung & Lựa chọn",
+    "confusing": "",
+    "similar": "-도",
+    "meaning": "Cũng làm gì đó; cũng có khi/đôi khi làm gì đó",
+    "structure": "V-기도 하다 / A-기도 하다 / N이기도 하다",
+    "note": "Dùng để bổ sung thêm một hành động, trạng thái hoặc đặc điểm bên cạnh những điều đã được đề cập. Khi dùng với động từ có thể diễn tả hành động “cũng làm”; trong một số ngữ cảnh có thể diễn tả sự việc xảy ra không thường xuyên với nghĩa “có khi, đôi khi”.",
+    "examples": [
+      {
+        "text": "주말에는 집에서 쉬기도 하고 친구를 만나기도 해요.",
+        "highlight": "쉬기도 하고 친구를 만나기도 해요",
+        "translation": "Cuối tuần tôi cũng nghỉ ở nhà và cũng gặp bạn bè."
+      },
+      {
+        "text": "저는 한국 음식을 좋아하고 직접 만들기도 해요.",
+        "highlight": "만들기도 해요",
+        "translation": "Tôi thích món ăn Hàn Quốc và cũng tự nấu nữa."
+      },
+      {
+        "text": "그 사람은 평소에는 조용하지만 가끔 화를 내기도 해요.",
+        "highlight": "화를 내기도 해요",
+        "translation": "Người đó bình thường thì ít nói nhưng đôi khi cũng nổi giận."
+      },
+      {
+        "text": "한국에서 공부하면서 아르바이트를 하기도 했어요.",
+        "highlight": "아르바이트를 하기도 했어요",
+        "translation": "Khi học tập ở Hàn Quốc, tôi cũng từng làm thêm."
+      }
+    ]
+  },
+  {
+    "id": "GT0304",
+    "stt": 304,
+    "grammar": "-ㄴ/는다고 하기에/길래",
+    "topik": "II",
+    "level": "4급",
+    "category": "Nguyên nhân - Kết quả",
+    "confusing": "",
+    "similar": "-ㄴ/는다고 해서, -다고 하니까",
+    "meaning": "Nghe/thấy nói hoặc biết rằng… nên…; vì… nên…",
+    "structure": "V-ㄴ/는다고 하기에 / V-ㄴ/는다고 하길래",
+    "note": "Diễn tả lý do hoặc căn cứ dẫn đến hành động của người nói, dựa trên điều đã nghe hoặc biết từ lời nói/hành động của người khác. -기에 mang sắc thái văn viết/trang trọng hơn; -길래 thường dùng trong hội thoại.",
+    "examples": [
+      {
+        "text": "친구가 맛있는 식당이라고 하기에 한번 가 봤어요.",
+        "highlight": "맛있는 식당이라고 하기에",
+        "translation": "Vì bạn tôi nói đó là nhà hàng ngon nên tôi đã thử đến một lần."
+      },
+      {
+        "text": "비가 온다고 하길래 우산을 가지고 나왔어요.",
+        "highlight": "비가 온다고 하길래",
+        "translation": "Vì nghe nói trời sẽ mưa nên tôi đã mang ô ra ngoài."
+      },
+      {
+        "text": "민수 씨가 한국에 간다고 하기에 여행 계획을 물어봤어요.",
+        "highlight": "한국에 간다고 하기에",
+        "translation": "Vì nghe Min-su nói sẽ đi Hàn Quốc nên tôi đã hỏi kế hoạch du lịch."
+      },
+      {
+        "text": "친구가 재미있는 영화라고 하길래 같이 보러 갔어요.",
+        "highlight": "재미있는 영화라고 하길래",
+        "translation": "Vì nghe bạn nói đó là bộ phim thú vị nên tôi đã đi xem cùng."
+      }
+    ]
+  },
+  {
+    "id": "GT0305",
+    "stt": 305,
+    "grammar": "-(으)ㄹ 줄 모르다",
+    "topik": "II",
+    "level": "2급",
+    "category": "Phủ định & Khả năng",
+    "confusing": "-(으)ㄹ 줄 알다",
+    "similar": "-(으)ㄹ 수 없다",
+    "meaning": "Không biết cách làm gì; không biết rằng/sự việc sẽ xảy ra",
+    "structure": "V-(으)ㄹ 줄 모르다",
+    "note": "Dùng để diễn tả không biết cách thực hiện một hành động hoặc không biết một sự việc sẽ xảy ra. Với nghĩa “không biết cách”, thường đi với các động từ chỉ kỹ năng; với nghĩa “không biết rằng”, thường dùng khi người nói không dự đoán hoặc không nhận thức được một sự việc.",
+    "examples": [
+      {
+        "text": "저는 아직 자전거를 탈 줄 몰라요.",
+        "highlight": "탈 줄 몰라요",
+        "translation": "Tôi vẫn chưa biết đi xe đạp."
+      },
+      {
+        "text": "동생은 컴퓨터를 사용할 줄 몰라요.",
+        "highlight": "사용할 줄 몰라요",
+        "translation": "Em tôi không biết sử dụng máy tính."
+      },
+      {
+        "text": "이렇게 많은 사람들이 올 줄 몰랐어요.",
+        "highlight": "많은 사람들이 올 줄 몰랐어요",
+        "translation": "Tôi không ngờ rằng sẽ có nhiều người đến như thế này."
+      },
+      {
+        "text": "친구가 그렇게 갑자기 떠날 줄 몰랐어요.",
+        "highlight": "그렇게 갑자기 떠날 줄 몰랐어요",
+        "translation": "Tôi không biết rằng bạn tôi sẽ rời đi đột ngột như vậy."
+      }
+    ]
+  },
+  {
+    "id": "GT0306",
+    "stt": 306,
+    "grammar": "-아/어도",
+    "topik": "II",
+    "level": "2급",
+    "category": "Nhượng bộ",
+    "confusing": "",
+    "similar": "-더라도, -기는 하지만",
+    "meaning": "Dù cho / cho dù… thì vẫn…",
+    "structure": "V-아/어도 / A-아/어도 / N이어도/여도",
+    "note": "Diễn tả một điều kiện hoặc tình huống được giả định nhưng kết quả ở vế sau vẫn không thay đổi. Có thể kết hợp với từ để hỏi như 무엇을, 어디에, 언제, 누구와… để diễn tả “dù… thế nào/cái gì/ở đâu…”.",
+    "examples": [
+      {
+        "text": "비가 와도 예정대로 행사는 진행됩니다.",
+        "highlight": "비가 와도",
+        "translation": "Dù trời có mưa thì sự kiện vẫn được tiến hành theo đúng kế hoạch."
+      },
+      {
+        "text": "조금 비싸도 품질이 좋은 제품을 사는 편이에요.",
+        "highlight": "조금 비싸도",
+        "translation": "Dù hơi đắt thì tôi vẫn thường mua sản phẩm có chất lượng tốt."
+      },
+      {
+        "text": "시간이 부족해도 중요한 내용은 반드시 확인해야 합니다.",
+        "highlight": "시간이 부족해도",
+        "translation": "Dù không đủ thời gian thì vẫn phải kiểm tra những nội dung quan trọng."
+      },
+      {
+        "text": "전문가의 도움을 받아도 문제가 쉽게 해결되지 않을 수 있습니다.",
+        "highlight": "도움을 받아도",
+        "translation": "Dù nhận được sự giúp đỡ của chuyên gia thì vấn đề cũng có thể không được giải quyết một cách dễ dàng."
+      }
+    ]
+  },
+  {
+    "id": "GT0307",
+    "stt": 307,
+    "grammar": "-(으)므로",
+    "topik": "II",
+    "level": "3급",
+    "category": "Nguyên nhân - Kết quả",
+    "confusing": "",
+    "similar": "-기 때문에, -(으)로 인해, -아/어서, -(으)니까",
+    "meaning": "Vì / do / bởi… nên…",
+    "structure": "V-(으)므로 / A-(으)므로 / N(이)므로",
+    "note": "Diễn tả nguyên nhân hoặc căn cứ dẫn đến kết quả ở vế sau. Mang tính trang trọng, thường xuất hiện trong văn viết, thông báo, văn bản hành chính, bài luận và đề thi TOPIK. Không thường dùng trong hội thoại thân mật.",
+    "examples": [
+      {
+        "text": "교통이 혼잡하므로 대중교통을 이용해 주시기 바랍니다.",
+        "highlight": "교통이 혼잡하므로",
+        "translation": "Vì giao thông đông đúc nên vui lòng sử dụng phương tiện giao thông công cộng."
+      },
+      {
+        "text": "이 제품은 안전성이 높으므로 어린이가 사용해도 괜찮습니다.",
+        "highlight": "안전성이 높으므로",
+        "translation": "Vì sản phẩm này có độ an toàn cao nên trẻ em sử dụng cũng không sao."
+      },
+      {
+        "text": "개인 정보가 포함되어 있으므로 문서를 외부에 공개해서는 안 됩니다.",
+        "highlight": "포함되어 있으므로",
+        "translation": "Vì tài liệu có chứa thông tin cá nhân nên không được công khai ra bên ngoài."
+      },
+      {
+        "text": "최근에는 온라인으로도 강의를 들을 수 있으므로 직장인들도 시간에 맞춰 학습하기가 훨씬 편리해졌습니다.",
+        "highlight": "들을 수 있으므로",
+        "translation": "Gần đây vì có thể học bài giảng trực tuyến nên ngay cả người đi làm cũng đã thuận tiện hơn rất nhiều trong việc học theo thời gian phù hợp."
+      }
+    ]
+  },
+  {
+    "id": "GT0308",
+    "stt": 308,
+    "grammar": "-기 그지없다",
+    "topik": "II",
+    "level": "5급",
+    "category": "Mức độ",
+    "confusing": "",
+    "similar": "더없이, 매우, 몹시, -아/어 죽겠다, -(으)ㄹ 정도로",
+    "meaning": "Vô cùng / hết sức / không gì… hơn; cực kỳ…",
+    "structure": "A/V-기 그지없다",
+    "note": "Diễn tả mức độ của cảm xúc hoặc trạng thái ở mức rất cao. Thường kết hợp với tính từ hoặc động từ thể hiện cảm xúc, đánh giá như 감사하다, 기쁘다, 안타깝다, 아쉽다, 행복하다. Mang sắc thái trang trọng, thường xuất hiện trong văn viết hoặc văn phong trang trọng.\n감사하기 그지없다 = vô cùng biết ơn\n안타깝기 그지없다 = vô cùng đáng tiếc\n기쁘기 그지없다 = vô cùng vui mừng\n아쉽기 그지없다 = vô cùng đáng tiếc/tiếc nuối",
+    "examples": [
+      {
+        "text": "도움을 주신 모든 분들께 감사하기 그지없습니다.",
+        "highlight": "감사하기 그지없습니다",
+        "translation": "Tôi vô cùng biết ơn tất cả những người đã giúp đỡ tôi."
+      },
+      {
+        "text": "오랫동안 준비한 공연이 성공적으로 끝나서 기쁘기 그지없었습니다.",
+        "highlight": "기쁘기 그지없었습니다",
+        "translation": "Tôi vô cùng vui mừng vì buổi biểu diễn đã được chuẩn bị trong thời gian dài đã kết thúc thành công."
+      },
+      {
+        "text": "갑작스러운 사고로 가족을 잃은 사람들의 상황이 안타깝기 그지없습니다.",
+        "highlight": "안타깝기 그지없습니다",
+        "translation": "Tình cảnh của những người mất gia đình trong một vụ tai nạn bất ngờ thật vô cùng đáng tiếc."
+      },
+      {
+        "text": "환경 오염으로 인해 아름다운 자연이 훼손되고 있다는 사실이 안타깝기 그지없습니다.",
+        "highlight": "안타깝기 그지없습니다",
+        "translation": "Thật vô cùng đáng tiếc khi cảnh quan thiên nhiên tươi đẹp đang bị hủy hoại do ô nhiễm môi trường."
+      }
+    ]
+  },
+  {
+    "id": "GT0309",
+    "stt": 309,
+    "grammar": "는 것과 마찬가지이다",
+    "topik": "II",
+    "level": "4급",
+    "category": "Đánh giá",
+    "confusing": "",
+    "similar": "-는 셈이다, -와/과 같다, -는 셈이다, -다고 볼 수 있다",
+    "meaning": "Cũng giống như / chẳng khác gì / tương đương với việc…",
+    "structure": "V-는 것과 마찬가지이다 / N인 것과 마찬가지이다",
+    "note": "Diễn tả hai sự việc hoặc trạng thái có kết quả, ý nghĩa tương đương nhau, dù hình thức hoặc cách thức thực hiện có thể khác nhau. Thường dùng để nhấn mạnh rằng một hành động thực tế không khác gì một hành động hoặc kết quả khác.",
+    "examples": [
+      {
+        "text": "이 문제를 해결하지 않는 것은 문제를 그대로 두는 것과 마찬가지입니다.",
+        "highlight": "두는 것과 마찬가지입니다",
+        "translation": "Không giải quyết vấn đề này cũng chẳng khác gì để nguyên vấn đề đó."
+      },
+      {
+        "text": "인터넷에 개인 정보를 공개하는 것은 다른 사람에게 비밀번호를 알려 주는 것과 마찬가지예요.",
+        "highlight": "알려 주는 것과 마찬가지예요",
+        "translation": "Công khai thông tin cá nhân trên Internet cũng chẳng khác gì cho người khác biết mật khẩu của mình."
+      },
+      {
+        "text": "환경을 보호하기 위해 작은 실천이라도 꾸준히 하는 것은 미래 세대를 돕는 것과 마찬가지라고 할 수 있습니다.",
+        "highlight": "돕는 것과 마찬가지라고 할 수 있습니다",
+        "translation": "Có thể nói rằng việc kiên trì thực hiện dù chỉ những hành động nhỏ để bảo vệ môi trường cũng tương đương với việc giúp đỡ thế hệ tương lai."
+      },
+      {
+        "text": "충분한 검토 없이 중요한 결정을 내리는 것은 사실상 아무런 준비 없이 문제를 해결하려는 것과 마찬가지이므로 신중하게 판단할 필요가 있습니다.",
+        "highlight": "해결하려는 것과 마찬가지이므로",
+        "translation": "Việc đưa ra quyết định quan trọng mà không xem xét đầy đủ thực chất chẳng khác gì cố giải quyết vấn đề mà không có bất kỳ sự chuẩn bị nào, vì vậy cần phải phán đoán thận trọng."
+      }
+    ]
+  },
+  {
+    "id": "GT0310",
+    "stt": 310,
+    "grammar": "-은/는 말할 것도 없고",
+    "topik": "II",
+    "level": "4급",
+    "category": "Liệt kê bổ sung & Lựa chọn",
+    "confusing": "",
+    "similar": "-은/는 물론이고, -(으)ㄹ 뿐만 아니라",
+    "meaning": "Không cần phải nói đến…; chưa nói đến… mà còn…",
+    "structure": "N은/는 말할 것도 없고 / V-는 것은 말할 것도 없고 / A-(으)ㄴ 것은 말할 것도 없고",
+    "note": "Dùng để nhấn mạnh rằng điều được nêu trước đã quá rõ ràng hoặc hiển nhiên, sau đó bổ sung thêm một đối tượng hoặc sự việc khác cũng có cùng đặc điểm. Thường dùng trong văn viết và văn phong trang trọng.",
+    "examples": [
+      {
+        "text": "이 식당은 음식의 맛은 말할 것도 없고 서비스도 좋습니다.",
+        "highlight": "맛은 말할 것도 없고",
+        "translation": "Không cần phải nói đến hương vị món ăn, dịch vụ của nhà hàng này cũng rất tốt."
+      },
+      {
+        "text": "그 배우는 연기력은 말할 것도 없고 외국어 실력도 뛰어납니다.",
+        "highlight": "연기력은 말할 것도 없고",
+        "translation": "Không cần phải nói đến khả năng diễn xuất, năng lực ngoại ngữ của diễn viên đó cũng rất xuất sắc."
+      },
+      {
+        "text": "이번 사업은 비용은 말할 것도 없고 많은 시간과 인력이 필요할 것으로 예상됩니다.",
+        "highlight": "비용은 말할 것도 없고",
+        "translation": "Chưa nói đến chi phí, dự án lần này được dự đoán sẽ cần rất nhiều thời gian và nhân lực."
+      },
+      {
+        "text": "인공지능은 업무의 효율성을 높이는 것은 말할 것도 없고 새로운 산업과 직업을 만들어 내는 데에도 영향을 미치고 있습니다.",
+        "highlight": "높이는 것은 말할 것도 없고",
+        "translation": "Trí tuệ nhân tạo không chỉ nâng cao hiệu quả công việc mà còn đang ảnh hưởng đến việc tạo ra những ngành công nghiệp và nghề nghiệp mới."
+      }
+    ]
+  },
+  {
+    "id": "GT0311",
+    "stt": 311,
+    "grammar": "-기가 바쁘게",
+    "topik": "II",
+    "level": "5급",
+    "category": "Trạng thái & Giai đoạn",
+    "confusing": "",
+    "similar": "-자마자, -기가 무섭게, 는 대로",
+    "meaning": "Vừa mới… thì ngay lập tức…; ngay sau khi…",
+    "structure": "V-기가 바쁘게",
+    "note": "Diễn tả một hành động hoặc sự việc xảy ra ngay lập tức sau một hành động khác. Nhấn mạnh khoảng thời gian giữa hai hành động gần như không có. Thường dùng trong văn viết hoặc khi muốn nhấn mạnh sự việc thứ hai xảy ra quá nhanh, đôi khi mang sắc thái bất ngờ.",
+    "examples": [
+      {
+        "text": "수업이 끝나기가 바쁘게 학생들은 교실을 나갔습니다.",
+        "highlight": "끝나기가 바쁘게",
+        "translation": "Vừa kết thúc tiết học thì học sinh đã lập tức ra khỏi lớp."
+      },
+      {
+        "text": "회의가 끝나기가 바쁘게 직원들은 각자 맡은 업무를 시작했습니다.",
+        "highlight": "끝나기가 바쁘게",
+        "translation": "Ngay sau khi cuộc họp kết thúc, nhân viên đã bắt đầu công việc được giao của mình."
+      },
+      {
+        "text": "뉴스가 보도되기가 바쁘게 관련 상품의 주문이 급격히 증가했습니다.",
+        "highlight": "보도되기가 바쁘게",
+        "translation": "Ngay sau khi tin tức được đưa tin, đơn đặt hàng các sản phẩm liên quan đã tăng mạnh."
+      },
+      {
+        "text": "새로운 정책이 발표되기가 바쁘게 시민들의 다양한 의견이 온라인에 쏟아져 나오기 시작했습니다.",
+        "highlight": "발표되기가 바쁘게",
+        "translation": "Ngay sau khi chính sách mới được công bố, nhiều ý kiến khác nhau của người dân bắt đầu tràn lên mạng."
+      }
+    ]
+  },
+  {
+    "id": "GT0312",
+    "stt": 312,
+    "grammar": "-는 거나 같다",
+    "topik": "II",
+    "level": "4급",
+    "category": "Mức độ",
+    "confusing": "",
+    "similar": "-는 것과 다름없다, -는 셈이다, -는 것과 마찬가지이다",
+    "meaning": "Cứ như là…; chẳng khác nào…; có cảm giác như…",
+    "structure": "V-는 거나 같다",
+    "note": "Diễn tả cảm nhận hoặc nhận định rằng một sự việc có vẻ giống như một sự việc khác. Khác với -는 것과 마찬가지이다 vốn khẳng định sự tương đương khá rõ ràng, -는 거나 같다 thường mang sắc thái chủ quan hơn, như “cứ như là”, “có vẻ như”.",
+    "examples": [
+      {
+        "text": "아무리 설명해도 듣지 않는 걸 보니 벽에 이야기하는 거나 같아요.",
+        "highlight": "이야기하는 거나 같아요",
+        "translation": "Nhìn việc nói thế nào cũng không chịu nghe thì cứ như là đang nói chuyện với bức tường vậy."
+      },
+      {
+        "text": "요즘은 집과 회사만 오가다 보니 하루가 반복되는 거나 같은 느낌이 들어요.",
+        "highlight": "반복되는 거나 같은",
+        "translation": "Dạo này vì cứ đi đi lại lại giữa nhà và công ty nên tôi có cảm giác như mỗi ngày đều lặp lại."
+      },
+      {
+        "text": "인터넷에서 확인되지 않은 정보를 그대로 믿는 것은 소문을 사실로 받아들이는 거나 같다고 생각합니다.",
+        "highlight": "받아들이는 거나 같다고",
+        "translation": "Tôi cho rằng tin ngay những thông tin chưa được kiểm chứng trên Internet cũng chẳng khác nào coi tin đồn là sự thật."
+      },
+      {
+        "text": "자신의 의견만 옳다고 생각하고 다른 사람의 말을 전혀 듣지 않는다면 혼자서 대화하는 거나 같아서 원활한 의사소통이 이루어지기 어렵습니다.",
+        "highlight": "대화하는 거나 같아서",
+        "translation": "Nếu chỉ cho rằng ý kiến của mình là đúng và hoàn toàn không lắng nghe người khác thì chẳng khác nào tự mình nói chuyện, vì vậy rất khó đạt được sự giao tiếp suôn sẻ."
+      }
+    ]
+  },
+  {
+    "id": "GT0313",
+    "stt": 313,
+    "grammar": "-는 거나 마찬가지이다",
+    "topik": "II",
+    "level": "4급",
+    "category": "Mức độ",
+    "confusing": "",
+    "similar": "-는 것과 마찬가지이다, -는 거나 다름없다, -는 셈이다",
+    "meaning": "Chẳng khác gì / cũng giống như việc…",
+    "structure": "V-는 거나 마찬가지이다 / N이나 마찬가지이다",
+    "note": "Dùng để nhấn mạnh rằng một hành động hoặc tình huống về bản chất có kết quả hoặc ý nghĩa tương đương với một hành động, tình huống khác. Cách nói -는 거나 마찬가지이다 mang sắc thái hội thoại tự nhiên hơn -는 것과 마찬가지이다.",
+    "examples": [
+      {
+        "text": "아무 준비도 하지 않고 시험을 보는 것은 시험을 포기하는 거나 마찬가지예요.",
+        "highlight": "시험을 포기하는 거나 마찬가지예요",
+        "translation": "Không chuẩn bị gì mà đi thi thì chẳng khác gì từ bỏ kỳ thi."
+      },
+      {
+        "text": "건강을 생각하지 않고 계속 무리하는 것은 자신의 몸을 방치하는 거나 마찬가지입니다.",
+        "highlight": "몸을 방치하는 거나 마찬가지입니다",
+        "translation": "Không quan tâm đến sức khỏe mà cứ tiếp tục làm việc quá sức thì chẳng khác gì bỏ mặc cơ thể của mình."
+      },
+      {
+        "text": "인터넷에 올린 글은 완전히 삭제했다고 생각해도 다른 사람이 이미 저장했다면 공개된 것이나 마찬가지예요.",
+        "highlight": "공개된 것이나 마찬가지예요",
+        "translation": "Ngay cả khi nghĩ rằng bài viết đã đăng trên Internet được xóa hoàn toàn, nếu người khác đã lưu lại thì cũng chẳng khác gì nó vẫn đang được công khai."
+      },
+      {
+        "text": "문제를 발견하고도 해결하려는 노력을 하지 않는다면 결국 그 문제를 받아들이는 거나 마찬가지라고 볼 수 있습니다.",
+        "highlight": "받아들이는 거나 마찬가지라고 볼 수 있습니다",
+        "translation": "Nếu phát hiện vấn đề mà vẫn không cố gắng giải quyết thì cuối cùng có thể xem như chẳng khác gì chấp nhận vấn đề đó."
+      }
+    ]
+  },
+  {
+    "id": "GT0314",
+    "stt": 314,
+    "grammar": "-는 거나 다름없다",
+    "topik": "II",
+    "level": "4급",
+    "category": "Mức độ",
+    "confusing": "",
+    "similar": "-는 것과 다름없다, -는 거나 마찬가지이다, -는 셈이다",
+    "meaning": "Chẳng khác gì / gần như là / coi như là…",
+    "structure": "V-는 거나 다름없다 / N이나 다름없다",
+    "note": "Dùng để nhấn mạnh rằng hai sự việc gần như không có sự khác biệt về kết quả hoặc bản chất. Thường mang sắc thái mạnh hơn khi người nói muốn khẳng định một hành động thực tế tương đương với một kết quả nào đó.",
+    "examples": [
+      {
+        "text": "이렇게 늦게 자면 밤을 새우는 거나 다름없어요.",
+        "highlight": "밤을 새우는 거나 다름없어요",
+        "translation": "Nếu ngủ muộn như thế này thì chẳng khác gì thức trắng đêm."
+      },
+      {
+        "text": "하루 종일 아무것도 먹지 않는 것은 식사를 한 끼 거르는 거나 다름없습니다.",
+        "highlight": "거르는 거나 다름없습니다",
+        "translation": "Cả ngày không ăn gì thì chẳng khác gì bỏ một bữa ăn."
+      },
+      {
+        "text": "중요한 자료를 백업하지 않고 컴퓨터만 믿는 것은 데이터를 잃어버리는 거나 다름없습니다.",
+        "highlight": "데이터를 잃어버리는 거나 다름없습니다",
+        "translation": "Không sao lưu dữ liệu quan trọng mà chỉ tin vào máy tính thì chẳng khác gì đánh mất dữ liệu."
+      },
+      {
+        "text": "상대방의 의견을 전혀 듣지 않고 자신의 주장만 반복한다면 대화를 거부하는 거나 다름없기 때문에 서로의 입장을 이해하기 어렵습니다.",
+        "highlight": "대화를 거부하는 거나 다름없기 때문에",
+        "translation": "Nếu hoàn toàn không lắng nghe ý kiến của đối phương mà chỉ lặp lại quan điểm của mình thì chẳng khác gì từ chối đối thoại, vì vậy rất khó để hiểu lập trường của nhau."
+      }
+    ]
+  },
+  {
+    "id": "GT0315",
+    "stt": 315,
+    "grammar": "-는 체하다",
+    "topik": "II",
+    "level": "4급",
+    "category": "Biểu hiện",
+    "confusing": "",
+    "similar": "-는 척하다, -는 것처럼 행동하다, -는 척하다, -는 듯하다",
+    "meaning": "Giả vờ làm gì / làm bộ như đang…",
+    "structure": "V-는 체하다 / A-(으)ㄴ 체하다 / N인 체하다",
+    "note": "Diễn tả việc cố tình thể hiện như mình đang ở một trạng thái hoặc đang thực hiện một hành động nào đó dù thực tế không phải như vậy. -는 체하다 thường mang sắc thái văn viết hoặc trang trọng hơn -는 척하다.",
+    "examples": [
+      {
+        "text": "그는 모르는 체하고 아무 말도 하지 않았어요.",
+        "highlight": "모르는 체하고",
+        "translation": "Anh ấy giả vờ không biết và không nói gì cả."
+      },
+      {
+        "text": "아이들은 선생님이 들어오자 공부하는 체했어요.",
+        "highlight": "공부하는 체했어요",
+        "translation": "Khi giáo viên bước vào, bọn trẻ giả vờ đang học."
+      },
+      {
+        "text": "그는 사람들의 질문을 듣고도 못 들은 체하며 자리를 떠났습니다.",
+        "highlight": "못 들은 체하며",
+        "translation": "Mặc dù nghe câu hỏi của mọi người nhưng anh ta giả vờ như không nghe thấy rồi rời khỏi chỗ."
+      },
+      {
+        "text": "문제가 있다는 사실을 알면서도 아무 일도 없는 체한다면 오히려 상황을 더 악화시킬 수 있습니다.",
+        "highlight": "아무 일도 없는 체한다면",
+        "translation": "Nếu biết rằng có vấn đề nhưng vẫn giả vờ như không có chuyện gì xảy ra thì ngược lại có thể khiến tình hình trở nên tồi tệ hơn."
+      }
+    ]
+  },
+  {
+    "id": "GT0316",
+    "stt": 316,
+    "grammar": "-는 반면에",
+    "topik": "II",
+    "level": "3급",
+    "category": "Sự tương phản",
+    "confusing": "",
+    "similar": "-(으)ㄴ/는 데 비해, -기는 하지만, -지만, -는데 반해",
+    "meaning": "Trong khi / trái lại / ngược lại",
+    "structure": "V-는 반면에 / A-(으)ㄴ 반면에 / N인 반면에",
+    "note": "Dùng để đối chiếu hai sự việc, đặc điểm hoặc trạng thái có sự khác biệt. Hai vế thường có chủ thể giống hoặc khác nhau. Có thể dùng để nêu hai mặt trái ngược của cùng một đối tượng.",
+    "examples": [
+      {
+        "text": "이 지역은 여름에는 덥고 건조한 반면에 겨울에는 춥고 습합니다.",
+        "highlight": "더운 반면에",
+        "translation": "Khu vực này vào mùa hè thì nóng và khô, trong khi mùa đông lại lạnh và ẩm."
+      },
+      {
+        "text": "온라인 수업은 시간과 장소에 구애받지 않는 반면에 직접 질문하기 어렵다는 단점이 있습니다.",
+        "highlight": "구애받지 않는 반면에",
+        "translation": "Lớp học trực tuyến không bị giới hạn về thời gian và địa điểm, trong khi có nhược điểm là khó đặt câu hỏi trực tiếp."
+      },
+      {
+        "text": "대도시는 일자리가 많은 반면에 생활비가 높아 경제적인 부담이 클 수 있습니다.",
+        "highlight": "일자리가 많은 반면에",
+        "translation": "Các thành phố lớn có nhiều việc làm, nhưng ngược lại chi phí sinh hoạt cao nên gánh nặng kinh tế có thể lớn."
+      },
+      {
+        "text": "자동화 기술은 생산성을 높이는 데 도움이 되는 반면에 일부 직업의 일자리를 줄일 가능성도 있으므로 사회적 대책이 필요합니다.",
+        "highlight": "도움이 되는 반면에",
+        "translation": "Công nghệ tự động hóa giúp nâng cao năng suất, nhưng đồng thời cũng có khả năng làm giảm việc làm ở một số ngành nghề, vì vậy cần có các biện pháp xã hội."
+      }
+    ]
+  },
+  {
+    "id": "GT0317",
+    "stt": 317,
+    "grammar": "-(으)ㄹ 턱이 없다",
+    "topik": "II",
+    "level": "5급",
+    "category": "Đánh giá",
+    "confusing": "",
+    "similar": "-(으)ㄹ 리가 없다, 절대로 -지 않다, -(으)ㄹ 수가 없다",
+    "meaning": "Chắc chắn không / tuyệt đối không thể / không đời nào…",
+    "structure": "V-(으)ㄹ 턱이 없다 / A-(으)ㄹ 턱이 없다 / N일 턱이 없다",
+    "note": "Diễn tả sự phủ định mạnh mẽ dựa trên căn cứ hoặc suy luận của người nói, mang nghĩa “chắc chắn không thể”, “không đời nào”. Thường dùng khi người nói tin chắc rằng một sự việc không có khả năng xảy ra.",
+    "examples": [
+      {
+        "text": "그 사람이 약속을 잊을 턱이 없어요.",
+        "highlight": "잊을 턱이 없어요",
+        "translation": "Người đó chắc chắn không thể nào quên lời hứa được."
+      },
+      {
+        "text": "이렇게 열심히 준비했는데 시험에 떨어질 턱이 없어요.",
+        "highlight": "떨어질 턱이 없어요",
+        "translation": "Đã chuẩn bị chăm chỉ như thế này thì chắc chắn không thể nào trượt kỳ thi được."
+      },
+      {
+        "text": "수십 년 동안 사용해 온 기술이 하루아침에 사라질 턱이 없습니다.",
+        "highlight": "사라질 턱이 없습니다",
+        "translation": "Công nghệ đã được sử dụng trong hàng chục năm chắc chắn không thể nào biến mất chỉ sau một đêm."
+      },
+      {
+        "text": "그는 가족의 안전을 중요하게 생각하는 사람이므로 위험한 상황이라는 것을 알면서도 아무런 조치를 취하지 않을 턱이 없습니다.",
+        "highlight": "취하지 않을 턱이 없습니다",
+        "translation": "Anh ấy là người coi trọng sự an toàn của gia đình, vì vậy chắc chắn không thể nào biết đó là tình huống nguy hiểm mà lại không thực hiện bất kỳ biện pháp nào."
+      }
+    ]
+  },
+  {
+    "id": "GT0318",
+    "stt": 318,
+    "grammar": "-는 것은 물론이고",
+    "topik": "II",
+    "level": "4급",
+    "category": "Liệt kê bổ sung & Lựa chọn",
+    "confusing": "",
+    "similar": "-(으)ㄹ 뿐만 아니라, -은/는 말할 것도 없고",
+    "meaning": "Không chỉ… mà còn… / chưa nói đến… mà còn…",
+    "structure": "V-는 것은 물론이고 / A-(으)ㄴ 것은 물론이고 / N인 것은 물론이고",
+    "note": "Dùng để nhấn mạnh rằng không chỉ điều được nêu trước mà một điều khác cũng đúng hoặc cũng xảy ra. Vế sau thường là thông tin được bổ sung để mở rộng hoặc nhấn mạnh mức độ.",
+    "examples": [
+      {
+        "text": "이 제품은 가격이 저렴한 것은 물론이고 사용하기도 편리합니다.",
+        "highlight": "가격이 저렴한 것은 물론이고",
+        "translation": "Sản phẩm này không chỉ có giá rẻ mà còn dễ sử dụng."
+      },
+      {
+        "text": "그 도시는 자연환경이 아름다운 것은 물론이고 교통도 편리해서 관광객이 많이 찾습니다.",
+        "highlight": "자연환경이 아름다운 것은 물론이고",
+        "translation": "Thành phố đó không chỉ có môi trường tự nhiên đẹp mà giao thông cũng thuận tiện nên có nhiều khách du lịch tìm đến."
+      },
+      {
+        "text": "최근에는 스마트폰으로 정보를 검색하는 것은 물론이고 온라인으로 은행 업무까지 처리할 수 있습니다.",
+        "highlight": "정보를 검색하는 것은 물론이고",
+        "translation": "Gần đây, không chỉ có thể tìm kiếm thông tin bằng điện thoại thông minh mà còn có thể xử lý cả công việc ngân hàng trực tuyến."
+      },
+      {
+        "text": "이번 프로젝트는 새로운 기술을 개발하는 것은 물론이고 지역 사회의 문제를 해결하는 데에도 기여할 것으로 기대됩니다.",
+        "highlight": "새로운 기술을 개발하는 것은 물론이고",
+        "translation": "Dự án lần này được kỳ vọng không chỉ phát triển công nghệ mới mà còn góp phần giải quyết các vấn đề của cộng đồng địa phương."
+      }
+    ]
+  },
+  {
+    "id": "GT0319",
+    "stt": 319,
+    "grammar": "-에 지나지 않다",
+    "topik": "II",
+    "level": "4급",
+    "category": "Giới hạn",
+    "confusing": "",
+    "similar": "-에 불과하다, 겨우 -이다, 밖에 없다",
+    "meaning": "Chỉ là / không hơn gì / chẳng qua chỉ là…",
+    "structure": "N에 지나지 않다 / V-(으)ㄴ 것에 지나지 않다",
+    "note": "Dùng để hạ thấp hoặc giới hạn mức độ, giá trị hoặc phạm vi của một người, sự vật hay sự việc, nhấn mạnh rằng nó không vượt quá mức được đề cập. Thường xuất hiện trong văn viết và văn phong trang trọng.",
+    "examples": [
+      {
+        "text": "그것은 단순한 실수에 지나지 않습니다.",
+        "highlight": "실수에 지나지 않습니다",
+        "translation": "Đó chẳng qua chỉ là một sai sót đơn thuần."
+      },
+      {
+        "text": "이번 조사는 전체 국민 중 일부의 의견을 알아보기 위한 과정에 지나지 않습니다.",
+        "highlight": "과정에 지나지 않습니다",
+        "translation": "Cuộc khảo sát lần này chẳng qua chỉ là một quá trình nhằm tìm hiểu ý kiến của một bộ phận người dân."
+      },
+      {
+        "text": "그의 발언은 개인적인 의견에 지나지 않으므로 공식적인 입장으로 받아들여서는 안 됩니다.",
+        "highlight": "의견에 지나지 않으므로",
+        "translation": "Phát biểu của anh ấy chỉ là ý kiến cá nhân, vì vậy không nên tiếp nhận nó như một lập trường chính thức."
+      },
+      {
+        "text": "높은 점수를 받는 것만으로 성공했다고 판단하는 것은 성공의 한 부분만을 보는 것에 지나지 않습니다.",
+        "highlight": "보는 것에 지나지 않습니다",
+        "translation": "Việc đánh giá rằng đã thành công chỉ dựa vào điểm số cao chẳng qua chỉ là nhìn nhận một phần của thành công."
+      }
+    ]
+  },
+  {
+    "id": "GT0320",
+    "stt": 320,
+    "grammar": "-고서도",
+    "topik": "II",
+    "level": "5급",
+    "category": "Sự tương phản",
+    "confusing": "",
+    "similar": "-고도, -면서도",
+    "meaning": "Mặc dù đã… mà vẫn… / dù đã… nhưng vẫn…",
+    "structure": "V-고서도",
+    "note": "Dùng để diễn tả việc một hành động hoặc sự việc đã xảy ra nhưng sau đó lại có một hành động, trạng thái hoặc kết quả trái với điều có thể dự đoán. Thường nhấn mạnh sự mâu thuẫn, bất ngờ hoặc trách móc. So với -고도, -고서도 thường nhấn mạnh hơn mối liên hệ “đã làm xong việc A mà vẫn…”.",
+    "examples": [
+      {
+        "text": "그 사실을 알고서도 아무에게 말하지 않았어요.",
+        "highlight": "알고서도",
+        "translation": "Dù đã biết sự thật đó nhưng tôi vẫn không nói với ai."
+      },
+      {
+        "text": "충분히 설명을 듣고서도 내용을 제대로 이해하지 못했습니다.",
+        "highlight": "듣고서도",
+        "translation": "Dù đã nghe giải thích đầy đủ nhưng tôi vẫn không thể hiểu nội dung một cách chính xác."
+      },
+      {
+        "text": "여러 번 경고를 받고서도 같은 실수를 반복한다면 문제가 있다고 볼 수 있습니다.",
+        "highlight": "경고를 받고서도",
+        "translation": "Nếu đã được cảnh báo nhiều lần mà vẫn lặp lại cùng một sai lầm thì có thể xem là có vấn đề."
+      },
+      {
+        "text": "환경 오염의 심각성을 잘 알고서도 편리하다는 이유로 일회용품을 계속 사용한다면 문제를 해결하기 어려울 것입니다.",
+        "highlight": "알고서도",
+        "translation": "Nếu biết rõ mức độ nghiêm trọng của ô nhiễm môi trường mà vẫn tiếp tục sử dụng đồ dùng một lần chỉ vì sự tiện lợi thì sẽ khó giải quyết được vấn đề."
+      }
+    ]
+  },
+  {
+    "id": "GT0321",
+    "stt": 321,
+    "grammar": "-는 줄 몰랐다",
+    "topik": "II",
+    "level": "3급",
+    "category": "Cảm xúc",
+    "confusing": "",
+    "similar": "-(으)ㄹ 줄 알았다",
+    "meaning": "Không biết rằng / không ngờ rằng…",
+    "structure": "V-는 줄 몰랐다 / A-(으)ㄴ 줄 몰랐다 / N인 줄 몰랐다",
+    "note": "Diễn tả việc trước đó không biết hoặc không ngờ một sự việc đang diễn ra, tồn tại hoặc là như vậy. Thường dùng khi người nói phát hiện ra sự thật khác với suy nghĩ hoặc dự đoán trước đó. Cần phân biệt với -(으)ㄹ 줄 몰랐다, thường dùng cho sự việc chưa xảy ra hoặc kết quả không ngờ tới.",
+    "examples": [
+      {
+        "text": "그 사람이 한국에서 오래 살고 있는 줄 몰랐어요.",
+        "highlight": "오래 살고 있는 줄 몰랐어요",
+        "translation": "Tôi không biết rằng người đó đã sống lâu ở Hàn Quốc."
+      },
+      {
+        "text": "이 식당이 이렇게 유명한 줄 몰랐어요.",
+        "highlight": "이렇게 유명한 줄 몰랐어요",
+        "translation": "Tôi không biết nhà hàng này lại nổi tiếng đến vậy."
+      },
+      {
+        "text": "회의가 이미 시작된 줄 몰라서 조금 늦게 들어갔어요.",
+        "highlight": "이미 시작된 줄 몰라서",
+        "translation": "Vì không biết cuộc họp đã bắt đầu nên tôi vào hơi muộn."
+      },
+      {
+        "text": "처음에는 그가 외국인인 줄 몰랐는데 한국어를 너무 자연스럽게 해서 놀랐어요.",
+        "highlight": "외국인인 줄 몰랐는데",
+        "translation": "Ban đầu tôi không biết anh ấy là người nước ngoài, nhưng vì anh ấy nói tiếng Hàn quá tự nhiên nên tôi rất ngạc nhiên."
+      }
+    ]
+  },
+  {
+    "id": "GT0322",
+    "stt": 322,
+    "grammar": "-(으)ㄹ 것도 없이",
+    "topik": "II",
+    "level": "4급",
+    "category": "Điều kiện & Giả định",
+    "confusing": "",
+    "similar": "-지 않고도, -지 않아도",
+    "meaning": "Không cần… cũng / không cần phải… đã…",
+    "structure": "V-(으)ㄹ 것도 없이",
+    "note": "Diễn tả một hành động không cần phải thực hiện vì ngay lập tức hoặc tự nhiên đã có hành động, trạng thái khác xảy ra. Thường mang sắc thái “không cần phải làm A thì B đã xảy ra/thực hiện”, nhấn mạnh A hoàn toàn không cần thiết.",
+    "examples": [
+      {
+        "text": "그 소식을 들을 것도 없이 표정만 봐도 무슨 일이 있었는지 알 수 있었어요.",
+        "highlight": "들을 것도 없이",
+        "translation": "Không cần nghe tin đó, chỉ nhìn nét mặt thôi cũng có thể biết đã xảy ra chuyện gì."
+      },
+      {
+        "text": "직접 물어볼 것도 없이 그의 표정에서 답을 알 수 있었습니다.",
+        "highlight": "물어볼 것도 없이",
+        "translation": "Không cần trực tiếp hỏi, tôi đã có thể biết câu trả lời qua nét mặt của anh ấy."
+      },
+      {
+        "text": "사용 설명서를 읽을 것도 없이 누구나 쉽게 사용할 수 있도록 제품을 설계했습니다.",
+        "highlight": "읽을 것도 없이",
+        "translation": "Sản phẩm được thiết kế để bất kỳ ai cũng có thể dễ dàng sử dụng mà không cần đọc hướng dẫn sử dụng."
+      },
+      {
+        "text": "별도로 신청할 것도 없이 기존 회원은 자동으로 새로운 서비스에 등록되므로 안내된 내용을 확인하시기 바랍니다.",
+        "highlight": "신청할 것도 없이",
+        "translation": "Thành viên hiện tại sẽ tự động được đăng ký dịch vụ mới mà không cần đăng ký riêng, vì vậy vui lòng kiểm tra nội dung được hướng dẫn."
+      }
+    ]
+  },
+  {
+    "id": "GT0323",
+    "stt": 323,
+    "grammar": "이자",
+    "topik": "II",
+    "level": "4급",
+    "category": "Liệt kê bổ sung & Lựa chọn",
+    "confusing": "",
+    "similar": "-(으)면서, -인 동시에",
+    "meaning": "Vừa là… vừa là… / đồng thời là…",
+    "structure": "N이자 N이다",
+    "note": "Dùng để nối hai danh từ, diễn tả một người hoặc sự vật đồng thời có hai tư cách, đặc điểm hoặc vai trò. Thường dùng trong văn viết và văn phong trang trọng, đặc biệt khi giới thiệu, định nghĩa hoặc đánh giá một đối tượng.",
+    "examples": [
+      {
+        "text": "그는 훌륭한 의사이자 연구자입니다.",
+        "highlight": "의사이자 연구자입니다",
+        "translation": "Anh ấy vừa là một bác sĩ giỏi vừa là một nhà nghiên cứu."
+      },
+      {
+        "text": "이 책은 학생들을 위한 교재이자 일반인도 쉽게 읽을 수 있는 안내서입니다.",
+        "highlight": "교재이자",
+        "translation": "Cuốn sách này vừa là giáo trình dành cho học sinh vừa là tài liệu hướng dẫn mà người bình thường cũng có thể dễ dàng đọc."
+      },
+      {
+        "text": "대중교통은 시민들의 편리한 이동 수단이자 환경 오염을 줄이는 중요한 방법입니다.",
+        "highlight": "이동 수단이자",
+        "translation": "Giao thông công cộng vừa là phương tiện đi lại thuận tiện của người dân vừa là một phương pháp quan trọng để giảm ô nhiễm môi trường."
+      },
+      {
+        "text": "이 공간은 지역 주민들이 자유롭게 이용할 수 있는 문화 시설이자 서로 소통할 수 있는 만남의 장소로 활용되고 있습니다.",
+        "highlight": "문화 시설이자",
+        "translation": "Không gian này vừa là cơ sở văn hóa mà cư dân địa phương có thể tự do sử dụng, vừa được tận dụng làm nơi gặp gỡ để mọi người có thể giao lưu với nhau."
       }
     ]
   }

@@ -212,7 +212,7 @@
   {
     "id": "GS0008",
     "stt": 8,
-    "grammar": "겠",
+    "grammar": "겠 [1]",
     "topik": "I",
     "level": "1급",
     "category": "Ý chí",
@@ -242,7 +242,7 @@
   {
     "id": "GS0009",
     "stt": 9,
-    "grammar": "겠",
+    "grammar": "겠 [2]",
     "topik": "I",
     "level": "1급",
     "category": "Phỏng đoán",
@@ -482,7 +482,7 @@
   {
     "id": "GS0017",
     "stt": 17,
-    "grammar": "에",
+    "grammar": "에 [2]",
     "topik": "I",
     "level": "1급",
     "category": "Trợ từ",
@@ -512,7 +512,7 @@
   {
     "id": "GS0018",
     "stt": 18,
-    "grammar": "에",
+    "grammar": "에 [1.1]",
     "topik": "I",
     "level": "1급",
     "category": "Biểu hiện",
@@ -542,7 +542,7 @@
   {
     "id": "GS0019",
     "stt": 19,
-    "grammar": "에",
+    "grammar": "에 [1.2]",
     "topik": "I",
     "level": "1급",
     "category": "Biểu hiện",
@@ -962,7 +962,7 @@
   {
     "id": "GS0033",
     "stt": 33,
-    "grammar": "(으)로",
+    "grammar": "(으)로 [1]",
     "topik": "I",
     "level": "1급",
     "category": "Cách thức",
@@ -992,7 +992,7 @@
   {
     "id": "GS0034",
     "stt": 34,
-    "grammar": "(으)로",
+    "grammar": "(으)로 [2]",
     "topik": "I",
     "level": "1급",
     "category": "Cách thức",
@@ -1172,7 +1172,7 @@
   {
     "id": "GS0040",
     "stt": 40,
-    "grammar": "(이)나",
+    "grammar": "(이)나 [1]",
     "topik": "I",
     "level": "2급",
     "category": "Liệt kê bổ sung & Lựa chọn",
@@ -1202,7 +1202,7 @@
   {
     "id": "GS0041",
     "stt": 41,
-    "grammar": "(이)나",
+    "grammar": "(이)나 [2]",
     "topik": "I",
     "level": "2급",
     "category": "Mức độ",
@@ -1747,7 +1747,7 @@
   {
     "id": "GS0059",
     "stt": 59,
-    "grammar": "고 있다",
+    "grammar": "고 있다 [2]",
     "topik": "I",
     "level": "1급",
     "category": "Trạng thái & Giai đoạn",
@@ -1927,7 +1927,7 @@
   {
     "id": "GS0065",
     "stt": 65,
-    "grammar": "는데",
+    "grammar": "는데 [1]",
     "topik": "I",
     "level": "2급",
     "category": "Biểu hiện",
@@ -1957,7 +1957,7 @@
   {
     "id": "GS0066",
     "stt": 66,
-    "grammar": "는데",
+    "grammar": "는데 [2]",
     "topik": "I",
     "level": "2급",
     "category": "Sự tương phản",
@@ -1987,7 +1987,7 @@
   {
     "id": "GS0067",
     "stt": 67,
-    "grammar": "는데",
+    "grammar": "는데 [3]",
     "topik": "I",
     "level": "2급",
     "category": "Nguyên nhân - Kết quả",
@@ -2287,7 +2287,7 @@
   {
     "id": "GS0077",
     "stt": 77,
-    "grammar": "아/어/여서",
+    "grammar": "아/어/여서 [1]",
     "topik": "I",
     "level": "2급",
     "category": "Thời gian & Trình tự",
@@ -2317,7 +2317,7 @@
   {
     "id": "GS0078",
     "stt": 78,
-    "grammar": "아/어/여서",
+    "grammar": "아/어/여서 [2]",
     "topik": "I",
     "level": "1급",
     "category": "Nguyên nhân - Kết quả",
