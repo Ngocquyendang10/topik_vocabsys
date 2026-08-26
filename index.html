@@ -125,7 +125,7 @@
         .journey-blob { position:absolute; border-radius:50%; filter:blur(50px); pointer-events:none; z-index:0; }
         .glass-card { background:rgba(255,255,255,0.2); backdrop-filter:blur(11.5px); -webkit-backdrop-filter:blur(11.5px); border-radius:20px; border:1px solid rgba(255,255,255,0.3); box-shadow:0 4px 30px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.5); position:relative; overflow:hidden; }
         .journey-icon-slot { width:40px; height:40px; display:flex; align-items:center; justify-content:center; flex:0 0 auto; font-size:26px; line-height:1; }
-        .journey-hero-img { position:absolute; top:-58px; right:32px; width:200px; height:auto; z-index:2; pointer-events:none; }
+        .journey-hero-img { position:absolute; top:-26px; right:32px; width:200px; height:auto; z-index:2; pointer-events:none; }
         .journey-stat-card { position:relative; display:flex; align-items:center; gap:14px; border-radius:18px; padding:16px 18px; background:rgba(255,255,255,0.28); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border:1px solid rgba(255,255,255,0.4); box-shadow:0 4px 20px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.5); overflow:hidden; }
         .journey-stat-card.is-clickable { cursor:pointer; transition:transform .2s ease; }
         .journey-stat-card.is-clickable:hover { transform:translateY(-3px); }
@@ -266,6 +266,27 @@
         .gradient-act-3 { background: #f7f0ac; background: linear-gradient(to right, #f0acf7, #acf7f0, #f7f0ac); }
         .gradient-act-4 { background: #7F7FD5; background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5); }
         .gradient-act-5 { background: linear-gradient(90deg, hsla(312, 77%, 86%, 1) 0%, hsla(220, 61%, 79%, 1) 100%); }
+
+        /* ===== TRANG CHỦ — điểm nhấn màu sắc + phân cấp (modern soft-3D) ===== */
+        /* Thanh dọc màu trước mỗi tiêu đề section để tạo hierarchy rõ ràng */
+        .home-sec-title { display:flex; align-items:center; gap:9px; }
+        .home-sec-title::before { content:''; width:4px; height:15px; border-radius:3px; flex:0 0 auto; background:linear-gradient(180deg,#6C63FF,#a78bfa); }
+        .home-sec-title.hs-green::before { background:linear-gradient(180deg,#22c55e,#86efac); }
+        .home-sec-title.hs-amber::before { background:linear-gradient(180deg,#f59e0b,#fcd34d); }
+        /* Khung icon 3D (52px) — chứa ảnh PNG do user thêm; thiếu ảnh sẽ tự fallback
+           về badge gradient + icon SVG (xem badge3dFallback trong JS) */
+        .icon-slot-3d { display:flex; align-items:center; justify-content:center; flex:0 0 auto; border-radius:16px; overflow:hidden; }
+        /* Huy hiệu icon bo tròn có gradient màu — dùng cho thẻ thống kê & quiz nhanh */
+        .grad-badge { border-radius:16px; display:flex; align-items:center; justify-content:center; color:#fff; flex:0 0 auto; }
+        .gb-violet { background:linear-gradient(135deg,#7c6ee8,#5b4fcf); box-shadow:0 6px 15px rgba(108,99,255,0.32); }
+        .gb-green  { background:linear-gradient(135deg,#34d399,#059669); box-shadow:0 6px 15px rgba(16,185,129,0.30); }
+        .gb-red    { background:linear-gradient(135deg,#fb7185,#e11d48); box-shadow:0 6px 15px rgba(244,63,94,0.28); }
+        .gb-teal   { background:linear-gradient(135deg,#5eead4,#0ea5b7); box-shadow:0 6px 15px rgba(20,184,166,0.28); }
+        .gb-amber  { background:linear-gradient(135deg,#fbbf24,#f97316); box-shadow:0 6px 15px rgba(249,115,22,0.28); }
+        /* Thẻ Quiz nhanh: nhấc nhẹ khi hover + viền màu mờ ở góc */
+        .quick-quiz-card { position:relative; overflow:hidden; transition:transform .22s ease, box-shadow .22s ease; }
+        .quick-quiz-card:hover { transform:translateY(-4px); }
+        .quick-quiz-card::after { content:''; position:absolute; top:-40px; right:-40px; width:120px; height:120px; border-radius:50%; opacity:.14; pointer-events:none; background:var(--qq-accent,#6C63FF); }
 
         /* ============================================================ */
         /* MÀN HÌNH ĐĂNG NHẬP — bố cục 2 cột giống mockup, tách phong cách */
@@ -455,7 +476,7 @@
 
                 <!-- SECTION 1: TỔNG QUAN -->
                 <section class="mb-8">
-                    <h3 class="text-xs font-bold text-[#6A6A7F] tracking-widest mb-4">TỔNG QUAN</h3>
+                    <h3 class="home-sec-title text-xs font-bold text-[#6A6A7F] tracking-widest mb-4">TỔNG QUAN</h3>
                     <div class="grid grid-cols-3 gap-2 sm:gap-4" id="home-status-cards"></div>
                 </section>
 
@@ -466,24 +487,29 @@
 
                 <!-- SECTION 2: QUIZ MAZE -->
                 <section class="mb-8">
-                    <h3 class="text-xs font-bold text-[#6A6A7F] tracking-widest mb-4"> QUIZ NHANH</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <button class="neo-raised p-6 flex flex-col items-start gap-2 text-left hover:shadow-inner transition-all" onclick="openQuizMazeSetupModal('longtime')">
-                            <span class="text-2xl">🕰️</span>
+                    <h3 class="home-sec-title text-xs font-bold text-[#6A6A7F] tracking-widest mb-4">QUIZ NHANH</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <button class="quick-quiz-card neo-raised p-5 sm:p-6 flex flex-col items-start gap-2.5 text-left" style="--qq-accent:#6C63FF;" onclick="openQuizMazeSetupModal('longtime')">
+                            <span class="icon-slot-3d w-[52px] h-[52px]"><img src="assets/icon-3d-review-old.png" alt="" class="badge3d-img" data-svg="clock" data-grad="gb-violet" style="width:100%; height:100%; object-fit:contain;" onerror="badge3dFallback(this)"></span>
                             <span class="text-base font-extrabold text-[#1A1A24]">Ôn lại từ cũ</span>
-                            <span class="text-xs text-gray-400">Ôn lại những từ đã lâu bạn chưa gặp lại</span>
+                            <span class="text-xs text-gray-400 leading-relaxed">Ôn lại những từ đã lâu bạn chưa gặp lại</span>
                         </button>
-                        <button class="neo-raised p-6 flex flex-col items-start gap-2 text-left hover:shadow-inner transition-all" onclick="openQuizMazeSetupModal('general')">
-                            <span class="text-2xl">🔀</span>
+                        <button class="quick-quiz-card neo-raised p-5 sm:p-6 flex flex-col items-start gap-2.5 text-left" style="--qq-accent:#14b8a6;" onclick="openQuizMazeSetupModal('general')">
+                            <span class="icon-slot-3d w-[52px] h-[52px]"><img src="assets/icon-3d-shuffle.png" alt="" class="badge3d-img" data-svg="maze" data-grad="gb-teal" style="width:100%; height:100%; object-fit:contain;" onerror="badge3dFallback(this)"></span>
                             <span class="text-base font-extrabold text-[#1A1A24]">Ôn tập tổng hợp</span>
-                            <span class="text-xs text-gray-400">Ôn ngẫu nhiên tất cả các từ vựng bạn đã thuộc</span>
+                            <span class="text-xs text-gray-400 leading-relaxed">Ôn ngẫu nhiên tất cả các từ vựng bạn đã thuộc</span>
+                        </button>
+                        <button class="quick-quiz-card neo-raised p-5 sm:p-6 flex flex-col items-start gap-2.5 text-left" style="--qq-accent:#f97316;" onclick="openTopicPracticeSetup()">
+                            <span class="icon-slot-3d w-[52px] h-[52px]"><img src="assets/icon-3d-topic.png" alt="" class="badge3d-img" data-svg="folder" data-grad="gb-amber" style="width:100%; height:100%; object-fit:contain;" onerror="badge3dFallback(this)"></span>
+                            <span class="text-base font-extrabold text-[#1A1A24]">Luyện tập theo chủ đề</span>
+                            <span class="text-xs text-gray-400 leading-relaxed">Tự chọn khối từ vựng &amp; luyện trộn nhiều dạng quiz</span>
                         </button>
                     </div>
                 </section>
 
                 <!-- SECTION 3: TỪ VỰNG TRONG SỔ -->
                 <section class="mb-6">
-                    <h3 class="text-xs font-bold text-[#6A6A7F] tracking-widest mb-4">TỪ VỰNG TRONG SỔ</h3>
+                    <h3 class="home-sec-title hs-green text-xs font-bold text-[#6A6A7F] tracking-widest mb-4">TỪ VỰNG TRONG SỔ</h3>
                     <div class="flex flex-col lg:flex-row gap-5 lg:gap-6 items-stretch lg:items-start w-full">
                         <div class="w-full lg:flex-[3_1_0%] min-w-0 neo-raised !rounded-[28px] overflow-hidden">
                             <div class="p-4 border-b border-[#d8e0ec]">
@@ -5069,19 +5095,22 @@
             const learnedCount = computeLearnedWordCount();
             const wrongWords = collectWrongWords();
             el.innerHTML = `
-                <div class="neo-raised p-2.5 sm:p-5 flex flex-col gap-1 sm:gap-2 min-w-0">
-                    <span class="text-[8px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1 sm:gap-1.5 min-w-0"><span class="shrink-0">${themeIcon('clock', 'brand', 15)}</span><span class="truncate">Giờ học tập</span></span>
-                    <span class="text-base sm:text-2xl font-black text-point truncate">${formatDurationVN(currentUser.totalActiveMs)}</span>
+                <div class="neo-raised p-2.5 sm:p-5 flex flex-col gap-1.5 sm:gap-2.5 min-w-0">
+                    <span class="icon-slot-3d w-9 h-9 sm:w-[52px] sm:h-[52px]">${badge3dHtml('icon-3d-time.png', 'clock', 'gb-violet')}</span>
+                    <span class="text-[8px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-wider truncate">Giờ học tập</span>
+                    <span class="text-base sm:text-2xl font-black text-point truncate leading-tight">${formatDurationVN(currentUser.totalActiveMs)}</span>
                     <span class="hidden sm:block text-[10px] text-gray-400">Chỉ tính lúc bạn thực sự tương tác trên trang</span>
                 </div>
-                <div class="neo-raised p-2.5 sm:p-5 flex flex-col gap-1 sm:gap-2 min-w-0 cursor-pointer hover:shadow-inner transition-all" onclick="openLearnedWordsModal()" role="button" title="Bấm để xem chi tiết">
-                    <span class="text-[8px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1 sm:gap-1.5 min-w-0"><span class="shrink-0">${themeIcon('bookCheck', 'brand', 15)}</span><span class="truncate">Đã học</span></span>
-                    <span class="text-base sm:text-2xl font-black truncate" style="color:#2ec65e;">${learnedCount} từ</span>
+                <div class="neo-raised p-2.5 sm:p-5 flex flex-col gap-1.5 sm:gap-2.5 min-w-0 cursor-pointer hover:shadow-inner transition-all" onclick="openLearnedWordsModal()" role="button" title="Bấm để xem chi tiết">
+                    <span class="icon-slot-3d w-9 h-9 sm:w-[52px] sm:h-[52px]">${badge3dHtml('icon-3d-learned.png', 'bookCheck', 'gb-green')}</span>
+                    <span class="text-[8px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-wider truncate">Đã học</span>
+                    <span class="text-base sm:text-2xl font-black truncate leading-tight" style="color:#16a34a;">${learnedCount} từ</span>
                     <span class="hidden sm:block text-[10px] text-gray-400">Bấm vào đây để xem chi tiết theo bộ lọc</span>
                 </div>
-                <div class="neo-raised p-2.5 sm:p-5 flex flex-col gap-1 sm:gap-2 min-w-0 cursor-pointer hover:shadow-inner transition-all" onclick="openNeedPracticeWordsModal()" role="button" title="Bấm để xem danh sách chi tiết">
-                    <span class="text-[8px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1 sm:gap-1.5 min-w-0"><span class="shrink-0">${themeIcon('warning', 'brand', 15)}</span><span class="truncate">Cần luyện</span></span>
-                    <span class="text-base sm:text-2xl font-black truncate" style="color:#ef4444;">${wrongWords.length} từ</span>
+                <div class="neo-raised p-2.5 sm:p-5 flex flex-col gap-1.5 sm:gap-2.5 min-w-0 cursor-pointer hover:shadow-inner transition-all" onclick="openNeedPracticeWordsModal()" role="button" title="Bấm để xem danh sách chi tiết">
+                    <span class="icon-slot-3d w-9 h-9 sm:w-[52px] sm:h-[52px]">${badge3dHtml('icon-3d-practice.png', 'warning', 'gb-red')}</span>
+                    <span class="text-[8px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-wider truncate">Cần luyện</span>
+                    <span class="text-base sm:text-2xl font-black truncate leading-tight" style="color:#e11d48;">${wrongWords.length} từ</span>
                     <span class="hidden sm:block text-[10px] text-gray-400">Bấm vào từ bên dưới để xem lại chi tiết</span>
                 </div>
             `;
@@ -5376,12 +5405,13 @@
             if (view) view.classList.remove('hidden');
             [document.getElementById('tab-home'), document.getElementById('tab-notebook'), document.getElementById('tab-full-topik'), document.getElementById('tab-fast-pace')].forEach(t => t && t.setAttribute('data-active', 'false'));
 
-            const questions = picked.map(w => generateQuizMazeQuestion(w, fullPool.length > 3 ? fullPool : picked));
+            const genFn = mode === 'topic' ? generateTopicPracticeQuestion : generateQuizMazeQuestion;
+            const questions = picked.map(w => genFn(w, fullPool.length > 3 ? fullPool : picked));
             quizMazeState = { questions, answeredCount: 0, mode };
             const titleEl = document.getElementById('quiz-maze-title');
             const subEl = document.getElementById('quiz-maze-subtitle');
-            if (titleEl) titleEl.textContent = mode === 'longtime' ? '🕰️ Lâu rồi không gặp' : '🔀 Ôn tập tổng hợp';
-            if (subEl) subEl.textContent = `${questions.length} câu hỏi · Trắc nghiệm & Nghe tìm nghĩa`;
+            if (titleEl) titleEl.textContent = mode === 'topic' ? '🎯 Luyện tập theo chủ đề' : (mode === 'longtime' ? '🕰️ Lâu rồi không gặp' : '🔀 Ôn tập tổng hợp');
+            if (subEl) subEl.textContent = mode === 'topic' ? `${questions.length} câu · Trắc nghiệm · Viết từ · Nghe` : `${questions.length} câu hỏi · Trắc nghiệm & Nghe tìm nghĩa`;
             renderQuizMaze();
         }
 
@@ -5401,22 +5431,64 @@
         }
 
         function renderQuizMazeQuestionCard(q, idx) {
-            const isListen = q.type === 'guess';
+            const hasSpeaker = q.type === 'guess' || q.type === 'listen';
+            const koreanOptions = q.type === 'quiz-vi' || q.type === 'listen';
+            // Dạng "Viết từ" — ô nhập chữ + nút kiểm tra (giống bài Viết từ)
+            if (q.type === 'typing') {
+                return `
+                    <div class="neo-raised p-5 flex flex-col items-center gap-4">
+                        <span class="text-[10px] font-mono text-gray-400 self-start">Câu ${idx + 1}</span>
+                        <p class="text-base font-bold text-[#1e2a4a] text-center">${q.questionText}</p>
+                        <div class="w-full max-w-md flex flex-col gap-2.5">
+                            <input type="text" id="qm-typing-${idx}" class="w-full px-4 py-3 rounded-2xl outline-none border-none text-center text-lg font-kr-serif" style="background:#fff; box-shadow: var(--shadow-sunk);" placeholder="Nhập từ tiếng Hàn..." autocomplete="off" data-lpignore="true" onkeydown="if(event.key==='Enter'){event.preventDefault(); handleQuizMazeTyping(${idx});}">
+                            <button class="neo-button py-3 text-sm font-bold text-white !rounded-2xl" style="background:#6C63FF;" id="qm-typing-btn-${idx}" onclick="handleQuizMazeTyping(${idx})">Kiểm tra</button>
+                        </div>
+                        <div class="text-xs font-semibold h-4" id="qm-feedback-${idx}"></div>
+                    </div>
+                `;
+            }
             return `
                 <div class="neo-raised p-5 flex flex-col items-center gap-4">
                     <span class="text-[10px] font-mono text-gray-400 self-start">Câu ${idx + 1}</span>
-                    ${isListen ? `
+                    ${hasSpeaker ? `
                         <button class="w-16 h-16 rounded-full neo-raised flex items-center justify-center text-2xl text-point" onclick="speakKorean('${q.word.word.replace(/'/g, "\\'")}')">🔊</button>
                         <p class="text-xs text-gray-400">${q.questionText}</p>
                     ` : `
                         <p class="text-base font-bold text-[#1e2a4a] text-center">${q.questionText}</p>
                     `}
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full max-w-lg" id="qm-opts-${idx}">
-                        ${q.options.map((opt, i) => `<button class="neo-button py-3 px-4 text-sm font-bold text-[#2d3a54] ${q.type === 'quiz-vi' ? 'font-kr-serif' : ''}" data-opt-i="${i}" onclick="handleQuizMazeAnswer(${idx}, this)">${opt}</button>`).join('')}
+                        ${q.options.map((opt, i) => `<button class="neo-button py-3 px-4 text-sm font-bold text-[#2d3a54] ${koreanOptions ? 'font-kr-serif' : ''}" data-opt-i="${i}" onclick="handleQuizMazeAnswer(${idx}, this)">${opt}</button>`).join('')}
                     </div>
                     <div class="text-xs font-semibold h-4" id="qm-feedback-${idx}"></div>
                 </div>
             `;
+        }
+
+        // Chấm dạng "Viết từ" trong Quiz Maze / Luyện tập theo chủ đề
+        function handleQuizMazeTyping(idx) {
+            const q = quizMazeState.questions[idx];
+            if (!q || q.answered) return;
+            const input = document.getElementById(`qm-typing-${idx}`);
+            if (!input) return;
+            const val = (input.value || '').trim();
+            if (!val) { input.focus(); return; }
+            q.answered = true;
+            const norm = s => String(s || '').trim().replace(/\s+/g, ' ').toLowerCase();
+            const isCorrect = norm(val) === norm(q.correct);
+            q.wasCorrect = isCorrect;
+            input.disabled = true;
+            input.classList.add(isCorrect ? 'quiz-correct' : 'quiz-wrong');
+            const btn = document.getElementById(`qm-typing-btn-${idx}`);
+            if (btn) btn.style.display = 'none';
+            const fb = document.getElementById(`qm-feedback-${idx}`);
+            if (fb) fb.innerHTML = isCorrect ? '<span class="text-[#2ec65e]">🎉 Chính xác!</span>' : `<span class="text-[#ef4444]">😢 Đáp án: <b class="font-kr-serif">${q.correct}</b></span>`;
+            if (q.word._nbId) recordQuizMazeResult(q.word._nbId, 'typing', q.word.id, isCorrect);
+            quizMazeState.answeredCount++;
+            const counterEl = document.getElementById('qm-answered-count');
+            if (counterEl) counterEl.textContent = quizMazeState.answeredCount;
+            if (quizMazeState.answeredCount === quizMazeState.questions.length) {
+                setTimeout(() => showQuizMazeCompletionPopup(), 400);
+            }
         }
 
         function recordQuizMazeResult(nbId, funcKey, wordId, isCorrect) {
@@ -5447,8 +5519,8 @@
             const fb = document.getElementById(`qm-feedback-${idx}`);
             fb.innerHTML = isCorrect ? '<span class="text-[#2ec65e]">🎉 Chính xác!</span>' : '<span class="text-[#ef4444]">😢 Chưa đúng.</span>';
 
-            const funcKey = q.type === 'guess' ? 'guess' : 'quiz';
-            recordQuizMazeResult(q.word._nbId, funcKey, q.word.id, isCorrect);
+            const funcKey = q.type === 'guess' ? 'guess' : (q.type === 'listen' ? 'listen' : 'quiz');
+            if (q.word._nbId) recordQuizMazeResult(q.word._nbId, funcKey, q.word.id, isCorrect);
 
             quizMazeState.answeredCount++;
             const counterEl = document.getElementById('qm-answered-count');
@@ -5488,6 +5560,255 @@
             if (tabHome) tabHome.setAttribute('data-active', 'true');
             renderHomeStatusSection();
             renderHomeAllWordsTable();
+        }
+
+        // ============================================================
+        // TRANG CHỦ — "LUYỆN TẬP THEO CHỦ ĐỀ"
+        // Tự chọn khối từ vựng (cơ chế lọc/pick y hệt lúc thêm từ vào sổ),
+        // rồi chọn số câu và luyện TRỘN 4 dạng: Trắc nghiệm / Viết từ /
+        // Nghe & chọn từ / Nghe & tìm nghĩa — liệt kê từ trên xuống như Quiz Maze.
+        // ============================================================
+        let tpState = { activeTab: 'bulk', searchQuery: '', selectedWords: [], filters: { libs: [], levels: [], examTypes: [], wordTypes: [], topics: [] } };
+        let tpOptions = { libs: [], levels: [], examTypes: [], wordTypes: [], topics: [] };
+
+        // Sinh câu hỏi TRỘN 5 mẫu (quiz-ko/quiz-vi/typing/listen/guess) cho mỗi từ
+        function generateTopicPracticeQuestion(word, pool) {
+            const templates = ['quiz-ko', 'quiz-vi', 'typing', 'listen', 'guess'];
+            const type = templates[Math.floor(Math.random() * templates.length)];
+            const others = pool.filter(w => w.id !== word.id);
+            const vn = word.vietnamese || word.deep_meaning || '—';
+            if (type === 'typing') {
+                return { type, word, questionText: `Viết từ tiếng Hàn mang nghĩa: "${vn}"`, correct: word.word, answered: false };
+            }
+            if (type === 'quiz-vi' || type === 'listen') {
+                const correct = word.word;
+                const wrongPool = others.map(w => w.word).filter(v => v && v !== correct);
+                const wrongs = shuffleArr(wrongPool).slice(0, Math.min(3, wrongPool.length));
+                const questionText = type === 'listen' ? 'Nghe rồi chọn từ tiếng Hàn đúng' : `Từ nào mang nghĩa: "${vn}"?`;
+                return { type, word, questionText, correct, options: shuffleArr([correct, ...wrongs]), answered: false };
+            }
+            // quiz-ko hoặc guess → chọn nghĩa tiếng Việt
+            const correct = vn;
+            const wrongPool = others.map(w => w.vietnamese || w.deep_meaning || '—').filter(v => v && v !== correct);
+            const wrongs = shuffleArr(wrongPool).slice(0, Math.min(3, wrongPool.length));
+            const questionText = type === 'guess' ? 'Nghe rồi chọn đúng nghĩa tiếng Việt' : `Nghĩa của từ "${word.word}" là gì?`;
+            return { type, word, questionText, correct, options: shuffleArr([correct, ...wrongs]), answered: false };
+        }
+
+        // Phễu lọc theo chủ đề (dùng lại BULK_CASCADE_ORDER / BULK_FIELD_MAP toàn cục)
+        function computeTpOptions() {
+            let data = allLibraryCache || [];
+            const opts = {};
+            BULK_CASCADE_ORDER.forEach((key) => {
+                const field = BULK_FIELD_MAP[key];
+                const set = new Set();
+                data.forEach(w => { if (w[field]) set.add(w[field]); });
+                opts[key] = [...set].sort();
+                tpState.filters[key] = tpState.filters[key].filter(v => opts[key].includes(v));
+                if (tpState.filters[key].length) data = data.filter(w => tpState.filters[key].includes(w[field]));
+            });
+            tpOptions = opts;
+        }
+
+        // Các từ khớp bộ lọc (khác bulk thêm-vào-sổ: KHÔNG loại từ đã học — luyện chủ đề cần đủ từ)
+        function tpGetMatches() {
+            const f = tpState.filters;
+            return (allLibraryCache || []).filter(w => {
+                if (f.libs.length && !f.libs.includes(w.source)) return false;
+                if (f.levels.length && !f.levels.includes(w.level)) return false;
+                if (f.examTypes.length && !f.examTypes.includes(w.exam_type)) return false;
+                if (f.wordTypes.length && !f.wordTypes.includes(w.word_type)) return false;
+                if (f.topics.length && !f.topics.includes(w.topic)) return false;
+                return true;
+            });
+        }
+
+        async function openTopicPracticeSetup() {
+            tpState = { activeTab: 'bulk', searchQuery: '', selectedWords: [], filters: { libs: [], levels: [], examTypes: [], wordTypes: [], topics: [] } };
+            const overlay = document.createElement('div');
+            overlay.id = 'topic-practice-modal';
+            overlay.className = 'fixed inset-0 z-[120] flex items-center justify-center p-4';
+            overlay.style.background = 'rgba(26,32,44,0.45)';
+            overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
+            overlay.innerHTML = `<div class="neo-raised p-6 sm:p-7 w-full max-w-[520px] max-h-[88vh] flex flex-col gap-3.5 !rounded-[28px]" onclick="event.stopPropagation()"><p class="text-sm text-gray-400 py-10 text-center">Đang tải thư viện từ vựng...</p></div>`;
+            document.body.appendChild(overlay);
+            await ensureAllLibraryLoaded();
+            if (!document.getElementById('topic-practice-modal')) return; // user đã đóng
+            computeTpOptions();
+            renderTopicPracticeModal();
+        }
+
+        function closeTopicPracticeModal() {
+            const m = document.getElementById('topic-practice-modal');
+            if (m) m.remove();
+        }
+
+        function renderTopicPracticeModal() {
+            const overlay = document.getElementById('topic-practice-modal');
+            if (!overlay) return;
+            const matches = tpGetMatches();
+            const chip = (key, val, label) => {
+                const active = tpState.filters[key].includes(val);
+                return `<button class="bulk-chip ${active ? 'bulk-chip-active' : ''}" onclick="tpToggleFilter('${key}','${String(val).replace(/'/g, "\\'")}')">${label}</button>`;
+            };
+            const section = (icon, title, key, opts, labelFn) => `
+                <div>
+                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">${icon} ${title}</p>
+                    <div class="flex flex-wrap gap-1">${opts.length ? opts.map(v => chip(key, v, labelFn ? labelFn(v) : v)).join('') : '<span class="text-[11px] text-gray-400">Không có dữ liệu</span>'}</div>
+                </div>`;
+            const bulkTab = `
+                <div class="neo-sunk p-3 !rounded-2xl flex flex-col gap-2.5 sticky -top-0.5 z-10" style="background:#E6EBF3;">
+                    <div class="flex items-center justify-between gap-2 flex-wrap">
+                        <span class="text-xs font-semibold text-gray-500">${matches.length} từ phù hợp bộ lọc</span>
+                        <button class="neo-button px-4 py-2 text-xs font-bold text-point !rounded-xl shrink-0" onclick="tpAddAll()">+ Thêm tất cả</button>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <input type="number" min="1" max="${matches.length}" id="tp-bulk-qty" placeholder="Số lượng" class="w-24 px-2.5 py-2 text-xs rounded-xl outline-none border-none" style="background:#fff; box-shadow: var(--shadow-sunk);">
+                        <button class="neo-button px-3.5 py-2 text-xs font-bold text-point !rounded-xl shrink-0" onclick="tpAddRandom()">🎲 Thêm ngẫu nhiên</button>
+                    </div>
+                </div>
+                ${section('📚', 'Thư viện', 'libs', tpOptions.libs, v => BULK_LIB_LABELS[v] || v)}
+                ${section('📊', 'Cấp độ', 'levels', tpOptions.levels, v => `Cấp ${v}`)}
+                ${section('📝', 'Dạng đề', 'examTypes', tpOptions.examTypes)}
+                ${section('🧩', 'Loại từ', 'wordTypes', tpOptions.wordTypes)}
+                ${section('📁', 'Chủ đề', 'topics', tpOptions.topics)}
+            `;
+            const addTab = `
+                <div class="neo-sunk flex items-center px-4 py-2.5 !rounded-2xl">
+                    <span class="text-gray-400 mr-2 text-xs">🔍</span>
+                    <input id="tp-search-input" type="text" placeholder="Tìm từ vựng trong hệ thống..." class="w-full bg-transparent border-none outline-none text-sm text-[#2D2D3A]" autocomplete="off" oninput="tpState.searchQuery=this.value; tpRenderSuggestions();">
+                </div>
+                <div id="tp-suggestions-box" class="flex flex-col gap-1 mt-2"></div>
+            `;
+            overlay.innerHTML = `
+                <div class="neo-raised p-6 sm:p-7 w-full max-w-[520px] max-h-[88vh] flex flex-col gap-3.5 !rounded-[28px] relative" onclick="event.stopPropagation()">
+                    <button class="absolute top-5 right-5 w-9 h-9 rounded-full neo-button flex items-center justify-center text-gray-400" onclick="closeTopicPracticeModal()">✕</button>
+                    <div>
+                        <h3 class="text-lg font-extrabold text-[#1A1A24] flex items-center gap-2"><span class="grad-badge gb-amber w-8 h-8 text-lg">🎯</span> Luyện tập theo chủ đề</h3>
+                        <p class="text-xs text-gray-400 mt-1">Chọn khối từ vựng bạn muốn luyện, rồi chọn số câu. Quiz sẽ trộn Trắc nghiệm · Viết từ · Nghe &amp; chọn từ · Nghe &amp; tìm nghĩa.</p>
+                    </div>
+                    <p class="text-xs font-bold text-point" id="tp-selected-count">${tpState.selectedWords.length} từ đã chọn</p>
+                    <div class="neo-sunk p-1 flex gap-1 !rounded-2xl">
+                        <button class="flex-1 py-2 text-xs font-bold !rounded-xl transition-all ${tpState.activeTab === 'bulk' ? 'text-point' : 'text-gray-400'}" style="${tpState.activeTab === 'bulk' ? 'background:#E6EBF3; box-shadow: var(--shadow-btn);' : ''}" onclick="tpSwitchTab('bulk')">Lọc theo chủ đề</button>
+                        <button class="flex-1 py-2 text-xs font-bold !rounded-xl transition-all ${tpState.activeTab === 'add' ? 'text-point' : 'text-gray-400'}" style="${tpState.activeTab === 'add' ? 'background:#E6EBF3; box-shadow: var(--shadow-btn);' : ''}" onclick="tpSwitchTab('add')">Tìm từng từ</button>
+                    </div>
+                    <div class="flex flex-col gap-3 overflow-y-auto pr-1" style="max-height:38vh;">
+                        ${tpState.activeTab === 'bulk' ? bulkTab : addTab}
+                    </div>
+                    <div id="tp-selected-list-wrap"></div>
+                    <div class="flex items-end gap-3 pt-1 border-t border-[#d8e0ec]">
+                        <div class="flex-1">
+                            <label class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1 block">Số câu muốn làm</label>
+                            <input type="number" min="1" id="tp-qty-input" placeholder="Mặc định: tất cả từ đã chọn" class="w-full px-4 py-2.5 rounded-xl outline-none border-none text-sm" style="background:#E6EBF3; box-shadow: var(--shadow-sunk);">
+                        </div>
+                        <button class="neo-button px-6 py-3 text-sm font-bold text-white !rounded-2xl shrink-0" style="background:#6C63FF;" onclick="startTopicPractice()">Bắt đầu ➔</button>
+                    </div>
+                </div>
+            `;
+            tpRenderSelectedList();
+            if (tpState.activeTab === 'add') {
+                const inp = document.getElementById('tp-search-input');
+                if (inp) { inp.value = tpState.searchQuery; }
+                tpRenderSuggestions();
+            }
+        }
+
+        function tpSwitchTab(tab) { tpState.activeTab = tab; renderTopicPracticeModal(); }
+
+        function tpToggleFilter(key, val) {
+            const arr = tpState.filters[key];
+            const i = arr.indexOf(val);
+            if (i > -1) arr.splice(i, 1); else arr.push(val);
+            computeTpOptions();
+            renderTopicPracticeModal();
+        }
+
+        function tpAddWordObj(w) {
+            if (tpState.selectedWords.some(s => s.id === w.id)) return;
+            tpState.selectedWords.push({ id: w.id, word: w.word, vietnamese: w.vietnamese || w.deep_meaning || '—' });
+        }
+
+        function tpAddAll() {
+            tpGetMatches().forEach(tpAddWordObj);
+            renderTopicPracticeModal();
+        }
+
+        function tpAddRandom() {
+            const qtyInput = document.getElementById('tp-bulk-qty');
+            const qty = parseInt(qtyInput && qtyInput.value, 10);
+            if (!qty || qty < 1) { if (qtyInput) qtyInput.focus(); return; }
+            const pool = tpGetMatches().filter(w => !tpState.selectedWords.some(s => s.id === w.id));
+            shuffleArr(pool).slice(0, qty).forEach(tpAddWordObj);
+            renderTopicPracticeModal();
+        }
+
+        function tpRenderSuggestions() {
+            const box = document.getElementById('tp-suggestions-box');
+            if (!box) return;
+            const q = (tpState.searchQuery || '').trim().toLowerCase();
+            if (!q) { box.innerHTML = ''; return; }
+            const matches = (allLibraryCache || []).filter(w =>
+                w.word.toLowerCase().includes(q) || (w.vietnamese || '').toLowerCase().includes(q)
+            ).slice(0, 10);
+            if (!matches.length) { box.innerHTML = `<p class="text-[11px] text-gray-400 px-2 py-1">Không tìm thấy từ nào.</p>`; return; }
+            box.innerHTML = matches.map(w => {
+                const already = tpState.selectedWords.some(s => s.id === w.id);
+                return `
+                <button class="flex items-center justify-between gap-2 w-full text-left px-3 py-2 rounded-xl transition-all ${already ? 'opacity-40 pointer-events-none' : ''}" style="background:#E6EBF3;" onclick="tpSelectWord('${w.id}')">
+                    <span class="font-bold text-sm font-kr-serif shrink-0">${w.word}</span>
+                    <span class="text-xs text-gray-400 truncate flex-1 text-right">${w.vietnamese || w.deep_meaning || ''}</span>
+                    ${already ? '<span class="text-point text-xs shrink-0">✓</span>' : ''}
+                </button>`;
+            }).join('');
+        }
+
+        function tpSelectWord(id) {
+            const w = (allLibraryCache || []).find(x => x.id === id);
+            if (!w) return;
+            tpAddWordObj(w);
+            tpRenderSelectedList();
+            tpRenderSuggestions();
+            const countEl = document.getElementById('tp-selected-count');
+            if (countEl) countEl.textContent = `${tpState.selectedWords.length} từ đã chọn`;
+        }
+
+        function tpRemoveWord(id) {
+            tpState.selectedWords = tpState.selectedWords.filter(w => w.id !== id);
+            tpRenderSelectedList();
+            const countEl = document.getElementById('tp-selected-count');
+            if (countEl) countEl.textContent = `${tpState.selectedWords.length} từ đã chọn`;
+            if (tpState.activeTab === 'add') tpRenderSuggestions();
+        }
+
+        function tpRenderSelectedList() {
+            const wrap = document.getElementById('tp-selected-list-wrap');
+            if (!wrap) return;
+            if (!tpState.selectedWords.length) { wrap.innerHTML = ''; return; }
+            wrap.innerHTML = `
+                <div class="neo-sunk p-3 !rounded-2xl flex flex-col gap-1.5" style="max-height:110px; overflow-y:auto;">
+                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Đã chọn (${tpState.selectedWords.length})</p>
+                    ${tpState.selectedWords.map(w => `
+                        <div class="flex items-center gap-2 text-xs">
+                            <span class="font-bold font-kr-serif shrink-0">${w.word}</span>
+                            <span class="text-gray-400 truncate flex-1">${w.vietnamese}</span>
+                            <button class="text-gray-400 hover:text-red-400 font-bold shrink-0" onclick="tpRemoveWord('${w.id}')">✕</button>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function startTopicPractice() {
+            const words = tpState.selectedWords;
+            if (!words.length) { alert('Bạn chưa chọn từ vựng nào để luyện. Hãy lọc theo chủ đề hoặc tìm từng từ để thêm nhé!'); return; }
+            const qtyInput = document.getElementById('tp-qty-input');
+            let qty = parseInt(qtyInput && qtyInput.value, 10);
+            if (!qty || qty < 1) qty = words.length;
+            qty = Math.min(qty, words.length);
+            const pool = words.map(w => ({ id: w.id, word: w.word, vietnamese: w.vietnamese }));
+            const picked = shuffleArr(pool).slice(0, qty);
+            closeTopicPracticeModal();
+            buildAndShowQuizMaze(picked, pool, 'topic');
         }
 
         // ─── Thanh hoạt động gần đây (hiện ở trang chủ Sổ tay từ vựng) ───
@@ -5590,6 +5911,22 @@
             const slot = imgEl.parentElement;
             imgEl.remove();
             slot.textContent = slot.dataset.fallback;
+        }
+
+        // Icon 3D cho các khung 52px ở TRANG CHỦ (3 thẻ Tổng quan + 3 card Quiz nhanh).
+        // Có file PNG trong assets/ → hiện icon 3D đứng riêng (không nền gradient).
+        // Thiếu file → tự rơi về badge gradient màu + icon SVG vẽ tay (giống thiết kế cũ).
+        function badge3dHtml(file, svgName, gradClass) {
+            return `<img src="assets/${file}" alt="" class="badge3d-img" data-svg="${svgName}" data-grad="${gradClass}" style="width:100%; height:100%; object-fit:contain;" onerror="badge3dFallback(this)">`;
+        }
+        function badge3dFallback(img) {
+            const slot = img.parentElement;
+            if (!slot) return;
+            const grad = img.dataset.grad, name = img.dataset.svg;
+            const size = Math.max(16, Math.round((slot.getBoundingClientRect().width || 44) * 0.44));
+            slot.classList.add('grad-badge');
+            if (grad) slot.classList.add(grad);
+            slot.innerHTML = themeIcon(name, 'light', size);
         }
 
         let activityChartPeriod = '7d'; // '7d' | '30d' | '365d'
