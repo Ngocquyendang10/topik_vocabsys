@@ -288,6 +288,25 @@
         .quick-quiz-card:hover { transform:translateY(-4px); }
         .quick-quiz-card::after { content:''; position:absolute; top:-40px; right:-40px; width:120px; height:120px; border-radius:50%; opacity:.14; pointer-events:none; background:var(--qq-accent,#6C63FF); }
 
+        /* ===== TRANG CHỦ REDESIGN (soft neumorphism, port bố cục từ bản Figma) — GIỮ font hiện tại ===== */
+        .rd-card { background:#E6EBF3; border-radius:24px; box-shadow:8px 8px 20px #c4ccd9,-8px -8px 20px #ffffff; transition:transform .22s ease, box-shadow .22s ease; }
+        .rd-hover:hover { transform:translateY(-3px); box-shadow:12px 12px 28px #c4ccd9,-12px -12px 28px #ffffff; }
+        .rd-card-sm { background:#E6EBF3; border-radius:20px; box-shadow:6px 6px 16px #c4ccd9,-6px -6px 16px #ffffff; transition:transform .22s ease, box-shadow .22s ease; }
+        .rd-hover-sm:hover { transform:translateY(-2px); box-shadow:10px 10px 22px #c4ccd9,-10px -10px 22px #ffffff; }
+        .rd-inset { background:#dde3ed; box-shadow:inset 3px 3px 7px #c4ccd9, inset -3px -3px 7px #ffffff; }
+        .rd-badge { background:#E6EBF3; border-radius:14px; box-shadow:4px 4px 10px #c4ccd9,-4px -4px 10px #ffffff; display:flex; align-items:center; justify-content:center; flex:0 0 auto; overflow:hidden; }
+        .rd-btn-grad { background:linear-gradient(135deg,#8f89ff,#6c63ff); box-shadow:3px 3px 10px rgba(91,79,207,0.4); color:#fff; }
+        .rd-watermark { position:absolute; font-weight:900; color:rgba(91,79,207,0.10); line-height:1; pointer-events:none; user-select:none; }
+        /* icon 3D nổi ở góc thẻ thống kê (user tự thêm PNG vào assets/) */
+        .rd-stat-ico { position:absolute; top:-18px; right:-6px; width:96px; height:96px; object-fit:contain; pointer-events:none; filter:drop-shadow(0 8px 16px rgba(0,0,0,0.12)); }
+        .rd-stat-ico-fallback { top:-8px; right:2px; width:60px; height:60px; border-radius:18px; background:#E6EBF3; box-shadow:5px 5px 14px #c4ccd9,-5px -5px 14px #ffffff; filter:none; }
+        .rd-accent-line { position:absolute; bottom:0; left:24px; right:24px; height:3px; border-radius:999px; }
+        .rd-flash-dot { border-radius:999px; height:5px; transition:all .25s ease; }
+        @media (max-width:640px){
+            .rd-stat-ico { width:60px; height:60px; top:-12px; right:-2px; }
+            .rd-stat-ico-fallback { width:44px; height:44px; }
+        }
+
         /* ============================================================ */
         /* MÀN HÌNH ĐĂNG NHẬP — bố cục 2 cột giống mockup, tách phong cách */
         /* riêng khỏi neumorphism chính để giữ đúng cảm giác "thẻ trắng sạch" */
@@ -480,30 +499,67 @@
                     <div class="grid grid-cols-3 gap-2 sm:gap-4" id="home-status-cards"></div>
                 </section>
 
-                <!-- THANH CHẠY TỪ VỰNG NGẪU NHIÊN (đã học + trong sổ tay) -->
+                <!-- SECTION: TỪ VỰNG HÔM NAY (Flashcard tự chạy) -->
                 <section class="mb-8">
-                    <div class="m-pressed-block" id="random-word-ticker" style="height:60px; position:relative; overflow:hidden;"></div>
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="home-sec-title text-xs font-bold text-[#6A6A7F] tracking-widest">TỪ VỰNG HÔM NAY</h3>
+                        <span class="text-xs font-semibold text-gray-400" id="flash-counter">0 / 0</span>
+                    </div>
+                    <div class="rd-card p-6 relative overflow-hidden" id="today-flashcard" style="min-height:120px;"></div>
                 </section>
 
-                <!-- SECTION 2: QUIZ MAZE -->
+                <!-- SECTION 2: QUIZ NHANH -->
                 <section class="mb-8">
-                    <h3 class="home-sec-title text-xs font-bold text-[#6A6A7F] tracking-widest mb-4">QUIZ NHANH</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <button class="quick-quiz-card neo-raised p-5 sm:p-6 flex flex-col items-start gap-2.5 text-left" style="--qq-accent:#6C63FF;" onclick="openQuizMazeSetupModal('longtime')">
-                            <span class="icon-slot-3d w-[52px] h-[52px]"><img src="assets/icon-3d-review-old.png" alt="" class="badge3d-img" data-svg="clock" data-grad="gb-violet" style="width:100%; height:100%; object-fit:contain;" onerror="badge3dFallback(this)"></span>
-                            <span class="text-base font-extrabold text-[#1A1A24]">Ôn lại từ cũ</span>
-                            <span class="text-xs text-gray-400 leading-relaxed">Ôn lại những từ đã lâu bạn chưa gặp lại</span>
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="home-sec-title text-xs font-bold text-[#6A6A7F] tracking-widest">QUIZ NHANH</h3>
+                        <span class="text-xs font-semibold text-gray-400">3 chế độ</span>
+                    </div>
+                    <div class="flex flex-col lg:flex-row gap-4 items-stretch">
+                        <!-- Thẻ nổi bật: Ôn lại từ cũ -->
+                        <button class="rd-card rd-hover p-6 relative overflow-hidden text-left flex flex-col justify-between lg:w-[42%] shrink-0" onclick="openQuizMazeSetupModal('longtime')">
+                            <span class="rd-watermark" style="right:16px; top:2px; font-size:88px;">01</span>
+                            <div class="flex items-start justify-between relative z-10">
+                                <span class="rd-badge w-14 h-14 text-3xl"><img src="assets/icon-3d-review-old.png" alt="" class="w-full h-full object-contain" onerror="quizEmojiFallback(this,'🔄')"></span>
+                                <div class="flex flex-col items-end gap-1">
+                                    <span class="text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full text-white rd-btn-grad">Ưu tiên</span>
+                                    <span class="text-[10px] font-semibold text-gray-400" id="qn-longtime-count">— từ cần ôn</span>
+                                </div>
+                            </div>
+                            <div class="relative z-10 mt-3">
+                                <p class="font-black text-lg leading-tight text-[#1e293b]">Ôn lại từ cũ</p>
+                                <p class="text-sm mt-1.5 text-[#475569] leading-relaxed">Những từ đã lâu chưa gặp lại — ôn ngay để không quên</p>
+                            </div>
+                            <span class="relative z-10 mt-5 inline-flex items-center gap-2 self-start px-5 py-2.5 rounded-xl text-sm font-bold text-white rd-btn-grad">Bắt đầu ngay <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
                         </button>
-                        <button class="quick-quiz-card neo-raised p-5 sm:p-6 flex flex-col items-start gap-2.5 text-left" style="--qq-accent:#14b8a6;" onclick="openQuizMazeSetupModal('general')">
-                            <span class="icon-slot-3d w-[52px] h-[52px]"><img src="assets/icon-3d-shuffle.png" alt="" class="badge3d-img" data-svg="maze" data-grad="gb-teal" style="width:100%; height:100%; object-fit:contain;" onerror="badge3dFallback(this)"></span>
-                            <span class="text-base font-extrabold text-[#1A1A24]">Ôn tập tổng hợp</span>
-                            <span class="text-xs text-gray-400 leading-relaxed">Ôn ngẫu nhiên tất cả các từ vựng bạn đã thuộc</span>
-                        </button>
-                        <button class="quick-quiz-card neo-raised p-5 sm:p-6 flex flex-col items-start gap-2.5 text-left" style="--qq-accent:#f97316;" onclick="openTopicPracticeSetup()">
-                            <span class="icon-slot-3d w-[52px] h-[52px]"><img src="assets/icon-3d-topic.png" alt="" class="badge3d-img" data-svg="folder" data-grad="gb-amber" style="width:100%; height:100%; object-fit:contain;" onerror="badge3dFallback(this)"></span>
-                            <span class="text-base font-extrabold text-[#1A1A24]">Luyện tập theo chủ đề</span>
-                            <span class="text-xs text-gray-400 leading-relaxed">Tự chọn khối từ vựng &amp; luyện trộn nhiều dạng quiz</span>
-                        </button>
+                        <!-- 2 thẻ phụ xếp dọc -->
+                        <div class="flex flex-col gap-4 flex-1">
+                            <button class="rd-card-sm rd-hover-sm px-5 py-4 relative overflow-hidden text-left flex items-center gap-4 flex-1" onclick="openQuizMazeSetupModal('general')">
+                                <span class="rd-watermark" style="right:12px; bottom:0; font-size:52px;">02</span>
+                                <span class="rd-badge w-11 h-11 text-2xl relative z-10"><img src="assets/icon-3d-shuffle.png" alt="" class="w-full h-full object-contain" onerror="quizEmojiFallback(this,'🌊')"></span>
+                                <div class="flex-1 min-w-0 relative z-10">
+                                    <div class="flex items-center gap-2 mb-0.5">
+                                        <p class="font-black text-sm text-[#1e293b]">Ôn tập tổng hợp</p>
+                                        <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full shrink-0" style="background:rgba(91,79,207,0.09); color:#6c63ff;" id="qn-general-count">— từ</span>
+                                    </div>
+                                    <p class="text-xs text-gray-400">Ngẫu nhiên toàn bộ từ vựng đã thuộc</p>
+                                    <div class="mt-2 rounded-full overflow-hidden" style="height:3px; background:#d1d9e4; width:55%;"><div class="h-full rounded-full" style="width:45%; background:linear-gradient(90deg,#a5b4fc,#6c63ff);"></div></div>
+                                </div>
+                                <span class="rd-badge shrink-0 w-8 h-8 rounded-lg relative z-10" style="color:#6c63ff;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
+                            </button>
+                            <button class="rd-card-sm rd-hover-sm px-5 py-4 relative overflow-hidden text-left flex items-center gap-4 flex-1" onclick="openTopicPracticeSetup()">
+                                <span class="rd-watermark" style="right:12px; bottom:0; font-size:52px;">03</span>
+                                <span class="rd-badge w-11 h-11 text-2xl relative z-10"><img src="assets/icon-3d-topic.png" alt="" class="w-full h-full object-contain" onerror="quizEmojiFallback(this,'🎯')"></span>
+                                <div class="flex-1 min-w-0 relative z-10">
+                                    <div class="flex items-center gap-2 mb-0.5">
+                                        <p class="font-black text-sm text-[#1e293b]">Luyện theo chủ đề</p>
+                                        <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full shrink-0" style="background:rgba(91,79,207,0.09); color:#6c63ff;">Tự do</span>
+                                    </div>
+                                    <p class="text-xs text-gray-400">Tự chọn chủ đề &amp; dạng quiz phù hợp</p>
+                                    <div class="mt-2 rounded-full overflow-hidden" style="height:3px; background:#d1d9e4; width:55%;"><div class="h-full rounded-full" style="width:30%; background:linear-gradient(90deg,#a5b4fc,#6c63ff);"></div></div>
+                                </div>
+                                <span class="rd-badge shrink-0 w-8 h-8 rounded-lg relative z-10" style="color:#6c63ff;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
+                            </button>
+                        </div>
                     </div>
                 </section>
 
@@ -5094,27 +5150,47 @@
             if (!el || !currentUser) return;
             const learnedCount = computeLearnedWordCount();
             const wrongWords = collectWrongWords();
-            el.innerHTML = `
-                <div class="neo-raised p-2.5 sm:p-5 flex flex-col gap-1.5 sm:gap-2.5 min-w-0">
-                    <span class="icon-slot-3d w-9 h-9 sm:w-[52px] sm:h-[52px]">${badge3dHtml('icon-3d-time.png', 'clock', 'gb-violet')}</span>
-                    <span class="text-[8px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-wider truncate">Giờ học tập</span>
-                    <span class="text-base sm:text-2xl font-black text-point truncate leading-tight">${formatDurationVN(currentUser.totalActiveMs)}</span>
-                    <span class="hidden sm:block text-[10px] text-gray-400">Chỉ tính lúc bạn thực sự tương tác trên trang</span>
-                </div>
-                <div class="neo-raised p-2.5 sm:p-5 flex flex-col gap-1.5 sm:gap-2.5 min-w-0 cursor-pointer hover:shadow-inner transition-all" onclick="openLearnedWordsModal()" role="button" title="Bấm để xem chi tiết">
-                    <span class="icon-slot-3d w-9 h-9 sm:w-[52px] sm:h-[52px]">${badge3dHtml('icon-3d-learned.png', 'bookCheck', 'gb-green')}</span>
-                    <span class="text-[8px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-wider truncate">Đã học</span>
-                    <span class="text-base sm:text-2xl font-black truncate leading-tight" style="color:#16a34a;">${learnedCount} từ</span>
-                    <span class="hidden sm:block text-[10px] text-gray-400">Bấm vào đây để xem chi tiết theo bộ lọc</span>
-                </div>
-                <div class="neo-raised p-2.5 sm:p-5 flex flex-col gap-1.5 sm:gap-2.5 min-w-0 cursor-pointer hover:shadow-inner transition-all" onclick="openNeedPracticeWordsModal()" role="button" title="Bấm để xem danh sách chi tiết">
-                    <span class="icon-slot-3d w-9 h-9 sm:w-[52px] sm:h-[52px]">${badge3dHtml('icon-3d-practice.png', 'warning', 'gb-red')}</span>
-                    <span class="text-[8px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-wider truncate">Cần luyện</span>
-                    <span class="text-base sm:text-2xl font-black truncate leading-tight" style="color:#e11d48;">${wrongWords.length} từ</span>
-                    <span class="hidden sm:block text-[10px] text-gray-400">Bấm vào từ bên dưới để xem lại chi tiết</span>
-                </div>
-            `;
-            startRandomWordTicker();
+            // Thời gian dạng ngắn "1g 9p" cho con số lớn khỏi tràn
+            const totalMin = Math.floor((currentUser.totalActiveMs || 0) / 60000);
+            const hrs = Math.floor(totalMin / 60), mins = totalMin % 60;
+            const timeShort = hrs ? `${hrs}g ${mins}p` : `${mins}p`;
+            const statCard = (opts) => `
+                <div class="rd-card ${opts.click ? 'rd-hover cursor-pointer' : ''} relative overflow-visible" style="padding:22px 20px 20px 22px; min-height:150px;" ${opts.click ? `onclick="${opts.click}" role="button"` : ''}>
+                    <img src="assets/${opts.img}" alt="" data-svg="${opts.svg}" class="rd-stat-ico" onerror="statIco3dFallback(this)">
+                    <span class="text-[9px] font-bold uppercase tracking-widest block mb-3 text-gray-400">${opts.label}</span>
+                    <p class="font-black leading-none truncate" style="font-size:clamp(28px,4.4vw,46px); letter-spacing:-1.5px; color:${opts.color}; max-width:72%;">${opts.value}</p>
+                    <p class="text-xs mt-2 leading-relaxed text-gray-400" style="max-width:78%;">${opts.sub}</p>
+                    <div class="rd-accent-line" style="background:linear-gradient(90deg,${opts.color}33,${opts.color}11);"></div>
+                </div>`;
+            el.innerHTML =
+                statCard({ label: 'Giờ học tập', value: timeShort, sub: 'Thời gian thực sự tương tác', color: '#6c63ff', img: 'icon-3d-time.png', svg: 'clock' }) +
+                statCard({ label: 'Đã học', value: `${learnedCount} từ`, sub: 'Xem chi tiết theo bộ lọc', color: '#6c63ff', img: 'icon-3d-learned.png', svg: 'bookCheck', click: 'openLearnedWordsModal()' }) +
+                statCard({ label: 'Cần luyện', value: `${wrongWords.length} từ`, sub: 'Ôn lại để nhớ vững hơn', color: '#ef4444', img: 'icon-3d-practice.png', svg: 'warning', click: 'openNeedPracticeWordsModal()' });
+            // Cập nhật số liệu động cho khối Quiz nhanh
+            const lc = document.getElementById('qn-longtime-count');
+            if (lc) lc.textContent = `${wrongWords.length} từ cần ôn`;
+            const gc = document.getElementById('qn-general-count');
+            if (gc) gc.textContent = `${learnedCount} từ`;
+            startTodayFlashcard();
+        }
+
+        // Fallback khi thiếu PNG icon 3D ở thẻ thống kê → badge neumorphic + icon SVG
+        function statIco3dFallback(img) {
+            const card = img.parentElement;
+            if (!card) return;
+            const span = document.createElement('span');
+            span.className = 'rd-stat-ico rd-stat-ico-fallback';
+            span.style.position = 'absolute';
+            span.innerHTML = themeIcon(img.dataset.svg || 'clock', 'brand', 30);
+            img.replaceWith(span);
+        }
+
+        // Fallback khi thiếu PNG icon 3D ở thẻ Quiz nhanh → dùng emoji (như bản thiết kế)
+        function quizEmojiFallback(img, emoji) {
+            const span = document.createElement('span');
+            span.textContent = emoji;
+            span.style.cssText = 'display:flex;align-items:center;justify-content:center;width:100%;height:100%;';
+            img.replaceWith(span);
         }
 
         // ============================================================
@@ -5180,6 +5256,112 @@
         function restartRandomWordTicker() {
             if (tickerIntervalHandle) { clearInterval(tickerIntervalHandle); tickerIntervalHandle = null; }
             startRandomWordTicker();
+        }
+
+        // ============================================================
+        // TRANG CHỦ — "TỪ VỰNG HÔM NAY" (Flashcard tự chạy, đếm ngược 10s)
+        // Pool = từ đã học thuộc + từ trong mọi sổ tay (làm giàu thêm cấp độ/nguồn
+        // từ allLibraryCache). Thay cho thanh chạy chữ cũ.
+        // ============================================================
+        const FLASH_SECONDS = 10;
+        let flashPool = [], flashIdx = 0, flashRevealed = false, flashTimeLeft = FLASH_SECONDS, flashTimer = null;
+
+        function buildTodayFlashPool() {
+            const lib = allLibraryCache || [];
+            const map = new Map();
+            Object.keys(learnedWordsMap || {}).forEach(id => {
+                const w = lib.find(x => x.id === id);
+                if (w) map.set(id, { word: w.word, meaning: w.vietnamese || w.deep_meaning || '', book: BULK_LIB_LABELS[w.source] || w.topic || '', level: w.level || '' });
+            });
+            (notebooksList || []).forEach(nb => (nb.words || []).forEach(w => {
+                if (!w.word || map.has(w.id)) return;
+                const full = lib.find(x => x.id === w.id);
+                map.set(w.id, { word: w.word, meaning: w.vietnamese || (full && (full.vietnamese || full.deep_meaning)) || '', book: (full && (BULK_LIB_LABELS[full.source] || full.topic)) || nb.name || '', level: (full && full.level) || '' });
+            }));
+            return [...map.values()];
+        }
+
+        function startTodayFlashcard() {
+            if (flashTimer) { clearInterval(flashTimer); flashTimer = null; }
+            ensureAllLibraryLoaded().then(() => {
+                flashPool = buildTodayFlashPool();
+                if (flashIdx >= flashPool.length) flashIdx = 0;
+                flashRevealed = false;
+                flashTimeLeft = FLASH_SECONDS;
+                renderTodayFlashcard();
+                if (flashPool.length > 1) flashTimer = setInterval(flashTick, 1000);
+            });
+        }
+
+        function flashTick() {
+            const home = document.getElementById('view-home-dashboard');
+            if (!home || home.classList.contains('hidden')) return; // tạm dừng khi rời trang chủ
+            flashTimeLeft--;
+            if (flashTimeLeft <= 0) { flashNext(false); return; }
+            updateFlashRing();
+        }
+
+        function updateFlashRing() {
+            const C = 2 * Math.PI * 23;
+            const fg = document.getElementById('flash-ring-fg');
+            if (fg) fg.setAttribute('stroke-dashoffset', String(C * (1 - flashTimeLeft / FLASH_SECONDS)));
+            const num = document.getElementById('flash-count-num');
+            if (num) num.textContent = flashTimeLeft;
+        }
+
+        function flashReveal() { flashRevealed = !flashRevealed; renderTodayFlashcard(); }
+
+        function flashNext() {
+            if (!flashPool.length) return;
+            flashIdx = (flashIdx + 1) % flashPool.length;
+            flashRevealed = false;
+            flashTimeLeft = FLASH_SECONDS;
+            renderTodayFlashcard();
+        }
+
+        function renderTodayFlashcard() {
+            const el = document.getElementById('today-flashcard');
+            if (!el) return;
+            const counter = document.getElementById('flash-counter');
+            if (!flashPool.length) {
+                if (counter) counter.textContent = '0 / 0';
+                el.innerHTML = `<p class="text-sm text-gray-400 text-center py-6" style="font-family:'Plus Jakarta Sans',sans-serif;">Học hoặc lưu vài từ vựng để xem flashcard ôn tập ở đây nhé!</p>`;
+                return;
+            }
+            const w = flashPool[flashIdx];
+            if (counter) counter.textContent = `${flashIdx + 1} / ${flashPool.length}`;
+            const C = 2 * Math.PI * 23;
+            const offset = C * (1 - flashTimeLeft / FLASH_SECONDS);
+            const meta = [w.book, w.level ? `Lv.${w.level}` : ''].filter(Boolean).join(' · ');
+            const dotsN = Math.min(flashPool.length, 15);
+            const activeDot = flashIdx % dotsN;
+            el.innerHTML = `
+                <div class="flex items-center gap-5 flex-wrap sm:flex-nowrap">
+                    <div class="relative shrink-0" style="width:56px; height:56px;">
+                        <svg width="56" height="56" style="transform:rotate(-90deg);">
+                            <circle cx="28" cy="28" r="23" fill="none" stroke="#dde3ed" stroke-width="4"></circle>
+                            <circle id="flash-ring-fg" cx="28" cy="28" r="23" fill="none" stroke="#6c63ff" stroke-width="4" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${offset}" style="transition:stroke-dashoffset 1s linear;"></circle>
+                        </svg>
+                        <span class="absolute inset-0 flex items-center justify-center text-sm font-black" style="color:#6c63ff;" id="flash-count-num">${flashTimeLeft}</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        ${meta ? `<p class="text-[10px] font-bold uppercase tracking-widest mb-1 text-gray-400">${meta}</p>` : ''}
+                        <p class="text-3xl font-black leading-tight font-kr-serif text-[#1e293b]">${w.word}</p>
+                        <div class="mt-2 min-h-[20px]">
+                            ${flashRevealed
+                                ? `<p class="text-sm font-semibold text-[#475569]">${w.meaning || '—'}</p>`
+                                : `<p class="text-sm italic text-[#b0bac7]">Bạn có nhớ nghĩa không?</p>`}
+                        </div>
+                    </div>
+                    <div class="flex gap-2.5 shrink-0">
+                        <button class="rd-badge px-4 py-2.5 rounded-xl text-sm font-semibold inline-flex items-center gap-2" style="color:#6c63ff; ${flashRevealed ? 'background:rgba(108,99,255,0.10); box-shadow:inset 3px 3px 7px #c4ccd9, inset -3px -3px 7px #fff;' : ''}" onclick="flashReveal()">${flashRevealed ? '🙈 Ẩn' : '👁 Xem nghĩa'}</button>
+                        <button class="rd-badge px-4 py-2.5 rounded-xl text-sm font-semibold inline-flex items-center gap-2 text-[#475569]" onclick="flashNext()">Từ tiếp ⏭</button>
+                    </div>
+                </div>
+                <div class="flex justify-center gap-1.5 mt-4">
+                    ${Array.from({ length: dotsN }).map((_, i) => `<span class="rd-flash-dot" style="width:${i === activeDot ? 16 : 5}px; background:${i === activeDot ? '#6c63ff' : '#d1d9e4'};"></span>`).join('')}
+                </div>
+            `;
         }
 
         function openNeedPracticeWordsModal() {
