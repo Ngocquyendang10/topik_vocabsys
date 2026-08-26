@@ -19,8 +19,9 @@
               'green-pastel': '#55E6C1'
             },
             fontFamily: {
-              sans: ['Chiron GoRound TC', 'sans-serif'],
-              korean: ['Chiron GoRound TC', 'sans-serif'],
+              sans: ['Plus Jakarta Sans', 'Noto Serif KR', 'sans-serif'],
+              display: ['Nunito', 'Noto Serif KR', 'sans-serif'],
+              korean: ['Noto Serif KR', 'serif'],
               mono: ['DM Mono', 'monospace'],
             }
           }
@@ -31,7 +32,7 @@
     <!-- Nhúng các bộ font chữ hệ thống -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC&family=Plus+Jakarta+Sans:ital,wght@0,500;0,600;0,700;0,800;1,500&family=Noto+Serif+KR:wght@500;700&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=Nunito:wght@600;700;800;900&family=Noto+Serif+KR:wght@500;700&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -53,7 +54,10 @@
         }
 
         /* Định dạng font chữ hệ thống chính */
-        * { font-family: 'Chiron GoRound TC', sans-serif; }
+        /* BODY / mặc định: Plus Jakarta Sans (chữ Hàn tự rơi về Noto Serif KR) */
+        * { font-family: 'Plus Jakarta Sans', 'Noto Serif KR', sans-serif; }
+        /* HEADING / SỐ LỚN / TITLE CARD: Nunito (rounded display). Chữ Hàn vẫn rơi về Noto Serif KR. */
+        h1, h2, h3, h4, h5, h6, .font-black, .font-extrabold, .font-display { font-family: 'Nunito', 'Noto Serif KR', sans-serif; }
         .font-mono, .font-dm { font-family: 'DM Mono', monospace !important; }
 
         body { background-color: var(--bg-color); }
@@ -64,12 +68,12 @@
         .hidden { display: none; }
 
         /* ÉP FONT PLUS JAKARTA SANS TRÒN MỊN CHO NỘI DUNG MODERN CARD CHI TIẾT (CỘT PHẢI) */
-        .modern-card-wrapper, .modern-card-wrapper p, .modern-card-wrapper span, .modern-card-wrapper div, .modern-card-wrapper button { 
-            font-family: 'Plus Jakarta Sans', sans-serif !important; 
+        .modern-card-wrapper, .modern-card-wrapper p, .modern-card-wrapper span, .modern-card-wrapper div, .modern-card-wrapper button {
+            font-family: 'Plus Jakarta Sans', 'Noto Serif KR', sans-serif !important;
         }
-        
+
         .font-kr-serif { font-family: 'Noto Serif KR', serif !important; }
-        .font-chiron-custom { font-family: 'Chiron GoRound TC', sans-serif !important; }
+        .font-chiron-custom { font-family: 'Plus Jakarta Sans', 'Noto Serif KR', sans-serif !important; }
         .modern-font-mono { font-family: 'DM Mono', monospace !important; }
 
         /* Các khối mảng miếng dập bóng theo đúng Spec linh hồn React */
@@ -269,8 +273,8 @@
 
         /* ===== TRANG CHỦ — điểm nhấn màu sắc + phân cấp (modern soft-3D) ===== */
         /* Thanh dọc màu trước mỗi tiêu đề section để tạo hierarchy rõ ràng */
-        .home-sec-title { display:flex; align-items:center; gap:9px; }
-        .home-sec-title::before { content:''; width:4px; height:15px; border-radius:3px; flex:0 0 auto; background:linear-gradient(180deg,#6C63FF,#a78bfa); }
+        .home-sec-title { display:flex; align-items:center; gap:10px; }
+        .home-sec-title::before { content:''; width:4px; height:16px; border-radius:999px; flex:0 0 auto; background:linear-gradient(180deg,#8f89ff,#6c63ff); }
         .home-sec-title.hs-green::before { background:linear-gradient(180deg,#22c55e,#86efac); }
         .home-sec-title.hs-amber::before { background:linear-gradient(180deg,#f59e0b,#fcd34d); }
         /* Khung icon 3D (52px) — chứa ảnh PNG do user thêm; thiếu ảnh sẽ tự fallback
@@ -296,7 +300,7 @@
         .rd-inset { background:#dde3ed; box-shadow:inset 3px 3px 7px #c4ccd9, inset -3px -3px 7px #ffffff; }
         .rd-badge { background:#E6EBF3; border-radius:14px; box-shadow:4px 4px 10px #c4ccd9,-4px -4px 10px #ffffff; display:flex; align-items:center; justify-content:center; flex:0 0 auto; overflow:hidden; }
         .rd-btn-grad { background:linear-gradient(135deg,#8f89ff,#6c63ff); box-shadow:3px 3px 10px rgba(91,79,207,0.4); color:#fff; }
-        .rd-watermark { position:absolute; font-weight:900; color:rgba(91,79,207,0.10); line-height:1; pointer-events:none; user-select:none; }
+        .rd-watermark { position:absolute; font-family:'Nunito','Noto Serif KR',sans-serif; font-weight:900; color:rgba(91,79,207,0.10); line-height:1; pointer-events:none; user-select:none; }
         /* icon 3D nổi ở góc thẻ thống kê (user tự thêm PNG vào assets/) */
         .rd-stat-ico { position:absolute; top:-18px; right:-6px; width:96px; height:96px; object-fit:contain; pointer-events:none; filter:drop-shadow(0 8px 16px rgba(0,0,0,0.12)); }
         .rd-stat-ico-fallback { top:-8px; right:2px; width:60px; height:60px; border-radius:18px; background:#E6EBF3; box-shadow:5px 5px 14px #c4ccd9,-5px -5px 14px #ffffff; filter:none; }
@@ -495,15 +499,15 @@
 
                 <!-- SECTION 1: TỔNG QUAN -->
                 <section class="mb-8">
-                    <h3 class="home-sec-title text-xs font-bold text-[#6A6A7F] tracking-widest mb-4">TỔNG QUAN</h3>
+                    <h3 class="home-sec-title text-[10px] font-bold text-[#64748b] tracking-widest mb-4">TỔNG QUAN</h3>
                     <div class="grid grid-cols-3 gap-2 sm:gap-4" id="home-status-cards"></div>
                 </section>
 
                 <!-- SECTION: TỪ VỰNG HÔM NAY (Flashcard tự chạy) -->
                 <section class="mb-8">
                     <div class="flex items-center justify-between mb-4">
-                        <h3 class="home-sec-title text-xs font-bold text-[#6A6A7F] tracking-widest">TỪ VỰNG HÔM NAY</h3>
-                        <span class="text-xs font-semibold text-gray-400" id="flash-counter">0 / 0</span>
+                        <h3 class="home-sec-title text-[10px] font-bold text-[#64748b] tracking-widest">TỪ VỰNG HÔM NAY</h3>
+                        <span class="text-xs font-semibold" style="color:#64748b;" id="flash-counter">0 / 0</span>
                     </div>
                     <div class="rd-card p-6 relative overflow-hidden" id="today-flashcard" style="min-height:120px;"></div>
                 </section>
@@ -511,23 +515,23 @@
                 <!-- SECTION 2: QUIZ NHANH -->
                 <section class="mb-8">
                     <div class="flex items-center justify-between mb-4">
-                        <h3 class="home-sec-title text-xs font-bold text-[#6A6A7F] tracking-widest">QUIZ NHANH</h3>
-                        <span class="text-xs font-semibold text-gray-400">3 chế độ</span>
+                        <h3 class="home-sec-title text-[10px] font-bold text-[#64748b] tracking-widest">QUIZ NHANH</h3>
+                        <span class="text-xs font-semibold" style="color:#64748b;">3 chế độ</span>
                     </div>
                     <div class="flex flex-col lg:flex-row gap-4 items-stretch">
                         <!-- Thẻ nổi bật: Ôn lại từ cũ -->
                         <button class="rd-card rd-hover p-6 relative overflow-hidden text-left flex flex-col justify-between lg:w-[42%] shrink-0" onclick="openQuizMazeSetupModal('longtime')">
                             <span class="rd-watermark" style="right:16px; top:2px; font-size:88px;">01</span>
                             <div class="flex items-start justify-between relative z-10">
-                                <span class="rd-badge w-14 h-14 text-3xl"><img src="assets/icon-3d-review-old.png" alt="" class="w-full h-full object-contain" onerror="quizEmojiFallback(this,'🔄')"></span>
+                                <span class="w-14 h-14 text-3xl flex items-center justify-center shrink-0"><img src="assets/icon-3d-review-old.png" alt="" class="w-full h-full object-contain" onerror="quizEmojiFallback(this,'🔄')"></span>
                                 <div class="flex flex-col items-end gap-1">
                                     <span class="text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full text-white rd-btn-grad">Ưu tiên</span>
-                                    <span class="text-[10px] font-semibold text-gray-400" id="qn-longtime-count">— từ cần ôn</span>
+                                    <span class="text-[10px] font-semibold" style="color:#94a3b8;" id="qn-longtime-count">— từ cần ôn</span>
                                 </div>
                             </div>
                             <div class="relative z-10 mt-3">
-                                <p class="font-black text-lg leading-tight text-[#1e293b]">Ôn lại từ cũ</p>
-                                <p class="text-sm mt-1.5 text-[#475569] leading-relaxed">Những từ đã lâu chưa gặp lại — ôn ngay để không quên</p>
+                                <p class="font-black text-lg leading-tight text-[#1e293b]" style="letter-spacing:-0.3px;">Ôn lại từ cũ</p>
+                                <p class="text-sm mt-1.5 text-[#475569]" style="line-height:1.5;">Những từ đã lâu chưa gặp lại — ôn ngay để không quên</p>
                             </div>
                             <span class="relative z-10 mt-5 inline-flex items-center gap-2 self-start px-5 py-2.5 rounded-xl text-sm font-bold text-white rd-btn-grad">Bắt đầu ngay <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
                         </button>
@@ -535,26 +539,26 @@
                         <div class="flex flex-col gap-4 flex-1">
                             <button class="rd-card-sm rd-hover-sm px-5 py-4 relative overflow-hidden text-left flex items-center gap-4 flex-1" onclick="openQuizMazeSetupModal('general')">
                                 <span class="rd-watermark" style="right:12px; bottom:0; font-size:52px;">02</span>
-                                <span class="rd-badge w-11 h-11 text-2xl relative z-10"><img src="assets/icon-3d-shuffle.png" alt="" class="w-full h-full object-contain" onerror="quizEmojiFallback(this,'🌊')"></span>
+                                <span class="w-11 h-11 text-2xl flex items-center justify-center shrink-0 relative z-10"><img src="assets/icon-3d-shuffle.png" alt="" class="w-full h-full object-contain" onerror="quizEmojiFallback(this,'🌊')"></span>
                                 <div class="flex-1 min-w-0 relative z-10">
                                     <div class="flex items-center gap-2 mb-0.5">
                                         <p class="font-black text-sm text-[#1e293b]">Ôn tập tổng hợp</p>
                                         <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full shrink-0" style="background:rgba(91,79,207,0.09); color:#6c63ff;" id="qn-general-count">— từ</span>
                                     </div>
-                                    <p class="text-xs text-gray-400">Ngẫu nhiên toàn bộ từ vựng đã thuộc</p>
+                                    <p class="text-xs" style="color:#64748b;">Ngẫu nhiên toàn bộ từ vựng đã thuộc</p>
                                     <div class="mt-2 rounded-full overflow-hidden" style="height:3px; background:#d1d9e4; width:55%;"><div class="h-full rounded-full" style="width:45%; background:linear-gradient(90deg,#a5b4fc,#6c63ff);"></div></div>
                                 </div>
                                 <span class="rd-badge shrink-0 w-8 h-8 rounded-lg relative z-10" style="color:#6c63ff;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
                             </button>
                             <button class="rd-card-sm rd-hover-sm px-5 py-4 relative overflow-hidden text-left flex items-center gap-4 flex-1" onclick="openTopicPracticeSetup()">
                                 <span class="rd-watermark" style="right:12px; bottom:0; font-size:52px;">03</span>
-                                <span class="rd-badge w-11 h-11 text-2xl relative z-10"><img src="assets/icon-3d-topic.png" alt="" class="w-full h-full object-contain" onerror="quizEmojiFallback(this,'🎯')"></span>
+                                <span class="w-11 h-11 text-2xl flex items-center justify-center shrink-0 relative z-10"><img src="assets/icon-3d-topic.png" alt="" class="w-full h-full object-contain" onerror="quizEmojiFallback(this,'🎯')"></span>
                                 <div class="flex-1 min-w-0 relative z-10">
                                     <div class="flex items-center gap-2 mb-0.5">
                                         <p class="font-black text-sm text-[#1e293b]">Luyện theo chủ đề</p>
                                         <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full shrink-0" style="background:rgba(91,79,207,0.09); color:#6c63ff;">Tự do</span>
                                     </div>
-                                    <p class="text-xs text-gray-400">Tự chọn chủ đề &amp; dạng quiz phù hợp</p>
+                                    <p class="text-xs" style="color:#64748b;">Tự chọn chủ đề &amp; dạng quiz phù hợp</p>
                                     <div class="mt-2 rounded-full overflow-hidden" style="height:3px; background:#d1d9e4; width:55%;"><div class="h-full rounded-full" style="width:30%; background:linear-gradient(90deg,#a5b4fc,#6c63ff);"></div></div>
                                 </div>
                                 <span class="rd-badge shrink-0 w-8 h-8 rounded-lg relative z-10" style="color:#6c63ff;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
@@ -565,7 +569,7 @@
 
                 <!-- SECTION 3: TỪ VỰNG TRONG SỔ -->
                 <section class="mb-6">
-                    <h3 class="home-sec-title hs-green text-xs font-bold text-[#6A6A7F] tracking-widest mb-4">TỪ VỰNG TRONG SỔ</h3>
+                    <h3 class="home-sec-title text-[10px] font-bold text-[#64748b] tracking-widest mb-4">TỪ VỰNG TRONG SỔ</h3>
                     <div class="flex flex-col lg:flex-row gap-5 lg:gap-6 items-stretch lg:items-start w-full">
                         <div class="w-full lg:flex-[3_1_0%] min-w-0 neo-raised !rounded-[28px] overflow-hidden">
                             <div class="p-4 border-b border-[#d8e0ec]">
@@ -5155,11 +5159,11 @@
             const hrs = Math.floor(totalMin / 60), mins = totalMin % 60;
             const timeShort = hrs ? `${hrs}g ${mins}p` : `${mins}p`;
             const statCard = (opts) => `
-                <div class="rd-card ${opts.click ? 'rd-hover cursor-pointer' : ''} relative overflow-visible" style="padding:22px 20px 20px 22px; min-height:150px;" ${opts.click ? `onclick="${opts.click}" role="button"` : ''}>
+                <div class="rd-card ${opts.click ? 'rd-hover cursor-pointer' : ''} relative overflow-visible" style="padding:22px 20px 20px 22px; min-height:155px;" ${opts.click ? `onclick="${opts.click}" role="button"` : ''}>
                     <img src="assets/${opts.img}" alt="" data-svg="${opts.svg}" class="rd-stat-ico" onerror="statIco3dFallback(this)">
-                    <span class="text-[9px] font-bold uppercase tracking-widest block mb-3 text-gray-400">${opts.label}</span>
-                    <p class="font-black leading-none truncate" style="font-size:clamp(28px,4.4vw,46px); letter-spacing:-1.5px; color:${opts.color}; max-width:72%;">${opts.value}</p>
-                    <p class="text-xs mt-2 leading-relaxed text-gray-400" style="max-width:78%;">${opts.sub}</p>
+                    <span class="text-[9px] font-bold uppercase tracking-widest block mb-3" style="color:#94a3b8;">${opts.label}</span>
+                    <p class="font-black leading-none" style="font-size:clamp(30px,4.6vw,46px); letter-spacing:-2px; color:${opts.color}; white-space:nowrap;">${opts.value}</p>
+                    <p class="text-xs mt-2 leading-relaxed" style="color:#64748b; max-width:75%;">${opts.sub}</p>
                     <div class="rd-accent-line" style="background:linear-gradient(90deg,${opts.color}33,${opts.color}11);"></div>
                 </div>`;
             el.innerHTML =
@@ -5345,7 +5349,7 @@
                         <span class="absolute inset-0 flex items-center justify-center text-sm font-black" style="color:#6c63ff;" id="flash-count-num">${flashTimeLeft}</span>
                     </div>
                     <div class="flex-1 min-w-0">
-                        ${meta ? `<p class="text-[10px] font-bold uppercase tracking-widest mb-1 text-gray-400">${meta}</p>` : ''}
+                        ${meta ? `<p class="text-[10px] font-bold uppercase tracking-widest mb-1" style="color:#94a3b8;">${meta}</p>` : ''}
                         <p class="text-3xl font-black leading-tight font-kr-serif text-[#1e293b]">${w.word}</p>
                         <div class="mt-2 min-h-[20px]">
                             ${flashRevealed
