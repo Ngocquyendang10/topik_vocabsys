@@ -408,6 +408,17 @@ function parseVocab(st){
     words:nb.words||[], progress:nb.progress||null,
     items:(nb.words||[]).map(w=>{ const it=itemFromVocab(w.id,w); it.learned=learned[w.id]!=null; return it; })
   }));
+  // "Sổ ẩn" gom hoạt động luyện tập ở TRANG CHỦ (Luyện theo chủ đề / Ôn tổng hợp) của học sinh —
+  // học sinh không thấy nó trong tab Sổ tay, nhưng ở đây gộp vào danh sách sổ để mọi thống kê
+  // (câu đúng/sai, từ yếu, sổ đã luyện...) đều tính luôn phần luyện ở Trang chủ.
+  const hp=b.homePractice;
+  if(hp && typeof hp==="object" && !Array.isArray(hp) && (hp.progress || (hp.words||[]).length)){
+    notebooks.push({
+      id:hp.id||"__home_practice__", name:hp.name||"🎯 Luyện tập ở Trang chủ", note:hp.note||"", createdAt:hp.createdAt||null,
+      words:hp.words||[], progress:hp.progress||null, isHomePractice:true,
+      items:(hp.words||[]).map(w=>{ const it=itemFromVocab(w.id,w); it.learned=learned[w.id]!=null; return it; })
+    });
+  }
   // giờ hoạt động chính xác gần nhất = muộn nhất giữa (lần lưu server) và (lần tick từ đã học)
   let lastTs=st.updatedAt?new Date(st.updatedAt).getTime():0;
   Object.values(learned).forEach(ts=>{ const n=Number(ts); if(n>lastTs) lastTs=n; });
@@ -438,8 +449,10 @@ function dimValue(it, dim){
 
 /* thống kê chung */
 function stStats(st){
-  const nbCount=st.notebooks.length;
-  const itemsInNb=st.notebooks.reduce((s,nb)=>s+nb.items.length,0);
+  // Không tính "sổ ẩn" luyện ở Trang chủ vào số SỔ do học sinh tạo.
+  const realNbs=st.notebooks.filter(nb=>!nb.isHomePractice);
+  const nbCount=realNbs.length;
+  const itemsInNb=realNbs.reduce((s,nb)=>s+nb.items.length,0);
   const learnedTotal=Object.keys(st.learnedMap||{}).length;
   return { nbCount, itemsInNb, learnedTotal };
 }
@@ -480,7 +493,7 @@ function renderAttention(){
   if(S.error){ row.innerHTML=""; return; }
   const list=S.list;
   const quiet=list.filter(s=>statusOf(s).quiet && !isLocked(s)).length;
-  const empty=list.filter(s=>s.notebooks.length===0).length;
+  const empty=list.filter(s=>s.notebooks.filter(nb=>!nb.isHomePractice).length===0).length;
   const items=[
     {key:"quiet", ico:"⏸️", n:quiet, t:"học sinh im lặng 7+ ngày", color:"var(--bad)"},
     {key:"empty", ico:"📕", n:empty, t:"học sinh chưa có sổ nào", color:"var(--warn)"},
@@ -503,10 +516,10 @@ function filteredStudents(){
   let arr=S.list.filter(s=>!q||(s.username||"").toLowerCase().includes(q));
   if(sf==="active") arr=arr.filter(s=>!statusOf(s).quiet&&!isLocked(s));
   if(sf==="quiet") arr=arr.filter(s=>statusOf(s).quiet&&!isLocked(s));
-  if(sf==="empty") arr=arr.filter(s=>s.notebooks.length===0);
+  if(sf==="empty") arr=arr.filter(s=>s.notebooks.filter(nb=>!nb.isHomePractice).length===0);
   if(sf==="locked") arr=arr.filter(s=>isLocked(s));
   if(attnFilter==="quiet") arr=arr.filter(s=>statusOf(s).quiet&&!isLocked(s));
-  if(attnFilter==="empty") arr=arr.filter(s=>s.notebooks.length===0);
+  if(attnFilter==="empty") arr=arr.filter(s=>s.notebooks.filter(nb=>!nb.isHomePractice).length===0);
   if(attnFilter==="lowquiz") arr=arr.filter(s=>{const a=avgQuiz(s); return a!==null&&a<50;});
   arr.sort((a,b)=>{
     if(sb==="name") return (a.username||"").localeCompare(b.username||"");
