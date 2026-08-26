@@ -16,7 +16,14 @@
               accent: '#FF9F43',
               'accent-soft': 'rgba(255, 159, 67, 0.1)',
               'pink-pastel': '#FF7675',
-              'green-pastel': '#55E6C1'
+              'green-pastel': '#55E6C1',
+              // Xám xanh đậm hơn cho toàn hệ thống — chữ phụ/nhãn/phụ đề dễ đọc hơn (thay cho gray nhạt)
+              gray: {
+                300: '#8695b3',
+                400: '#5f6f92',
+                500: '#4a5878',
+                600: '#3b4867'
+              }
             },
             fontFamily: {
               sans: ['Plus Jakarta Sans', 'Noto Serif KR', 'sans-serif'],
@@ -941,6 +948,18 @@
         // ─── DANH SÁCH SỔ TAY CỦA NGƯỜI DÙNG (rỗng ban đầu — chỉ chứa sổ tay do chính user tạo) ───
         // Dùng "let" vì sẽ được nạp lại từ server (theo tài khoản) sau khi đăng nhập — xem loadNotebooksFromServer()
         let notebooksList = [];
+        // "Sổ ẩn" gom kết quả luyện tập ở TRANG CHỦ (Luyện theo chủ đề / Ôn tổng hợp với từ không thuộc
+        // sổ nào). KHÔNG hiển thị trong tab Sổ tay của học sinh, nhưng ĐƯỢC đồng bộ lên server để
+        // Dashboard giáo viên thống kê đúng/sai/hoạt động. Xem recordQmResult() & buildNotebooksBundle().
+        let homePracticeNotebook = null;
+        function ensureHomePracticeNotebook() {
+            if (!homePracticeNotebook || typeof homePracticeNotebook !== 'object') {
+                homePracticeNotebook = { id: '__home_practice__', name: '🎯 Luyện tập ở Trang chủ', words: [], progress: {} };
+            }
+            if (!Array.isArray(homePracticeNotebook.words)) homePracticeNotebook.words = [];
+            ensureNotebookProgress(homePracticeNotebook);
+            return homePracticeNotebook;
+        }
         let openBookmarkWordId = null; // từ nào đang mở popup bookmark
 
         const EMPTY_LESSONS_STATE_HTML = `
@@ -1021,7 +1040,7 @@
                 joinedAt: currentUser.joinedAt,
                 totalActiveMs: currentUser.totalActiveMs || 0,
             } : null;
-            return { notebooks: notebooksList, deletedNotebooks: deletedNotebooksList, learnedWords: learnedWordsMap, userProfile, dailyActivityLog, dailyLearnedLog, dailyActiveMsLog };
+            return { notebooks: notebooksList, deletedNotebooks: deletedNotebooksList, learnedWords: learnedWordsMap, userProfile, dailyActivityLog, dailyLearnedLog, dailyActiveMsLog, homePractice: homePracticeNotebook };
         }
 
         // Khoá cache cục bộ theo từng tài khoản (không lẫn dữ liệu giữa các user trên cùng máy).
@@ -1068,9 +1087,11 @@
                 notebooksList = loaded;
                 deletedNotebooksList = [];
                 learnedWordsMap = {};
+                homePracticeNotebook = null;
             } else {
                 loaded = loaded || {};
                 notebooksList = Array.isArray(loaded.notebooks) ? loaded.notebooks : [];
+                homePracticeNotebook = (loaded.homePractice && typeof loaded.homePractice === 'object' && !Array.isArray(loaded.homePractice)) ? loaded.homePractice : null;
                 deletedNotebooksList = Array.isArray(loaded.deletedNotebooks) ? loaded.deletedNotebooks : [];
                 learnedWordsMap = (loaded.learnedWords && typeof loaded.learnedWords === 'object') ? loaded.learnedWords : {};
                 dailyActivityLog = (loaded.dailyActivityLog && typeof loaded.dailyActivityLog === 'object') ? loaded.dailyActivityLog : {};
@@ -5165,17 +5186,26 @@
             const hrs = Math.floor(totalMin / 60), mins = totalMin % 60;
             const timeShort = hrs ? `${hrs}g ${mins}p` : `${mins}p`;
             const statCard = (opts) => `
-                <div class="rd-card ${opts.click ? 'rd-hover cursor-pointer' : ''} relative overflow-visible" style="padding:22px 20px 20px 22px; min-height:155px;" ${opts.click ? `onclick="${opts.click}" role="button"` : ''}>
+                <div class="rd-card ${opts.click ? 'rd-hover cursor-pointer' : ''} relative overflow-visible flex flex-col" style="min-height:150px;" ${opts.click ? `onclick="${opts.click}" role="button"` : ''}>
                     <img src="assets/${opts.img}" alt="" data-svg="${opts.svg}" class="rd-stat-ico" onerror="statIco3dFallback(this)">
-                    <span class="text-[9px] font-bold uppercase tracking-widest block mb-3" style="color:#94a3b8;">${opts.label}</span>
-                    <p class="font-black leading-none" style="font-size:clamp(30px,4.6vw,46px); letter-spacing:-2px; color:${opts.color}; white-space:nowrap;">${opts.value}</p>
-                    <p class="text-xs mt-2 leading-relaxed" style="color:#64748b; max-width:75%;">${opts.sub}</p>
-                    <div class="rd-accent-line" style="background:linear-gradient(90deg,${opts.color}33,${opts.color}11);"></div>
+                    <div class="flex-1" style="padding:20px 18px 12px 22px;">
+                        <div class="flex items-center gap-2" style="margin-bottom:10px;">
+                            <span style="width:3px; height:12px; border-radius:99px; flex-shrink:0; background:${opts.color};"></span>
+                            <span class="font-extrabold uppercase" style="font-size:9px; letter-spacing:0.13em; color:${opts.color};">${opts.label}</span>
+                        </div>
+                        <p class="font-black leading-none" style="font-family:'Nunito',sans-serif; font-size:clamp(32px,4.6vw,48px); letter-spacing:-2.5px; color:#1e293b; white-space:nowrap;">${opts.value}</p>
+                    </div>
+                    <div class="flex items-center justify-between" style="background:${opts.color}0f; border-radius:0 0 24px 24px; padding:10px 16px 12px 22px;">
+                        <span class="font-semibold" style="font-size:11px; color:#475569;">${opts.sub}</span>
+                        <span class="inline-flex items-center gap-1 font-bold" style="font-size:10px; color:${opts.color}; white-space:nowrap;">Xem thêm
+                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                        </span>
+                    </div>
                 </div>`;
             el.innerHTML =
-                statCard({ label: 'Giờ học tập', value: timeShort, sub: 'Thời gian thực sự tương tác', color: '#6c63ff', img: 'icon-3d-time.png', svg: 'clock' }) +
-                statCard({ label: 'Đã học', value: `${learnedCount} từ`, sub: 'Xem chi tiết theo bộ lọc', color: '#6c63ff', img: 'icon-3d-learned.png', svg: 'bookCheck', click: 'openLearnedWordsModal()' }) +
-                statCard({ label: 'Cần luyện', value: `${wrongWords.length} từ`, sub: 'Ôn lại để nhớ vững hơn', color: '#ef4444', img: 'icon-3d-practice.png', svg: 'warning', click: 'openNeedPracticeWordsModal()' });
+                statCard({ label: 'Giờ học tập', value: timeShort, sub: 'Thực sự tương tác', color: '#6c63ff', img: 'icon-3d-time.png', svg: 'clock', click: 'openActivityDashboard()' }) +
+                statCard({ label: 'Đã học', value: `${learnedCount} từ`, sub: 'Xem theo bộ lọc', color: '#16a34a', img: 'icon-3d-learned.png', svg: 'bookCheck', click: 'openLearnedWordsModal()' }) +
+                statCard({ label: 'Cần luyện', value: `${wrongWords.length} từ`, sub: 'Ôn lại để nhớ vững', color: '#ef4444', img: 'icon-3d-practice.png', svg: 'warning', click: 'openNeedPracticeWordsModal()' });
             // Cập nhật số liệu động cho khối Quiz nhanh
             const lc = document.getElementById('qn-longtime-count');
             if (lc) lc.textContent = `${wrongWords.length} từ cần ôn`;
@@ -5624,6 +5654,23 @@
             `;
         }
 
+        // Ánh xạ dạng câu trong quiz trộn → đúng chức năng ở Trang chủ (để dùng chung icon/nhãn/màu).
+        function qmFuncKeyOf(type) {
+            if (type === 'typing') return 'typing';
+            if (type === 'listen') return 'listen';
+            if (type === 'guess') return 'guess';
+            return 'quiz'; // quiz-ko / quiz-vi
+        }
+        // Thẻ đầu mỗi câu: icon + nhãn của dạng quiz (khớp icon ngoài Trang chủ) + số câu.
+        function qmCardHeader(q, idx) {
+            const meta = PRACTICE_FUNC_META[qmFuncKeyOf(q.type)] || { icon: '📝', label: 'Trắc nghiệm', color: '#6C63FF' };
+            return `
+                <div class="self-stretch flex items-center gap-2">
+                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold" style="background:${meta.color}1f; color:${meta.color};">${meta.icon} ${meta.label}</span>
+                    <span class="text-[10px] font-mono text-gray-400 ml-auto">Câu ${idx + 1}</span>
+                </div>`;
+        }
+
         function renderQuizMazeQuestionCard(q, idx) {
             const hasSpeaker = q.type === 'guess' || q.type === 'listen';
             const koreanOptions = q.type === 'quiz-vi' || q.type === 'listen';
@@ -5631,13 +5678,13 @@
             if (q.type === 'typing') {
                 return `
                     <div class="neo-raised p-5 flex flex-col items-center gap-4">
-                        <span class="text-[10px] font-mono text-gray-400 self-start">Câu ${idx + 1}</span>
+                        ${qmCardHeader(q, idx)}
                         <p class="text-base font-bold text-[#1e2a4a] text-center">${q.questionText}</p>
                         <div class="w-full max-w-md flex flex-col gap-2.5">
                             <input type="text" id="qm-typing-${idx}" class="w-full px-4 py-3 rounded-2xl outline-none border-none text-center text-lg font-kr-serif" style="background:#fff; box-shadow: var(--shadow-sunk);" placeholder="Nhập từ tiếng Hàn..." autocomplete="off" data-lpignore="true" onkeydown="if(event.key==='Enter'){event.preventDefault(); handleQuizMazeTyping(${idx});}">
                             <button class="neo-button py-3 text-sm font-bold text-white !rounded-2xl" style="background:#6C63FF;" id="qm-typing-btn-${idx}" onclick="handleQuizMazeTyping(${idx})">Kiểm tra</button>
                         </div>
-                        <div class="text-xs font-semibold h-4" id="qm-feedback-${idx}"></div>
+                        <div class="text-xs font-semibold min-h-4 text-center" id="qm-feedback-${idx}"></div>
                     </div>
                 `;
             }
@@ -5675,8 +5722,11 @@
             const btn = document.getElementById(`qm-typing-btn-${idx}`);
             if (btn) btn.style.display = 'none';
             const fb = document.getElementById(`qm-feedback-${idx}`);
-            if (fb) fb.innerHTML = isCorrect ? '<span class="text-[#2ec65e]">🎉 Chính xác!</span>' : `<span class="text-[#ef4444]">😢 Đáp án: <b class="font-kr-serif">${q.correct}</b></span>`;
-            if (q.word._nbId) recordQuizMazeResult(q.word._nbId, 'typing', q.word.id, isCorrect);
+            const vnMean = q.word.vietnamese || q.word.deep_meaning || '—';
+            if (fb) fb.innerHTML = isCorrect
+                ? `<span class="text-[#2ec65e]">🎉 Chính xác! — <b class="font-kr-serif">${q.correct}</b> : ${vnMean}</span>`
+                : `<span class="text-[#ef4444]">😢 Đáp án: <b class="font-kr-serif">${q.correct}</b> : ${vnMean}</span>`;
+            recordQmResult(q, 'typing', isCorrect);
             quizMazeState.answeredCount++;
             const counterEl = document.getElementById('qm-answered-count');
             if (counterEl) counterEl.textContent = quizMazeState.answeredCount;
@@ -5695,6 +5745,29 @@
             prog.lastActivityAt = Date.now();
             const wordObj = (nb.words || []).find(w => w.id === wordId);
             if (wordObj) wordObj.lastSeenAt = Date.now();
+            recordVocabActivity(1); // làm quiz ở Trang chủ vẫn tính là hoạt động trong ngày (streak + dashboard GV)
+            saveNotebooksToServer();
+        }
+
+        // Ghi nhận 1 câu trong quiz trộn (Quiz Maze / Luyện theo chủ đề). Nếu từ thuộc một sổ của học
+        // sinh → ghi vào sổ đó; nếu là từ luyện ở Trang chủ (không thuộc sổ nào) → gom vào "sổ ẩn"
+        // homePractice. Cả hai đều đồng bộ lên server nên Dashboard giáo viên đều thấy.
+        function recordQmResult(q, funcKey, isCorrect) {
+            if (!q || !q.word) return;
+            if (q.word._nbId) { recordQuizMazeResult(q.word._nbId, funcKey, q.word.id, isCorrect); return; }
+            const nb = ensureHomePracticeNotebook();
+            if (!nb.words.some(w => w.id === q.word.id)) {
+                nb.words.push({ id: q.word.id, word: q.word.word, vietnamese: q.word.vietnamese || q.word.deep_meaning || '—' });
+            }
+            const wordObj = nb.words.find(w => w.id === q.word.id);
+            if (wordObj) wordObj.lastSeenAt = Date.now();
+            const prog = ensureNotebookProgress(nb)[funcKey];
+            prog.correctIds = prog.correctIds.filter(id => id !== q.word.id);
+            prog.wrongIds = prog.wrongIds.filter(id => id !== q.word.id);
+            (isCorrect ? prog.correctIds : prog.wrongIds).push(q.word.id);
+            prog.lastActivityAt = Date.now();
+            nb.lastActivityAt = Date.now();
+            recordVocabActivity(1);
             saveNotebooksToServer();
         }
 
@@ -5711,10 +5784,14 @@
             const isCorrect = q.options[selectedIdx] === q.correct;
             q.wasCorrect = isCorrect;
             const fb = document.getElementById(`qm-feedback-${idx}`);
-            fb.innerHTML = isCorrect ? '<span class="text-[#2ec65e]">🎉 Chính xác!</span>' : '<span class="text-[#ef4444]">😢 Chưa đúng.</span>';
+            // Luôn trả đáp án đầy đủ (từ tiếng Hàn : nghĩa tiếng Việt) — cả khi đúng lẫn khi sai.
+            const vnMean = q.word.vietnamese || q.word.deep_meaning || '—';
+            fb.innerHTML = isCorrect
+                ? `<span class="text-[#2ec65e]">🎉 Chính xác! — <b class="font-kr-serif">${q.word.word}</b> : ${vnMean}</span>`
+                : `<span class="text-[#ef4444]">😢 Đáp án đúng: <b class="font-kr-serif">${q.word.word}</b> : ${vnMean}</span>`;
 
             const funcKey = q.type === 'guess' ? 'guess' : (q.type === 'listen' ? 'listen' : 'quiz');
-            if (q.word._nbId) recordQuizMazeResult(q.word._nbId, funcKey, q.word.id, isCorrect);
+            recordQmResult(q, funcKey, isCorrect);
 
             quizMazeState.answeredCount++;
             const counterEl = document.getElementById('qm-answered-count');
@@ -5767,7 +5844,9 @@
 
         // Sinh câu hỏi TRỘN 5 mẫu (quiz-ko/quiz-vi/typing/listen/guess) cho mỗi từ
         function generateTopicPracticeQuestion(word, pool) {
-            const templates = ['quiz-ko', 'quiz-vi', 'typing', 'listen', 'guess'];
+            // Giảm bớt dạng "Nghe & chọn từ tiếng Hàn" (listen): các dạng khác lặp lại nhiều lần nên
+            // listen chỉ chiếm ~1/9 số câu, thay vì 1/5 như trước.
+            const templates = ['quiz-ko', 'quiz-ko', 'quiz-vi', 'quiz-vi', 'typing', 'typing', 'guess', 'guess', 'listen'];
             const type = templates[Math.floor(Math.random() * templates.length)];
             const others = pool.filter(w => w.id !== word.id);
             const vn = word.vietnamese || word.deep_meaning || '—';
@@ -5879,7 +5958,7 @@
                     <button class="absolute top-5 right-5 w-9 h-9 rounded-full neo-button flex items-center justify-center text-gray-400" onclick="closeTopicPracticeModal()">✕</button>
                     <div>
                         <h3 class="text-lg font-extrabold text-[#1A1A24] flex items-center gap-2"><span class="grad-badge gb-amber w-8 h-8 text-lg">🎯</span> Luyện tập theo chủ đề</h3>
-                        <p class="text-xs text-gray-400 mt-1">Chọn khối từ vựng bạn muốn luyện, rồi chọn số câu. Quiz sẽ trộn Trắc nghiệm · Viết từ · Nghe &amp; chọn từ · Nghe &amp; tìm nghĩa.</p>
+                        <p class="text-xs text-gray-500 mt-1">Chọn khối từ vựng bạn muốn luyện, rồi chọn số câu. Quiz sẽ trộn 📝 Trắc nghiệm · ✍️ Viết từ · 🎧 Nghe &amp; chọn từ · 🧠 Nghe &amp; tìm nghĩa.</p>
                     </div>
                     <p class="text-xs font-bold text-point" id="tp-selected-count">${tpState.selectedWords.length} từ đã chọn</p>
                     <div class="neo-sunk p-1 flex gap-1 !rounded-2xl">
