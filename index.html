@@ -432,8 +432,8 @@
         <aside class="w-full md:w-[228px] neo-raised !rounded-[26px] p-3 sm:p-3.5 md:sticky md:top-2 shrink-0 self-start" id="app-sidebar">
             <!-- THƯƠNG HIỆU -->
             <div class="flex items-center gap-3 px-1.5 mb-5 overflow-hidden" id="sidebar-brand">
-                <div class="w-9 h-9 rounded-xl flex items-center justify-center overflow-hidden shrink-0" style="background:linear-gradient(135deg,#8f89ff,#6c63ff); box-shadow:3px 3px 10px rgba(91,79,207,0.4);">
-                    <img src="assets/logo-web.png" alt="Logo" class="w-full h-full object-contain p-0.5" onerror="brandLogoFallback(this)">
+                <div class="w-9 h-9 rounded-xl flex items-center justify-center overflow-hidden shrink-0" id="sidebar-brand-box">
+                    <img src="assets/logo-web.png" alt="Logo" class="w-full h-full object-contain" onerror="brandLogoFallback(this)">
                 </div>
                 <div class="sidebar-brand-text overflow-hidden leading-tight" style="white-space:nowrap;">
                     <p class="text-[9px] font-bold uppercase tracking-widest" style="color:#94a3b8;">Ngoc Quyen's</p>
@@ -6631,10 +6631,14 @@
             applySidebarCollapseState();
         }
 
-        // Logo thương hiệu thiếu → icon SVG (không dùng emoji)
+        // Logo thương hiệu thiếu → icon SVG trên nền gradient (không dùng emoji).
+        // Nền gradient CHỈ áp khi fallback; khi có logo PNG thật thì để nền trong suốt
+        // (tránh logo bị ám tím).
         function brandLogoFallback(img) {
             const box = img.parentElement;
             if (!box) return;
+            box.style.background = 'linear-gradient(135deg,#8f89ff,#6c63ff)';
+            box.style.boxShadow = '3px 3px 10px rgba(91,79,207,0.4)';
             box.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>';
         }
 
