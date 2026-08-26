@@ -433,7 +433,7 @@
     <!-- ========================================== -->
     <!-- APP SHELL: Sidebar (trái) + Cột phải (header sáng + nội dung) -->
     <!-- ========================================== -->
-    <div class="flex flex-col md:flex-row gap-5 md:gap-6 lg:gap-8 items-stretch md:items-start max-w-[1200px] mx-auto w-full">
+    <div class="flex flex-col md:flex-row gap-5 md:gap-6 lg:gap-8 items-stretch md:items-start">
         
         <!-- SIDEBAR TRÁI -->
         <aside class="w-full md:w-[228px] neo-raised !rounded-[26px] p-3 sm:p-3.5 md:sticky md:top-2 shrink-0 self-start" id="app-sidebar">
@@ -504,7 +504,8 @@
             </header>
 
             <!-- KHU VỰC NỘI DUNG CHÍNH BIẾN ĐỔI ĐỘNG -->
-            <main class="flex-1 min-w-0">
+            <!-- Chỉ GIỚI HẠN phần giữa 1250px (header phía trên vẫn trải rộng full) -->
+            <main class="flex-1 min-w-0 w-full max-w-[1250px]">
             
             <!-- VIEW TRANG CHỦ -->
             <div id="view-home-dashboard" class="view-group">
