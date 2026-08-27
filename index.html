@@ -407,6 +407,97 @@
 :root[data-theme="dark"] textarea::placeholder { color:#8892a6; }
 :root[data-theme="dark"] .neo-sunk input { color:#e6eaf3; }
 
+
+/* ============================================================ */
+/* PHÂN CẤP THỊ GIÁC CHO TRANG CHỦ (mạnh nhất ở mobile + dark)   */
+/* Vấn đề cũ: nền, thẻ, chữ gần như cùng 1 tông nên không phân   */
+/* biệt được đâu là head / subhead / nút. Cách xử lý: tiêu đề    */
+/* section có đường kẻ chân, thẻ được nâng nền + viền mảnh.       */
+/* ============================================================ */
+.home-sec-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px; padding-bottom:9px; border-bottom:1.5px solid var(--c-d8e0ec); }
+.home-sec-note { font-size:11px; font-weight:800; padding:3px 10px; border-radius:999px; background:var(--c-dde3ed); color:var(--c-64748b); white-space:nowrap; flex:0 0 auto; }
+:root[data-theme="dark"] .home-sec-head { border-bottom-color:rgba(255,255,255,0.11); }
+:root[data-theme="dark"] .home-sec-note { background:rgba(255,255,255,0.08); color:#b7c0d4; }
+
+/* Dark mode: nâng nền thẻ lên cao hơn nền trang + viền mảnh để thấy rõ ranh giới khối */
+:root[data-theme="dark"] .rd-card,
+:root[data-theme="dark"] .rd-card-sm,
+:root[data-theme="dark"] .m-card-base { background:#2f3547; border:1px solid rgba(255,255,255,0.075); }
+:root[data-theme="dark"] .rd-inset { background:#20242f; }
+:root[data-theme="dark"] .rd-watermark { color:rgba(179,171,255,0.10); }
+
+/* Dark mode: dòng từ vựng đang chọn — trước đây chữ tím đậm #3d2fa8 chìm hẳn vào nền tối */
+:root[data-theme="dark"] .vocab-row:hover { background:rgba(150,140,255,0.10); }
+:root[data-theme="dark"] .vocab-row.row-selected { background:linear-gradient(135deg, rgba(150,140,255,0.24), rgba(150,140,255,0.10)); }
+
+/* ============================================================ */
+/* THẺ "TỪ VỰNG HÔM NAY" (flashcard)                            */
+/* Mobile: đồng hồ trôi lên góc phải, từ vựng là cấp cao nhất,      */
+/* 2 nút nhỏ chia đôi hàng dưới — không còn bị ép dẹp một hàng.      */
+/* ============================================================ */
+.fc-shell { position:relative; }
+.fc-ring { position:absolute; top:0; right:0; width:44px; height:44px; flex:0 0 auto; }
+.fc-ring svg { width:100%; height:100%; transform:rotate(-90deg); display:block; }
+.fc-ring-num { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:900; color:#6c63ff; }
+.fc-main { padding-right:56px; min-width:0; }
+.fc-tags { display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px; }
+.fc-tag { font-size:10px; font-weight:900; letter-spacing:.07em; text-transform:uppercase; padding:3px 9px; border-radius:999px; flex:0 0 auto; }
+.fc-tag-wrong { background:#ffe4e8; color:#e11d48; }
+.fc-tag-saved { background:#ebe8ff; color:#5b4fcf; }
+:root[data-theme="dark"] .fc-tag-wrong { background:rgba(244,63,94,0.20); color:#ff9aab; }
+:root[data-theme="dark"] .fc-tag-saved { background:rgba(140,130,255,0.22); color:#b9b2ff; }
+.fc-meta { font-size:11px; font-weight:700; letter-spacing:.05em; color:var(--c-94a3b8); text-transform:uppercase; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.fc-word { font-family:'Noto Serif KR', serif !important; font-size:27px; line-height:1.2; font-weight:900; color:var(--c-1e293b); word-break:keep-all; }
+.fc-answer { margin-top:9px; padding-left:12px; border-left:3px solid var(--c-d1d9e4); min-height:22px; display:flex; align-items:center; transition:border-color .2s ease; }
+.fc-answer.is-open { border-left-color:#6c63ff; }
+.fc-meaning { font-size:14px; font-weight:700; color:var(--c-475569); }
+.fc-hint { font-size:13px; font-style:italic; color:var(--c-b0bac7); }
+.fc-actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:16px; flex:0 0 auto; }
+.fc-btn { display:inline-flex; align-items:center; justify-content:center; gap:6px; padding:9px 10px; border-radius:12px; font-size:12.5px; font-weight:800; background:var(--c-e6ebf3); box-shadow:4px 4px 10px var(--c-c4ccd9),-4px -4px 10px var(--c-ffffff); color:var(--c-475569); border:none; cursor:pointer; transition:box-shadow .15s ease, background .15s ease; }
+.fc-btn:active { box-shadow:inset 3px 3px 7px var(--c-c4ccd9), inset -3px -3px 7px var(--c-ffffff); }
+.fc-btn-primary { color:#6c63ff; }
+.fc-btn-primary.is-on { background:rgba(108,99,255,0.10); box-shadow:inset 3px 3px 7px var(--c-c4ccd9), inset -3px -3px 7px var(--c-ffffff); }
+.fc-dots { display:flex; justify-content:center; gap:6px; margin-top:14px; }
+.fc-empty { text-align:center; padding:16px 6px; }
+.fc-empty-title { font-size:14px; font-weight:800; color:var(--c-64748b); }
+.fc-empty-sub { font-size:12px; color:var(--c-94a3b8); margin-top:5px; line-height:1.55; }
+@media (min-width:640px){
+    .fc-shell { display:flex; align-items:center; gap:22px; }
+    .fc-ring { position:relative; top:auto; right:auto; width:56px; height:56px; }
+    .fc-ring-num { font-size:14px; }
+    .fc-main { flex:1 1 auto; padding-right:0; }
+    .fc-word { font-size:32px; }
+    .fc-actions { display:flex; margin-top:0; }
+    .fc-btn { padding:10px 16px; font-size:13px; }
+}
+
+/* ============================================================ */
+/* QUIZ NHANH — mobile: 3 thẻ bằng nhau (không còn 1 thẻ to 2 thẻ nhỏ) */
+/* ============================================================ */
+@media (max-width:1023px){
+    .qn-feature { border-radius:20px; box-shadow:6px 6px 16px var(--c-c4ccd9),-6px -6px 16px var(--c-ffffff); }
+    .qn-feature .qn-wm { font-size:52px !important; right:12px !important; top:auto !important; bottom:0 !important; }
+    .qn-card { min-height:92px; }
+}
+
+/* ============================================================ */
+/* POPUP CHI TIẾT TỪ VỰNG (mobile/tablet) — bấm 1 từ trong list là     */
+/* hiện ngay cửa sổ, không phải tự cuộn xuống cuối trang tìm card.  */
+/* ============================================================ */
+.lib-detail-overlay { position:fixed; inset:0; z-index:130; display:flex; align-items:flex-end; justify-content:center; background:rgba(14,18,30,0.55); backdrop-filter:blur(2px); }
+.lib-detail-sheet { width:100%; max-width:560px; max-height:90vh; display:flex; flex-direction:column; background:var(--c-e6ebf3); border-radius:26px 26px 0 0; box-shadow:0 -10px 40px rgba(0,0,0,0.28); animation:lib-sheet-up .26s cubic-bezier(.32,.72,.35,1); }
+:root[data-theme="dark"] .lib-detail-sheet { background:#262b3a; border-top:1px solid rgba(255,255,255,0.10); }
+@keyframes lib-sheet-up { from { transform:translateY(6%); opacity:.4; } to { transform:translateY(0); opacity:1; } }
+.lib-detail-head { position:relative; display:flex; align-items:center; justify-content:center; padding:10px 52px 6px; flex:0 0 auto; }
+.lib-detail-grab { width:42px; height:4px; border-radius:999px; background:var(--c-c0cad8); }
+.lib-detail-close { position:absolute; top:8px; right:14px; width:34px; height:34px; border-radius:999px; display:flex; align-items:center; justify-content:center; border:none; cursor:pointer; font-size:15px; background:var(--c-e6ebf3); box-shadow:4px 4px 10px var(--c-c4ccd9),-4px -4px 10px var(--c-ffffff); color:var(--c-64748b); }
+.lib-detail-body { overflow-y:auto; -webkit-overflow-scrolling:touch; padding:4px 12px 18px; }
+.lib-detail-body #right-detail-panel { position:static !important; }
+@media (min-width:640px){
+    .lib-detail-overlay { align-items:center; }
+    .lib-detail-sheet { border-radius:26px; max-height:88vh; }
+}
+
 /* ===== DARK MODE TOKENS (light = giá trị gốc, dark = override) ===== */
 :root{
   --c-111827:#111827;
@@ -439,6 +530,7 @@
   --c-1a1520:#1a1520;
   --c-1e293b:#1e293b;
   --c-1e2a4a:#1e2a4a;
+  --c-rowsel:#3d2fa8;
   --c-2d3a54:#2d3a54;
   --c-2d2d3a:#2d2d3a;
   --c-1c1917:#1c1917;
@@ -500,6 +592,7 @@
   --c-1a1520:#e8ebf4;
   --c-1e293b:#e6eaf3;
   --c-1e2a4a:#e6eaf3;
+  --c-rowsel:#c7c0ff;
   --c-2d3a54:#dfe4f0;
   --c-2d2d3a:#e2e6f1;
   --c-1c1917:#ece7e2;
@@ -672,46 +765,51 @@
 
                 <!-- SECTION 1: TỔNG QUAN -->
                 <section class="mb-8">
-                    <h3 class="home-sec-title text-[13px] font-extrabold text-[color:var(--c-516079)] tracking-[0.14em] mb-4">TỔNG QUAN</h3>
+                    <div class="home-sec-head">
+                        <h3 class="home-sec-title text-[13px] font-extrabold text-[color:var(--c-516079)] tracking-[0.14em]">TỔNG QUAN</h3>
+                        <span class="home-sec-note">Số liệu học tập</span>
+                    </div>
                     <!-- Mobile: cuộn ngang 1 hàng (đỡ dài, vẫn bao quát) · sm+: lưới 3 cột -->
                     <div class="flex sm:grid sm:grid-cols-3 overflow-x-auto sm:overflow-visible snap-x snap-mandatory gap-3 sm:gap-4 pt-4 pb-2 px-1 -mx-1 sm:pt-0 sm:pb-0 sm:px-0 sm:mx-0" id="home-status-cards"></div>
                 </section>
 
                 <!-- SECTION: TỪ VỰNG HÔM NAY (Flashcard tự chạy) -->
                 <section class="mb-8">
-                    <div class="flex items-center justify-between mb-4">
+                    <div class="home-sec-head">
                         <h3 class="home-sec-title text-[13px] font-extrabold text-[color:var(--c-516079)] tracking-[0.14em]">TỪ VỰNG HÔM NAY</h3>
-                        <span class="text-xs font-semibold" style="color:var(--c-64748b);" id="flash-counter">0 / 0</span>
+                        <span class="home-sec-note" id="flash-counter">0 / 0</span>
                     </div>
                     <div class="rd-card p-6 relative overflow-hidden" id="today-flashcard" style="min-height:120px;"></div>
                 </section>
 
                 <!-- SECTION 2: QUIZ NHANH -->
                 <section class="mb-8">
-                    <div class="flex items-center justify-between mb-4">
+                    <div class="home-sec-head">
                         <h3 class="home-sec-title text-[13px] font-extrabold text-[color:var(--c-516079)] tracking-[0.14em]">QUIZ NHANH</h3>
-                        <span class="text-xs font-semibold" style="color:var(--c-64748b);">3 chế độ</span>
+                        <span class="home-sec-note">3 chế độ</span>
                     </div>
                     <div class="flex flex-col lg:flex-row gap-4 items-stretch">
                         <!-- Thẻ nổi bật: Ôn lại từ cũ -->
-                        <button class="rd-card rd-hover p-6 relative overflow-hidden text-left flex flex-col justify-between lg:w-[42%] shrink-0" onclick="openQuizMazeSetupModal('longtime')">
-                            <span class="rd-watermark" style="right:16px; top:2px; font-size:88px;">01</span>
-                            <div class="flex items-start justify-between relative z-10">
-                                <span class="w-14 h-14 text-3xl flex items-center justify-center shrink-0"><img src="assets/icon-3d-review-old.png" alt="" class="w-full h-full object-contain" onerror="quizIconFallback(this,'clock')"></span>
-                                <div class="flex flex-col items-end gap-1">
-                                    <span class="text-[11px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full text-white rd-btn-grad">Ưu tiên</span>
-                                    <span class="text-[11px] font-semibold" style="color:var(--c-94a3b8);" id="qn-longtime-count">— từ cần ôn</span>
+                        <button class="rd-card rd-hover qn-card qn-feature px-5 py-4 lg:p-6 relative overflow-hidden text-left flex items-center gap-4 lg:flex-col lg:items-stretch lg:justify-between lg:gap-0 lg:w-[42%] shrink-0" onclick="openQuizMazeSetupModal('longtime')">
+                            <span class="rd-watermark qn-wm" style="right:16px; top:2px; font-size:88px;">01</span>
+                            <!-- Icon: 44px ở mobile (bằng thẻ 02/03), 56px ở desktop -->
+                            <span class="w-11 h-11 lg:w-14 lg:h-14 flex items-center justify-center shrink-0 relative z-10 lg:self-start"><img src="assets/icon-3d-review-old.png" alt="" class="w-full h-full object-contain" onerror="quizIconFallback(this,'clock')"></span>
+                            <div class="flex-1 min-w-0 relative z-10 lg:mt-3">
+                                <div class="flex items-center gap-2 mb-0.5 lg:mb-0">
+                                    <p class="font-black text-sm lg:text-lg leading-tight text-[color:var(--c-1e293b)]" style="letter-spacing:-0.3px;">Ôn lại từ cũ</p>
+                                    <span class="text-[11px] font-black uppercase tracking-widest px-2 py-0.5 lg:px-2.5 lg:py-1 rounded-full text-white rd-btn-grad shrink-0">Ưu tiên</span>
                                 </div>
+                                <p class="text-xs lg:text-sm lg:mt-1.5 text-[color:var(--c-475569)]" style="line-height:1.5;"><span class="lg:hidden" id="qn-longtime-count">— từ cần ôn</span><span class="hidden lg:inline">Những từ đã lâu chưa gặp lại — ôn ngay để không quên</span></p>
+                                <div class="mt-2 rounded-full overflow-hidden lg:hidden" style="height:3px; background:var(--c-d1d9e4); width:55%;"><div class="h-full rounded-full" style="width:70%; background:linear-gradient(90deg,#a5b4fc,#6c63ff);"></div></div>
+                                <span class="hidden lg:block text-[11px] font-semibold mt-2" style="color:var(--c-94a3b8);" id="qn-longtime-count-lg">— từ cần ôn</span>
                             </div>
-                            <div class="relative z-10 mt-3">
-                                <p class="font-black text-lg leading-tight text-[color:var(--c-1e293b)]" style="letter-spacing:-0.3px;">Ôn lại từ cũ</p>
-                                <p class="text-sm mt-1.5 text-[color:var(--c-475569)]" style="line-height:1.5;">Những từ đã lâu chưa gặp lại — ôn ngay để không quên</p>
-                            </div>
-                            <span class="relative z-10 mt-5 inline-flex items-center gap-2 self-start px-5 py-2.5 rounded-xl text-sm font-bold text-white rd-btn-grad">Bắt đầu ngay <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
+                            <!-- Mobile: mũi tên gọn như thẻ 02/03 · Desktop: nút CTA đầy đủ -->
+                            <span class="rd-badge shrink-0 w-8 h-8 rounded-lg relative z-10 lg:hidden" style="color:#6c63ff;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
+                            <span class="hidden lg:inline-flex relative z-10 mt-5 items-center gap-2 self-start px-5 py-2.5 rounded-xl text-sm font-bold text-white rd-btn-grad">Bắt đầu ngay <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
                         </button>
                         <!-- 2 thẻ phụ xếp dọc -->
                         <div class="flex flex-col gap-4 flex-1">
-                            <button class="rd-card-sm rd-hover-sm px-5 py-4 relative overflow-hidden text-left flex items-center gap-4 flex-1" onclick="openQuizMazeSetupModal('general')">
+                            <button class="rd-card-sm rd-hover-sm qn-card px-5 py-4 relative overflow-hidden text-left flex items-center gap-4 flex-1" onclick="openQuizMazeSetupModal('general')">
                                 <span class="rd-watermark" style="right:12px; bottom:0; font-size:52px;">02</span>
                                 <span class="w-11 h-11 text-2xl flex items-center justify-center shrink-0 relative z-10"><img src="assets/icon-3d-shuffle.png" alt="" class="w-full h-full object-contain" onerror="quizIconFallback(this,'maze')"></span>
                                 <div class="flex-1 min-w-0 relative z-10">
@@ -724,7 +822,7 @@
                                 </div>
                                 <span class="rd-badge shrink-0 w-8 h-8 rounded-lg relative z-10" style="color:#6c63ff;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
                             </button>
-                            <button class="rd-card-sm rd-hover-sm px-5 py-4 relative overflow-hidden text-left flex items-center gap-4 flex-1" onclick="openTopicPracticeSetup()">
+                            <button class="rd-card-sm rd-hover-sm qn-card px-5 py-4 relative overflow-hidden text-left flex items-center gap-4 flex-1" onclick="openTopicPracticeSetup()">
                                 <span class="rd-watermark" style="right:12px; bottom:0; font-size:52px;">03</span>
                                 <span class="w-11 h-11 text-2xl flex items-center justify-center shrink-0 relative z-10"><img src="assets/icon-3d-topic.png" alt="" class="w-full h-full object-contain" onerror="quizIconFallback(this,'folder')"></span>
                                 <div class="flex-1 min-w-0 relative z-10">
@@ -743,7 +841,10 @@
 
                 <!-- SECTION 3: TỪ VỰNG TRONG SỔ -->
                 <section class="mb-6">
-                    <h3 class="home-sec-title text-[13px] font-extrabold text-[color:var(--c-516079)] tracking-[0.14em] mb-4">TỪ VỰNG TRONG SỔ</h3>
+                    <div class="home-sec-head">
+                        <h3 class="home-sec-title text-[13px] font-extrabold text-[color:var(--c-516079)] tracking-[0.14em]">TỪ VỰNG TRONG SỔ</h3>
+                        <span class="home-sec-note">Bấm 1 từ để xem chi tiết</span>
+                    </div>
                     <div class="flex flex-col lg:flex-row gap-5 lg:gap-6 items-stretch lg:items-start w-full">
                         <div class="w-full lg:flex-[3_1_0%] min-w-0 neo-raised !rounded-[28px] overflow-hidden">
                             <div class="p-4 border-b border-[color:var(--c-d8e0ec)]">
@@ -2035,7 +2136,7 @@
                         <!-- Hàn + Việt: chiếm phần lớn (flex-[2]); Hàn:Việt = 3:2 -->
                         <div class="flex-[2] min-w-0 flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-2 self-center">
                             <div class="sm:flex-[3] min-w-0 self-start sm:self-center flex items-center gap-1.5 text-left">
-                                <span class="vr-korean text-base font-black leading-snug block whitespace-normal break-words text-left" style="color:${selected ? '#3d2fa8' : 'var(--c-1e2a4a)'};">${item.word}</span>
+                                <span class="vr-korean text-base font-black leading-snug block whitespace-normal break-words text-left" style="color:${selected ? 'var(--c-rowsel)' : 'var(--c-1e2a4a)'};">${item.word}</span>
                                 <span class="lib-lv-inline items-center gap-1 rounded-full px-1.5 py-0.5 text-[11px] font-bold whitespace-nowrap tracking-wide shrink-0 self-start mt-0.5" style="background:${c}22; color:${c};">${item.level}급</span>
                             </div>
                             <div class="sm:flex-[2] min-w-0 flex flex-col justify-center self-stretch sm:self-center text-left">
@@ -2162,10 +2263,65 @@
             selectedWordId = data.id;
             renderVocabRows();
             renderDetailCard(globalIndex);
+            // Màn hình hẹp: card chi tiết nằm tận cuối trang nên user phải tự kéo xuống mới thấy.
+            // → Bê nguyên card đó lên một popup dạng bottom sheet, xem xong đóng lại là về chỗ cũ.
+            if (isNarrowDetailLayout()) openLibraryDetailPopup();
             // Cuộn tới dòng đang chọn (hữu ích khi điều hướng bằng phím ↑↓)
             const rowEl = document.querySelector(`#library-vocab-list .vocab-row[data-index="${globalIndex}"]`);
             if (rowEl) rowEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
         }
+
+        // ---- Popup card chi tiết cho màn hình hẹp (< lg, tức khi bố cục 2 cột chưa bật) ----
+        // Cố ý DI CHUYỂN chính <aside id="right-detail-panel"> vào popup thay vì clone HTML:
+        // renderDetailCard() gắn listener bằng addEventListener (nút loa, bookmark, accordion…),
+        // clone sẽ mất sạch những listener đó. Đóng popup thì trả node về đúng vị trí cũ.
+        let libDetailHost = null;
+
+        function isNarrowDetailLayout() {
+            return window.matchMedia('(max-width: 1023px)').matches;
+        }
+
+        function openLibraryDetailPopup() {
+            const aside = document.getElementById('right-detail-panel');
+            if (!aside || document.getElementById('lib-detail-modal')) return;
+            libDetailHost = { parent: aside.parentNode, next: aside.nextSibling };
+            const overlay = document.createElement('div');
+            overlay.id = 'lib-detail-modal';
+            overlay.className = 'lib-detail-overlay';
+            overlay.onclick = (e) => { if (e.target === overlay) closeLibraryDetailPopup(); };
+            overlay.innerHTML = `
+                <div class="lib-detail-sheet">
+                    <div class="lib-detail-head">
+                        <span class="lib-detail-grab"></span>
+                        <button class="lib-detail-close" title="Đóng" onclick="closeLibraryDetailPopup()">✕</button>
+                    </div>
+                    <div class="lib-detail-body" id="lib-detail-slot"></div>
+                </div>`;
+            document.body.appendChild(overlay);
+            document.getElementById('lib-detail-slot').appendChild(aside);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLibraryDetailPopup() {
+            const overlay = document.getElementById('lib-detail-modal');
+            if (!overlay) return;
+            const aside = document.getElementById('right-detail-panel');
+            if (aside && libDetailHost && libDetailHost.parent) {
+                libDetailHost.parent.insertBefore(aside, libDetailHost.next);
+            }
+            libDetailHost = null;
+            overlay.remove();
+            document.body.style.overflow = '';
+        }
+
+        // Đóng popup bằng phím Esc, và tự đóng khi xoay ngang / phóng to lên bố cục 2 cột
+        // (nếu không, <aside> sẽ kẹt trong popup trong khi trang đã đủ chỗ hiện nó bên phải).
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && document.getElementById('lib-detail-modal')) closeLibraryDetailPopup();
+        });
+        window.addEventListener('resize', () => {
+            if (!isNarrowDetailLayout() && document.getElementById('lib-detail-modal')) closeLibraryDetailPopup();
+        });
 
         // Bấm vào 1 từ liên quan trên card chi tiết thư viện: nếu từ đó thuộc đúng
         // thư viện đang mở (còn trong vocabDatabase) thì chọn ngay trong list (giữ list
@@ -2504,6 +2660,7 @@
             if (currentVisible && currentVisible.id !== 'view-search-results') {
                 headerSearchPrevView = currentVisible.id;
             }
+            if (typeof closeLibraryDetailPopup === 'function') closeLibraryDetailPopup();
             document.querySelectorAll('.view-group').forEach(v => v.classList.add('hidden'));
             const view = document.getElementById('view-search-results');
             if (view) view.classList.remove('hidden');
@@ -3686,6 +3843,7 @@
             document.getElementById('practice-subtitle').textContent = `${words.length} từ vựng`;
             renderNewWordsBanner();
 
+            if (typeof closeLibraryDetailPopup === 'function') closeLibraryDetailPopup();
             document.querySelectorAll('.view-group').forEach(v => v.classList.add('hidden'));
             document.getElementById('view-practice-stage').classList.remove('hidden');
             [document.getElementById('tab-notebook'), document.getElementById('tab-full-topik'), document.getElementById('tab-fast-pace')].forEach(el => {
@@ -5138,7 +5296,7 @@
 
             if (profilePopupSettingsMode) {
                 const defaultShowMeaning = getDefaultMeaningVisible();
-                const tickerSec = getTickerIntervalSec();
+                const flashSec = getFlashSeconds();
                 popup.innerHTML = `
                     <div class="flex items-center gap-2 px-2 pb-2">
                         <button class="w-7 h-7 rounded-full neo-button flex items-center justify-center text-gray-400 shrink-0" title="Quay lại" onclick="profilePopupSettingsMode = false; renderProfilePopupContent();">
@@ -5158,13 +5316,16 @@
                         </div>
                         <div class="flex items-center justify-between gap-2">
                             <div class="min-w-0">
-                                <p class="text-xs font-bold text-[color:var(--c-1a1a24)]">Tốc độ chạy từ ngẫu nhiên</p>
-                                <p class="text-[11px] text-gray-400 mt-0.5">Số giây hiển thị 1 từ ở Trang chủ</p>
+                                <p class="text-xs font-bold text-[color:var(--c-1a1a24)]">Tốc độ "Từ vựng hôm nay"</p>
+                                <p class="text-[11px] text-gray-400 mt-0.5">Số giây hiện 1 từ trước khi tự chuyển (3–60)</p>
                             </div>
                             <div class="flex items-center gap-1.5 shrink-0">
-                                <input type="number" min="3" max="60" value="${tickerSec}" class="neo-sunk px-2 py-1.5 !rounded-xl text-xs w-14 text-center outline-none border-none bg-transparent font-bold" id="ticker-sec-input" onchange="setTickerIntervalSec(this.value)">
+                                <input type="number" min="3" max="60" value="${flashSec}" class="neo-sunk px-2 py-1.5 !rounded-xl text-xs w-14 text-center outline-none border-none bg-transparent font-bold" id="flash-sec-input" onchange="setFlashSeconds(this.value)">
                                 <span class="text-[12px] text-gray-400 font-bold">giây</span>
                             </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            ${[5, 10, 20, 30].map(v => `<button class="flex-1 py-1.5 !rounded-xl text-[11px] font-bold ${flashSec === v ? 'neo-sunk text-point' : 'neo-button text-gray-400'}" onclick="setFlashSeconds(${v})">${v}s</button>`).join('')}
                         </div>
                     </div>
                 `;
@@ -5392,8 +5553,8 @@
                 statCard({ label: 'Đã học', value: `${learnedCount} từ`, sub: 'Xem theo bộ lọc', color: '#16a34a', img: 'icon-3d-learned.png', svg: 'bookCheck', click: 'openLearnedWordsModal()' }) +
                 statCard({ label: 'Cần luyện', value: `${wrongWords.length} từ`, sub: 'Ôn lại để nhớ vững', color: '#ef4444', img: 'icon-3d-practice.png', svg: 'warning', click: 'openNeedPracticeWordsModal()' });
             // Cập nhật số liệu động cho khối Quiz nhanh
-            const lc = document.getElementById('qn-longtime-count');
-            if (lc) lc.textContent = `${wrongWords.length} từ cần ôn`;
+            [document.getElementById('qn-longtime-count'), document.getElementById('qn-longtime-count-lg')]
+                .forEach(lc => { if (lc) lc.textContent = `${wrongWords.length} từ cần ôn`; });
             const gc = document.getElementById('qn-general-count');
             if (gc) gc.textContent = `${learnedCount} từ`;
             startTodayFlashcard();
@@ -5488,21 +5649,43 @@
         // Pool = từ đã học thuộc + từ trong mọi sổ tay (làm giàu thêm cấp độ/nguồn
         // từ allLibraryCache). Thay cho thanh chạy chữ cũ.
         // ============================================================
-        const FLASH_SECONDS = 10;
-        let flashPool = [], flashIdx = 0, flashRevealed = false, flashTimeLeft = FLASH_SECONDS, flashTimer = null;
+        // Tốc độ đổi từ: user chỉnh trong Cài đặt (3–60 giây), lưu ở localStorage.
+        const FLASH_SEC_DEFAULT = 10;
+        function getFlashSeconds() {
+            const v = parseInt(localStorage.getItem('vocabapp_flashSeconds'), 10);
+            return (Number.isFinite(v) && v >= 3 && v <= 60) ? v : FLASH_SEC_DEFAULT;
+        }
+        function setFlashSeconds(value) {
+            let v = parseInt(value, 10);
+            if (!Number.isFinite(v)) v = FLASH_SEC_DEFAULT;
+            v = Math.min(60, Math.max(3, v));
+            localStorage.setItem('vocabapp_flashSeconds', String(v));
+            restartTodayFlashcard(); // áp dụng ngay, không cần tải lại trang
+            renderProfilePopupContent();
+        }
+        let flashPool = [], flashIdx = 0, flashRevealed = false, flashTimeLeft = FLASH_SEC_DEFAULT, flashTimer = null;
 
+        // Pool CHỈ gồm: (1) từ user đã từng làm sai trong quiz, (2) từ user đã bỏ vào sổ tay.
+        // Cố ý KHÔNG lấy ngẫu nhiên trong "từ đã học" — mục này để ôn thứ chưa chắc, không phải
+        // để khoe từ đã thuộc. Từ làm sai xếp trước vì đó là thứ cần ôn gấp nhất.
         function buildTodayFlashPool() {
             const lib = allLibraryCache || [];
             const map = new Map();
-            Object.keys(learnedWordsMap || {}).forEach(id => {
-                const w = lib.find(x => x.id === id);
-                if (w) map.set(id, { word: w.word, meaning: w.vietnamese || w.deep_meaning || '', book: BULK_LIB_LABELS[w.source] || w.topic || '', level: w.level || '' });
-            });
-            (notebooksList || []).forEach(nb => (nb.words || []).forEach(w => {
-                if (!w.word || map.has(w.id)) return;
-                const full = lib.find(x => x.id === w.id);
-                map.set(w.id, { word: w.word, meaning: w.vietnamese || (full && (full.vietnamese || full.deep_meaning)) || '', book: (full && (BULK_LIB_LABELS[full.source] || full.topic)) || nb.name || '', level: (full && full.level) || '' });
-            }));
+            const put = (id, base, tag, fallbackBook) => {
+                if (!id || map.has(id)) return;
+                const full = lib.find(x => x.id === id) || null;
+                const word = (base && base.word) || (full && full.word);
+                if (!word) return;
+                map.set(id, {
+                    word,
+                    meaning: (base && base.vietnamese) || (full && (full.vietnamese || full.deep_meaning)) || '',
+                    book: (full && (BULK_LIB_LABELS[full.source] || full.topic)) || fallbackBook || '',
+                    level: (full && full.level) || (base && base.level) || '',
+                    tag
+                });
+            };
+            collectWrongWords().forEach(w => put(w.id, w, 'wrong', ''));
+            (notebooksList || []).forEach(nb => (nb.words || []).forEach(w => put(w.id, w, 'saved', nb.name)));
             return [...map.values()];
         }
 
@@ -5512,10 +5695,15 @@
                 flashPool = buildTodayFlashPool();
                 if (flashIdx >= flashPool.length) flashIdx = 0;
                 flashRevealed = false;
-                flashTimeLeft = FLASH_SECONDS;
+                flashTimeLeft = getFlashSeconds();
                 renderTodayFlashcard();
                 if (flashPool.length > 1) flashTimer = setInterval(flashTick, 1000);
             });
+        }
+
+        function restartTodayFlashcard() {
+            if (flashTimer) { clearInterval(flashTimer); flashTimer = null; }
+            startTodayFlashcard();
         }
 
         function flashTick() {
@@ -5529,7 +5717,7 @@
         function updateFlashRing() {
             const C = 2 * Math.PI * 23;
             const fg = document.getElementById('flash-ring-fg');
-            if (fg) fg.setAttribute('stroke-dashoffset', String(C * (1 - flashTimeLeft / FLASH_SECONDS)));
+            if (fg) fg.setAttribute('stroke-dashoffset', String(C * (1 - flashTimeLeft / getFlashSeconds())));
             const num = document.getElementById('flash-count-num');
             if (num) num.textContent = flashTimeLeft;
         }
@@ -5540,7 +5728,7 @@
             if (!flashPool.length) return;
             flashIdx = (flashIdx + 1) % flashPool.length;
             flashRevealed = false;
-            flashTimeLeft = FLASH_SECONDS;
+            flashTimeLeft = getFlashSeconds();
             renderTodayFlashcard();
         }
 
@@ -5550,42 +5738,52 @@
             const counter = document.getElementById('flash-counter');
             if (!flashPool.length) {
                 if (counter) counter.textContent = '0 / 0';
-                el.innerHTML = `<p class="text-sm text-gray-400 text-center py-6" style="font-family:'Plus Jakarta Sans',sans-serif;">Học hoặc lưu vài từ vựng để xem flashcard ôn tập ở đây nhé!</p>`;
+                el.innerHTML = `
+                    <div class="fc-empty">
+                        <p class="fc-empty-title">Chưa có từ nào cần ôn</p>
+                        <p class="fc-empty-sub">Mục này chỉ hiện những từ bạn đã làm sai trong quiz hoặc đã lưu vào sổ tay.<br>Làm một bài quiz hoặc lưu vài từ để bắt đầu nhé!</p>
+                    </div>`;
                 return;
             }
             const w = flashPool[flashIdx];
+            const total = getFlashSeconds();
             if (counter) counter.textContent = `${flashIdx + 1} / ${flashPool.length}`;
             const C = 2 * Math.PI * 23;
-            const offset = C * (1 - flashTimeLeft / FLASH_SECONDS);
+            const offset = C * (1 - flashTimeLeft / total);
             const meta = [w.book, w.level ? `Lv.${w.level}` : ''].filter(Boolean).join(' · ');
             const dotsN = Math.min(flashPool.length, 15);
             const activeDot = flashIdx % dotsN;
+            const tagHtml = w.tag === 'wrong'
+                ? `<span class="fc-tag fc-tag-wrong">Từng làm sai</span>`
+                : `<span class="fc-tag fc-tag-saved">Trong sổ tay</span>`;
             el.innerHTML = `
-                <div class="flex items-center gap-5 flex-wrap sm:flex-nowrap">
-                    <div class="relative shrink-0" style="width:56px; height:56px;">
-                        <svg width="56" height="56" style="transform:rotate(-90deg);">
-                            <circle cx="28" cy="28" r="23" fill="none" stroke="#dde3ed" stroke-width="4"></circle>
+                <div class="fc-shell">
+                    <!-- Đồng hồ đếm ngược: ở mobile trôi lên góc phải để nhường chỗ cho từ vựng -->
+                    <div class="fc-ring">
+                        <svg viewBox="0 0 56 56">
+                            <circle cx="28" cy="28" r="23" fill="none" stroke="var(--c-dde3ed)" stroke-width="4"></circle>
                             <circle id="flash-ring-fg" cx="28" cy="28" r="23" fill="none" stroke="#6c63ff" stroke-width="4" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${offset}" style="transition:stroke-dashoffset 1s linear;"></circle>
                         </svg>
-                        <span class="absolute inset-0 flex items-center justify-center text-sm font-black" style="color:#6c63ff;" id="flash-count-num">${flashTimeLeft}</span>
+                        <span class="fc-ring-num" id="flash-count-num">${flashTimeLeft}</span>
                     </div>
-                    <div class="flex-1 min-w-0">
-                        ${meta ? `<p class="text-[11px] font-bold uppercase tracking-widest mb-1" style="color:var(--c-94a3b8);">${meta}</p>` : ''}
-                        <p class="text-3xl font-black leading-tight font-kr-serif text-[color:var(--c-1e293b)]">${w.word}</p>
-                        <div class="mt-2 min-h-[20px]">
+                    <div class="fc-main">
+                        <!-- Cấp 3: nhãn nguồn -->
+                        <div class="fc-tags">${tagHtml}${meta ? `<span class="fc-meta">${meta}</span>` : ''}</div>
+                        <!-- Cấp 1: từ vựng -->
+                        <p class="fc-word">${w.word}</p>
+                        <!-- Cấp 2: nghĩa, có vạch dọc để tách khỏi từ -->
+                        <div class="fc-answer ${flashRevealed ? 'is-open' : ''}">
                             ${flashRevealed
-                                ? `<p class="text-sm font-semibold text-[color:var(--c-475569)]">${w.meaning || '—'}</p>`
-                                : `<p class="text-sm italic text-[color:var(--c-b0bac7)]">Bạn có nhớ nghĩa không?</p>`}
+                                ? `<p class="fc-meaning">${w.meaning || '—'}</p>`
+                                : `<p class="fc-hint">Bạn có nhớ nghĩa không?</p>`}
                         </div>
                     </div>
-                    <div class="flex gap-2.5 shrink-0">
-                        <button class="rd-badge px-4 py-2.5 rounded-xl text-sm font-semibold inline-flex items-center gap-2" style="color:#6c63ff; ${flashRevealed ? 'background:rgba(108,99,255,0.10); box-shadow:inset 3px 3px 7px var(--c-c4ccd9), inset -3px -3px 7px #fff;' : ''}" onclick="flashReveal()">${flashRevealed
-                            ? '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg> Ẩn'
-                            : '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> Xem nghĩa'}</button>
-                        <button class="rd-badge px-4 py-2.5 rounded-xl text-sm font-semibold inline-flex items-center gap-2 text-[color:var(--c-475569)]" onclick="flashNext()">Từ tiếp <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="5 4 15 12 5 20"></polyline><line x1="19" y1="5" x2="19" y2="19"></line></svg></button>
+                    <div class="fc-actions">
+                        <button class="fc-btn fc-btn-primary ${flashRevealed ? 'is-on' : ''}" onclick="flashReveal()">${flashRevealed ? `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg> Ẩn nghĩa` : `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> Xem nghĩa`}</button>
+                        <button class="fc-btn" onclick="flashNext()">Từ tiếp <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="5 4 15 12 5 20"></polyline><line x1="19" y1="5" x2="19" y2="19"></line></svg></button>
                     </div>
                 </div>
-                <div class="flex justify-center gap-1.5 mt-4">
+                <div class="fc-dots">
                     ${Array.from({ length: dotsN }).map((_, i) => `<span class="rd-flash-dot" style="width:${i === activeDot ? 16 : 5}px; background:${i === activeDot ? '#6c63ff' : 'var(--c-d1d9e4)'};"></span>`).join('')}
                 </div>
             `;
@@ -5809,6 +6007,7 @@
         }
 
         function buildAndShowQuizMaze(picked, fullPool, mode) {
+            if (typeof closeLibraryDetailPopup === 'function') closeLibraryDetailPopup();
             document.querySelectorAll('.view-group').forEach(v => v.classList.add('hidden'));
             const view = document.getElementById('view-quiz-maze');
             if (view) view.classList.remove('hidden');
@@ -6330,6 +6529,7 @@
         async function openActivityDashboard() {
             const currentVisible = [...document.querySelectorAll('.view-group')].find(v => !v.classList.contains('hidden'));
             if (currentVisible && currentVisible.id !== 'view-activity-dashboard') dashboardPrevView = currentVisible.id;
+            if (typeof closeLibraryDetailPopup === 'function') closeLibraryDetailPopup();
             document.querySelectorAll('.view-group').forEach(v => v.classList.add('hidden'));
             const view = document.getElementById('view-activity-dashboard');
             if (view) view.classList.remove('hidden');
