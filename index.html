@@ -31,7 +31,7 @@
               sans: ['Plus Jakarta Sans', 'Noto Serif KR', 'sans-serif'],
               display: ['Nunito', 'Noto Serif KR', 'sans-serif'],
               korean: ['Noto Serif KR', 'serif'],
-              mono: ['DM Mono', 'monospace'],
+              mono: ['IBM Plex Mono', 'monospace'],
             }
           }
         }
@@ -41,7 +41,7 @@
     <!-- Nhúng các bộ font chữ hệ thống -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=Nunito:wght@600;700;800;900&family=Noto+Serif+KR:wght@500;700&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=Nunito:wght@600;700;800;900&family=Noto+Serif+KR:wght@500;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -67,7 +67,7 @@
         * { font-family: 'Plus Jakarta Sans', 'Noto Serif KR', sans-serif; }
         /* HEADING / SỐ LỚN / TITLE CARD: Nunito (rounded display). Chữ Hàn vẫn rơi về Noto Serif KR. */
         h1, h2, h3, h4, h5, h6, .font-black, .font-extrabold, .font-display { font-family: 'Nunito', 'Noto Serif KR', sans-serif; }
-        .font-mono, .font-dm { font-family: 'DM Mono', monospace !important; }
+        .font-mono, .font-dm { font-family: 'IBM Plex Mono', monospace !important; }
 
         body { background-color: var(--bg-color); }
         .neo-raised { background: var(--c-e6ebf3); box-shadow: var(--shadow-raised); border-radius: 28px; }
@@ -83,7 +83,7 @@
 
         .font-kr-serif { font-family: 'Noto Serif KR', serif !important; }
         .font-chiron-custom { font-family: 'Plus Jakarta Sans', 'Noto Serif KR', sans-serif !important; }
-        .modern-font-mono { font-family: 'DM Mono', monospace !important; }
+        .modern-font-mono { font-family: 'IBM Plex Mono', monospace !important; }
 
         /* Các khối mảng miếng dập bóng theo đúng Spec linh hồn React */
         .m-card-base { background: var(--c-e6ebf3); box-shadow: var(--card-shadow); border-radius: 20px; padding: 24px; }
@@ -484,18 +484,36 @@
 /* POPUP CHI TIẾT TỪ VỰNG (mobile/tablet) — bấm 1 từ trong list là     */
 /* hiện ngay cửa sổ, không phải tự cuộn xuống cuối trang tìm card.  */
 /* ============================================================ */
-.lib-detail-overlay { position:fixed; inset:0; z-index:130; display:flex; align-items:flex-end; justify-content:center; background:rgba(14,18,30,0.55); backdrop-filter:blur(2px); }
-.lib-detail-sheet { width:100%; max-width:560px; max-height:90vh; display:flex; flex-direction:column; background:var(--c-e6ebf3); border-radius:26px 26px 0 0; box-shadow:0 -10px 40px rgba(0,0,0,0.28); animation:lib-sheet-up .26s cubic-bezier(.32,.72,.35,1); }
+.lib-detail-overlay { position:fixed; inset:0; z-index:130; display:flex; align-items:flex-end; justify-content:center; background:rgba(14,18,30,0.55); backdrop-filter:blur(2px); animation:lib-fade-in .22s ease both; }
+.lib-detail-overlay.is-closing { animation:lib-fade-in .2s ease both reverse; }
+.lib-detail-sheet { width:100%; max-width:560px; max-height:90vh; display:flex; flex-direction:column; background:var(--c-e6ebf3); border-radius:26px 26px 0 0; box-shadow:0 -10px 40px rgba(0,0,0,0.28); animation:lib-sheet-up .34s cubic-bezier(.22,.9,.3,1) both; }
+.lib-detail-overlay.is-closing .lib-detail-sheet { animation:lib-sheet-up .2s ease both reverse; }
 :root[data-theme="dark"] .lib-detail-sheet { background:#262b3a; border-top:1px solid rgba(255,255,255,0.10); }
-@keyframes lib-sheet-up { from { transform:translateY(6%); opacity:.4; } to { transform:translateY(0); opacity:1; } }
-.lib-detail-head { position:relative; display:flex; align-items:center; justify-content:center; padding:10px 52px 6px; flex:0 0 auto; }
+/* Trượt hẳn từ mép dưới lên: cho user thấy rõ card "từ đâu ra", không phải bỗng dưng hiện */
+@keyframes lib-fade-in { from { opacity:0; } to { opacity:1; } }
+@keyframes lib-sheet-up { from { transform:translateY(100%); } to { transform:translateY(0); } }
+/* Head phải đủ cao để chứa trọn nút ✕ 34px (trước đây chỉ ~20px nên nút tràn xuống
+   vùng body và bị card chi tiết đè lên) + z-index để luôn nằm trên nội dung. */
+.lib-detail-head { position:relative; z-index:2; display:flex; align-items:center; justify-content:center; min-height:48px; padding:12px 56px 8px; flex:0 0 auto; }
 .lib-detail-grab { width:42px; height:4px; border-radius:999px; background:var(--c-c0cad8); }
-.lib-detail-close { position:absolute; top:8px; right:14px; width:34px; height:34px; border-radius:999px; display:flex; align-items:center; justify-content:center; border:none; cursor:pointer; font-size:15px; background:var(--c-e6ebf3); box-shadow:4px 4px 10px var(--c-c4ccd9),-4px -4px 10px var(--c-ffffff); color:var(--c-64748b); }
-.lib-detail-body { overflow-y:auto; -webkit-overflow-scrolling:touch; padding:4px 12px 18px; }
-.lib-detail-body #right-detail-panel { position:static !important; }
+.lib-detail-close { position:absolute; z-index:3; top:9px; right:14px; width:34px; height:34px; border-radius:999px; display:flex; align-items:center; justify-content:center; border:none; cursor:pointer; font-size:15px; background:var(--c-e6ebf3); box-shadow:4px 4px 10px var(--c-c4ccd9),-4px -4px 10px var(--c-ffffff); color:var(--c-64748b); }
+.lib-detail-close:active { box-shadow:inset 3px 3px 7px var(--c-c4ccd9), inset -3px -3px 7px var(--c-ffffff); }
+.lib-detail-body { position:relative; z-index:1; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:0 12px 18px; }
+.lib-detail-body #right-detail-panel { position:static !important; display:block !important; }
 @media (min-width:640px){
     .lib-detail-overlay { align-items:center; }
     .lib-detail-sheet { border-radius:26px; max-height:88vh; }
+    @keyframes lib-sheet-up { from { transform:translateY(14px) scale(.97); } to { transform:translateY(0) scale(1); } }
+}
+/* Card chi tiết fade + trượt nhẹ mỗi lần đổi từ (dùng chung cho cả popup lẫn cột phải desktop) */
+@keyframes lib-card-in { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+.lib-card-in { animation:lib-card-in .3s cubic-bezier(.22,.9,.32,1) both; }
+/* Màn hình hẹp: card chi tiết CHỈ sống trong popup — bỏ bản nằm dưới list cho khỏi trùng */
+@media (max-width:1023px){
+    #right-detail-panel { display:none; }
+}
+@media (prefers-reduced-motion: reduce){
+    .lib-detail-overlay, .lib-detail-sheet, .lib-card-in { animation:none !important; }
 }
 
 /* ===== DARK MODE TOKENS (light = giá trị gốc, dark = override) ===== */
@@ -957,8 +975,9 @@
                         <!-- JS render nội dung filter bar (급 chips + dropdown Chủ đề/Loại từ/Dạng câu) -->
                     </div>
 
-                    <!-- LIST PANEL — mobile: sticky, fix height ~1/3 màn hình để đẩy card chi tiết lên gần, dễ vuốt xuống xem -->
-                    <div class="lib-list-panel-mobile-light neo-raised flex flex-col overflow-hidden !rounded-[28px] sticky top-2 z-20 h-[34vh] lg:static lg:top-auto lg:z-auto lg:h-auto" style="min-height:0;">
+                    <!-- LIST PANEL — mobile: cao 65vh để thấy 6-7 từ cùng lúc (card chi tiết nay mở
+                         bằng popup nên list không cần nhường chỗ cho nó ở dưới nữa) -->
+                    <div class="lib-list-panel-mobile-light neo-raised flex flex-col overflow-hidden !rounded-[28px] h-[65vh] lg:h-auto" style="min-height:0;">
                             <!-- Column header (ẩn trên mobile để dành chỗ cho rows) -->
                             <!-- Cấu trúc mới: Hàn+Việt (flex-[2]) chiếm phần lớn; cột meta (flex-1) GỌN,
                                  chỉ hiện khi bấm THU GỌN card chi tiết (.lib-col-meta) -->
@@ -966,16 +985,16 @@
                                 <span class="w-6 shrink-0"></span>
                                 <span class="w-[3px] shrink-0"></span>
                                 <div class="flex-[2] min-w-0 flex items-center gap-2">
-                                    <span class="flex-[3] min-w-0 text-[11px] text-[color:var(--c-7d8aa6)] font-bold uppercase tracking-wider" style="font-family:'DM Mono',monospace !important;">Từ vựng</span>
-                                    <span class="flex-[2] min-w-0 text-[11px] text-[color:var(--c-7d8aa6)] font-bold uppercase tracking-wider" style="font-family:'DM Mono',monospace !important;">Nghĩa</span>
+                                    <span class="flex-[3] min-w-0 text-[11px] text-[color:var(--c-7d8aa6)] font-bold uppercase tracking-wider" style="font-family:'IBM Plex Mono',monospace !important;">Từ vựng</span>
+                                    <span class="flex-[2] min-w-0 text-[11px] text-[color:var(--c-7d8aa6)] font-bold uppercase tracking-wider" style="font-family:'IBM Plex Mono',monospace !important;">Nghĩa</span>
                                 </div>
                                 <div class="lib-col-meta flex-1 min-w-0 items-center gap-2">
-                                    <span class="w-10 shrink-0 text-[11px] text-[color:var(--c-7d8aa6)] font-bold uppercase tracking-wider" style="font-family:'DM Mono',monospace !important;">Cấp</span>
-                                    <span class="flex-1 min-w-0 truncate text-[11px] text-[color:var(--c-7d8aa6)] font-bold uppercase tracking-wider" style="font-family:'DM Mono',monospace !important;">Chủ đề</span>
-                                    <span class="flex-1 min-w-0 truncate text-[11px] text-[color:var(--c-7d8aa6)] font-bold uppercase tracking-wider" style="font-family:'DM Mono',monospace !important;">Loại từ</span>
-                                    <span class="flex-1 min-w-0 truncate text-[11px] text-[color:var(--c-7d8aa6)] font-bold uppercase tracking-wider" style="font-family:'DM Mono',monospace !important;">Dạng câu</span>
+                                    <span class="w-10 shrink-0 text-[11px] text-[color:var(--c-7d8aa6)] font-bold uppercase tracking-wider" style="font-family:'IBM Plex Mono',monospace !important;">Cấp</span>
+                                    <span class="flex-1 min-w-0 truncate text-[11px] text-[color:var(--c-7d8aa6)] font-bold uppercase tracking-wider" style="font-family:'IBM Plex Mono',monospace !important;">Chủ đề</span>
+                                    <span class="flex-1 min-w-0 truncate text-[11px] text-[color:var(--c-7d8aa6)] font-bold uppercase tracking-wider" style="font-family:'IBM Plex Mono',monospace !important;">Loại từ</span>
+                                    <span class="flex-1 min-w-0 truncate text-[11px] text-[color:var(--c-7d8aa6)] font-bold uppercase tracking-wider" style="font-family:'IBM Plex Mono',monospace !important;">Dạng câu</span>
                                 </div>
-                                <span class="w-14 shrink-0 text-[11px] text-[color:var(--c-7d8aa6)] font-bold uppercase tracking-wider text-center" style="font-family:'DM Mono',monospace !important;">TT</span>
+                                <span class="w-14 shrink-0 text-[11px] text-[color:var(--c-7d8aa6)] font-bold uppercase tracking-wider text-center" style="font-family:'IBM Plex Mono',monospace !important;">TT</span>
                                 <button class="w-7 h-7 shrink-0 rounded-lg neo-button flex items-center justify-center text-[#6c63ff]" onclick="toggleLibDetailCollapse()" id="lib-collapse-btn" title="Thu gọn thẻ chi tiết để xem đầy đủ danh sách">
                                     <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" id="lib-collapse-icon"><polyline points="9 18 15 12 9 6"></polyline></svg>
                                 </button>
@@ -1691,7 +1710,7 @@
             return `
                 <div class="flex flex-col gap-2 text-left">
                     <div class="flex items-center justify-between gap-2">
-                        <div style="font-size:10px; font-weight:700; color:var(--c-374151); letter-spacing:0.14em; text-transform:uppercase; font-family:'DM Mono',monospace;" class="${extraLabelClass || ''}">${labelText}</div>
+                        <div style="font-size:10px; font-weight:700; color:var(--c-374151); letter-spacing:0.14em; text-transform:uppercase; font-family:'IBM Plex Mono',monospace;" class="${extraLabelClass || ''}">${labelText}</div>
                         ${buildMeaningToggleHtml(wordId, rerenderExpr)}
                     </div>
                     ${visible
@@ -2276,12 +2295,16 @@
         // renderDetailCard() gắn listener bằng addEventListener (nút loa, bookmark, accordion…),
         // clone sẽ mất sạch những listener đó. Đóng popup thì trả node về đúng vị trí cũ.
         let libDetailHost = null;
+        let libDetailFinishClose = null; // popup đang chạy animation đóng, cần chốt xong trước khi mở cái mới
 
         function isNarrowDetailLayout() {
             return window.matchMedia('(max-width: 1023px)').matches;
         }
 
         function openLibraryDetailPopup() {
+            // Nếu vừa bấm đóng rồi chọn từ khác ngay: chốt dứt điểm popup cũ (trả <aside> về chỗ)
+            // TRƯỚC khi mở popup mới, nếu không hai popup sẽ giành nhau cùng một node.
+            if (libDetailFinishClose) libDetailFinishClose();
             const aside = document.getElementById('right-detail-panel');
             if (!aside || document.getElementById('lib-detail-modal')) return;
             libDetailHost = { parent: aside.parentNode, next: aside.nextSibling };
@@ -2304,14 +2327,29 @@
 
         function closeLibraryDetailPopup() {
             const overlay = document.getElementById('lib-detail-modal');
-            if (!overlay) return;
-            const aside = document.getElementById('right-detail-panel');
-            if (aside && libDetailHost && libDetailHost.parent) {
-                libDetailHost.parent.insertBefore(aside, libDetailHost.next);
-            }
-            libDetailHost = null;
-            overlay.remove();
+            if (!overlay || overlay.classList.contains('is-closing')) return;
             document.body.style.overflow = '';
+            // Bỏ id ngay để lần chọn từ kế tiếp mở được popup mới, không phải chờ hết animation
+            overlay.removeAttribute('id');
+            overlay.classList.add('is-closing');
+            const finish = () => {
+                const aside = overlay.querySelector('#right-detail-panel');
+                if (aside && libDetailHost && libDetailHost.parent) {
+                    libDetailHost.parent.insertBefore(aside, libDetailHost.next);
+                }
+                libDetailHost = null;
+                overlay.remove();
+            };
+            let done = false;
+            const once = () => {
+                if (done) return;
+                done = true;
+                if (libDetailFinishClose === once) libDetailFinishClose = null;
+                finish();
+            };
+            libDetailFinishClose = once;
+            overlay.addEventListener('animationend', once);
+            setTimeout(once, 320); // phòng khi animation bị tắt (prefers-reduced-motion)
         }
 
         // Đóng popup bằng phím Esc, và tự đóng khi xoay ngang / phóng to lên bố cục 2 cột
@@ -2766,7 +2804,7 @@
             const isSaved = data.savedNotebooks.length > 0;
             const hanjaHtml = (data.hanja && data.hanja.length) ? `
                 <div class="flex flex-col gap-1.5 sm:gap-2 text-left mt-2.5 sm:mt-4">
-                    <div style="font-size:10px; font-weight:700; color:var(--c-9ca3af); letter-spacing:0.14em; text-transform:uppercase; font-family:'DM Mono',monospace;">Gốc Hán · Sino-Korean</div>
+                    <div style="font-size:10px; font-weight:700; color:var(--c-9ca3af); letter-spacing:0.14em; text-transform:uppercase; font-family:'IBM Plex Mono',monospace;">Gốc Hán · Sino-Korean</div>
                     <div class="flex flex-wrap gap-1.5 sm:gap-2">
                         ${data.hanja.map(h => `
                             <div class="m-pressed-block py-1.5 px-2.5 sm:py-3 sm:px-[17px] flex flex-col items-center justify-center text-center flex-initial sm:min-h-[90px]">
@@ -2780,7 +2818,7 @@
             ` : '';
             const examplesHtml = (data.examples && data.examples.length) ? `
                 <div class="flex flex-col gap-1.5 sm:gap-2 text-left mt-2.5 sm:mt-4">
-                    <div style="font-size:10px; font-weight:700; color:#6366F1; letter-spacing:0.14em; text-transform:uppercase; font-family:'DM Mono',monospace;">Ví dụ · ${data.examples.length} câu</div>
+                    <div style="font-size:10px; font-weight:700; color:#6366F1; letter-spacing:0.14em; text-transform:uppercase; font-family:'IBM Plex Mono',monospace;">Ví dụ · ${data.examples.length} câu</div>
                     ${data.examples.map((ex, i) => buildVocabExampleRowHtml(ex, i, data.id, `rerenderGenericDetailCard('${containerId}')`)).join('')}
                 </div>
             ` : '';
@@ -2794,7 +2832,7 @@
                 if (related.length) {
                     relatedHtml = `
                         <div class="flex flex-col gap-2 text-left mt-4">
-                            <div style="font-size:10px; font-weight:700; color:var(--c-9ca3af); letter-spacing:0.14em; text-transform:uppercase; font-family:'DM Mono',monospace;">🔗 Từ liên quan · ${related.length} từ</div>
+                            <div style="font-size:10px; font-weight:700; color:var(--c-9ca3af); letter-spacing:0.14em; text-transform:uppercase; font-family:'IBM Plex Mono',monospace;">🔗 Từ liên quan · ${related.length} từ</div>
                             <div class="flex flex-wrap gap-1.5">
                                 ${related.map(rw => `<button class="gup-chip" onclick="navigateDetailCard('${containerId}','${rw.id}')">${rw.word}</button>`).join('')}
                             </div>
@@ -4855,8 +4893,8 @@
                         <div class="flex items-start justify-between gap-3 mb-4 flex-wrap">
                             <div class="flex items-center flex-wrap gap-x-2 gap-y-1 text-[12px] modern-font-mono font-bold text-left min-w-0">
                                 <span class="text-white px-2.5 py-0.5 rounded-lg text-xs font-extrabold shrink-0" style="background-color: ${targetLvlColor}; box-shadow: 0 2px 6px ${targetLvlColor}55;">Lv.${data.level}</span>
-                                ${data.exam_type ? `<span class="text-[color:var(--c-9ca3af)] truncate" style="font-family: 'DM Mono', monospace !important;">· ${data.exam_type}</span>` : ''}
-                                <span class="text-[color:var(--c-c4c9d4)] truncate" style="font-family: 'DM Mono', monospace !important;">· ${data.word_type}</span>
+                                ${data.exam_type ? `<span class="text-[color:var(--c-9ca3af)] truncate" style="font-family: 'IBM Plex Mono', monospace !important;">· ${data.exam_type}</span>` : ''}
+                                <span class="text-[color:var(--c-c4c9d4)] truncate" style="font-family: 'IBM Plex Mono', monospace !important;">· ${data.word_type}</span>
                             </div>
                             <div class="flex gap-2 shrink-0">
                                 <button class="m-pressed-btn text-[color:var(--c-9ca3af)]" id="speak-word-btn" title="Nghe phát âm">
@@ -4879,7 +4917,7 @@
                         bodyHtml += `
                             ${data.hanja && data.hanja.length ? `
                             <div class="flex flex-col gap-2 text-left">
-                                <div style="font-size:10px; font-weight:700; color:var(--c-9ca3af); letter-spacing:0.14em; text-transform:uppercase; font-family:'DM Mono',monospace; margin-bottom:4px;">Gốc Hán · Sino-Korean</div>
+                                <div style="font-size:10px; font-weight:700; color:var(--c-9ca3af); letter-spacing:0.14em; text-transform:uppercase; font-family:'IBM Plex Mono',monospace; margin-bottom:4px;">Gốc Hán · Sino-Korean</div>
                                 <div class="flex flex-wrap gap-2 text-left">
                                     ${data.hanja.map(h => `
                                         <div class="m-pressed-block py-3 px-[17px] flex flex-col items-center justify-center text-center flex-initial" style="min-height:98px;">
@@ -4895,7 +4933,7 @@
                     } else {
                         bodyHtml += `
                             <div class="flex flex-col gap-2 text-left">
-                                <div style="font-size:10px; font-weight:700; color:var(--c-9ca3af); letter-spacing:0.14em; text-transform:uppercase; font-family:'DM Mono',monospace; margin-bottom:4px;">Giải thích từ vựng</div>
+                                <div style="font-size:10px; font-weight:700; color:var(--c-9ca3af); letter-spacing:0.14em; text-transform:uppercase; font-family:'IBM Plex Mono',monospace; margin-bottom:4px;">Giải thích từ vựng</div>
                                 <div class="m-raised-block py-2.5 px-3.5 rounded-[9px] flex items-center justify-between text-[color:var(--c-5b21b6)] text-xs font-semibold cursor-pointer select-none text-left" id="accordion-trigger-btn">
                                     <span>Xem phân tích từ</span>
                                     <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#7C3AED" stroke-width="2.5" class="transition-transform duration-200" id="accordion-chevron"><polyline points="6 9 12 15 18 9"></polyline></svg>
@@ -4906,7 +4944,7 @@
                             </div>
                             ${data.literal ? `
                             <div class="flex flex-col gap-2 text-left">
-                                <div style="font-size:10px; font-weight:700; color:var(--c-9ca3af); letter-spacing:0.14em; text-transform:uppercase; font-family:'DM Mono',monospace; margin-bottom:4px;">Nghĩa đen</div>
+                                <div style="font-size:10px; font-weight:700; color:var(--c-9ca3af); letter-spacing:0.14em; text-transform:uppercase; font-family:'IBM Plex Mono',monospace; margin-bottom:4px;">Nghĩa đen</div>
                                 <p class="text-xs italic text-[color:var(--c-4b5563)] leading-[1.7] border-l-3 border-[#D1D5DB] pl-[13px] text-left">${data.literal}</p>
                             </div>` : ''}
                             <div class="inner-rule"></div>
@@ -4918,7 +4956,7 @@
                         bodyHtml += `
                             <div class="w-full h-[2px] bg-gradient-to-r from-transparent via-gray-300 to-transparent opacity-70 my-1.5 shadow-inner"></div>
                             <div class="m-pressed-block p-3.5 text-left w-full">
-                                <div style="font-size:10px; font-weight:700; color:var(--c-374151); letter-spacing:0.1em; text-transform:uppercase; font-family:'DM Mono',monospace; margin-bottom:4px;">Mở rộng liên quan</div>
+                                <div style="font-size:10px; font-weight:700; color:var(--c-374151); letter-spacing:0.1em; text-transform:uppercase; font-family:'IBM Plex Mono',monospace; margin-bottom:4px;">Mở rộng liên quan</div>
                                 <p class="text-xs text-[color:var(--c-4b5563)] leading-[1.6] font-semibold font-chiron-custom text-left">${data.synonyms}</p>
                             </div>
                         `;
@@ -4927,7 +4965,7 @@
                     bodyHtml += `
                         <div class="w-full h-[2px] bg-gradient-to-r from-transparent via-gray-300 to-transparent opacity-70 my-1.5 shadow-inner"></div>
                         <div class="flex justify-between items-center cursor-pointer select-none text-left" id="example-toggle-header">
-                            <div style="font-size:10px; font-weight:700; color:#6366F1; letter-spacing:0.14em; text-transform:uppercase; font-family:'DM Mono',monospace; margin-bottom:4px;">Ví dụ · ${data.examples ? data.examples.length : 0} câu</div>
+                            <div style="font-size:10px; font-weight:700; color:#6366F1; letter-spacing:0.14em; text-transform:uppercase; font-family:'IBM Plex Mono',monospace; margin-bottom:4px;">Ví dụ · ${data.examples ? data.examples.length : 0} câu</div>
                             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#6366F1" stroke-width="2.5" class="transition-transform duration-200 mt-[-6px]" id="example-chevron"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </div>
                         <div class="flex flex-col gap-2.5 transition-all duration-200 text-left" id="example-content-box">
@@ -4940,7 +4978,7 @@
                         .slice(0, 15);
                     const relatedHtml = relatedWords.length ? `
                         <div class="flex flex-col gap-2 text-left mt-4">
-                            <div style="font-size:10px; font-weight:700; color:var(--c-9ca3af); letter-spacing:0.14em; text-transform:uppercase; font-family:'DM Mono',monospace;">🔗 Từ liên quan · ${relatedWords.length} từ</div>
+                            <div style="font-size:10px; font-weight:700; color:var(--c-9ca3af); letter-spacing:0.14em; text-transform:uppercase; font-family:'IBM Plex Mono',monospace;">🔗 Từ liên quan · ${relatedWords.length} từ</div>
                             <div class="flex flex-wrap gap-1.5">
                                 ${relatedWords.map(rw => `<button class="gup-chip" onclick="handleLibraryRelatedWordClick('${rw.id}')">${rw.word}</button>`).join('')}
                             </div>
@@ -4954,6 +4992,11 @@
                             ${relatedHtml}
                         </div>
                     `;
+
+                    // Chạy lại animation mỗi lần đổi từ để user thấy rõ card vừa được thay nội dung
+                    panel.classList.remove('lib-card-in');
+                    void panel.offsetWidth; // ép reflow, nếu không animation sẽ không phát lại
+                    panel.classList.add('lib-card-in');
 
                     // Gán logic nút loa phát âm (Web Speech API — chọn giọng Hàn tự nhiên nhất có sẵn)
                     const speakBtn = document.getElementById('speak-word-btn');
