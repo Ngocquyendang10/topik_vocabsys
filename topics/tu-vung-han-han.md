@@ -5,7 +5,7 @@ Số liệu: 152 gốc Hán tự | 482 từ vựng phái sinh | 5 phần chủ �
 
 # Gốc Hán tự thường gặp trong đề thi TOPIK II
 
-Tổng hợp các gốc chữ Hán (Hán Hàn) xuất hiện phổ biến trong đề đọc hiểu, nghe hiểu và viết luận TOPIK II, sắp xếp theo 5 phần chủ đề. 
+Tổng hợp các gốc chữ Hán (Hán Hàn) xuất hiện phổ biến trong đề đọc hiểu, nghe hiểu và viết luận TOPIK II, sắp xếp theo năm phần chủ đề. Mỗi mục trình bày gốc chữ, âm Hán Việt tương ứng, phạm vi nghĩa và các từ vựng phái sinh thường gặp. Những gốc chữ mang nhiều âm Hán khác nhau nhưng phát âm giống nhau trong tiếng Hàn được tách thành các mục riêng, kèm chú thích phân biệt. Câu ví dụ minh họa (đặt trong khung riêng) hiện đã được bổ sung cho Nhóm 1 và Nhóm 2 thuộc Phần I; các nhóm còn lại sẽ được cập nhật dần trong các bản sau.
 
 ## I — Xu hướng tăng giảm & kinh tế
 *Nhóm gốc chữ Hán thường xuất hiện trong các bài đọc và biểu đồ về kinh tế, thị trường, chỉ số xã hội.*
@@ -1130,4 +1130,4 @@ Phát ra, tỏa ra.
 
 ---
 
-Ở những từ có gạch chân, bạn có thể bấm vào để xem chi tiết hơn về từ vựng (Gốc Hán, nghĩa, ví dụ..v.v)
+Nhãn mở rộng đánh dấu các từ vựng phái sinh được bổ sung thêm ngoài danh sách gốc. Khung có viền trái đánh dấu Đồng âm ghi chú các gốc chữ có cùng cách đọc trong tiếng Hàn nhưng khác chữ Hán và khác nghĩa, cần phân biệt theo ngữ cảnh khi ôn luyện.

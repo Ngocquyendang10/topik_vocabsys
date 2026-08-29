@@ -18,3 +18,12 @@ Nhãn: Từ nguyên
 Màu: tím
 Giới thiệu: Tổng hợp các gốc chữ Hán xuất hiện phổ biến trong đề đọc, nghe và viết TOPIK II — kèm âm Hán Việt, phạm vi nghĩa và từ vựng phái sinh.
 Số liệu: 152 gốc Hán tự | 482 từ phái sinh | 5 phần chủ đề
+
+=== bai-doc-bao-ve-moi-truong.md
+Tên: Bài đọc · Bảo vệ môi trường
+Mô tả ngắn: 환경 보호 · TOPIK 3–4 · dạng bài câu 54
+Chữ trên thẻ: 環
+Nhãn: Bài đọc
+Màu: xanh lá
+Giới thiệu: Bài đọc 논설문 về bảo vệ môi trường kèm audio, bản dịch từng câu, tra từ khi bấm, trắc nghiệm đọc hiểu, luyện dịch và chép chính tả.
+Số liệu: 14 câu bài đọc | 15 từ vựng | 4 câu hỏi

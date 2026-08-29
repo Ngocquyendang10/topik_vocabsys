@@ -7,6 +7,7 @@ Bạn chỉ cần đụng tới 2 loại file, **không bao giờ phải mở `i
 | --- | --- |
 | `danh-muc.txt` | Quyết định có những thẻ nào ở trang tổng hợp (tên, màu, mô tả, thứ tự) |
 | `ten-bai.md` | Nội dung của một bài viết |
+| `audio/` | (nếu cần) Thư mục chứa file mp3 cho bài đọc |
 
 ---
 
@@ -84,6 +85,32 @@ Vài điều đáng nhớ:
 - Chữ Hàn trong dòng `từ = nghĩa` phải đứng một mình, không kèm dấu ngoặc hay dấu chấm — web dò chính xác chuỗi này với thư viện từ vựng để học viên bấm vào xem thẻ chi tiết.
 - Dòng trống dùng để ngăn cách cho dễ đọc, thừa thiếu một dòng cũng không sao.
 
+## C2. Cú pháp riêng cho BÀI ĐỌC (nghe – hiểu – dịch – chép)
+
+Ngoài các dấu hiệu ở mục C, bài đọc có thêm 6 khối sau. Xem bài mẫu
+`bai-doc-bao-ve-moi-truong.md` để hình dung.
+
+| Bạn gõ | Web hiện ra |
+| --- | --- |
+| `@audio tts` | Trình phát đọc cả bài bằng giọng máy — chạy được ngay, không cần file |
+| `@audio audio/ten-file.mp3` | Trình phát file thật: chạy/dừng, lùi–tiến 5 giây, kéo thanh thời gian, tốc độ 0.75×–1.5× |
+| `~ 한국어 문장. // Bản dịch tiếng Việt` | Một câu của bài đọc: bấm vào câu hiện bản dịch, có nút ▶ nghe riêng câu đó |
+| `& 최근 = gần đây` | Dữ liệu tra từ — KHÔNG hiện thành dòng, mà làm cho chữ 최근 trong bài được gạch chân, bấm vào hiện nghĩa |
+| `? Câu hỏi` rồi `+ đáp án đúng` / `- đáp án sai`, kết bằng `! Giải thích: …` | Câu trắc nghiệm chấm ngay, tô xanh đáp án đúng và mở phần giải thích |
+| `%dich 한국어 문장 // bản dịch mẫu` | Ô luyện dịch: học sinh gõ bản dịch rồi bấm xem bản mẫu |
+| `%chep 한국어 문장 // 가까운 거리는 ___ 수 있다` | Nghe & chép chính tả: nút nghe, ô gõ, nút Kiểm tra chấm đúng/sai. Phần sau `//` là dòng gợi ý, bỏ trống cũng được |
+| `%dien Câu có ___ // đáp án` | Ô điền từ nhanh, chấm tại chỗ |
+
+Ghi nhớ:
+
+- Đầu bài đọc nên có một dòng `@audio tts` để học sinh nghe được ngay.
+- Dòng `&` đặt ở đâu cũng được (thường để ngay dưới đoạn vừa viết cho dễ quản lý);
+  từ nào có trong bảng `&` mà xuất hiện y hệt trong câu `~` thì tự được gạch chân.
+- Trong khối `?`, dấu `-` là đáp án sai chứ không phải gạch đầu dòng. Muốn dùng gạch
+  đầu dòng bình thường thì để cách khối câu hỏi ra bằng một dòng chữ khác.
+- Muốn dùng audio thật: tạo thư mục `topics/audio/` trên GitHub, tải file mp3 lên đó,
+  rồi ghi `@audio audio/ten-file.mp3`. File nên dưới 20 MB.
+
 ## D. Mẹo: soạn bằng Google Sheet rồi dán vào
 
 Với bài nhiều từ, cứ gõ vào Sheet như thường lệ (cột A từ Hàn, B âm Hán Việt, C nghĩa),
@@ -96,14 +123,145 @@ rồi ở cột D dùng công thức nối lại:
 Kéo công thức xuống hết bảng, copy cột D, dán thẳng vào file `.md`. Vậy là vẫn quản lý
 bằng bảng tính cho tiện, mà bản đăng lên web vẫn là file gọn nhẹ, chạy nhanh.
 
-## E. Nếu muốn nhờ AI viết bài mới
+## E. Nhờ AI viết bài mới
 
-Gửi cho AI: nội dung bạn muốn + nguyên mục C ở trên (cú pháp), và dặn "trả về đúng một
-file .md theo cú pháp này". Không cần AI biết gì về code của web.
+Copy TOÀN BỘ khung câu lệnh ở **mục G cuối file này**, chỉ điền các chỗ trong dấu 【 】 rồi
+gửi cho bất kỳ AI nào (Claude, ChatGPT, Gemini…). AI trả về đủ 2 phần: nội dung file `.md`
+và khối khai báo thẻ để dán vào `danh-muc.txt`. Không cần AI biết gì về code của web.
 
-Nhưng nhớ là: **không có AI bạn vẫn tự viết được** — cú pháp trên gõ tay hoàn toàn bình thường.
+Nhưng nhớ là: **không có AI bạn vẫn tự viết được** — cú pháp ở mục C gõ tay hoàn toàn bình thường.
 
 ---
 
-*Ghi chú kỹ thuật: file `tu-vung-han-han.html` là bản HTML cũ của bài Hán Hàn, giữ lại để
-đối chiếu và để in ấn. Web hiện đang dùng bản `.md`. Xoá file html đó cũng không ảnh hưởng gì.*
+*Thư mục này chỉ cần 3 loại file: `danh-muc.txt`, các file bài `.md`, và chính bản hướng dẫn này.*
+
+---
+
+## F. Gặp lỗi "Chưa nạp được nội dung bài viết"?
+
+**1. Repo phải có file `.nojekyll`.** Đây là lỗi hay gặp nhất. GitHub Pages mặc định tự "biên
+dịch" các file `.md`, làm web không đọc được file gốc. Cách tắt: vào repo → **Add file →
+Create new file** → gõ tên file là `.nojekyll` (có dấu chấm ở đầu, không có đuôi) → để trống
+nội dung → **Commit**. Đặt ở **thư mục gốc** của repo, không phải trong `topics`.
+
+**2. Tên file phải khớp tuyệt đối.** `Tu-Vung.md` khác `tu-vung.md`. Kiểm tra lại dòng
+`=== ten-file.md` trong `danh-muc.txt`.
+
+**3. Đừng đặt tên file bắt đầu bằng dấu gạch dưới** (`_ten-bai.md`) — GitHub Pages bỏ qua
+những file như vậy.
+
+**4. Mở web bằng đường link thật**, đừng nhấp đúp mở `index.html` trên máy — trình duyệt chặn
+đọc file kèm theo khi mở kiểu đó.
+
+Khung báo lỗi trên web sẽ nói rõ đang vướng trường hợp nào.
+
+---
+
+# G. KHUNG CÂU LỆNH NHỜ AI VIẾT BÀI MỚI
+
+Copy từ dòng "Tôi cần bạn viết nội dung…" cho tới hết file, điền phần 【 】 rồi gửi cho AI.
+
+---
+
+Tôi cần bạn viết nội dung cho một bài trong web học tiếng Hàn của tôi. Bài này sẽ được lưu
+thành một file .md và web tự dựng giao diện, nên bạn phải viết ĐÚNG cú pháp tôi mô tả ở dưới.
+
+## Yêu cầu nội dung
+
+- Chủ đề: 【 ví dụ: từ láy tượng thanh — tượng hình trong TOPIK cao cấp 】
+- Đối tượng: học viên Việt Nam luyện TOPIK II, giải thích bằng tiếng Việt
+- Quy mô: 【 ví dụ: khoảng 120 từ, chia 4 phần, mỗi phần 2–3 nhóm 】
+- Kiểu bài: 【 chọn 1: bài từ vựng có mục từ / bài đọc chuyên môn dạng văn xuôi / trộn cả hai 】
+- Mỗi từ 【 có / không 】 kèm một câu ví dụ tiếng Hàn và bản dịch tiếng Việt
+- Tên file tôi sẽ đặt: 【 ví dụ: tu-lay-tuong-thanh.md 】
+
+## Cú pháp bắt buộc
+
+Bài mở đầu bằng khối thông tin giữa hai dòng `---`, chỉ gồm 2 dòng này:
+
+```
+---
+Dòng nhỏ: 【 dòng chữ nhỏ in hoa phía trên tiêu đề, ví dụ: Tài liệu tham khảo · TOPIK cao cấp 】
+Số liệu: 120 từ láy | 4 phần chủ đề | 30 phút đọc
+---
+```
+
+Sau đó là nội dung, dùng các dấu hiệu sau (không dùng cú pháp Markdown nào khác):
+
+| Gõ | Ý nghĩa |
+| --- | --- |
+| `# Tiêu đề bài` | Tiêu đề lớn, chỉ xuất hiện một lần, ngay sau khối `---` |
+| đoạn văn ngay dưới `#` | Đoạn dẫn nhập của bài |
+| `## I — Tên phần` | Mở một phần lớn. Ký hiệu trước dấu — là số La Mã hoặc số thường |
+| `*Câu giới thiệu phần.*` | Đặt ngay dưới dòng `##`, viết trong dấu sao |
+| `### Tên nhóm` | Tiêu đề nhóm nhỏ bên trong phần |
+| `#### Tiêu đề phụ` | Tiêu đề nhỏ hơn, dùng trong bài văn xuôi |
+| `[증] tăng` | Mở một mục từ gốc: chữ Hàn trong ngoặc vuông, sau đó là nghĩa tiếng Việt |
+| đoạn văn ngay dưới `[증] tăng` | Câu giải nghĩa của mục từ đó |
+| `증대 [tăng đại] = mở rộng quy mô` | Một dòng từ vựng: từ Hàn, âm Hán Việt trong ngoặc vuông, dấu `=`, rồi nghĩa |
+| `증진 [tăng tiến] {mở rộng} = nghĩa` | Thêm `{...}` để gắn nhãn nhỏ cho từ |
+| `> câu tiếng Hàn // nghĩa tiếng Việt` | Khung ví dụ song ngữ, đặt ngay dưới dòng từ vựng |
+| `! Đồng âm: nội dung` | Khung ghi chú, chữ trước dấu hai chấm là nhãn |
+| `- Nội dung` | Gạch đầu dòng |
+| `**đậm**` · `*nghiêng*` | In đậm / in nghiêng |
+| `\| cột 1 \| cột 2 \|` | Bảng, dòng đầu tiên là tiêu đề cột |
+| `---` | Đường kẻ ngang ngăn đoạn |
+
+## Quy tắc phải tuân thủ tuyệt đối
+
+1. Trong dòng từ vựng, **phần đứng trước dấu `[` chỉ được là từ tiếng Hàn**, không kèm số
+   thứ tự, dấu chấm, dấu gạch đầu dòng hay khoảng trắng thừa. Web dò chính xác chuỗi này với
+   kho từ vựng để học viên bấm xem chi tiết, sai một ký tự là mất liên kết.
+2. **Không dùng dấu `=` trong câu văn xuôi bình thường** — web sẽ tưởng đó là dòng từ vựng.
+   Cần diễn đạt thì viết "là", "tức là", hoặc dấu gạch ngang.
+3. **Không mở đầu một dòng văn xuôi bằng dấu `[`** vì đó là dấu hiệu mở mục từ mới.
+4. Không viết `##` ở giữa câu, không dùng HTML, không chèn ảnh từ internet.
+5. Không cần ghi số lượng mục/từ của từng phần — web tự đếm.
+6. Câu ví dụ tiếng Hàn phải đúng ngữ pháp, tự nhiên, độ khó phù hợp TOPIK II, và bản dịch
+   tiếng Việt phải sát nghĩa, thuần Việt.
+
+## Bạn trả về cho tôi
+
+**Phần 1 — nội dung file .md**, đặt trong một khối code, không giải thích lan man.
+
+**Phần 2 — khối khai báo thẻ** để tôi dán vào file danh mục, theo đúng mẫu:
+
+```
+=== 【tên-file.md】
+Tên: 【tên hiển thị trên thẻ】
+Mô tả ngắn: 【một dòng ngắn dưới tên】
+Chữ trên thẻ: 【một chữ Hán hoặc chữ Hàn tiêu biểu】
+Nhãn: 【nhãn ngắn 1–2 chữ, ví dụ: Cao cấp】
+Màu: 【chọn: tím / xanh dương / xanh lá / cam / đỏ / hồng / nâu / xám / vàng】
+Giới thiệu: 【2–3 dòng mô tả bài, hiện trên thẻ ở trang tổng hợp】
+Số liệu: 【ví dụ: 120 từ láy | 4 phần chủ đề】
+```
+
+Trước khi trả lời, hãy tự kiểm tra lại toàn bộ nội dung một lượt theo 6 quy tắc trên.
+
+---
+
+## Mẫu bài đúng chuẩn (đưa kèm cho AI nếu cần)
+
+```
+---
+Dòng nhỏ: Tài liệu tham khảo · Tiếng Hàn cho người Việt
+Số liệu: 12 từ láy | 2 phần chủ đề
+---
+
+# Từ láy tượng thanh và tượng hình trong TOPIK II
+
+Nhóm từ mô phỏng âm thanh và hình dáng, xuất hiện nhiều trong bài đọc văn học.
+
+## I — Từ mô phỏng âm thanh
+*Nhóm từ tả tiếng động của sự vật và con người.*
+
+### Nhóm 1 — Tiếng nước, tiếng gió
+
+[졸] tiếng nước nhỏ
+Mô phỏng tiếng nước chảy nhẹ, đều đặn.
+졸졸 [chuốt chuốt] = tiếng nước chảy róc rách
+> 시냇물이 졸졸 흐른다. // Nước suối chảy róc rách.
+콸콸 [khoát khoát] {mở rộng} = tiếng nước chảy mạnh
+! Phân biệt: 졸졸 tả dòng nhỏ, 콸콸 tả dòng mạnh và gấp.
+```
