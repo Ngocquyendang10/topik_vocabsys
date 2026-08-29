@@ -6708,7 +6708,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         // BỘ ĐỌC BÀI VIẾT DẠNG MARKDOWN (.md)
         // Mỗi bài là 1 file .md trong thư mục topics/ — cô giáo sửa thẳng
         // trên GitHub, không cần đụng file code này.
-        // Cú pháp rút gọn: xem topics/_HUONG-DAN-TAO-BAI-CHU-DE-MOI.md
+        // Cú pháp rút gọn: xem topics/HUONG-DAN.md
         // ============================================================
         const TOPIC_COLOR_PRESETS = {
             'tim':        ['#5B4B8A', '#33396B'],
@@ -7056,18 +7056,34 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 annotateTopicPartStats(root);
                 return true;
             } catch (err) {
-                root.innerHTML = topicLoadErrorHtml(t);
+                root.innerHTML = topicLoadErrorHtml(t, err);
                 return false;
             }
         }
 
-        function topicLoadErrorHtml(t) {
+        // Báo lỗi kèm nguyên nhân cụ thể — để cô giáo tự biết phải sửa gì
+        function topicLoadErrorHtml(t, err) {
+            const isFileProtocol = location.protocol === 'file:';
+            const is404 = err && /404/.test(String(err.message || err));
+            let reason, fix;
+            if (isFileProtocol) {
+                reason = 'Trang đang được mở bằng đường dẫn <b>file://</b> trên máy, trình duyệt không cho đọc file kèm theo.';
+                fix = 'Hãy mở web qua đường link thật (GitHub Pages) thay vì mở file trên máy.';
+            } else if (is404) {
+                reason = `Máy chủ không tìm thấy file <b>${t.file}</b> (lỗi 404).`;
+                fix = 'Kiểm tra tên file trong topics/danh-muc.txt có đúng không (phân biệt hoa/thường). ' +
+                      'Nếu tên đúng mà vẫn 404: repo cần có file rỗng tên <b>.nojekyll</b> ở thư mục gốc, ' +
+                      'nếu không GitHub Pages sẽ tự nuốt mất các file .md.';
+            } else {
+                reason = 'Không tải được file nội dung.';
+                fix = 'Thử tải lại trang (Cmd + Shift + R). Nếu vẫn lỗi, kiểm tra file đã được đẩy lên GitHub chưa.';
+            }
             return `
                 <div class="topic-doc-loading">
                     <p style="font-weight:700; margin-bottom:8px;">Chưa nạp được nội dung bài viết</p>
-                    <p style="font-size:13px; line-height:1.7;">Trình duyệt chặn đọc file khi mở trang bằng đường dẫn <b>file://</b>.
-                    Hãy mở web qua đường link (GitHub Pages / máy chủ) — hoặc bấm nút dưới để đọc bài ở tab riêng.</p>
-                    <p style="margin-top:14px;"><a href="${t.file}" target="_blank" style="color:#5B4B8A; font-weight:700;">Mở bài viết ở tab mới →</a></p>
+                    <p style="font-size:13px; line-height:1.7;">${reason}</p>
+                    <p style="font-size:13px; line-height:1.7; margin-top:8px;">${fix}</p>
+                    <p style="margin-top:14px;"><a href="${t.file}" target="_blank" style="color:#5B4B8A; font-weight:700;">Mở thẳng file nội dung →</a></p>
                 </div>`;
         }
 
@@ -7095,7 +7111,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 return true;
             } catch (err) {
                 // Mở index.html trực tiếp bằng file:// thì trình duyệt chặn fetch → hướng dẫn cách xem
-                root.innerHTML = topicLoadErrorHtml(t);
+                root.innerHTML = topicLoadErrorHtml(t, err);
                 return false;
             }
         }
