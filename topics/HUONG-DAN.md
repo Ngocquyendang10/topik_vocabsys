@@ -125,9 +125,15 @@ bằng bảng tính cho tiện, mà bản đăng lên web vẫn là file gọn n
 
 ## E. Nhờ AI viết bài mới
 
-Copy TOÀN BỘ khung câu lệnh ở **mục G cuối file này**, chỉ điền các chỗ trong dấu 【 】 rồi
-gửi cho bất kỳ AI nào (Claude, ChatGPT, Gemini…). AI trả về đủ 2 phần: nội dung file `.md`
-và khối khai báo thẻ để dán vào `danh-muc.txt`. Không cần AI biết gì về code của web.
+Cuối file này có sẵn hai khung câu lệnh, chọn đúng khung theo loại bài:
+
+| Muốn gì | Dùng khung | Cách gửi |
+| --- | --- | --- |
+| Bài từ vựng / tra cứu (kiểu Hán Hàn) | **Mục G** | Copy khung, điền 【 】, gửi cho AI |
+| Bài đọc đầy đủ (bài khoá + nghe + trắc nghiệm + dịch + dictation) | **Mục H** | Đính kèm chính file `HUONG-DAN.md` này cho AI, rồi gửi khung mục H |
+
+AI trả về đủ 2 phần: nội dung file `.md` và khối khai báo thẻ để dán vào `danh-muc.txt`.
+Không cần AI biết gì về code của web.
 
 Nhưng nhớ là: **không có AI bạn vẫn tự viết được** — cú pháp ở mục C gõ tay hoàn toàn bình thường.
 
@@ -265,3 +271,98 @@ Mô phỏng tiếng nước chảy nhẹ, đều đặn.
 콸콸 [khoát khoát] {mở rộng} = tiếng nước chảy mạnh
 ! Phân biệt: 졸졸 tả dòng nhỏ, 콸콸 tả dòng mạnh và gấp.
 ```
+
+---
+
+# H. KHUNG CÂU LỆNH SOẠN MỘT BÀI ĐỌC HOÀN CHỈNH
+
+Dùng khung này khi muốn AI **soạn luôn nội dung** (bài đọc, từ vựng, câu hỏi, dictation…)
+và xuất thẳng ra file `.md` chạy được trên web.
+
+**Cách dùng:** đính kèm chính file `HUONG-DAN.md` này cho AI, rồi copy khung dưới đây,
+điền các chỗ 【 】 và gửi cùng lúc.
+
+---
+
+Tôi gửi kèm file HUONG-DAN.md mô tả cú pháp viết bài cho web học tiếng Hàn của tôi.
+Hãy đọc kỹ mục C và mục C2 trong đó, rồi **soạn mới toàn bộ nội dung** cho một bài đọc và
+xuất ra đúng một file .md theo cú pháp đó.
+
+## Thông tin bài học
+
+- Chủ đề: 【 ví dụ: 한국의 명절 문화 / 1인 가구 증가 / 인공지능과 일자리 】
+- Trình độ: 【 TOPIK 3–4 hoặc 5–6 】
+- Dạng bài: 【 논설문 (bài nghị luận, viết theo lối triển khai ý của câu 54) / 설명문 (bài thuyết minh) / 기사문 (bài báo) 】
+- Độ dài bài đọc: 【 khoảng 4 đoạn, mỗi đoạn 2–5 câu 】
+- Tên file tôi sẽ đặt: 【 ví dụ: bai-doc-van-hoa-le-tet.md 】
+
+## Nội dung cần soạn, theo đúng thứ tự này
+
+**I — Bài đọc.** Viết bài tiếng Hàn hoàn toàn mới, đúng trình độ và dạng bài nêu trên.
+Chia thành các đoạn, mỗi đoạn đặt dưới một tiêu đề `###` ghi rõ vai trò của đoạn
+(nêu vấn đề / nguyên nhân / giải pháp / kết luận…). **Mỗi câu là một dòng `~` kèm bản dịch
+tiếng Việt sau dấu `//`** — dịch sát nghĩa, hành văn tiếng Việt tự nhiên, không dịch máy.
+
+Ngay dưới mỗi đoạn, thêm các dòng `&` cho khoảng 10–16 từ/cụm đáng chú ý của đoạn đó.
+Nghĩa phải là **nghĩa trong đúng ngữ cảnh câu**, không phải nghĩa từ điển chung chung.
+Từ trong dòng `&` phải xuất hiện **y hệt** trong câu `~` (giữ nguyên dạng đã chia) thì web
+mới gạch chân được — nếu trong bài là 심각해지면서 thì viết `& 심각해지면서 = …`.
+
+**II — Bản dịch đầy đủ.** Dịch lại toàn bài thành các đoạn văn xuôi liền mạch,
+đặt dưới một tiêu đề `####` là tên bài dịch sang tiếng Việt.
+
+**III — Từ vựng trọng tâm.** Chọn 12–15 mục quan trọng nhất, mỗi mục một dòng dạng
+`từ {cụm đi kèm} = nghĩa`. Sau đó thêm một bảng "Cụm từ thường đi kèm" gồm 6–8 collocation
+lấy từ chính bài đọc, hai cột: cụm tiếng Hàn — nghĩa tiếng Việt.
+
+**IV — Cụm dùng lại khi viết.** Bảng 6–8 mẫu câu rút ra từ bài, viết dưới dạng khung có
+chỗ trống (ví dụ `~는 데에는 여러 가지 원인이 있다.`), cột hai là nghĩa tiếng Việt.
+
+**V — Trắc nghiệm đọc hiểu.** 4 câu, mỗi câu 4 phương án, ra đề bằng tiếng Hàn theo đúng
+văn phong đề TOPIK. Bốn dạng: nội dung chính · tìm thông tin trong bài · chọn câu đúng với
+nội dung · suy luận ý người viết. Mỗi câu kết bằng một dòng `!` giải thích **bằng tiếng Việt**,
+nói rõ vì sao đáp án đó đúng và bẫy nằm ở đâu. Đặt mỗi câu dưới một tiêu đề `####`.
+
+**VI — Luyện dịch câu.** 4 câu lấy từ bài, xếp từ dễ đến khó, mỗi câu một dòng `%dich`
+kèm bản dịch mẫu. Câu khó có thể thêm một dòng `!` ghi chú cấu trúc ngữ pháp cần chú ý.
+
+**VII — Nghe và chép chính tả.** 4 câu lấy từ bài, tăng dần độ khó, dùng `%chep`.
+Hai câu đầu có dòng gợi ý sau dấu `//` (che 1–2 chỗ bằng `__________`), hai câu sau
+không gợi ý.
+
+**VIII — Bố cục bài viết.** Tóm tắt mạch triển khai của bài bằng các tiêu đề `###`
+(nêu vấn đề / nguyên nhân / giải pháp / kết luận) và gạch đầu dòng ngắn bằng tiếng Hàn.
+
+**IX — Ôn nhanh.** 5 câu điền từ dạng `%dien`, lấy từ vựng trọng tâm của bài.
+Kết bài bằng một dòng `!` ghi câu chốt tiếng Hàn của bài, và một dòng liệt kê từ khoá.
+
+## Quy tắc bắt buộc
+
+1. Đặt `@audio tts` ngay dưới phần mở đầu, trước tiêu đề `##` đầu tiên.
+2. Phần mở đầu bài chỉ gồm: tiêu đề `#` bằng tiếng Hàn, một dòng tên bài bằng tiếng Việt
+   in đậm, và **một câu** giới thiệu ngắn. Không viết lời chào, không hướng dẫn thao tác,
+   không liệt kê mục tiêu bài học.
+3. Không viết bất kỳ câu nào hướng dẫn người dùng cách bấm, cách dùng web.
+4. Giọng văn trung lập, chuyên nghiệp, phù hợp môi trường giáo dục. Không dùng emoji.
+5. Không dùng dấu `=` trong câu văn xuôi, không mở đầu dòng văn xuôi bằng dấu `[`.
+6. Tiếng Hàn phải tự nhiên, đúng ngữ pháp, đúng trình độ; bản dịch tiếng Việt phải thuần Việt.
+
+## Bạn trả về cho tôi
+
+**Phần 1:** toàn bộ nội dung file .md, đặt trong một khối code.
+
+**Phần 2:** khối khai báo thẻ để dán vào `danh-muc.txt`:
+
+```
+=== 【tên-file.md】
+Tên: 【tên bài bằng tiếng Việt】
+Mô tả ngắn: 【chủ đề tiếng Hàn · trình độ · dạng bài】
+Chữ trên thẻ: 【một chữ Hàn tiêu biểu của chủ đề, ví dụ 환】
+Nhãn: Bài đọc
+Màu: 【tím / xanh dương / xanh lá / cam / hồng】
+Giới thiệu: 【một câu mô tả bài】
+Số liệu: 【ví dụ: 14 câu bài đọc | 15 từ vựng | 4 câu hỏi】
+```
+
+Trước khi trả lời, hãy tự rà lại: mọi câu bài đọc đều có bản dịch sau `//`; mọi từ trong dòng
+`&` đều xuất hiện y hệt trong câu; không còn câu hướng dẫn thao tác nào trong bài.

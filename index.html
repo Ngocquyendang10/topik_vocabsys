@@ -6906,6 +6906,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         //   %dien Câu có ___ // đáp án
         // ============================================================
         let rlPlayer = null;   // trạng thái trình phát của bài đang mở
+        let rlFastEnds = 0;    // đếm số câu 'đọc xong' bất thường nhanh (máy không phát được giọng)
 
         function rlEsc(t) {
             return (t || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -7046,7 +7047,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             root.querySelectorAll('.rl-line-on').forEach(el => el.classList.remove('rl-line-on'));
             const line = lines[index];
             line.classList.add('rl-line-on');
-            line.scrollIntoView({ block: 'center', behavior: 'smooth' });
+            rlKeepLineInView(line);
             box.querySelector('[data-rl-time]').textContent = `Câu ${index + 1}/${lines.length}`;
             box.querySelector('[data-rl-seek]').value = String((index / Math.max(1, lines.length - 1)) * 100);
             rlSetPlayIcon(box, true);
@@ -7056,8 +7057,11 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             // chạy vèo hết bài trong im lặng.
             const startedAt = Date.now();
             rlSpeak(line.dataset.ko, rlPlayer.rate, () => {
-                const tooFast = Date.now() - startedAt < 250;
-                if (tooFast) {
+                // Lần đầu bấm phát, một số máy chưa nạp xong giọng nên câu "đọc xong" ngay.
+                // Chỉ kết luận là máy không đọc được khi hai câu liên tiếp cùng bị như vậy.
+                if (Date.now() - startedAt < 250) rlFastEnds++; else rlFastEnds = 0;
+                if (rlFastEnds >= 2) {
+                    rlFastEnds = 0;
                     rlStopAll();
                     rlSetPlayIcon(box, false);
                     const note = box.querySelector('.rl-player-note');
@@ -7066,6 +7070,34 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 }
                 if (rlPlayer && rlPlayer.playing) rlSpeakFrom(box, index + 1);
             });
+        }
+
+        // Chỉ cuộn khi câu đang đọc đã ra khỏi tầm nhìn — tránh giật màn hình khi người học
+        // đang đọc dở ở giữa bài. Có trừ chiều cao thanh nghe đang dính trên đầu.
+        function rlKeepLineInView(line) {
+            const scroller = document.getElementById('topic-reader-scroll');
+            if (!scroller) return;
+            const player = document.querySelector('#topic-doc-root .rl-audio');
+            const pad = (player ? player.getBoundingClientRect().height : 0) + 24;
+            const r = line.getBoundingClientRect();
+            const s = scroller.getBoundingClientRect();
+            const above = r.top < s.top + pad;
+            const below = r.bottom > s.bottom - 24;
+            if (!above && !below) return;                     // đang thấy rồi thì để yên
+            const target = r.top - s.top + scroller.scrollTop - pad - 12;
+            scroller.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
+        }
+
+        // Câu đầu tiên đang hiện trên màn hình — bấm Phát thì đọc từ đúng chỗ đang đọc dở
+        function rlVisibleLineIndex() {
+            const scroller = document.getElementById('topic-reader-scroll');
+            const lines = [...document.querySelectorAll('#topic-doc-root .rl-line')];
+            if (!scroller || !lines.length) return 0;
+            const player = document.querySelector('#topic-doc-root .rl-audio');
+            const pad = (player ? player.getBoundingClientRect().height : 0) + 8;
+            const top = scroller.getBoundingClientRect().top + pad;
+            const idx = lines.findIndex(l => l.getBoundingClientRect().bottom > top);
+            return idx === -1 ? 0 : idx;
         }
 
         // Đọc 1 câu tiếng Hàn với tốc độ tuỳ chọn (dùng lại kho giọng của app)
@@ -7123,7 +7155,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                         else if (act === 'back') a.currentTime = Math.max(0, a.currentTime - 5);
                         else if (act === 'fwd') a.currentTime = Math.min(a.duration || 0, a.currentTime + 5);
                     } else {
-                        const cur = rlPlayer && rlPlayer.box === box ? rlPlayer.index : 0;
+                        const cur = rlPlayer && rlPlayer.box === box ? rlPlayer.index : rlVisibleLineIndex();
                         if (act === 'play') {
                             if (rlPlayer && rlPlayer.playing) { rlStopAll(); rlSetPlayIcon(box, false); }
                             else rlSpeakFrom(box, cur);
