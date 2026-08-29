@@ -232,7 +232,7 @@ Tên: 【tên hiển thị trên thẻ】
 Mô tả ngắn: 【một dòng ngắn dưới tên】
 Chữ trên thẻ: 【một chữ Hán hoặc chữ Hàn tiêu biểu】
 Nhãn: 【nhãn ngắn 1–2 chữ, ví dụ: Cao cấp】
-Màu: 【chọn: tím / xanh dương / xanh lá / cam / đỏ / hồng / nâu / xám / vàng】
+Màu: 【chọn: tím / tím đậm / xanh dương / xanh lá / cam / đỏ / hồng / nâu / xám / vàng】
 Giới thiệu: 【2–3 dòng mô tả bài, hiện trên thẻ ở trang tổng hợp】
 Số liệu: 【ví dụ: 120 từ láy | 4 phần chủ đề】
 ```

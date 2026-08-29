@@ -5,14 +5,13 @@ Số liệu: 14 câu bài đọc | 15 từ vựng | 4 câu hỏi | 25 phút
 
 # 작은 실천이 만드는 큰 변화
 
-**Thay đổi lớn bắt đầu từ những hành động nhỏ** — bài đọc chủ đề 환경 보호, trình độ TOPIK 3–4, viết theo lối triển khai ý của bài 논설문 (câu 54 phần Viết).
+**Thay đổi lớn bắt đầu từ những hành động nhỏ**
 
-Học xong bài này bạn sẽ: nắm bộ từ vựng chủ đề môi trường, đọc hiểu quan hệ nguyên nhân – kết quả, nghe và chép chính tả, luyện dịch Hàn → Việt, và có sẵn cụm câu để dùng lại khi viết câu 54.
+Bài đọc dạng 논설문, chủ đề 환경 보호, trình độ TOPIK 3–4.
 
 @audio tts
 
 ## I — 본문 · Bài đọc
-*Bấm vào câu để hiện bản dịch, bấm vào từ gạch chân để tra nghĩa ngay trong câu, bấm nút ▶ để nghe riêng câu đó.*
 
 ### 1문단 — Nêu vấn đề
 
@@ -97,7 +96,6 @@ Học xong bài này bạn sẽ: nắm bộ từ vựng chủ đề môi trườ
 & 함께 = cùng nhau
 
 ## II — 전체 번역 · Bản dịch đầy đủ
-*Đọc lại toàn bài bằng tiếng Việt sau khi đã tự hiểu bản tiếng Hàn.*
 
 #### Những thay đổi lớn được tạo nên từ những hành động nhỏ
 Gần đây, khi các vấn đề môi trường ngày càng trở nên nghiêm trọng, sự quan tâm của mọi người đối với việc bảo vệ môi trường cũng ngày càng tăng. Đặc biệt, khi lượng rác thải nhựa gia tăng và các hiện tượng thời tiết bất thường do biến đổi khí hậu xảy ra thường xuyên, bảo vệ môi trường đã trở thành một vấn đề không thể trì hoãn thêm nữa.
@@ -109,7 +107,6 @@ Có nhiều nguyên nhân khiến các vấn đề môi trường ngày càng ng
 Chỉ bằng những hành động nhỏ của mỗi cá nhân thì không thể giải quyết hoàn toàn các vấn đề môi trường. Nỗ lực của doanh nghiệp và chính phủ cũng là điều cần thiết. Tuy nhiên, nếu nhiều người tiếp tục thực hiện những hành động nhỏ trong cuộc sống hằng ngày thì lối sống của toàn xã hội cũng có thể dần thay đổi. Cuối cùng, bảo vệ môi trường không phải là việc chỉ dành cho một số người đặc biệt mà là việc tất cả chúng ta cần cùng nhau thực hiện trong đời sống hằng ngày.
 
 ## III — 핵심 어휘 · Từ vựng trọng tâm
-*15 mục nên thuộc; cụm trong ngoặc nhọn là collocation nên nhớ kèm.*
 
 ### Từ vựng cần nhớ
 
@@ -129,7 +126,7 @@ Chỉ bằng những hành động nhỏ của mỗi cá nhân thì không thể
 실천하다 {생활 속에서 실천하다} = thực hiện
 환경 문제 {환경 문제를 해결하다} = vấn đề môi trường
 
-### Collocation đáng học
+### Cụm từ thường đi kèm
 
 | Cụm tiếng Hàn | Nghĩa |
 | --- | --- |
@@ -143,7 +140,6 @@ Chỉ bằng những hành động nhỏ của mỗi cá nhân thì không thể
 | 노력이 필요하다 | cần có nỗ lực |
 
 ## IV — TOPIK 표현 · Cụm dùng lại khi viết câu 54
-*Đây là phần biến bài đọc thành nguyên liệu cho phần Viết.*
 
 | Cấu trúc | Nghĩa |
 | --- | --- |
@@ -157,7 +153,6 @@ Chỉ bằng những hành động nhỏ của mỗi cá nhân thì không thể
 | 결국 ~는 ~해야 할 일이다. | Cuối cùng,… là việc cần phải… |
 
 ## V — 읽기 이해 · Trắc nghiệm đọc hiểu
-*Chọn đáp án rồi web chấm ngay và hiện giải thích.*
 
 #### Câu 1 · Nội dung chính
 ? 이 글의 중심 내용으로 가장 알맞은 것을 고르십시오.
@@ -192,7 +187,6 @@ Chỉ bằng những hành động nhỏ của mỗi cá nhân thì không thể
 ! Giải thích: Toàn bài hướng tới thông điệp: hành động nhỏ trong đời sống hằng ngày vẫn có ý nghĩa với việc bảo vệ môi trường.
 
 ## VI — 문장 번역 연습 · Luyện dịch câu
-*Gõ bản dịch của bạn trước, rồi mới bấm xem bản dịch mẫu.*
 
 #### Mức 1
 %dich 최근 환경 문제가 심각해지고 있다. // Gần đây, các vấn đề môi trường đang trở nên nghiêm trọng.
@@ -209,7 +203,6 @@ Chỉ bằng những hành động nhỏ của mỗi cá nhân thì không thể
 %dich 많은 사람이 생활 속에서 작은 실천을 계속한다면 사회 전체의 생활 방식도 조금씩 달라질 수 있다. // Nếu nhiều người tiếp tục thực hiện những hành động nhỏ trong cuộc sống hằng ngày thì lối sống của toàn xã hội cũng có thể dần thay đổi.
 
 ## VII — 받아쓰기 · Nghe và chép chính tả
-*Bấm ▶ để nghe, gõ lại câu rồi bấm Kiểm tra. Bốn mức từ dễ tới khó.*
 
 #### Mức 1 · Dễ
 %chep 환경 문제가 심각해지고 있다. // 환경 문제가 __________ 있다.
@@ -224,7 +217,6 @@ Chỉ bằng những hành động nhỏ của mỗi cá nhân thì không thể
 %chep 그러나 많은 사람이 생활 속에서 작은 실천을 계속한다면 사회 전체의 생활 방식도 조금씩 달라질 수 있다.
 
 ## VIII — 내용 구조 · Bố cục bài viết kiểu câu 54
-*Nhìn bố cục này để bắt chước khi tự viết bài 논설문.*
 
 ### ① 문제 제시 — Nêu vấn đề
 - 환경 문제가 심각해짐
@@ -245,7 +237,6 @@ Chỉ bằng những hành động nhỏ của mỗi cá nhân thì không thể
 - 사회 전체의 변화
 
 ## IX — 마지막 복습 · Ôn nhanh
-*Điền từ còn thiếu rồi bấm Kiểm tra.*
 
 %dien 환경 문제가 점점 __________지고 있다. // 심각해
 %dien 일회용품 사용을 __________ 것이 필요하다. // 줄이는
@@ -253,6 +244,6 @@ Chỉ bằng những hành động nhỏ của mỗi cá nhân thì không thể
 %dien 사용한 물건을 다시 이용하는 것을 __________이라고 한다. // 재활용
 %dien 환경 보호를 생활 속에서 __________해야 한다. // 실천
 
-! Câu chốt của bài: 환경 보호는 특별한 사람만이 하는 일이 아니라 우리 모두가 일상생활에서 함께 실천해야 할 일이다.
+! Câu chốt: 환경 보호는 특별한 사람만이 하는 일이 아니라 우리 모두가 일상생활에서 함께 실천해야 할 일이다.
 
-Từ khoá cần nhớ: 환경 보호 · 기후 변화 · 일회용품 · 생활 방식 · 줄이다 · 재활용하다 · 실천하다
+Từ khoá: 환경 보호 · 기후 변화 · 일회용품 · 생활 방식 · 줄이다 · 재활용하다 · 실천하다

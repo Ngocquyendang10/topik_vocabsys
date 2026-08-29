@@ -6,7 +6,7 @@
 # Thứ tự các khối chính là thứ tự thẻ hiện trên trang.
 # Dòng bắt đầu bằng # là ghi chú, web bỏ qua.
 #
-# Màu nhận: tím · xanh dương · xanh lá · cam · đỏ · hồng · nâu · xám · vàng
+# Màu nhận: tím (tông thương hiệu) · tím đậm · xanh dương · xanh lá · cam · đỏ · hồng · nâu · xám · vàng
 #           (hoặc ghi mã màu, ví dụ: #5B4B8A #33396B)
 # ══════════════════════════════════════════════════════════════════
 
@@ -22,8 +22,8 @@ Số liệu: 152 gốc Hán tự | 482 từ phái sinh | 5 phần chủ đề
 === bai-doc-bao-ve-moi-truong.md
 Tên: Bài đọc · Bảo vệ môi trường
 Mô tả ngắn: 환경 보호 · TOPIK 3–4 · dạng bài câu 54
-Chữ trên thẻ: 環
+Chữ trên thẻ: 환
 Nhãn: Bài đọc
 Màu: xanh lá
-Giới thiệu: Bài đọc 논설문 về bảo vệ môi trường kèm audio, bản dịch từng câu, tra từ khi bấm, trắc nghiệm đọc hiểu, luyện dịch và chép chính tả.
+Giới thiệu: Bài đọc 논설문 chủ đề bảo vệ môi trường, kèm phần nghe, bản dịch, từ vựng trọng tâm và bài luyện tập.
 Số liệu: 14 câu bài đọc | 15 từ vựng | 4 câu hỏi

@@ -707,11 +707,11 @@
             background:transparent; border:1px solid #D8D4C6; border-radius:999px;
             padding:6px 13px 6px 9px; cursor:pointer;
             font-family:'Plus Jakarta Sans',sans-serif; font-size:12.5px; font-weight:700;
-            color:#33396B; transition:all .15s ease;
+            color:#5B4FCF; transition:all .15s ease;
         }
-        .topic-back-btn:hover{ border-color:#33396B; background:rgba(51,57,107,.06); }
-        :root[data-theme="dark"] .topic-back-btn{ border-color:#3c4252; color:#a9b0ee; }
-        :root[data-theme="dark"] .topic-back-btn:hover{ border-color:#a9b0ee; background:rgba(169,176,238,.1); }
+        .topic-back-btn:hover{ border-color:#6C63FF; background:rgba(108,99,255,.08); }
+        :root[data-theme="dark"] .topic-back-btn{ border-color:#3c4252; color:#b3aeff; }
+        :root[data-theme="dark"] .topic-back-btn:hover{ border-color:#b3aeff; background:rgba(179,174,255,.12); }
         .topic-crumb-sep{ color:#B9B4A4; font-size:13px; flex-shrink:0; }
         :root[data-theme="dark"] .topic-crumb-sep{ color:#5a6172; }
         .topic-reader-titles{ display:flex; flex-direction:column; min-width:0; flex:1; }
@@ -728,18 +728,18 @@
         .topic-reader-actions{ display:flex; align-items:center; gap:6px; margin-left:auto; flex-shrink:0; }
         .topic-link-badge{
             font-family:'Plus Jakarta Sans',sans-serif; font-size:10.5px; font-weight:700;
-            color:#5B4B8A; background:#EEECF4; border:1px solid #d7d2e6;
+            color:#5B4FCF; background:#EFEDFF; border:1px solid #d9d5f7;
             border-radius:999px; padding:4px 10px; white-space:nowrap; cursor:default;
         }
-        :root[data-theme="dark"] .topic-link-badge{ color:#c0b3e8; background:#262436; border-color:#3d3752; }
+        :root[data-theme="dark"] .topic-link-badge{ color:#bdb6ff; background:#272343; border-color:#403a63; }
         .topic-icon-btn{
             width:32px; height:32px; border-radius:10px; border:1px solid #D8D4C6;
             background:transparent; color:#5B5F66; cursor:pointer;
             display:flex; align-items:center; justify-content:center; transition:all .15s ease;
         }
-        .topic-icon-btn:hover{ border-color:#33396B; color:#33396B; }
+        .topic-icon-btn:hover{ border-color:#6C63FF; color:#6C63FF; }
         :root[data-theme="dark"] .topic-icon-btn{ border-color:#3c4252; color:#a4abb9; }
-        :root[data-theme="dark"] .topic-icon-btn:hover{ border-color:#a9b0ee; color:#a9b0ee; }
+        :root[data-theme="dark"] .topic-icon-btn:hover{ border-color:#b3aeff; color:#b3aeff; }
         .topic-parts-nav{
             max-width:1080px; margin:0 auto; padding:0 18px 9px;
             display:flex; gap:6px; overflow-x:auto; scrollbar-width:none;
@@ -751,16 +751,16 @@
             font-family:'Plus Jakarta Sans',sans-serif; color:#5B5F66; transition:all .15s ease;
             max-width:230px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
         }
-        .topic-part-chip .topic-chip-num{ font-family:'IBM Plex Mono',monospace; font-weight:700; margin-right:5px; color:#2E4A73; }
-        .topic-part-chip:hover{ border-color:#2E4A73; color:#2E4A73; }
-        .topic-part-chip[data-active="true"]{ background:#33396B; border-color:#33396B; color:#fff; }
+        .topic-part-chip .topic-chip-num{ font-family:'IBM Plex Mono',monospace; font-weight:700; margin-right:5px; color:#6C63FF; }
+        .topic-part-chip:hover{ border-color:#6C63FF; color:#6C63FF; }
+        .topic-part-chip[data-active="true"]{ background:#6C63FF; border-color:#6C63FF; color:#fff; }
         .topic-part-chip[data-active="true"] .topic-chip-num{ color:#fff; }
         :root[data-theme="dark"] .topic-part-chip{ border-color:#3c4252; color:#a4abb9; }
-        :root[data-theme="dark"] .topic-part-chip .topic-chip-num{ color:#8fb3e0; }
-        :root[data-theme="dark"] .topic-part-chip[data-active="true"]{ background:#4a5180; border-color:#4a5180; color:#fff; }
+        :root[data-theme="dark"] .topic-part-chip .topic-chip-num{ color:#8f89ff; }
+        :root[data-theme="dark"] .topic-part-chip[data-active="true"]{ background:#5b52d6; border-color:#5b52d6; color:#fff; }
         .topic-progress{ height:2px; background:transparent; }
-        .topic-progress > span{ display:block; height:100%; width:0%; background:#5B4B8A; transition:width .1s linear; }
-        :root[data-theme="dark"] .topic-progress > span{ background:#c0b3e8; }
+        .topic-progress > span{ display:block; height:100%; width:0%; background:#6C63FF; transition:width .1s linear; }
+        :root[data-theme="dark"] .topic-progress > span{ background:#8f89ff; }
         .topic-reader-scroll{ flex:1; min-height:0; overflow-y:auto; overflow-x:hidden; -webkit-overflow-scrolling:touch; }
         .topic-doc-loading{
             max-width:880px; margin:0 auto; padding:80px 24px; text-align:center;
@@ -768,15 +768,15 @@
         }
         /* Từ vựng trong bài có trong thư viện → bấm được để mở thẻ chi tiết */
         .topic-doc .topic-word-link{
-            cursor:pointer; border-bottom:1.5px dashed rgba(91,75,138,.55);
+            cursor:pointer; border-bottom:1.5px dashed rgba(108,99,255,.6);
             padding-bottom:1px; transition:all .13s ease; border-radius:2px;
         }
         .topic-doc .topic-word-link:hover{
-            color:#5B4B8A; background:rgba(91,75,138,.1); border-bottom-color:#5B4B8A;
-            box-shadow:0 0 0 3px rgba(91,75,138,.1);
+            color:#5B4FCF; background:rgba(108,99,255,.12); border-bottom-color:#6C63FF;
+            box-shadow:0 0 0 3px rgba(108,99,255,.12);
         }
-        html[data-theme="dark"] .topic-doc .topic-word-link{ border-bottom-color:rgba(192,179,232,.6); }
-        html[data-theme="dark"] .topic-doc .topic-word-link:hover{ color:#c0b3e8; background:rgba(192,179,232,.14); border-bottom-color:#c0b3e8; }
+        html[data-theme="dark"] .topic-doc .topic-word-link{ border-bottom-color:rgba(143,137,255,.65); }
+        html[data-theme="dark"] .topic-doc .topic-word-link:hover{ color:#bdb6ff; background:rgba(143,137,255,.16); border-bottom-color:#8f89ff; }
         @media (max-width:640px){
             .topic-reader-bar-main{ padding:9px 12px; gap:8px; }
             .topic-back-label{ display:none; }
@@ -792,11 +792,11 @@
   --paper-2:#EBEAE3;
   --ink:#20232A;
   --ink-soft:#5B5F66;
-  --indigo:#33396B;
-  --seal:#2E4A73;
-  --seal-2:#4C6C9E;
-  --violet:#5B4B8A;
-  --violet-bg:#EEECF4;
+  --indigo:#3E3796;
+  --seal:#6C63FF;
+  --seal-2:#8F89FF;
+  --violet:#5B4FCF;
+  --violet-bg:#EFEDFF;
   --line:#D8D4C6;
 }
 .topic-doc *{box-sizing:border-box;}
@@ -960,11 +960,11 @@ html[data-theme="dark"] .topic-doc{
   --paper-2:#1f232c;
   --ink:#e6e8ee;
   --ink-soft:#a4abb9;
-  --indigo:#a9b0ee;
-  --seal:#8fb3e0;
-  --seal-2:#6f92c9;
-  --violet:#c0b3e8;
-  --violet-bg:#262436;
+  --indigo:#b3aeff;
+  --seal:#8f89ff;
+  --seal-2:#6c63ff;
+  --violet:#bdb6ff;
+  --violet-bg:#272343;
   --line:#333844;
 }
 html[data-theme="dark"] .topic-doc header.top{background:rgba(23,26,33,.94);}
@@ -1004,7 +1004,12 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 .topic-doc .rl-ctrl-hint{font-family:'Plus Jakarta Sans',sans-serif;font-size:11.5px;color:var(--ink-soft);}
 
 /* Trình phát audio */
-.topic-doc .rl-audio{margin:1rem 0 1.4rem;}
+.topic-doc .rl-audio{
+  position:sticky;top:0;z-index:6;margin:1rem 0 1.4rem;
+  background:var(--paper);padding:8px 0 10px;
+}
+.topic-doc .rl-player{box-shadow:0 10px 18px -16px rgba(0,0,0,.55);}
+.topic-doc .rl-player-note:empty{display:none;}
 .topic-doc .rl-player{border:1px solid var(--line);border-radius:14px;padding:.75rem .9rem;background:var(--paper-2);}
 .topic-doc .rl-player-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.55rem;}
 .topic-doc .rl-player-label{font-family:'Plus Jakarta Sans',sans-serif;font-size:12.5px;font-weight:800;color:var(--indigo);}
@@ -1027,7 +1032,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 
 /* Câu bài đọc song ngữ */
 .topic-doc .rl-line{display:flex;gap:9px;align-items:flex-start;padding:.42rem .5rem;border-radius:8px;transition:background .15s ease;}
-.topic-doc .rl-line-on{background:rgba(91,75,138,.11);}
+.topic-doc .rl-line-on{background:rgba(108,99,255,.13);}
 .topic-doc .rl-line-play,.topic-doc .rl-task-play{
   flex-shrink:0;margin-top:3px;width:22px;height:22px;border-radius:50%;cursor:pointer;
   border:1px solid var(--line);background:transparent;color:var(--seal);
@@ -1040,7 +1045,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 .topic-doc .rl-vi{margin:.3rem 0 0;font-size:.9rem;line-height:1.7;color:var(--violet);font-style:italic;
   padding-left:.6rem;border-left:2px solid var(--violet);}
 .topic-doc .rl-gloss{border-bottom:1px dotted var(--seal);cursor:pointer;}
-.topic-doc .rl-gloss:hover{background:rgba(46,74,115,.1);}
+.topic-doc .rl-gloss:hover{background:rgba(108,99,255,.12);}
 .rl-glosstip{
   position:fixed;z-index:150;max-width:260px;padding:9px 13px;border-radius:10px;
   background:#20232A;color:#F8F6EF;box-shadow:0 8px 24px rgba(0,0,0,.28);
@@ -1057,7 +1062,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
   border:1px solid var(--line);background:var(--paper);color:var(--ink);
   font-size:.93rem;line-height:1.5;font-family:inherit;transition:all .13s ease;
 }
-.topic-doc .rl-opt:hover:not(:disabled){border-color:var(--seal);background:rgba(46,74,115,.06);}
+.topic-doc .rl-opt:hover:not(:disabled){border-color:var(--seal);background:rgba(108,99,255,.07);}
 .topic-doc .rl-opt:disabled{cursor:default;}
 .topic-doc .rl-opt-right{border-color:#2F8A5B !important;background:rgba(47,138,91,.14) !important;color:var(--ink);font-weight:700;}
 .topic-doc .rl-opt-wrong{border-color:#B2434B !important;background:rgba(178,67,75,.13) !important;}
@@ -6812,15 +6817,16 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         // Cú pháp rút gọn: xem topics/HUONG-DAN.md
         // ============================================================
         const TOPIC_COLOR_PRESETS = {
-            'tim':        ['#5B4B8A', '#33396B'],
-            'xanh duong': ['#2E5C8A', '#1D3B5C'],
-            'xanh la':    ['#2F6B52', '#1E4636'],
-            'cam':        ['#C2683C', '#8A3F22'],
-            'do':         ['#B2434B', '#7A2A32'],
-            'hong':       ['#B4517E', '#7C3055'],
-            'nau':        ['#8A6240', '#5C3F28'],
-            'xam':        ['#5A6472', '#39414D'],
-            'vang':       ['#A8802C', '#75581B'],
+            'tim':        ['#8F89FF', '#6C63FF'],   // tông thương hiệu — mặc định
+            'tim dam':    ['#6C63FF', '#4A40B5'],
+            'xanh duong': ['#7FB2F0', '#4F82C8'],
+            'xanh la':    ['#6FBF9B', '#3E8E6C'],
+            'cam':        ['#F0A878', '#CE7845'],
+            'do':         ['#EE8C8C', '#C25B5B'],
+            'hong':       ['#F095BE', '#CB6699'],
+            'nau':        ['#C4A184', '#8C6A50'],
+            'xam':        ['#9AA3B4', '#646D80'],
+            'vang':       ['#E8C77B', '#BC9540'],
         };
 
         // Bỏ dấu tiếng Việt để so khớp tên khoá/tên màu cho dễ tính
@@ -6909,8 +6915,8 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         function initReadingLesson(root, glossary) {
             rlStopAll();
             applyGlossary(root, glossary);
-            buildReadingControls(root);
             buildAudioPlayers(root);
+            buildReadingControls(root);
             wireReadingInteractions(root);
         }
 
@@ -6942,7 +6948,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             bar.className = 'rl-controls';
             bar.innerHTML = `
                 <button class="rl-ctrl-btn" data-rl-action="toggle-all">Hiện tất cả bản dịch</button>
-                <span class="rl-ctrl-hint">Bấm vào câu để hiện bản dịch · bấm vào từ gạch chân để tra nghĩa</span>`;
+                <span class="rl-ctrl-hint">Bấm vào câu để xem bản dịch · từ gạch chân có nghĩa kèm theo</span>`;
             const firstPart = root.querySelector('section.part') || root.querySelector('.wrap');
             if (firstPart && firstPart.parentNode) firstPart.parentNode.insertBefore(bar, firstPart);
         }
@@ -6957,7 +6963,11 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 
         // ─── TRÌNH PHÁT AUDIO ───
         function buildAudioPlayers(root) {
+            const wrap = root.querySelector('.wrap');
+            const firstPart = root.querySelector('section.part');
             root.querySelectorAll('.rl-audio[data-src]').forEach(box => {
+                // Đưa trình phát ra ngoài phần bìa để nó dính được trên đầu suốt cả bài
+                if (wrap && firstPart && box.closest('section.cover')) wrap.insertBefore(box, firstPart);
                 const src = box.dataset.src;
                 const isTts = src === 'tts';
                 box.innerHTML = `
@@ -6982,9 +6992,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                             </div>
                         </div>
                         ${isTts ? '' : `<audio preload="metadata" src="${rlEsc(src)}" style="display:none;"></audio>`}
-                        <p class="rl-player-note">${isTts
-                            ? 'Máy đọc lần lượt từng câu trong bài. Kéo thanh trượt để nhảy tới câu bất kỳ.'
-                            : 'Không nghe được? Kiểm tra file audio đã nằm trong thư mục topics/audio/ chưa.'}</p>
+                        <p class="rl-player-note"></p>
                     </div>`;
                 const audioEl = box.querySelector('audio');
                 if (audioEl) {
@@ -6992,8 +7000,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                     audioEl.addEventListener('timeupdate', () => rlUpdateFileUI(box));
                     audioEl.addEventListener('ended', () => rlSetPlayIcon(box, false));
                     audioEl.addEventListener('error', () => {
-                        box.querySelector('.rl-player-note').innerHTML =
-                            '<b>Không tìm thấy file audio.</b> Hãy tải file lên thư mục <code>topics/audio/</code> trên GitHub, hoặc đổi dòng @audio thành <code>@audio tts</code> để dùng giọng máy.';
+                        box.querySelector('.rl-player-note').textContent = 'Chưa tải được phần nghe của bài này.';
                     });
                 }
             });
@@ -7054,7 +7061,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                     rlStopAll();
                     rlSetPlayIcon(box, false);
                     const note = box.querySelector('.rl-player-note');
-                    if (note) note.innerHTML = '<b>Trình duyệt chưa phát được giọng đọc.</b> Hãy thử mở bằng Chrome, bật loa/tắt im lặng, hoặc dùng file audio thật với dòng <code>@audio audio/ten-file.mp3</code>.';
+                    if (note) note.textContent = 'Thiết bị chưa phát được giọng đọc. Hãy kiểm tra âm lượng hoặc thử mở bằng trình duyệt khác.';
                     return;
                 }
                 if (rlPlayer && rlPlayer.playing) rlSpeakFrom(box, index + 1);
@@ -7574,29 +7581,18 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             }
         }
 
-        // Báo lỗi kèm nguyên nhân cụ thể — để cô giáo tự biết phải sửa gì
+        // Người học chỉ thấy một câu trung tính; nguyên nhân kỹ thuật ghi vào console cho quản trị
         function topicLoadErrorHtml(t, err) {
             const isFileProtocol = location.protocol === 'file:';
             const is404 = err && /404/.test(String(err.message || err));
-            let reason, fix;
-            if (isFileProtocol) {
-                reason = 'Trang đang được mở bằng đường dẫn <b>file://</b> trên máy, trình duyệt không cho đọc file kèm theo.';
-                fix = 'Hãy mở web qua đường link thật (GitHub Pages) thay vì mở file trên máy.';
-            } else if (is404) {
-                reason = `Máy chủ không tìm thấy file <b>${t.file}</b> (lỗi 404).`;
-                fix = 'Kiểm tra tên file trong topics/danh-muc.txt có đúng không (phân biệt hoa/thường). ' +
-                      'Nếu tên đúng mà vẫn 404: repo cần có file rỗng tên <b>.nojekyll</b> ở thư mục gốc, ' +
-                      'nếu không GitHub Pages sẽ tự nuốt mất các file .md.';
-            } else {
-                reason = 'Không tải được file nội dung.';
-                fix = 'Thử tải lại trang (Cmd + Shift + R). Nếu vẫn lỗi, kiểm tra file đã được đẩy lên GitHub chưa.';
-            }
+            console.warn('[Bài viết] Không nạp được ' + t.file + '.' +
+                (isFileProtocol ? ' Trang đang mở bằng file:// nên trình duyệt chặn fetch.'
+                 : is404 ? ' Máy chủ trả về 404 — kiểm tra tên file trong topics/danh-muc.txt, và repo phải có file rỗng .nojekyll ở thư mục gốc.'
+                 : ' Lỗi: ' + err), err);
             return `
                 <div class="topic-doc-loading">
-                    <p style="font-weight:700; margin-bottom:8px;">Chưa nạp được nội dung bài viết</p>
-                    <p style="font-size:13px; line-height:1.7;">${reason}</p>
-                    <p style="font-size:13px; line-height:1.7; margin-top:8px;">${fix}</p>
-                    <p style="margin-top:14px;"><a href="${t.file}" target="_blank" style="color:#5B4B8A; font-weight:700;">Mở thẳng file nội dung →</a></p>
+                    <p style="font-weight:700; margin-bottom:8px;">Chưa mở được bài viết</p>
+                    <p style="font-size:13px; line-height:1.7;">Nội dung tạm thời chưa tải được. Bạn vui lòng tải lại trang hoặc quay lại sau.</p>
                 </div>`;
         }
 
