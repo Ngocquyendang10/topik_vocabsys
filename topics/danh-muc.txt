@@ -28,11 +28,11 @@ Màu: xanh lá
 Giới thiệu: Bài đọc 논설문 chủ đề bảo vệ môi trường, kèm phần nghe, bản dịch, từ vựng trọng tâm và bài luyện tập.
 Số liệu: 14 câu bài đọc | 15 từ vựng | 4 câu hỏi
 
-=== Modern Mental Health and Genuine Communication.md
-Tên: Sức khỏe tinh thần của con người hiện đại và sự giao tiếp đích thực
+=== bai-doc-suc-khoe-tinh-than.md
+Tên: Bài đọc · Sức khỏe tinh thần
 Mô tả ngắn: 현대인의 정신 건강과 진정한 소통 · TOPIK II · 논설문
 Chữ trên thẻ: 심
 Nhãn: Bài đọc
-Màu: tím
+Màu: xanh dương
 Giới thiệu: Phân tích áp lực tinh thần trong xã hội số, giới hạn của giao tiếp trực tuyến và những điều kiện cần thiết để xây dựng sự kết nối chân thành.
 Số liệu: 12 câu bài đọc | 14 từ vựng | 4 câu hỏi

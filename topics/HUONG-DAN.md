@@ -25,7 +25,9 @@ Làm được trên cả điện thoại. Muốn quay lại bản cũ: vào tab 
 ## B. Thêm một bài mới
 
 1. Vào thư mục `topics` trên GitHub → **Add file → Create new file**
-2. Đặt tên file kiểu `tu-lay-tuong-thanh.md` (chữ thường, không dấu, không khoảng trắng)
+2. Đặt tên file kiểu `tu-lay-tuong-thanh.md` — **chữ thường, không dấu, không khoảng trắng,
+   ngăn cách bằng dấu gạch ngang**. Tên file phải trùng tuyệt đối với dòng `===` trong
+   `danh-muc.txt`; lệch một chữ hay một dấu cách là bài không mở được.
 3. Dán nội dung viết theo cú pháp ở mục C
 4. Commit
 5. Mở file `danh-muc.txt`, bấm ✏️, chép thêm một khối như mẫu có sẵn trong đó, sửa lại thông tin → Commit
@@ -150,8 +152,10 @@ dịch" các file `.md`, làm web không đọc được file gốc. Cách tắt
 Create new file** → gõ tên file là `.nojekyll` (có dấu chấm ở đầu, không có đuôi) → để trống
 nội dung → **Commit**. Đặt ở **thư mục gốc** của repo, không phải trong `topics`.
 
-**2. Tên file phải khớp tuyệt đối.** `Tu-Vung.md` khác `tu-vung.md`. Kiểm tra lại dòng
-`=== ten-file.md` trong `danh-muc.txt`.
+**2. Tên file phải khớp tuyệt đối — đây là lỗi hay gặp nhất.** `Tu-Vung.md` khác `tu-vung.md`,
+và thừa/thiếu một chữ cũng hỏng: dòng `=== Modern Suc-Khoe.md` sẽ không tìm thấy file tên
+`Suc-Khoe.md`. Mở thư mục `topics` trên GitHub, so từng ký tự tên file với dòng `===` trong
+`danh-muc.txt`. Nên đặt tên chữ thường, không dấu, không khoảng trắng cho đỡ nhầm.
 
 **3. Đừng đặt tên file bắt đầu bằng dấu gạch dưới** (`_ten-bai.md`) — GitHub Pages bỏ qua
 những file như vậy.
@@ -295,6 +299,21 @@ xuất ra đúng một file .md theo cú pháp đó.
 - Dạng bài: 【 논설문 (bài nghị luận, viết theo lối triển khai ý của câu 54) / 설명문 (bài thuyết minh) / 기사문 (bài báo) 】
 - Độ dài bài đọc: 【 khoảng 4 đoạn, mỗi đoạn 2–5 câu 】
 - Tên file tôi sẽ đặt: 【 ví dụ: bai-doc-van-hoa-le-tet.md 】
+  (chữ thường, không dấu, không khoảng trắng, ngăn cách bằng gạch ngang, bắt đầu bằng `bai-doc-`)
+
+## Mở đầu file — bắt buộc có
+
+File phải bắt đầu **chính xác** bằng khối thông tin giữa hai dòng `---`, gồm đúng hai dòng
+`Dòng nhỏ:` và `Số liệu:` (số liệu phải khớp với nội dung thực sự viết ra):
+
+```
+---
+Dòng nhỏ: Bài đọc TOPIK II · 논설문
+Số liệu: 14 câu bài đọc | 15 từ vựng | 4 câu hỏi
+---
+```
+
+Ngay sau khối đó mới tới tiêu đề `#`.
 
 ## Nội dung cần soạn, theo đúng thứ tự này
 
@@ -346,10 +365,15 @@ Kết bài bằng một dòng `!` ghi câu chốt tiếng Hàn của bài, và m
 4. Giọng văn trung lập, chuyên nghiệp, phù hợp môi trường giáo dục. Không dùng emoji.
 5. Không dùng dấu `=` trong câu văn xuôi, không mở đầu dòng văn xuôi bằng dấu `[`.
 6. Tiếng Hàn phải tự nhiên, đúng ngữ pháp, đúng trình độ; bản dịch tiếng Việt phải thuần Việt.
+7. Tên file ở dòng `===` trong khối khai báo thẻ phải **trùng từng ký tự** với tên file tôi đưa
+   ở trên — không tự thêm, bớt hay đổi chữ nào. Đây là lỗi khiến bài không mở được.
+8. Dòng `Tên:` trên thẻ phải ngắn (dưới 35 ký tự) vì đây là tên hiển thị trên thẻ ngoài trang
+   tổng hợp, không phải tiêu đề đầy đủ của bài.
 
 ## Bạn trả về cho tôi
 
-**Phần 1:** toàn bộ nội dung file .md, đặt trong một khối code.
+**Phần 1:** toàn bộ nội dung file .md, đặt trong một khối code, phía trên ghi rõ một dòng
+`Tên file: <tên-file>.md` đúng bằng tên tôi đã đưa.
 
 **Phần 2:** khối khai báo thẻ để dán vào `danh-muc.txt`:
 
@@ -364,5 +388,6 @@ Giới thiệu: 【một câu mô tả bài】
 Số liệu: 【ví dụ: 14 câu bài đọc | 15 từ vựng | 4 câu hỏi】
 ```
 
-Trước khi trả lời, hãy tự rà lại: mọi câu bài đọc đều có bản dịch sau `//`; mọi từ trong dòng
-`&` đều xuất hiện y hệt trong câu; không còn câu hướng dẫn thao tác nào trong bài.
+Trước khi trả lời, hãy tự rà lại 4 điểm: (1) file mở đầu bằng khối `---` có đủ `Dòng nhỏ:`
+và `Số liệu:`; (2) mọi câu bài đọc đều có bản dịch sau `//`; (3) mọi từ trong dòng `&` đều xuất
+hiện y hệt trong câu `~`; (4) tên file ở dòng `===` trùng khớp tuyệt đối với tên file đã cho.
