@@ -1,0 +1,2570 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Từ nguyên Hán Hàn dùng trong TOPIK II</title>
+<!--
+  ══════════════════════════════════════════════════════════════════════════
+  BÀI POST CHỦ ĐỀ — "Từ vựng Hán Hàn"
+  File này vừa mở riêng được, vừa được app (index.html) nạp vào tab
+  "Từ vựng theo chủ đề". Toàn bộ CSS đã được gói trong phạm vi .topic-doc
+  nên không đụng tới giao diện app.
+
+  ✏️  SỬA NỘI DUNG: cuộn xuống phần thân trang (thẻ body), mỗi gốc Hán là 1 khối
+      <article class="entry"> gồm:
+        .seal-char  = chữ Hàn trong con dấu     · .reading = nghĩa tiếng Việt
+        p.meaning   = câu giải nghĩa gốc chữ    · span.kr = từ phái sinh
+        span.hv     = âm Hán Việt [trong ngoặc] · span.def = nghĩa của từ
+        .sample-kr / .sample-vi = câu ví dụ Hàn / dịch nghĩa
+
+  🎨  ĐỔI MÀU: sửa các biến trong khối .topic-doc{...} ngay dưới đây
+      (--ink chữ chính, --ink-soft chữ phụ, --indigo tiêu đề, --seal con dấu,
+       --violet khung ví dụ, --paper nền, --line đường kẻ).
+      Muốn đổi màu riêng 1 chỗ thì sửa thẳng rule của class đó,
+      nhớ giữ nguyên tiền tố ".topic-doc " ở đầu selector.
+
+  🌗  Màu chế độ tối nằm ở khối html[data-theme="dark"] .topic-doc{...} cuối
+      phần CSS — đổi màu sáng thì nhớ ngó qua bản tối cho cân.
+  ══════════════════════════════════════════════════════════════════════════
+-->
+<style>
+.topic-doc{
+  --paper:#F8F6EF;
+  --paper-2:#EBEAE3;
+  --ink:#20232A;
+  --ink-soft:#5B5F66;
+  --indigo:#33396B;
+  --seal:#2E4A73;
+  --seal-2:#4C6C9E;
+  --violet:#5B4B8A;
+  --violet-bg:#EEECF4;
+  --line:#D8D4C6;
+}
+.topic-doc *{box-sizing:border-box;}
+.topic-doc{scroll-behavior:smooth;}
+.topic-doc{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:Georgia,'Times New Roman',serif;
+  line-height:1.5;
+}
+.topic-doc .wrap{max-width:880px;margin:0 auto;padding:0 1.25rem 4rem;}
+
+.topic-doc header.top{
+  position:sticky;top:0;z-index:20;
+  background:rgba(250,247,240,.94);
+  backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--line);
+}
+.topic-doc .top-inner{max-width:880px;margin:0 auto;padding:.6rem 1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+.topic-doc .brand{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--indigo);}
+.topic-doc nav.parts-nav{display:flex;gap:.4rem;}
+.topic-doc nav.parts-nav a{
+  font-family:ui-monospace,Menlo,Consolas,monospace;
+  font-size:.75rem;color:var(--ink-soft);
+  text-decoration:none;border:1px solid var(--line);
+  border-radius:999px;padding:.2rem .55rem;
+}
+.topic-doc nav.parts-nav a:hover{border-color:var(--seal);color:var(--seal);}
+
+.topic-doc .cover{padding:3rem 0 2rem;border-bottom:1px solid var(--line);}
+.topic-doc .eyebrow{
+  font-family:ui-monospace,Menlo,Consolas,monospace;
+  font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--seal);margin:0 0 .6rem;
+}
+.topic-doc h1.doc-title{
+  font-size:2rem;line-height:1.2;margin:0 0 .7rem;
+  color:var(--indigo);font-weight:700;
+}
+.topic-doc p.doc-lede{max-width:62ch;color:var(--ink-soft);margin:0 0 1.4rem;font-size:1.02rem;}
+.topic-doc .stat-row{display:flex;gap:1.5rem;flex-wrap:wrap;}
+.topic-doc .stat{border-left:2px solid var(--seal);padding-left:.6rem;}
+.topic-doc .stat b{display:block;font-size:1.4rem;color:var(--indigo);line-height:1.1;}
+.topic-doc .stat span{font-size:.78rem;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em;}
+
+.topic-doc .part{padding-top:3.2rem;}
+.topic-doc .part-header{display:flex;gap:1.1rem;align-items:flex-start;border-bottom:2px solid var(--ink);padding-bottom:.9rem;}
+.topic-doc .part-roman{
+  font-size:2.4rem;font-weight:700;color:var(--seal);
+  line-height:1;flex-shrink:0;min-width:2.4rem;
+}
+.topic-doc h2.part-title{
+  font-size:1.15rem;letter-spacing:.01em;text-transform:uppercase;
+  font-weight:700;color:var(--indigo);margin:0 0 .35rem;
+}
+.topic-doc p.part-intro{margin:0;color:var(--ink-soft);font-size:.92rem;max-width:58ch;font-style:italic;}
+.topic-doc p.part-stat{
+  font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.72rem;
+  color:var(--ink-soft);letter-spacing:.03em;margin:.6rem 0 0;
+}
+
+.topic-doc h3.group-title{
+  font-size:1rem;font-weight:700;color:var(--ink);
+  margin:1.9rem 0 .2rem;padding-bottom:.3rem;
+  border-bottom:1px dotted var(--line);
+}
+
+.topic-doc .entry{display:flex;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--line);}
+.topic-doc .entry:last-child{border-bottom:none;}
+.topic-doc .entry-left{display:flex;flex-direction:column;align-items:center;gap:.35rem;width:74px;flex-shrink:0;}
+.topic-doc .seal{
+  width:52px;height:52px;border-radius:6px;
+  background:linear-gradient(155deg,var(--seal),var(--seal-2));
+  display:flex;align-items:center;justify-content:center;
+  transform:rotate(-3deg);
+  box-shadow:0 2px 5px rgba(30,20,10,.18);
+}
+.topic-doc .seal-char{
+  color:#FBF4E8;font-size:1.55rem;font-weight:700;
+  transform:rotate(3deg);
+  font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+}
+.topic-doc .reading{
+  /* 👉 CỠ CHỮ NGHĨA TIẾNG VIỆT dưới mỗi gốc Hán — sửa font-size ở đây */
+  font-family:ui-monospace,Menlo,Consolas,monospace;
+  font-size:.95rem;font-weight:600;line-height:1.25;
+  color:var(--indigo);text-align:center;
+}
+.topic-doc .entry-body{flex:1;min-width:0;}
+.topic-doc .root-full{
+  font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  font-weight:700;font-size:.95rem;color:var(--ink);
+  letter-spacing:.02em;
+}
+.topic-doc p.meaning{margin:.3rem 0 .55rem;color:var(--ink-soft);font-size:.92rem;font-style:italic;}
+.topic-doc .examples{display:flex;flex-direction:column;gap:.5rem;}
+.topic-doc .ex-wrap{display:flex;flex-direction:column;gap:0;}
+.topic-doc .ex{display:flex;flex-wrap:wrap;align-items:baseline;gap:.4rem;font-size:.93rem;}
+.topic-doc .ex .kr{
+  font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  font-weight:700;color:var(--ink);
+}
+.topic-doc .ex .hv{
+  font-family:ui-monospace,Menlo,Consolas,monospace;
+  color:var(--indigo);font-size:.82rem;
+}
+.topic-doc .ex .def{color:var(--ink);flex:1;min-width:140px;}
+.topic-doc .ex.extra .def{color:var(--ink-soft);}
+.topic-doc .ex .tag{
+  font-family:ui-monospace,Menlo,Consolas,monospace;
+  font-size:.62rem;text-transform:uppercase;letter-spacing:.05em;
+  color:var(--seal);border:1px solid var(--seal);border-radius:999px;
+  padding:.03rem .4rem;
+}
+.topic-doc p.note{
+  margin:.7rem 0 0;padding:.5rem .7rem;
+  background:var(--paper-2);border-left:3px solid var(--seal);
+  font-size:.83rem;color:var(--ink-soft);
+}
+.topic-doc .note-label{
+  font-family:ui-monospace,Menlo,Consolas,monospace;
+  text-transform:uppercase;font-size:.66rem;letter-spacing:.06em;
+  color:var(--seal);margin-right:.5rem;font-weight:700;
+}
+.topic-doc .sample{
+  margin:.3rem 0 .15rem 0;padding:.4rem .65rem;
+  background:var(--violet-bg);border-left:3px solid var(--violet);
+  border-radius:2px;font-size:.85rem;
+}
+.topic-doc .sample-label{
+  font-family:ui-monospace,Menlo,Consolas,monospace;
+  text-transform:uppercase;font-size:.62rem;letter-spacing:.06em;
+  color:var(--violet);font-weight:700;display:block;margin-bottom:.2rem;
+}
+.topic-doc .sample-kr{
+  font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  color:var(--ink);
+}
+.topic-doc .sample-vi{
+  display:block;margin-top:.2rem;color:var(--violet);
+  font-style:italic;font-size:.82rem;
+}
+
+.topic-doc footer.colophon{
+  margin-top:3.5rem;padding-top:1.5rem;border-top:2px solid var(--ink);
+  color:var(--ink-soft);font-size:.85rem;
+}
+.topic-doc footer.colophon .stat-row{margin-bottom:1rem;}
+
+@media (max-width:560px){
+  .topic-doc h1.doc-title{font-size:1.5rem;}
+  .topic-doc .part-roman{font-size:1.9rem;}
+  .topic-doc nav.parts-nav{gap:.3rem;}
+  .topic-doc .ex .def{min-width:100%;}
+}
+
+/* ─── CHẾ ĐỘ TỐI — tự đồng bộ theo app (html[data-theme="dark"]) ─── */
+html[data-theme="dark"] .topic-doc{
+  --paper:#171a21;
+  --paper-2:#1f232c;
+  --ink:#e6e8ee;
+  --ink-soft:#a4abb9;
+  --indigo:#a9b0ee;
+  --seal:#8fb3e0;
+  --seal-2:#6f92c9;
+  --violet:#c0b3e8;
+  --violet-bg:#262436;
+  --line:#333844;
+}
+html[data-theme="dark"] .topic-doc header.top{background:rgba(23,26,33,.94);}
+html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
+</style>
+<style id="topic-standalone-only">
+/* Chỉ áp dụng khi MỞ RIÊNG file này bằng trình duyệt; app sẽ tự gỡ khi nhúng vào trang. */
+html,body{margin:0;background:#F8F6EF;}
+html[data-theme="dark"],html[data-theme="dark"] body{background:#171a21;}
+</style>
+
+</head>
+<body class="topic-doc">
+<header class="top">
+  <div class="top-inner">
+    <span class="brand">Từ nguyên Hán Hàn · TOPIK II</span>
+    <nav class="parts-nav"><a href="#phan-1">I</a><a href="#phan-2">II</a><a href="#phan-3">III</a><a href="#phan-4">IV</a><a href="#phan-5">V</a></nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="cover">
+    <p class="eyebrow">Tài liệu tham khảo · Tiếng Hàn cho người Việt</p>
+    <h1 class="doc-title">Gốc Hán tự thường gặp trong đề thi TOPIK II</h1>
+    <p class="doc-lede">Tổng hợp các gốc chữ Hán (Hán Hàn) xuất hiện phổ biến trong đề đọc hiểu, nghe hiểu và viết luận TOPIK II, sắp xếp theo năm phần chủ đề. Mỗi mục trình bày gốc chữ, âm Hán Việt tương ứng, phạm vi nghĩa và các từ vựng phái sinh thường gặp. Những gốc chữ mang nhiều âm Hán khác nhau nhưng phát âm giống nhau trong tiếng Hàn được tách thành các mục riêng, kèm chú thích phân biệt. Câu ví dụ minh họa (đặt trong khung riêng) hiện đã được bổ sung cho Nhóm 1 và Nhóm 2 thuộc Phần I; các nhóm còn lại sẽ được cập nhật dần trong các bản sau.</p>
+    <div class="stat-row">
+      <div class="stat"><b>152</b><span>gốc Hán tự</span></div>
+      <div class="stat"><b>482</b><span>từ vựng phái sinh</span></div>
+      <div class="stat"><b>5</b><span>phần chủ đề</span></div>
+    </div>
+  </section>
+
+  
+    <section class="part" id="phan-1">
+      <div class="part-header">
+        <span class="part-roman">I</span>
+        <div>
+          <h2 class="part-title">Xu hướng tăng giảm &amp; kinh tế</h2>
+          <p class="part-intro">Nhóm gốc chữ Hán thường xuất hiện trong các bài đọc và biểu đồ về kinh tế, thị trường, chỉ số xã hội.</p>
+        </div>
+      </div>
+      <p class="part-stat">36 gốc Hán tự &middot; 154 từ vựng phái sinh</p>
+      
+    <section class="group">
+      <h3 class="group-title">Nhóm 1 — Tăng, giảm, biến động</h3>
+      <div class="entries">
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">증</span></div>
+        <div class="reading">tăng</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">증</span>
+        </div>
+        <p class="meaning">Một đại lượng, con số hay mức độ đi lên cao hơn mức ban đầu.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">증대</span><span class="hv">[tăng đại]</span><span class="def">mở rộng quy mô, phạm vi</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">정부는 청년 일자리 예산을 증대하기로 했다.</span><span class="sample-vi">Chính phủ quyết định mở rộng ngân sách việc làm cho thanh niên.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">증액</span><span class="hv">[tăng ngạch]</span><span class="def">được cộng thêm tiền</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">회사는 올해 연구비를 증액했다.</span><span class="sample-vi">Công ty đã tăng thêm kinh phí nghiên cứu trong năm nay.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">증원</span><span class="hv">[tăng viên]</span><span class="def">bổ sung thêm nhân sự</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">병원은 간호 인력을 증원할 계획이다.</span><span class="sample-vi">Bệnh viện có kế hoạch bổ sung thêm nhân lực điều dưỡng.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">급증</span><span class="hv">[cấp tăng]</span><span class="def">tăng rất nhanh, đột ngột</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">폭우로 인해 침수 피해가 급증했습니다.</span><span class="sample-vi">Thiệt hại do ngập lụt vì mưa lớn đã tăng nhanh chóng.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">증가</span><span class="hv">[tăng gia]</span><span class="def">hiện tượng đi lên nói chung</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">최근 온라인 쇼핑 이용자가 증가하고 있다.</span><span class="sample-vi">Gần đây số người sử dụng mua sắm trực tuyến đang tăng lên.</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">증진</span><span class="hv">[tăng tiến]</span><span class="tag">mở rộng</span><span class="def">được nâng cao, cải thiện thêm</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">이 프로그램은 학생들의 건강 증진을 목표로 한다.</span><span class="sample-vi">Chương trình này hướng tới việc nâng cao sức khỏe cho học sinh.</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">감</span></div>
+        <div class="reading">giảm</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">감</span>
+        </div>
+        <p class="meaning">Một đại lượng, con số hay mức độ đi xuống thấp hơn mức ban đầu.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">감축</span><span class="hv">[giảm súc]</span><span class="def">bị cắt bớt có chủ đích</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">정부는 온실가스 배출량을 감축하기로 발표했다.</span><span class="sample-vi">Chính phủ tuyên bố sẽ cắt giảm lượng khí thải nhà kính.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">감면</span><span class="hv">[giảm miễn]</span><span class="def">được miễn hoặc giảm bớt, thường dùng cho thuế, phí</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">소상공인은 이번 조치로 세금을 감면받았다.</span><span class="sample-vi">Các hộ kinh doanh nhỏ đã được miễn giảm thuế nhờ biện pháp lần này.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">급감</span><span class="hv">[cấp giảm]</span><span class="def">giảm rất nhanh, đột ngột</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">코로나 이후 해외 여행객 수가 급감했다.</span><span class="sample-vi">Sau đại dịch, số lượng khách du lịch nước ngoài đã giảm mạnh.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">감소</span><span class="hv">[giảm thiểu]</span><span class="def">hiện tượng đi xuống nói chung</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">출생아 수가 해마다 감소하고 있다.</span><span class="sample-vi">Số trẻ sơ sinh đang giảm dần theo từng năm.</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">절감</span><span class="hv">[tiết giảm]</span><span class="tag">mở rộng</span><span class="def">cắt giảm để tiết kiệm</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">기업은 비용 절감을 위해 인력을 줄였다.</span><span class="sample-vi">Doanh nghiệp đã cắt giảm nhân sự để tiết kiệm chi phí.</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">상</span></div>
+        <div class="reading">thượng</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">상</span>
+        </div>
+        <p class="meaning">Hướng đi lên, vị trí cao hơn, hoặc chuyển biến theo hướng tốt hơn.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">인상</span><span class="hv">[dẫn thượng]</span><span class="def">mức giá hoặc con số được nâng lên</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">대중교통 요금이 다음 달부터 인상된다.</span><span class="sample-vi">Giá vé phương tiện công cộng sẽ được nâng lên từ tháng sau.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">상향</span><span class="hv">[thượng hướng]</span><span class="def">xu hướng dịch chuyển lên trên</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">정부는 최저임금을 상향 조정했다.</span><span class="sample-vi">Chính phủ đã điều chỉnh mức lương tối thiểu theo hướng tăng lên.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">상승</span><span class="hv">[thượng thăng]</span><span class="def">sự đi lên nói chung</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">주식 시장이 오늘 크게 상승했다.</span><span class="sample-vi">Thị trường chứng khoán hôm nay đã tăng mạnh.</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">향상</span><span class="hv">[hướng thượng]</span><span class="tag">mở rộng</span><span class="def">được nâng cao về chất lượng, năng lực</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">꾸준한 연습으로 실력이 향상되었다.</span><span class="sample-vi">Nhờ luyện tập đều đặn, trình độ đã được nâng cao.</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">하</span></div>
+        <div class="reading">hạ</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">하</span>
+        </div>
+        <p class="meaning">Hướng đi xuống, vị trí thấp hơn, hoặc mức độ nhỏ đi.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">인하</span><span class="hv">[dẫn hạ]</span><span class="def">mức giá hoặc con số bị kéo xuống</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">정부가 유류세를 인하하기로 했다.</span><span class="sample-vi">Chính phủ quyết định giảm thuế nhiên liệu.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">하향</span><span class="hv">[hạ hướng]</span><span class="def">xu hướng dịch chuyển xuống dưới</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">경기 전망이 하향 조정되었다.</span><span class="sample-vi">Triển vọng kinh tế đã được điều chỉnh theo hướng giảm.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">하락</span><span class="hv">[hạ lạc]</span><span class="def">sự đi xuống nói chung</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">환율이 급격히 하락했다.</span><span class="sample-vi">Tỷ giá đã giảm mạnh một cách đột ngột.</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">저하</span><span class="hv">[đê hạ]</span><span class="tag">mở rộng</span><span class="def">chất lượng hoặc năng lực bị suy giảm</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">수면 부족은 집중력 저하로 이어진다.</span><span class="sample-vi">Thiếu ngủ dẫn đến sự suy giảm khả năng tập trung.</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">폭</span></div>
+        <div class="reading">bạo</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">폭</span>
+        </div>
+        <p class="meaning">Mức độ hoặc phạm vi của một sự thay đổi.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">소폭</span><span class="hv">[tiểu phúc]</span><span class="def">thay đổi ở mức nhẹ</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">이번 개편은 소폭에 그쳤다.</span><span class="sample-vi">Đợt cải cách lần này chỉ dừng ở mức thay đổi nhẹ.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">대폭</span><span class="hv">[đại phúc]</span><span class="def">thay đổi trên diện rộng, mức lớn</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">회사는 조직을 대폭 개편했다.</span><span class="sample-vi">Công ty đã cải tổ tổ chức trên diện rộng.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">폭발</span><span class="hv">[bạo phát]</span><span class="def">bùng nổ, nổ ra</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">공장에서 원인 모를 폭발이 일어났다.</span><span class="sample-vi">Một vụ nổ không rõ nguyên nhân đã xảy ra tại nhà máy.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">폭락</span><span class="hv">[bạo lạc]</span><span class="def">giá hoặc chỉ số rơi mạnh trong thời gian ngắn</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">주가가 하루 만에 폭락했다.</span><span class="sample-vi">Giá cổ phiếu đã rơi mạnh chỉ trong một ngày.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">폭등</span><span class="hv">[bạo đằng]</span><span class="def">giá hoặc chỉ số tăng vọt trong thời gian ngắn</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">채소 가격이 폭등했다.</span><span class="sample-vi">Giá rau củ đã tăng vọt.</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">급등 / 급락</span><span class="hv">[cấp đằng / cấp lạc]</span><span class="tag">mở rộng</span><span class="def">cách nói khác của tăng vọt và giảm mạnh</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">유가가 급등과 급락을 반복하고 있다.</span><span class="sample-vi">Giá dầu đang liên tục tăng vọt rồi giảm mạnh.</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">난</span></div>
+        <div class="reading">nạn</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">난</span>
+        </div>
+        <p class="meaning">Tình trạng thiếu thốn hoặc bế tắc gây khó khăn.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">인력난</span><span class="hv">[nhân lực nạn]</span><span class="def">thiếu hụt nhân lực</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">농촌 지역은 심각한 인력난을 겪고 있다.</span><span class="sample-vi">Các vùng nông thôn đang trải qua tình trạng thiếu hụt nhân lực nghiêm trọng.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">교통난</span><span class="hv">[giao thông nạn]</span><span class="def">tình trạng ùn tắc giao thông</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">출퇴근 시간에는 교통난이 극심하다.</span><span class="sample-vi">Vào giờ cao điểm, tình trạng ùn tắc giao thông rất nghiêm trọng.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">구직난</span><span class="hv">[cầu chức nạn]</span><span class="def">khó khăn khi tìm việc</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">청년층의 구직난이 계속되고 있다.</span><span class="sample-vi">Tình trạng khó khăn khi tìm việc của giới trẻ vẫn tiếp diễn.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">취업난</span><span class="hv">[tựu nghiệp nạn]</span><span class="def">khó khăn khi xin được việc làm</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">대학 졸업생들이 취업난에 시달리고 있다.</span><span class="sample-vi">Các sinh viên mới tốt nghiệp đang chật vật vì khó khăn xin việc.</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">주택난</span><span class="hv">[trú trạch nạn]</span><span class="tag">mở rộng</span><span class="def">tình trạng khan hiếm nhà ở</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">대도시의 주택난이 심화되고 있다.</span><span class="sample-vi">Tình trạng khan hiếm nhà ở tại các thành phố lớn đang trở nên nghiêm trọng hơn.</span></div></div></div>
+        
+      </div>
+    </article></div>
+    </section>
+    <section class="group">
+      <h3 class="group-title">Nhóm 2 — Tranh luận, đánh giá, đối phó</h3>
+      <div class="entries">
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">논</span></div>
+        <div class="reading">luận</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">논</span>
+        </div>
+        <p class="meaning">Trao đổi qua lại ý kiến về một vấn đề, có thể dẫn tới bất đồng.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">논란</span><span class="hv">[luận nạn]</span><span class="def">gây tranh cãi trong dư luận</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">새 정책을 둘러싸고 논란이 일고 있다.</span><span class="sample-vi">Đang có nhiều tranh cãi xoay quanh chính sách mới.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">논쟁</span><span class="hv">[luận tranh]</span><span class="def">tranh luận gay gắt giữa các bên</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">두 후보는 정책을 놓고 치열한 논쟁을 벌였다.</span><span class="sample-vi">Hai ứng viên đã tranh luận gay gắt về chính sách.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">토론</span><span class="hv">[thảo luận]</span><span class="def">buổi thảo luận có tổ chức</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">학생들은 환경 문제에 대해 토론했다.</span><span class="sample-vi">Học sinh đã thảo luận về vấn đề môi trường.</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">논의</span><span class="hv">[luận nghị]</span><span class="tag">mở rộng</span><span class="def">bàn bạc, trao đổi ý kiến</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">위원회는 예산안을 논의하고 있다.</span><span class="sample-vi">Ủy ban đang bàn bạc về dự thảo ngân sách.</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">촉</span></div>
+        <div class="reading">xúc</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">촉</span>
+        </div>
+        <p class="meaning">Đẩy nhanh, tạo động lực cho một việc tiến triển.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">접촉</span><span class="hv">[tiếp xúc]</span><span class="def">có sự giao tiếp, tiếp cận với đối tượng khác</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">두 나라는 비공식 접촉을 이어가고 있다.</span><span class="sample-vi">Hai nước vẫn đang duy trì các cuộc tiếp xúc không chính thức.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">촉진</span><span class="hv">[xúc tiến]</span><span class="def">làm cho một quá trình diễn ra nhanh hơn</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">정부는 지역 경제 촉진을 위한 정책을 내놓았다.</span><span class="sample-vi">Chính phủ đã đưa ra chính sách nhằm thúc đẩy kinh tế địa phương.</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">촉구</span><span class="hv">[xúc cầu]</span><span class="tag">mở rộng</span><span class="def">kêu gọi, thúc giục hành động ngay</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">시민단체는 대책 마련을 촉구했다.</span><span class="sample-vi">Các tổ chức dân sự đã kêu gọi xây dựng biện pháp đối phó.</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Chữ Hán 促 đọc là 촉. Một số bản lưu hành ghi nhầm thành 축.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">비</span></div>
+        <div class="reading">phi</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">비</span>
+        </div>
+        <p class="meaning">Mang hai lớp nghĩa: phủ định &#x27;không phải&#x27; và phê phán, đánh giá tiêu cực.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">비협조</span><span class="hv">[phi hiệp trợ]</span><span class="def">không chịu hợp tác</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">일부 부서의 비협조로 사업이 지연되었다.</span><span class="sample-vi">Dự án bị chậm trễ do một số bộ phận không chịu hợp tác.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">비과학</span><span class="hv">[phi khoa học]</span><span class="def">trái với khoa học</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">그 주장은 비과학적인 근거에 기반하고 있다.</span><span class="sample-vi">Lập luận đó dựa trên cơ sở trái với khoa học.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">비판</span><span class="hv">[phê phán]</span><span class="def">đưa ra nhận xét mang tính phê bình</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">전문가들은 정책에 대해 비판을 제기했다.</span><span class="sample-vi">Các chuyên gia đã đưa ra phê bình về chính sách.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">비난</span><span class="hv">[phi nạn]</span><span class="def">chỉ trích gay gắt, lên án</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">그의 발언은 거센 비난을 받았다.</span><span class="sample-vi">Phát biểu của ông ấy đã bị chỉ trích gay gắt.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">비상</span><span class="hv">[phi thường]</span><span class="def">tình huống cần xử lý gấp, khẩn cấp</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">회사는 비상 상황에 대비한 계획을 세웠다.</span><span class="sample-vi">Công ty đã lập kế hoạch ứng phó với tình huống khẩn cấp.</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">비공식</span><span class="hv">[phi công thức]</span><span class="tag">mở rộng</span><span class="def">không mang tính chính thức</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">두 정상은 비공식 회담을 가졌다.</span><span class="sample-vi">Hai nguyên thủ đã có cuộc gặp không chính thức.</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>비상 dùng chữ 非 (khẩn cấp), khác nhóm 批 (phê phán) trong cùng bảng dù đọc giống nhau.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">소</span></div>
+        <div class="reading">tiểu</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">소</span>
+        </div>
+        <p class="meaning">Quy mô nhỏ hoặc sự thiếu hụt về số lượng.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">소규모</span><span class="hv">[tiểu quy mô]</span><span class="def">quy mô nhỏ</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">이 마을에는 소규모 공장이 많다.</span><span class="sample-vi">Ngôi làng này có nhiều nhà máy quy mô nhỏ.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">소외</span><span class="hv">[sơ ngoại]</span><span class="def">bị gạt ra ngoài, không được quan tâm</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">노인들이 사회에서 소외되지 않도록 해야 한다.</span><span class="sample-vi">Cần đảm bảo người cao tuổi không bị gạt ra ngoài lề xã hội.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">소폭</span><span class="hv">[tiểu phúc]</span><span class="def">mức thay đổi nhẹ</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">물가가 소폭 상승했다.</span><span class="sample-vi">Giá cả đã tăng nhẹ.</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">축소</span><span class="hv">[súc tiểu]</span><span class="tag">mở rộng</span><span class="def">bị thu nhỏ lại</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">회사는 해외 사업을 축소하기로 했다.</span><span class="sample-vi">Công ty quyết định thu nhỏ quy mô kinh doanh ở nước ngoài.</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>소비 (tiêu dùng) dùng chữ 消, mang nghĩa khác, không thuộc nhóm 小/少 dù đọc giống nhau.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">대</span></div>
+        <div class="reading">đại</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">대</span>
+        </div>
+        <p class="meaning">Mang hai lớp nghĩa: lớn, nhiều, diện rộng; và hành động đáp lại, ứng phó.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">대다수</span><span class="hv">[đại đa số]</span><span class="def">phần lớn trong tổng thể</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">대다수 시민이 그 정책에 찬성했다.</span><span class="sample-vi">Phần lớn người dân đã đồng tình với chính sách đó.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">대비</span><span class="hv">[đối bị]</span><span class="def">sự chuẩn bị trước để ứng phó</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">정부는 자연재해에 대비하고 있다.</span><span class="sample-vi">Chính phủ đang chuẩn bị để ứng phó với thiên tai.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">대응</span><span class="hv">[đối ứng]</span><span class="def">cách phản ứng, xử lý trước một tình huống</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">회사는 위기에 신속히 대응했다.</span><span class="sample-vi">Công ty đã phản ứng nhanh chóng trước khủng hoảng.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">대책</span><span class="hv">[đối sách]</span><span class="def">giải pháp cụ thể để giải quyết vấn đề</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">정부는 물가 안정 대책을 발표했다.</span><span class="sample-vi">Chính phủ đã công bố giải pháp ổn định giá cả.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">대폭</span><span class="hv">[đại phúc]</span><span class="def">ở mức độ lớn, trên diện rộng</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">예산이 대폭 삭감되었다.</span><span class="sample-vi">Ngân sách đã bị cắt giảm mạnh.</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">대처</span><span class="hv">[đối xử]</span><span class="tag">mở rộng</span><span class="def">cách xử lý tình huống phát sinh</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">그는 문제 상황에 침착하게 대처했다.</span><span class="sample-vi">Anh ấy đã xử lý tình huống một cách bình tĩnh.</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">전</span></div>
+        <div class="reading">toàn</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">전</span>
+        </div>
+        <p class="meaning">Bao trùm toàn bộ, không sót phần nào.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">전신</span><span class="hv">[toàn thân]</span><span class="def">toàn bộ cơ thể</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">운동 후에는 전신이 뻐근했다.</span><span class="sample-vi">Sau khi tập thể dục, toàn bộ cơ thể cảm thấy mỏi.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">전면</span><span class="hv">[toàn diện]</span><span class="def">toàn bộ bề mặt hoặc phạm vi</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">정부는 정책을 전면 재검토하기로 했다.</span><span class="sample-vi">Chính phủ quyết định xem xét lại toàn diện chính sách.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">전액</span><span class="hv">[toàn ngạch]</span><span class="def">toàn bộ số tiền</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">학비 전액을 지원받았다.</span><span class="sample-vi">Đã được hỗ trợ toàn bộ số tiền học phí.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">전원</span><span class="hv">[toàn viên]</span><span class="def">tất cả mọi thành viên</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">회의에 직원 전원이 참석했다.</span><span class="sample-vi">Tất cả nhân viên đã tham dự cuộc họp.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">전부</span><span class="hv">[toàn bộ]</span><span class="def">tất cả, không thiếu phần nào</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">그는 재산 전부를 기부했다.</span><span class="sample-vi">Anh ấy đã quyên góp toàn bộ tài sản.</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">전국</span><span class="hv">[toàn quốc]</span><span class="def">phạm vi cả nước</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">태풍의 영향이 전국에 미쳤다.</span><span class="sample-vi">Ảnh hưởng của cơn bão đã lan ra khắp cả nước.</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">전반적</span><span class="hv">[toàn ban]</span><span class="tag">mở rộng</span><span class="def">mang tính bao quát, tổng thể</span></div><div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">올해 전반적인 매출이 늘었다.</span><span class="sample-vi">Doanh thu nhìn chung trong năm nay đã tăng lên.</span></div></div></div>
+        
+      </div>
+    </article></div>
+    </section>
+    <section class="group">
+      <h3 class="group-title">Nhóm 3 — Mới, cứu giúp, giải quyết, trì trệ, cấm/tiền, gấp</h3>
+      <div class="entries">
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">신</span></div>
+        <div class="reading">tân</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">신</span>
+        </div>
+        <p class="meaning">Vừa xuất hiện, chưa từng có trước đó.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">신년</span><span class="hv">[tân niên]</span><span class="def">năm mới</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">신상품</span><span class="hv">[tân thương phẩm]</span><span class="def">mặt hàng mới ra mắt</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">신제품</span><span class="hv">[tân chế phẩm]</span><span class="def">sản phẩm mới</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">신기술</span><span class="hv">[tân kỹ thuật]</span><span class="def">công nghệ mới được phát triển</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">신입</span><span class="hv">[tân nhập]</span><span class="tag">mở rộng</span><span class="def">người mới gia nhập</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">구</span></div>
+        <div class="reading">cứu</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">구</span>
+        </div>
+        <p class="meaning">Hành động giúp đỡ ai đó thoát khỏi tình huống nguy hiểm.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">구제</span><span class="hv">[cứu tế]</span><span class="def">hỗ trợ, cứu trợ cho người gặp khó khăn</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">구조</span><span class="hv">[cứu trợ]</span><span class="def">hành động cứu hộ trong tình huống nguy hiểm</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">구호</span><span class="hv">[cứu hộ]</span><span class="tag">mở rộng</span><span class="def">hoạt động cứu trợ nhân đạo</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">해</span></div>
+        <div class="reading">giải</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">해</span>
+        </div>
+        <p class="meaning">Làm cho một vấn đề trở nên thông suốt, không còn vướng mắc.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">화해</span><span class="hv">[hòa giải]</span><span class="def">làm lành sau mâu thuẫn</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">해소</span><span class="hv">[giải tiêu]</span><span class="def">xóa bỏ một trạng thái căng thẳng, tồn đọng</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">해결</span><span class="hv">[giải quyết]</span><span class="def">xử lý xong một vấn đề</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">해제</span><span class="hv">[giải trừ]</span><span class="tag">mở rộng</span><span class="def">dỡ bỏ một quy định hoặc lệnh cấm</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">체</span></div>
+        <div class="reading">trệ</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">체</span>
+        </div>
+        <p class="meaning">Trạng thái bị ngưng trệ, không tiến triển được.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">침체</span><span class="hv">[trầm trệ]</span><span class="def">rơi vào tình trạng trì trệ, thường dùng cho kinh tế</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">정체</span><span class="hv">[đình trệ]</span><span class="def">bị đình lại, không di chuyển hoặc tiến triển được</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">금</span></div>
+        <div class="reading">cấm</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">금</span>
+        </div>
+        <p class="meaning">Mang hai lớp nghĩa từ hai chữ Hán khác nhau: 禁 ngăn cấm, và 金 liên quan tiền bạc, tài chính.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">금연</span><span class="hv">[cấm yên]</span><span class="def">quy định cấm hút thuốc</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">금지</span><span class="hv">[cấm chỉ]</span><span class="def">hành vi bị ngăn cấm</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">자금</span><span class="hv">[tư kim]</span><span class="def">nguồn tiền dùng cho một mục đích</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">금액</span><span class="hv">[kim ngạch]</span><span class="def">con số tiền cụ thể</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">기금</span><span class="hv">[cơ kim]</span><span class="tag">mở rộng</span><span class="def">quỹ tiền được lập ra cho mục đích riêng</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">급</span></div>
+        <div class="reading">cấp</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">급</span>
+        </div>
+        <p class="meaning">Tốc độ thay đổi nhanh trong thời gian ngắn.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">급감</span><span class="hv">[cấp giảm]</span><span class="def">giảm nhanh, đột ngột</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">급증</span><span class="hv">[cấp tăng]</span><span class="def">tăng nhanh, đột ngột</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">긴급</span><span class="hv">[khẩn cấp]</span><span class="def">cần xử lý ngay lập tức</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">응급</span><span class="hv">[ứng cấp]</span><span class="tag">mở rộng</span><span class="def">cấp cứu, khẩn cấp về y tế</span></div></div></div>
+        
+      </div>
+    </article></div>
+    </section>
+    <section class="group">
+      <h3 class="group-title">Nhóm 4 — Quá mức, chưa, phủ định, hoạt động</h3>
+      <div class="entries">
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">과</span></div>
+        <div class="reading">quá</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">과</span>
+        </div>
+        <p class="meaning">Vượt ra ngoài giới hạn hợp lý hoặc cho phép.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">과식</span><span class="hv">[quá thực]</span><span class="def">ăn nhiều hơn mức cần thiết</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">과속</span><span class="hv">[quá tốc]</span><span class="def">chạy nhanh hơn tốc độ quy định</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">과열</span><span class="hv">[quá nhiệt]</span><span class="def">nóng lên quá mức</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">과소비</span><span class="hv">[quá tiêu phí]</span><span class="def">chi tiêu vượt quá khả năng</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">과반수</span><span class="hv">[quá bán số]</span><span class="tag">mở rộng</span><span class="def">quá nửa số lượng</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">미</span></div>
+        <div class="reading">vị</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">미</span>
+        </div>
+        <p class="meaning">Chưa đạt tới hoặc chưa được xác định rõ.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">미지수</span><span class="hv">[vị tri số]</span><span class="def">điều chưa biết trước được kết quả</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">미납</span><span class="hv">[vị nạp]</span><span class="def">khoản chưa được nộp</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">미달</span><span class="hv">[vị đạt]</span><span class="def">chưa đạt tới mức yêu cầu</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">미정</span><span class="hv">[vị định]</span><span class="def">chưa được quyết định</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">미완성</span><span class="hv">[vị hoàn thành]</span><span class="def">chưa hoàn tất</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">미해결</span><span class="hv">[vị giải quyết]</span><span class="def">chưa được xử lý xong</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">미흡하다</span><span class="hv">[vị hiệp]</span><span class="tag">mở rộng</span><span class="def">còn thiếu sót, chưa đầy đủ</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">불</span></div>
+        <div class="reading">bất</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">불 / 부</span>
+        </div>
+        <p class="meaning">Phủ định hoặc trái ngược với điều gì đó, thường mang sắc thái tiêu cực.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">부정</span><span class="hv">[phủ định]</span><span class="def">mang tính phủ nhận</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">불일치</span><span class="hv">[bất nhất trí]</span><span class="def">không khớp, không thống nhất</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">불량</span><span class="hv">[bất lương]</span><span class="def">chất lượng kém</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">불법</span><span class="hv">[bất pháp]</span><span class="def">trái với pháp luật</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">불안정</span><span class="hv">[bất an định]</span><span class="def">thiếu ổn định</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">불경기</span><span class="hv">[bất cảnh khí]</span><span class="def">nền kinh tế khó khăn</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">불황</span><span class="hv">[bất huống]</span><span class="def">nền kinh tế suy thoái</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">불가피하다</span><span class="hv">[bất khả tị]</span><span class="tag">mở rộng</span><span class="def">không thể tránh khỏi</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">활</span></div>
+        <div class="reading">hoạt</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">활</span>
+        </div>
+        <p class="meaning">Trạng thái vận động, mang sắc thái tích cực, tràn đầy sức sống.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">활기</span><span class="hv">[hoạt khí]</span><span class="def">không khí sôi động, tràn sức sống</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">활력</span><span class="hv">[hoạt lực]</span><span class="def">nguồn năng lượng, sức sống</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">활발</span><span class="hv">[hoạt bát]</span><span class="def">diễn ra sôi nổi, tích cực</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">활성화</span><span class="hv">[hoạt tính hóa]</span><span class="def">được kích hoạt, thúc đẩy phát triển mạnh hơn</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">활용</span><span class="hv">[hoạt dụng]</span><span class="tag">mở rộng</span><span class="def">sử dụng một cách hiệu quả, tận dụng</span></div></div></div>
+        
+      </div>
+    </article></div>
+    </section>
+    <section class="group">
+      <h3 class="group-title">Nhóm 5 — Chuyển biến, đo lường, phát sinh, khía cạnh, kỳ vọng, tham gia, quy tắc, dẫn tới</h3>
+      <div class="entries">
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">화</span></div>
+        <div class="reading">hóa</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">화 (化)</span>
+        </div>
+        <p class="meaning">Chuyển biến thành một trạng thái mới.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">악화</span><span class="hv">[ác hóa]</span><span class="def">chuyển biến xấu đi</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">강화</span><span class="hv">[cường hóa]</span><span class="def">được tăng cường, siết chặt hơn</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">심화</span><span class="hv">[thâm hóa]</span><span class="def">trở nên sâu sắc, nghiêm trọng hơn</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">다양화</span><span class="hv">[đa dạng hóa]</span><span class="tag">mở rộng</span><span class="def">trở nên đa dạng hơn</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">화</span></div>
+        <div class="reading">hòa</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">화 (和)</span>
+        </div>
+        <p class="meaning">Làm dịu, giảm bớt căng thẳng hoặc mức độ nghiêm ngặt.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">완화</span><span class="hv">[hoãn hòa]</span><span class="def">được nới lỏng, giảm mức độ nghiêm ngặt</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">조화</span><span class="hv">[điều hòa]</span><span class="def">sự hài hòa, cân đối</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">평화</span><span class="hv">[bình hòa]</span><span class="tag">mở rộng</span><span class="def">hòa bình</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 화 nhưng khác chữ Hán với 화 (化, hóa) ở trên.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">측</span></div>
+        <div class="reading">trắc</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">측</span>
+        </div>
+        <p class="meaning">Đo lường hoặc suy đoán một điều gì đó.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">예측</span><span class="hv">[dự trắc]</span><span class="def">dự đoán trước</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">관측</span><span class="hv">[quan trắc]</span><span class="def">theo dõi để đưa ra dự đoán</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">추측</span><span class="hv">[thôi trắc]</span><span class="def">suy đoán dựa trên thông tin có sẵn</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">측정</span><span class="hv">[trắc định]</span><span class="tag">mở rộng</span><span class="def">đo lường cụ thể</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">발</span></div>
+        <div class="reading">phát</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">발</span>
+        </div>
+        <p class="meaning">Phát sinh, nảy sinh hoặc phát ra.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">유발</span><span class="hv">[dụ phát]</span><span class="def">gây ra, kích hoạt một phản ứng</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">발생</span><span class="hv">[phát sinh]</span><span class="def">một sự việc nảy sinh, xảy ra</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">촉발</span><span class="hv">[xúc phát]</span><span class="def">châm ngòi, kích hoạt một sự việc bùng phát</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">개발</span><span class="hv">[khai phát]</span><span class="tag">mở rộng</span><span class="def">khai phá, phát triển cái mới</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">면</span></div>
+        <div class="reading">diện</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">면</span>
+        </div>
+        <p class="meaning">Mặt, bề mặt hoặc một khía cạnh cụ thể.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">직면</span><span class="hv">[trực diện]</span><span class="def">đối mặt trực tiếp với một tình huống</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">표면</span><span class="hv">[biểu diện]</span><span class="def">bề mặt, phần nhìn thấy được bên ngoài</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">이면</span><span class="hv">[lý diện]</span><span class="def">mặt trái, khía cạnh ẩn giấu</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">국면</span><span class="hv">[cục diện]</span><span class="tag">mở rộng</span><span class="def">tình hình chung tại một thời điểm</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">망</span></div>
+        <div class="reading">vọng</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">망</span>
+        </div>
+        <p class="meaning">Trông đợi, nhìn về tương lai hoặc kết quả.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">전망</span><span class="hv">[triển vọng]</span><span class="def">dự đoán về xu hướng trong tương lai</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">희망</span><span class="hv">[hy vọng]</span><span class="def">niềm hy vọng</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">절망</span><span class="hv">[tuyệt vọng]</span><span class="def">trạng thái mất hết hy vọng</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">실망</span><span class="hv">[thất vọng]</span><span class="tag">mở rộng</span><span class="def">cảm giác thất vọng</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">여</span></div>
+        <div class="reading">dữ / dự</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">여</span>
+        </div>
+        <p class="meaning">Tham gia, góp phần vào một việc.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">기여</span><span class="hv">[ký dự]</span><span class="def">đóng góp vào một kết quả tích cực</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">참여</span><span class="hv">[tham dự]</span><span class="def">tham gia vào một hoạt động</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">관여</span><span class="hv">[quan dự]</span><span class="tag">mở rộng</span><span class="def">can dự, dính líu vào một việc</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">연</span></div>
+        <div class="reading">diên</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">연 (延)</span>
+        </div>
+        <p class="meaning">Kéo dài hoặc lan ra.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">만연</span><span class="hv">[mạn diên]</span><span class="def">hiện tượng tiêu cực lan tràn khắp nơi</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">지연</span><span class="hv">[trì diên]</span><span class="def">bị trì hoãn, chậm lại</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">연장</span><span class="hv">[diên trường]</span><span class="tag">mở rộng</span><span class="def">được kéo dài thêm thời gian</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">규</span></div>
+        <div class="reading">quy</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">규</span>
+        </div>
+        <p class="meaning">Quy tắc, khuôn khổ.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">규제</span><span class="hv">[quy chế]</span><span class="def">quy định mang tính hạn chế, kiểm soát</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">규정</span><span class="hv">[quy định]</span><span class="def">điều khoản được quy định rõ ràng</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">규모</span><span class="hv">[quy mô]</span><span class="tag">mở rộng</span><span class="def">độ lớn nhỏ của một việc</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">두</span></div>
+        <div class="reading">đầu</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">두</span>
+        </div>
+        <p class="meaning">Phần đứng đầu hoặc nổi lên.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">대두</span><span class="hv">[đài đầu]</span><span class="def">một vấn đề bắt đầu nổi lên, được chú ý</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">선두</span><span class="hv">[tiên đầu]</span><span class="def">vị trí dẫn đầu</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">두각</span><span class="hv">[đầu giác]</span><span class="tag">mở rộng</span><span class="def">sự nổi trội, vượt trội hơn hẳn</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">초</span></div>
+        <div class="reading">chiêu</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">초</span>
+        </div>
+        <p class="meaning">Dẫn tới, mời gọi.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">초래</span><span class="hv">[chiêu lai]</span><span class="def">gây ra, dẫn đến một hậu quả</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">초청</span><span class="hv">[chiêu thỉnh]</span><span class="def">mời ai đó tham dự</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">초빙</span><span class="hv">[chiêu sính]</span><span class="tag">mở rộng</span><span class="def">mời, chiêu mộ nhân tài</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">저</span></div>
+        <div class="reading">trở</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">저 (沮)</span>
+        </div>
+        <p class="meaning">Cản trở, ngăn lại.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">저해</span><span class="hv">[trở hại]</span><span class="def">gây cản trở cho sự phát triển</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">저지</span><span class="hv">[trở chỉ]</span><span class="tag">mở rộng</span><span class="def">ngăn chặn, cản lại</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">전</span></div>
+        <div class="reading">chuyển</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">전 (轉)</span>
+        </div>
+        <p class="meaning">Xoay chuyển, thay đổi trạng thái.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">호전</span><span class="hv">[hảo chuyển]</span><span class="def">chuyển biến theo hướng tốt lên</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">반전</span><span class="hv">[phản chuyển]</span><span class="def">đảo ngược tình thế</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">이전</span><span class="hv">[di chuyển]</span><span class="tag">mở rộng</span><span class="def">chuyển dời sang nơi khác</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 전 nhưng khác chữ Hán với 전 (全, toàn) ở Nhóm 2.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">선</span></div>
+        <div class="reading">thiện</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">선</span>
+        </div>
+        <p class="meaning">Tốt đẹp, hoàn thiện.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">개선</span><span class="hv">[cải thiện]</span><span class="def">được cải thiện, trở nên tốt hơn</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">최선</span><span class="hv">[tối thiện]</span><span class="def">điều tốt nhất có thể</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">친선</span><span class="hv">[thân thiện]</span><span class="tag">mở rộng</span><span class="def">sự thân thiện, hữu nghị</span></div></div></div>
+        
+      </div>
+    </article></div>
+    </section>
+    </section>
+    <section class="part" id="phan-2">
+      <div class="part-header">
+        <span class="part-roman">II</span>
+        <div>
+          <h2 class="part-title">Lập luận, xã hội &amp; tư duy</h2>
+          <p class="part-intro">Từ vựng thường gặp trong phần đọc hiểu và viết luận bậc 5–6: trình bày nguyên nhân, kết quả, quan điểm, năng lực và các mối liên kết xã hội.</p>
+        </div>
+      </div>
+      <p class="part-stat">20 gốc Hán tự &middot; 74 từ vựng phái sinh</p>
+      
+    <section class="group">
+      <h3 class="group-title">Nhóm 6 — Nguyên nhân, kết quả, ảnh hưởng, xu thế</h3>
+      <div class="entries">
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">원</span></div>
+        <div class="reading">nguyên</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">원</span>
+        </div>
+        <p class="meaning">Gốc rễ, điểm khởi đầu của một sự việc.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">원인</span><span class="hv">[nguyên nhân]</span><span class="def">lý do làm phát sinh một việc</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">원천</span><span class="hv">[nguyên tuyền]</span><span class="def">nguồn gốc sâu xa</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">기원</span><span class="hv">[khởi nguyên]</span><span class="def">điểm bắt đầu, cội nguồn</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">근원</span><span class="hv">[căn nguyên]</span><span class="tag">mở rộng</span><span class="def">gốc rễ sâu xa của vấn đề</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">과</span></div>
+        <div class="reading">quả</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">과 (果)</span>
+        </div>
+        <p class="meaning">Điều xảy ra sau cùng như một hệ quả.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">결과</span><span class="hv">[kết quả]</span><span class="def">điều xảy ra sau một quá trình</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">효과</span><span class="hv">[hiệu quả]</span><span class="def">tác dụng thực tế đạt được</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">성과</span><span class="hv">[thành quả]</span><span class="def">kết quả tích cực đạt được</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">인과관계</span><span class="hv">[nhân quả quan hệ]</span><span class="tag">mở rộng</span><span class="def">mối liên hệ giữa nguyên nhân và kết quả</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 과 nhưng khác chữ Hán với 과 (過, quá) ở Phần I.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">향</span></div>
+        <div class="reading">hướng</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">향</span>
+        </div>
+        <p class="meaning">Chiều tác động hoặc xu hướng vận động.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">영향</span><span class="hv">[ảnh hưởng]</span><span class="def">tác động lan tỏa tới việc khác</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">경향</span><span class="hv">[khuynh hướng]</span><span class="def">chiều hướng chung, thiên về</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">방향</span><span class="hv">[phương hướng]</span><span class="def">chiều đi, định hướng cụ thể</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">지향</span><span class="hv">[chí hướng]</span><span class="tag">mở rộng</span><span class="def">mục tiêu, chiều hướng phấn đấu tới</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">세</span></div>
+        <div class="reading">thế</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">세</span>
+        </div>
+        <p class="meaning">Chiều vận động chung của một hiện tượng theo thời gian.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">추세</span><span class="hv">[xu thế]</span><span class="def">chiều hướng đang diễn ra</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">세력</span><span class="hv">[thế lực]</span><span class="def">sức mạnh, phạm vi ảnh hưởng</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">정세</span><span class="hv">[tình thế]</span><span class="def">tình hình chung tại một thời điểm</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">대세</span><span class="hv">[đại thế]</span><span class="tag">mở rộng</span><span class="def">xu hướng lớn, chiếm ưu thế</span></div></div></div>
+        
+      </div>
+    </article></div>
+    </section>
+    <section class="group">
+      <h3 class="group-title">Nhóm 7 — Nhận thức, quan điểm, sự quan tâm</h3>
+      <div class="entries">
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">식</span></div>
+        <div class="reading">thức</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">식</span>
+        </div>
+        <p class="meaning">Cách nhận biết, hiểu hoặc hình thức thể hiện.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">인식</span><span class="hv">[nhận thức]</span><span class="def">cách hiểu, nhìn nhận một vấn đề</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">의식</span><span class="hv">[ý thức]</span><span class="def">sự nhận biết chủ động về điều gì</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">지식</span><span class="hv">[tri thức]</span><span class="def">kiến thức, hiểu biết</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">형식</span><span class="hv">[hình thức]</span><span class="tag">mở rộng</span><span class="def">cách thức thể hiện bên ngoài</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">견</span></div>
+        <div class="reading">kiến</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">견</span>
+        </div>
+        <p class="meaning">Cách nhìn nhận, quan điểm cá nhân.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">의견</span><span class="hv">[ý kiến]</span><span class="def">quan điểm được nêu ra</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">견해</span><span class="hv">[kiến giải]</span><span class="def">cách lý giải, quan điểm riêng</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">편견</span><span class="hv">[thiên kiến]</span><span class="tag">mở rộng</span><span class="def">cái nhìn lệch lạc, thiếu khách quan</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">관</span></div>
+        <div class="reading">quan</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">관</span>
+        </div>
+        <p class="meaning">Sự liên hệ hoặc góc nhìn đối với một vấn đề.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">관련</span><span class="hv">[quan liên]</span><span class="def">có liên hệ với nhau</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">관계</span><span class="hv">[quan hệ]</span><span class="def">mối liên kết giữa các đối tượng</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">객관적</span><span class="hv">[khách quan]</span><span class="def">không thiên vị theo cảm tính riêng</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">주관적</span><span class="hv">[chủ quan]</span><span class="tag">mở rộng</span><span class="def">mang màu sắc cảm tính cá nhân</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">심</span></div>
+        <div class="reading">tâm</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">심</span>
+        </div>
+        <p class="meaning">Trung tâm hoặc mối bận tâm, chú ý.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">관심</span><span class="hv">[quan tâm]</span><span class="def">sự chú ý, để tâm tới</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">중심</span><span class="hv">[trung tâm]</span><span class="def">điểm cốt lõi, trung tâm</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">핵심</span><span class="hv">[hạch tâm]</span><span class="def">phần cốt lõi, quan trọng nhất</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">결심</span><span class="hv">[quyết tâm]</span><span class="tag">mở rộng</span><span class="def">sự quyết định dứt khoát</span></div></div></div>
+        
+      </div>
+    </article></div>
+    </section>
+    <section class="group">
+      <h3 class="group-title">Nhóm 8 — Năng lực, tiêu chuẩn, sự ổn định</h3>
+      <div class="entries">
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">력</span></div>
+        <div class="reading">lực</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">력 (力)</span>
+        </div>
+        <p class="meaning">Khả năng hoặc sức mạnh để thực hiện việc gì.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">능력</span><span class="hv">[năng lực]</span><span class="def">khả năng thực hiện một việc</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">영향력</span><span class="hv">[ảnh hưởng lực]</span><span class="def">mức độ tác động tới người khác</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">경쟁력</span><span class="hv">[cạnh tranh lực]</span><span class="def">khả năng cạnh tranh</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">잠재력</span><span class="hv">[tiềm tại lực]</span><span class="tag">mở rộng</span><span class="def">khả năng tiềm ẩn chưa bộc lộ</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">성</span></div>
+        <div class="reading">tính</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">성</span>
+        </div>
+        <p class="meaning">Tính chất, đặc điểm của sự vật hoặc sự việc, thường ghép sau danh từ.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">가능성</span><span class="hv">[khả năng tính]</span><span class="def">khả năng có thể xảy ra</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">중요성</span><span class="hv">[trọng yếu tính]</span><span class="def">mức độ quan trọng</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">필요성</span><span class="hv">[tất yếu tính]</span><span class="def">sự cần thiết</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">다양성</span><span class="hv">[đa dạng tính]</span><span class="tag">mở rộng</span><span class="def">tính chất phong phú, nhiều loại</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">격</span></div>
+        <div class="reading">cách</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">격</span>
+        </div>
+        <p class="meaning">Khoảng cách, tiêu chuẩn hoặc đặc điểm riêng.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">격차</span><span class="hv">[cách sai]</span><span class="def">khoảng cách chênh lệch</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">자격</span><span class="hv">[tư cách]</span><span class="def">điều kiện, tiêu chuẩn cần có</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">성격</span><span class="hv">[tính cách]</span><span class="def">đặc điểm riêng của một người hoặc sự việc</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">가격</span><span class="hv">[giá cách]</span><span class="tag">mở rộng</span><span class="def">mức giá của một mặt hàng</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">안</span></div>
+        <div class="reading">an</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">안</span>
+        </div>
+        <p class="meaning">Sự an toàn hoặc phương hướng, kế hoạch.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">안전</span><span class="hv">[an toàn]</span><span class="def">trạng thái không nguy hiểm</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">불안</span><span class="hv">[bất an]</span><span class="def">cảm giác lo lắng, thiếu ổn định</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">방안</span><span class="hv">[phương án]</span><span class="def">cách thức, giải pháp cụ thể</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">대안</span><span class="hv">[đại án]</span><span class="tag">mở rộng</span><span class="def">phương án thay thế</span></div></div></div>
+        
+      </div>
+    </article></div>
+    </section>
+    <section class="group">
+      <h3 class="group-title">Nhóm 9 — Tồn tại, duy trì, liên kết, tổ chức</h3>
+      <div class="entries">
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">존</span></div>
+        <div class="reading">tồn</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">존</span>
+        </div>
+        <p class="meaning">Sự tồn tại, còn lại.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">존재</span><span class="hv">[tồn tại]</span><span class="def">có mặt, hiện hữu</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">생존</span><span class="hv">[sinh tồn]</span><span class="def">tồn tại, sống sót</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">보존</span><span class="hv">[bảo tồn]</span><span class="def">giữ gìn cho không bị mất đi</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">의존</span><span class="hv">[y tồn]</span><span class="tag">mở rộng</span><span class="def">dựa vào, phụ thuộc vào cái khác</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">지</span></div>
+        <div class="reading">trì</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">지</span>
+        </div>
+        <p class="meaning">Giữ vững, duy trì hoặc ủng hộ.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">유지</span><span class="hv">[duy trì]</span><span class="def">giữ cho tiếp tục tồn tại, không đổi</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">지속</span><span class="hv">[trì tục]</span><span class="def">tiếp diễn liên tục, không ngắt quãng</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">지지</span><span class="hv">[chi trì]</span><span class="def">ủng hộ, đứng về phía nào đó</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">지원</span><span class="hv">[chi viện]</span><span class="tag">mở rộng</span><span class="def">hỗ trợ, tiếp sức</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">립</span></div>
+        <div class="reading">lập</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">립</span>
+        </div>
+        <p class="meaning">Đứng vững, được thành lập hoặc đối đầu.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">성립</span><span class="hv">[thành lập]</span><span class="def">được hình thành, xác lập</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">대립</span><span class="hv">[đối lập]</span><span class="def">đối đầu, trái ngược nhau</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">수립</span><span class="hv">[thụ lập]</span><span class="def">thiết lập, xây dựng nên</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">독립</span><span class="hv">[độc lập]</span><span class="tag">mở rộng</span><span class="def">tự đứng vững, không phụ thuộc</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">조</span></div>
+        <div class="reading">điều / tổ</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">조</span>
+        </div>
+        <p class="meaning">Điều tra, sắp xếp hoặc phối hợp.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">조사</span><span class="hv">[điều tra]</span><span class="def">tìm hiểu, thu thập thông tin</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">조직</span><span class="hv">[tổ chức]</span><span class="def">sắp xếp thành hệ thống</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">협조</span><span class="hv">[hiệp trợ]</span><span class="def">phối hợp, hỗ trợ lẫn nhau</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">강조</span><span class="hv">[cường điệu]</span><span class="tag">mở rộng</span><span class="def">nhấn mạnh một điểm nào đó</span></div></div></div>
+        
+      </div>
+    </article></div>
+    </section>
+    <section class="group">
+      <h3 class="group-title">Nhóm 10 — Tái tạo, tài chính, cảm xúc</h3>
+      <div class="entries">
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">재</span></div>
+        <div class="reading">tái</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">재 (再)</span>
+        </div>
+        <p class="meaning">Lặp lại, làm lại một lần nữa.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">재활용</span><span class="hv">[tái hoạt dụng]</span><span class="def">sử dụng lại, tái chế</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">재개발</span><span class="hv">[tái khai phát]</span><span class="def">phát triển hoặc xây dựng lại</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">재생</span><span class="hv">[tái sinh]</span><span class="tag">mở rộng</span><span class="def">được phục hồi, sống lại</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">재</span></div>
+        <div class="reading">tài</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">재 (財)</span>
+        </div>
+        <p class="meaning">Liên quan tới tiền bạc, của cải.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex extra"><span class="kr">재정</span><span class="hv">[tài chính]</span><span class="tag">mở rộng</span><span class="def">các vấn đề về tiền bạc, ngân sách</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 재 nhưng khác chữ Hán với 재 (再, tái) ở trên.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">속</span></div>
+        <div class="reading">tốc</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">속</span>
+        </div>
+        <p class="meaning">Tốc độ nhanh hoặc tính liên tục.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">신속</span><span class="hv">[thần tốc]</span><span class="def">nhanh chóng, kịp thời</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">급속</span><span class="hv">[cấp tốc]</span><span class="def">diễn ra rất nhanh</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">계속</span><span class="hv">[kế tục]</span><span class="tag">mở rộng</span><span class="def">tiếp tục, không dừng lại</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">감</span></div>
+        <div class="reading">cảm</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">감 (感)</span>
+        </div>
+        <p class="meaning">Cảm giác, tình cảm.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">감정</span><span class="hv">[cảm tình]</span><span class="def">trạng thái tình cảm, cảm xúc</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">공감</span><span class="hv">[cộng cảm]</span><span class="def">cùng cảm nhận, đồng cảm</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">실감</span><span class="hv">[thực cảm]</span><span class="def">cảm nhận rõ ràng, chân thực</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">민감</span><span class="hv">[mẫn cảm]</span><span class="tag">mở rộng</span><span class="def">dễ bị tác động, nhạy cảm</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 감 nhưng khác chữ Hán với 감 (減, giảm) ở Nhóm 1.</p>
+      </div>
+    </article></div>
+    </section>
+    </section>
+    <section class="part" id="phan-3">
+      <div class="part-header">
+        <span class="part-roman">III</span>
+        <div>
+          <h2 class="part-title">Con người, xã hội, chính trị, giáo dục, kinh doanh, pháp luật</h2>
+          <p class="part-intro">Phần mở rộng theo các gốc chữ có tần suất xuất hiện cao và thường mang nhiều âm Hán khác nhau, dễ gây nhầm lẫn nếu không tách riêng từng nghĩa.</p>
+        </div>
+      </div>
+      <p class="part-stat">49 gốc Hán tự &middot; 139 từ vựng phái sinh</p>
+      
+    <section class="group">
+      <h3 class="group-title">Nhóm 11 — Con người, xã hội, thời gian</h3>
+      <div class="entries">
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">민</span></div>
+        <div class="reading">dân</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">민</span>
+        </div>
+        <p class="meaning">Người dân, cộng đồng dân cư.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">국민</span><span class="hv">[quốc dân]</span><span class="def">người dân trong một nước</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">시민</span><span class="hv">[thị dân]</span><span class="def">người dân thành phố, công dân</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">주민</span><span class="hv">[trú dân]</span><span class="def">người sinh sống tại một khu vực</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">난민</span><span class="hv">[nạn dân]</span><span class="def">người phải rời bỏ nơi ở vì tai họa</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">이민</span><span class="hv">[di dân]</span><span class="tag">mở rộng</span><span class="def">người di cư sang nước khác</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">시</span></div>
+        <div class="reading">thị</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">시 (市)</span>
+        </div>
+        <p class="meaning">Khu vực đô thị, nơi buôn bán.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">도시</span><span class="hv">[đô thị]</span><span class="def">thành phố</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">시장</span><span class="hv">[thị trường]</span><span class="def">nơi diễn ra giao dịch mua bán</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">시내</span><span class="hv">[thị nội]</span><span class="def">khu vực trung tâm thành phố</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">시청</span><span class="hv">[thị sảnh]</span><span class="tag">mở rộng</span><span class="def">tòa nhà hành chính thành phố</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">시</span></div>
+        <div class="reading">thị</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">시 (視)</span>
+        </div>
+        <p class="meaning">Cách nhìn nhận, đánh giá.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">중시</span><span class="hv">[trọng thị]</span><span class="def">coi trọng, đánh giá cao</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">경시</span><span class="hv">[khinh thị]</span><span class="def">xem nhẹ, coi thường</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">시각</span><span class="hv">[thị giác]</span><span class="tag">mở rộng</span><span class="def">góc nhìn, cách quan sát</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 시 nhưng khác chữ Hán với 시 (市) ở trên.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">시</span></div>
+        <div class="reading">thí</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">시 (試)</span>
+        </div>
+        <p class="meaning">Thử nghiệm, kiểm tra.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">시험</span><span class="hv">[thí nghiệm]</span><span class="def">bài kiểm tra, cuộc thử nghiệm</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">시도</span><span class="hv">[thí đồ]</span><span class="def">hành động thử làm điều gì</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">시행</span><span class="hv">[thí hành]</span><span class="tag">mở rộng</span><span class="def">bắt đầu áp dụng, thực hiện</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Chữ thứ ba trong nhóm bốn chữ 시 đồng âm khác nghĩa của bảng này.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">시</span></div>
+        <div class="reading">thời</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">시 (時)</span>
+        </div>
+        <p class="meaning">Khoảng thời gian, thời điểm.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">시간</span><span class="hv">[thời gian]</span><span class="def">khoảng thời gian</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">동시</span><span class="hv">[đồng thời]</span><span class="def">xảy ra cùng một lúc</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">임시</span><span class="hv">[lâm thời]</span><span class="tag">mở rộng</span><span class="def">mang tính tạm thời</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Chữ thứ tư trong nhóm bốn chữ 시 đồng âm khác nghĩa của bảng này.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">청</span></div>
+        <div class="reading">thính</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">청 (聽)</span>
+        </div>
+        <p class="meaning">Hành động lắng nghe.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">청취</span><span class="hv">[thính thủ]</span><span class="def">nghe, thu nhận thông tin bằng tai</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">경청</span><span class="hv">[khuynh thính]</span><span class="def">chăm chú lắng nghe</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">청중</span><span class="hv">[thính chúng]</span><span class="tag">mở rộng</span><span class="def">những người đang nghe</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">청</span></div>
+        <div class="reading">thỉnh</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">청 (請)</span>
+        </div>
+        <p class="meaning">Yêu cầu, đề nghị một cách trang trọng.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">신청</span><span class="hv">[thân thỉnh]</span><span class="def">nộp đơn xin, đăng ký</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">요청</span><span class="hv">[yêu thỉnh]</span><span class="def">đề nghị, yêu cầu</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">청구</span><span class="hv">[thỉnh cầu]</span><span class="tag">mở rộng</span><span class="def">yêu cầu được đáp ứng điều gì</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 청 nhưng khác chữ Hán với 청 (聽) ở trên.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">청</span></div>
+        <div class="reading">thanh</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">청 (淸)</span>
+        </div>
+        <p class="meaning">Trong sạch, sạch sẽ, tươi mới.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">청소</span><span class="hv">[thanh tảo]</span><span class="def">dọn dẹp, làm sạch</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">청결</span><span class="hv">[thanh khiết]</span><span class="def">sạch sẽ, trong sạch</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">청춘</span><span class="hv">[thanh xuân]</span><span class="tag">mở rộng</span><span class="def">tuổi trẻ</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Chữ thứ ba trong nhóm ba chữ 청 đồng âm khác nghĩa.</p>
+      </div>
+    </article></div>
+    </section>
+    <section class="group">
+      <h3 class="group-title">Nhóm 12 — Đối lập, chính trị, cảm xúc, chính xác</h3>
+      <div class="entries">
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">반</span></div>
+        <div class="reading">phản</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">반 (反)</span>
+        </div>
+        <p class="meaning">Đi ngược, chống lại hoặc phản chiếu.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">반대</span><span class="hv">[phản đối]</span><span class="def">không đồng ý, chống lại</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">반영</span><span class="hv">[phản ánh]</span><span class="def">phản chiếu, thể hiện lại</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">반응</span><span class="hv">[phản ứng]</span><span class="tag">mở rộng</span><span class="def">cách phản hồi lại một tác động</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">반</span></div>
+        <div class="reading">bán</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">반 (半)</span>
+        </div>
+        <p class="meaning">Một nửa của tổng thể.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">절반</span><span class="hv">[chiết bán]</span><span class="def">một nửa</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">반세기</span><span class="hv">[bán thế kỷ]</span><span class="tag">mở rộng</span><span class="def">nửa thế kỷ, 50 năm</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 반 nhưng khác chữ Hán với 반 (反) ở trên.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">정</span></div>
+        <div class="reading">chính</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">정 (政)</span>
+        </div>
+        <p class="meaning">Việc điều hành, quản lý nhà nước.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">정치</span><span class="hv">[chính trị]</span><span class="def">hoạt động điều hành đất nước</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">정부</span><span class="hv">[chính phủ]</span><span class="def">cơ quan điều hành nhà nước</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">행정</span><span class="hv">[hành chính]</span><span class="tag">mở rộng</span><span class="def">công việc quản lý hành chính</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">정</span></div>
+        <div class="reading">định</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">정 (定)</span>
+        </div>
+        <p class="meaning">Đưa ra quyết định, xác định rõ.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">결정</span><span class="hv">[quyết định]</span><span class="def">đưa ra lựa chọn dứt khoát</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">확정</span><span class="hv">[xác định]</span><span class="def">khẳng định chắc chắn</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">예정</span><span class="hv">[dự định]</span><span class="def">kế hoạch định trước</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">지정</span><span class="hv">[chỉ định]</span><span class="tag">mở rộng</span><span class="def">chọn ra, ấn định cụ thể</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 정 nhưng khác chữ Hán với 정 (政) ở trên.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">정</span></div>
+        <div class="reading">tình</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">정 (情)</span>
+        </div>
+        <p class="meaning">Cảm xúc, trạng thái nội tâm.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">사정</span><span class="hv">[sự tình]</span><span class="def">tình hình, hoàn cảnh cụ thể</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">표정</span><span class="hv">[biểu tình]</span><span class="def">nét mặt thể hiện cảm xúc</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">열정</span><span class="hv">[nhiệt tình]</span><span class="tag">mở rộng</span><span class="def">sự say mê, nhiệt huyết</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Chữ thứ ba trong nhóm bốn chữ 정 đồng âm khác nghĩa.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">정</span></div>
+        <div class="reading">chính</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">정 (正)</span>
+        </div>
+        <p class="meaning">Đúng, chuẩn xác.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">정확</span><span class="hv">[chính xác]</span><span class="def">đúng, không sai lệch</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">수정</span><span class="hv">[tu chính]</span><span class="tag">mở rộng</span><span class="def">sửa đổi cho đúng hơn</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Chữ thứ tư trong nhóm bốn chữ 정 đồng âm khác nghĩa.</p>
+      </div>
+    </article></div>
+    </section>
+    <section class="group">
+      <h3 class="group-title">Nhóm 13 — Truyền tải, điện, kiểm tra, xây dựng, sức khỏe</h3>
+      <div class="entries">
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">전</span></div>
+        <div class="reading">truyền</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">전 (傳)</span>
+        </div>
+        <p class="meaning">Chuyển giao, lan truyền.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">전달</span><span class="hv">[truyền đạt]</span><span class="def">chuyển tải thông tin tới người khác</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">전통</span><span class="hv">[truyền thống]</span><span class="def">tập quán được lưu truyền qua thời gian</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">전염</span><span class="hv">[truyền nhiễm]</span><span class="tag">mở rộng</span><span class="def">lây lan, thường dùng cho bệnh tật</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 전 nhưng khác chữ Hán với 전 (全, toàn) và 전 (轉, chuyển) đã học ở Phần I.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">전</span></div>
+        <div class="reading">điện</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">전 (電)</span>
+        </div>
+        <p class="meaning">Liên quan tới điện.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">전기</span><span class="hv">[điện khí]</span><span class="def">năng lượng điện</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">전화</span><span class="hv">[điện thoại]</span><span class="def">thiết bị liên lạc</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">가전</span><span class="hv">[gia điện]</span><span class="tag">mở rộng</span><span class="def">đồ điện gia dụng</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Chữ thứ tư trong nhóm các chữ 전 đồng âm khác nghĩa.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">검</span></div>
+        <div class="reading">kiểm</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">검</span>
+        </div>
+        <p class="meaning">Rà soát, kiểm tra kỹ lưỡng.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">검사</span><span class="hv">[kiểm tra]</span><span class="def">xem xét, rà soát</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">검토</span><span class="hv">[kiểm thảo]</span><span class="def">xem xét kỹ để đánh giá</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">점검</span><span class="hv">[điểm kiểm]</span><span class="def">kiểm tra định kỳ</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">검증</span><span class="hv">[kiểm chứng]</span><span class="tag">mở rộng</span><span class="def">xác minh tính đúng đắn</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">건</span></div>
+        <div class="reading">kiện</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">건 (件)</span>
+        </div>
+        <p class="meaning">Một vụ việc, một điều kiện cụ thể.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">사건</span><span class="hv">[sự kiện]</span><span class="def">một việc đã xảy ra</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">조건</span><span class="hv">[điều kiện]</span><span class="def">yếu tố cần có để việc gì xảy ra</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">요건</span><span class="hv">[yếu kiện]</span><span class="tag">mở rộng</span><span class="def">điều kiện cần thiết</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">건</span></div>
+        <div class="reading">kiện</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">건 (健)</span>
+        </div>
+        <p class="meaning">Trạng thái khỏe mạnh, vững chắc.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">건강</span><span class="hv">[kiện khang]</span><span class="def">tình trạng sức khỏe tốt</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">건전</span><span class="hv">[kiện toàn]</span><span class="tag">mở rộng</span><span class="def">lành mạnh, vững vàng</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 건 nhưng khác chữ Hán với 건 (件) ở trên.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">건</span></div>
+        <div class="reading">kiến</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">건 (建)</span>
+        </div>
+        <p class="meaning">Xây dựng, dựng nên.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">건설</span><span class="hv">[kiến thiết]</span><span class="def">xây dựng cơ sở hạ tầng</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">건축</span><span class="hv">[kiến trúc]</span><span class="def">việc thiết kế, xây dựng công trình</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">건립</span><span class="hv">[kiến lập]</span><span class="tag">mở rộng</span><span class="def">dựng nên, thành lập</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Chữ thứ ba trong nhóm ba chữ 건 đồng âm khác nghĩa.</p>
+      </div>
+    </article></div>
+    </section>
+    <section class="group">
+      <h3 class="group-title">Nhóm 14 — Giáo dục, môi trường, thông tin</h3>
+      <div class="entries">
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">교</span></div>
+        <div class="reading">giáo</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">교 (敎)</span>
+        </div>
+        <p class="meaning">Dạy dỗ, truyền đạt kiến thức.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">교육</span><span class="hv">[giáo dục]</span><span class="def">việc dạy và học</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">교사</span><span class="hv">[giáo sư]</span><span class="def">người đứng lớp giảng dạy</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">종교</span><span class="hv">[tôn giáo]</span><span class="tag">mở rộng</span><span class="def">tín ngưỡng, đức tin</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">학</span></div>
+        <div class="reading">học</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">학</span>
+        </div>
+        <p class="meaning">Việc học tập, tri thức.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">학생</span><span class="hv">[học sinh]</span><span class="def">người đang đi học</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">과학</span><span class="hv">[khoa học]</span><span class="def">lĩnh vực nghiên cứu có hệ thống</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">철학</span><span class="hv">[triết học]</span><span class="tag">mở rộng</span><span class="def">ngành nghiên cứu tư tưởng, lý luận</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">환</span></div>
+        <div class="reading">hoàn</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">환 (環)</span>
+        </div>
+        <p class="meaning">Không gian bao quanh, chu trình khép kín.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">환경</span><span class="hv">[hoàn cảnh]</span><span class="def">không gian, điều kiện sống xung quanh</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">순환</span><span class="hv">[tuần hoàn]</span><span class="def">vận hành theo vòng lặp</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">악순환</span><span class="hv">[ác tuần hoàn]</span><span class="tag">mở rộng</span><span class="def">vòng luẩn quẩn tiêu cực</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">환</span></div>
+        <div class="reading">hoán</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">환 (換)</span>
+        </div>
+        <p class="meaning">Thay thế, chuyển đổi.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">교환</span><span class="hv">[giao hoán]</span><span class="def">trao đổi qua lại</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">전환</span><span class="hv">[chuyển hoán]</span><span class="def">chuyển sang trạng thái khác</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">환율</span><span class="hv">[hoán suất]</span><span class="tag">mở rộng</span><span class="def">tỷ giá quy đổi tiền tệ</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 환 nhưng khác chữ Hán với 환 (環) ở trên.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">오</span></div>
+        <div class="reading">ô</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">오</span>
+        </div>
+        <p class="meaning">Trạng thái bị bẩn, nhiễm bẩn.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">오염</span><span class="hv">[ô nhiễm]</span><span class="def">bị nhiễm chất độc hại</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">오염원</span><span class="hv">[ô nhiễm nguyên]</span><span class="tag">mở rộng</span><span class="def">nguồn gây ra ô nhiễm</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">보</span></div>
+        <div class="reading">bảo</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">보 (保)</span>
+        </div>
+        <p class="meaning">Giữ gìn, che chở.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">보호</span><span class="hv">[bảo hộ]</span><span class="def">che chở, bảo vệ</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">보장</span><span class="hv">[bảo chướng]</span><span class="def">đảm bảo chắc chắn</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">확보</span><span class="hv">[xác bảo]</span><span class="tag">mở rộng</span><span class="def">đảm bảo có được điều gì</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">보</span></div>
+        <div class="reading">báo</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">보 (報)</span>
+        </div>
+        <p class="meaning">Truyền đạt tin tức.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">보도</span><span class="hv">[báo đạo]</span><span class="def">đưa tin</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">정보</span><span class="hv">[tình báo]</span><span class="def">thông tin, dữ liệu</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">통보</span><span class="hv">[thông báo]</span><span class="tag">mở rộng</span><span class="def">báo cho biết một việc</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 보 nhưng khác chữ Hán với 보 (保) ở trên.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">통</span></div>
+        <div class="reading">thông</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">통</span>
+        </div>
+        <p class="meaning">Trôi chảy, không bị cản trở.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">통과</span><span class="hv">[thông qua]</span><span class="def">vượt qua, được chấp thuận</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">유통</span><span class="hv">[lưu thông]</span><span class="def">di chuyển, lan tỏa, dùng cho hàng hóa hoặc thông tin</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">소통</span><span class="hv">[sơ thông]</span><span class="def">giao tiếp, hiểu nhau</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">통신</span><span class="hv">[thông tín]</span><span class="tag">mở rộng</span><span class="def">việc truyền tải thông tin liên lạc</span></div></div></div>
+        
+      </div>
+    </article></div>
+    </section>
+    <section class="group">
+      <h3 class="group-title">Nhóm 15 — Kinh doanh, nghề nghiệp</h3>
+      <div class="entries">
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">매</span></div>
+        <div class="reading">mại</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">매 (賣)</span>
+        </div>
+        <p class="meaning">Hành động bán ra.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">판매</span><span class="hv">[bản mại]</span><span class="def">bán hàng</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">매출</span><span class="hv">[mại xuất]</span><span class="tag">mở rộng</span><span class="def">doanh thu từ bán hàng</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">매</span></div>
+        <div class="reading">mãi</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">매 (買)</span>
+        </div>
+        <p class="meaning">Hành động mua vào.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">구매</span><span class="hv">[cầu mãi]</span><span class="def">mua sắm</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">매입</span><span class="hv">[mãi nhập]</span><span class="tag">mở rộng</span><span class="def">mua vào</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 매 nhưng khác chữ Hán với 매 (賣) ở trên.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">산</span></div>
+        <div class="reading">sản</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">산</span>
+        </div>
+        <p class="meaning">Việc tạo ra sản phẩm.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">생산</span><span class="hv">[sinh sản]</span><span class="def">tạo ra sản phẩm, hàng hóa</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">산업</span><span class="hv">[sản nghiệp]</span><span class="def">ngành nghề sản xuất, kinh doanh</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">국산</span><span class="hv">[quốc sản]</span><span class="tag">mở rộng</span><span class="def">được sản xuất trong nước</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">업</span></div>
+        <div class="reading">nghiệp</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">업</span>
+        </div>
+        <p class="meaning">Lĩnh vực nghề nghiệp, kinh doanh.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">공업</span><span class="hv">[công nghiệp]</span><span class="def">ngành sản xuất công nghiệp</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">농업</span><span class="hv">[nông nghiệp]</span><span class="def">ngành trồng trọt, chăn nuôi</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">기업</span><span class="hv">[xí nghiệp]</span><span class="def">doanh nghiệp, công ty</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">직업</span><span class="hv">[chức nghiệp]</span><span class="tag">mở rộng</span><span class="def">công việc, nghề nghiệp</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">직</span></div>
+        <div class="reading">chức</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">직 (職)</span>
+        </div>
+        <p class="meaning">Vị trí công việc.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">직업</span><span class="hv">[chức nghiệp]</span><span class="def">nghề nghiệp</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">취직</span><span class="hv">[tựu chức]</span><span class="def">có được việc làm</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">퇴직</span><span class="hv">[thoái chức]</span><span class="tag">mở rộng</span><span class="def">nghỉ việc, về hưu</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">직</span></div>
+        <div class="reading">chức</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">직 (織)</span>
+        </div>
+        <p class="meaning">Sắp xếp, kết cấu.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex extra"><span class="kr">조직</span><span class="hv">[tổ chức]</span><span class="tag">mở rộng</span><span class="def">sắp xếp thành hệ thống</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 직 nhưng khác chữ Hán với 직 (職) ở trên.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">취</span></div>
+        <div class="reading">tựu</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">취 (就)</span>
+        </div>
+        <p class="meaning">Đạt được, hoàn thành.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">취업</span><span class="hv">[tựu nghiệp]</span><span class="def">có được việc làm</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">성취</span><span class="hv">[thành tựu]</span><span class="tag">mở rộng</span><span class="def">đạt được kết quả mong muốn</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">취</span></div>
+        <div class="reading">thú</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">취 (趣)</span>
+        </div>
+        <p class="meaning">Sự yêu thích, hứng thú.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex extra"><span class="kr">취미</span><span class="hv">[thú vị]</span><span class="tag">mở rộng</span><span class="def">sở thích cá nhân</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 취 nhưng khác chữ Hán với 취 (就) ở trên.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">술</span></div>
+        <div class="reading">thuật</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">술</span>
+        </div>
+        <p class="meaning">Kỹ năng, phương pháp chuyên môn.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">기술</span><span class="hv">[kỹ thuật]</span><span class="def">kỹ năng, công nghệ</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">예술</span><span class="hv">[nghệ thuật]</span><span class="def">lĩnh vực sáng tạo thẩm mỹ</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">수술</span><span class="hv">[thủ thuật]</span><span class="tag">mở rộng</span><span class="def">phẫu thuật y khoa</span></div></div></div>
+        
+      </div>
+    </article></div>
+    </section>
+    <section class="group">
+      <h3 class="group-title">Nhóm 16 — Dự phòng, pháp luật, tỷ lệ</h3>
+      <div class="entries">
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">예</span></div>
+        <div class="reading">dự</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">예</span>
+        </div>
+        <p class="meaning">Tính toán hoặc chuẩn bị trước.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">예상</span><span class="hv">[dự tưởng]</span><span class="def">dự đoán trước điều gì sẽ xảy ra</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">예방</span><span class="hv">[dự phòng]</span><span class="def">ngăn ngừa trước</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">예산</span><span class="hv">[dự toán]</span><span class="tag">mở rộng</span><span class="def">kế hoạch chi tiêu, ngân sách</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">방</span></div>
+        <div class="reading">phòng</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">방 (防)</span>
+        </div>
+        <p class="meaning">Ngăn chặn trước khi xảy ra.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">예방</span><span class="hv">[dự phòng]</span><span class="def">ngăn ngừa trước</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">방지</span><span class="hv">[phòng chỉ]</span><span class="def">ngăn không cho xảy ra</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">소방</span><span class="hv">[tiêu phòng]</span><span class="tag">mở rộng</span><span class="def">phòng cháy chữa cháy</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">방</span></div>
+        <div class="reading">phương</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">방 (方)</span>
+        </div>
+        <p class="meaning">Cách thức, hướng đi.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">방법</span><span class="hv">[phương pháp]</span><span class="def">cách làm cụ thể</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">처방</span><span class="hv">[xử phương]</span><span class="tag">mở rộng</span><span class="def">đơn thuốc, cách xử lý</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 방 nhưng khác chữ Hán với 방 (防) ở trên.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">법</span></div>
+        <div class="reading">pháp</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">법</span>
+        </div>
+        <p class="meaning">Quy tắc pháp lý.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">법률</span><span class="hv">[pháp luật]</span><span class="def">hệ thống luật pháp</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">합법</span><span class="hv">[hợp pháp]</span><span class="def">đúng theo pháp luật</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">불법</span><span class="hv">[bất pháp]</span><span class="tag">mở rộng</span><span class="def">trái pháp luật</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">률</span></div>
+        <div class="reading">suất</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">률 / 율</span>
+        </div>
+        <p class="meaning">Tỷ lệ giữa hai đại lượng.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">비율</span><span class="hv">[tỷ suất]</span><span class="def">tỷ lệ giữa các phần</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">환율</span><span class="hv">[hoán suất]</span><span class="def">tỷ giá quy đổi tiền tệ</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">출산율</span><span class="hv">[xuất sản suất]</span><span class="tag">mở rộng</span><span class="def">tỷ lệ sinh</span></div></div></div>
+        
+      </div>
+    </article></div>
+    </section>
+    <section class="group">
+      <h3 class="group-title">Nhóm 17 — Con người, nhu cầu, trạng thái</h3>
+      <div class="entries">
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">인</span></div>
+        <div class="reading">nhân</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">인 (人)</span>
+        </div>
+        <p class="meaning">Chỉ con người nói chung.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">개인</span><span class="hv">[cá nhân]</span><span class="def">một người riêng lẻ</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">인구</span><span class="hv">[nhân khẩu]</span><span class="def">số lượng người trong một khu vực</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">장애인</span><span class="hv">[chướng ngại nhân]</span><span class="tag">mở rộng</span><span class="def">người khuyết tật</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">인</span></div>
+        <div class="reading">nhân</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">인 (因)</span>
+        </div>
+        <p class="meaning">Nguyên do, cội nguồn của sự việc.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex extra"><span class="kr">원인</span><span class="hv">[nguyên nhân]</span><span class="tag">mở rộng</span><span class="def">lý do làm phát sinh một việc</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 인 nhưng khác chữ Hán với 인 (人) ở trên.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">구</span></div>
+        <div class="reading">cầu</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">구 (求)</span>
+        </div>
+        <p class="meaning">Mong muốn có được điều gì.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">요구</span><span class="hv">[yêu cầu]</span><span class="def">đòi hỏi, mong muốn được đáp ứng</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">추구</span><span class="hv">[truy cầu]</span><span class="def">theo đuổi, tìm kiếm</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">구인</span><span class="hv">[cầu nhân]</span><span class="tag">mở rộng</span><span class="def">tuyển người</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">요</span></div>
+        <div class="reading">yếu</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">요</span>
+        </div>
+        <p class="meaning">Điều cốt yếu, cần có.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">필요</span><span class="hv">[tất yếu]</span><span class="def">sự cần thiết</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">중요</span><span class="hv">[trọng yếu]</span><span class="def">có tầm quan trọng lớn</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">요인</span><span class="hv">[yếu nhân]</span><span class="tag">mở rộng</span><span class="def">yếu tố quan trọng gây ra kết quả</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">필</span></div>
+        <div class="reading">tất</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">필</span>
+        </div>
+        <p class="meaning">Nhất định phải có, tất nhiên.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">필수</span><span class="hv">[tất tu]</span><span class="def">bắt buộc phải có</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">필연</span><span class="hv">[tất nhiên]</span><span class="tag">mở rộng</span><span class="def">chắc chắn xảy ra</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">태</span></div>
+        <div class="reading">thái</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">태</span>
+        </div>
+        <p class="meaning">Hình thái, cách thể hiện.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">상태</span><span class="hv">[trạng thái]</span><span class="def">tình trạng hiện tại</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">형태</span><span class="hv">[hình thái]</span><span class="def">hình dạng, dạng thức</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">태도</span><span class="hv">[thái độ]</span><span class="tag">mở rộng</span><span class="def">cách cư xử, biểu hiện</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">상</span></div>
+        <div class="reading">thường</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">상 (常)</span>
+        </div>
+        <p class="meaning">Bình thường, luôn diễn ra.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">일상</span><span class="hv">[nhật thường]</span><span class="def">cuộc sống hằng ngày</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">정상</span><span class="hv">[chính thường]</span><span class="def">bình thường, đúng chuẩn</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">이상</span><span class="hv">[dị thường]</span><span class="tag">mở rộng</span><span class="def">bất thường, khác lạ</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 상 nhưng khác chữ Hán với 상 (上, thượng) ở Phần I.</p>
+      </div>
+    </article></div>
+    </section>
+    </section>
+    <section class="part" id="phan-4">
+      <div class="part-header">
+        <span class="part-roman">IV</span>
+        <div>
+          <h2 class="part-title">Y tế, tâm lý, công nghệ, quốc tế, lao động, tiêu dùng, văn hóa, thiên tai</h2>
+          <p class="part-intro">Các mảng chủ đề xuất hiện đều đặn trong đề đọc hiểu, nghe hiểu và viết luận: già hóa dân số, tâm lý con người, công nghệ, quan hệ quốc tế, thị trường lao động và rủi ro xã hội.</p>
+        </div>
+      </div>
+      <p class="part-stat">26 gốc Hán tự &middot; 67 từ vựng phái sinh</p>
+      
+    <section class="group">
+      <h3 class="group-title">Nhóm 18 — Y tế, sức khỏe, người cao tuổi</h3>
+      <div class="entries">
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">병</span></div>
+        <div class="reading">bệnh</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">병</span>
+        </div>
+        <p class="meaning">Tình trạng đau ốm.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">질병</span><span class="hv">[tật bệnh]</span><span class="def">bệnh tật nói chung</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">병원</span><span class="hv">[bệnh viện]</span><span class="def">nơi khám chữa bệnh</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">발병</span><span class="hv">[phát bệnh]</span><span class="tag">mở rộng</span><span class="def">bệnh bắt đầu xuất hiện</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">약</span></div>
+        <div class="reading">dược</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">약</span>
+        </div>
+        <p class="meaning">Thuốc men, chữa trị.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">약물</span><span class="hv">[dược vật]</span><span class="def">các loại thuốc</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">신약</span><span class="hv">[tân dược]</span><span class="def">thuốc mới được phát triển</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">제약</span><span class="hv">[chế dược]</span><span class="tag">mở rộng</span><span class="def">việc sản xuất thuốc</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">치</span></div>
+        <div class="reading">trị</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">치</span>
+        </div>
+        <p class="meaning">Xử lý, chữa lành hoặc điều hành.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">치료</span><span class="hv">[trị liệu]</span><span class="def">việc chữa bệnh</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">통치</span><span class="hv">[thống trị]</span><span class="def">việc cai quản, điều hành</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">자치</span><span class="hv">[tự trị]</span><span class="tag">mở rộng</span><span class="def">tự quản lý lấy mình</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">진</span></div>
+        <div class="reading">chẩn</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">진</span>
+        </div>
+        <p class="meaning">Việc xem xét tình trạng sức khỏe.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">진단</span><span class="hv">[chẩn đoán]</span><span class="def">xác định bệnh trạng</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">검진</span><span class="hv">[kiểm chẩn]</span><span class="tag">mở rộng</span><span class="def">khám sức khỏe định kỳ</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">노</span></div>
+        <div class="reading">lão</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">노 (老)</span>
+        </div>
+        <p class="meaning">Tuổi già, quá trình già đi.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">노인</span><span class="hv">[lão nhân]</span><span class="def">người cao tuổi</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">노화</span><span class="hv">[lão hóa]</span><span class="def">quá trình trở nên già đi</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">고령</span><span class="hv">[cao linh]</span><span class="tag">mở rộng</span><span class="def">tuổi cao</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 노 nhưng khác chữ Hán với 노 (勞, lao động) ở Nhóm 22.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">고</span></div>
+        <div class="reading">cao</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">고</span>
+        </div>
+        <p class="meaning">Ở mức cao, vượt trội.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">고령화</span><span class="hv">[cao linh hóa]</span><span class="def">hiện tượng dân số già đi</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">최고</span><span class="hv">[tối cao]</span><span class="def">cao nhất</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">고급</span><span class="hv">[cao cấp]</span><span class="tag">mở rộng</span><span class="def">ở mức cao, chất lượng tốt</span></div></div></div>
+        
+      </div>
+    </article></div>
+    </section>
+    <section class="group">
+      <h3 class="group-title">Nhóm 19 — Tâm lý, nhận thức nội tâm</h3>
+      <div class="entries">
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">리</span></div>
+        <div class="reading">lý</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">리</span>
+        </div>
+        <p class="meaning">Cách suy luận, đạo lý.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">심리</span><span class="hv">[tâm lý]</span><span class="def">trạng thái, hoạt động tinh thần</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">논리</span><span class="hv">[luận lý]</span><span class="def">cách lập luận có hệ thống</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">원리</span><span class="hv">[nguyên lý]</span><span class="tag">mở rộng</span><span class="def">quy luật cơ bản, nền tảng</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">욕</span></div>
+        <div class="reading">dục</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">욕</span>
+        </div>
+        <p class="meaning">Mong muốn, khao khát.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">욕구</span><span class="hv">[dục cầu]</span><span class="def">nhu cầu, mong muốn</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">욕망</span><span class="hv">[dục vọng]</span><span class="tag">mở rộng</span><span class="def">khao khát mãnh liệt</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">압</span></div>
+        <div class="reading">áp</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">압</span>
+        </div>
+        <p class="meaning">Sức ép, đè nén.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">압박</span><span class="hv">[áp bách]</span><span class="def">tạo sức ép, gây căng thẳng</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">압력</span><span class="hv">[áp lực]</span><span class="tag">mở rộng</span><span class="def">sức ép tác động lên ai, việc gì</span></div></div></div>
+        
+      </div>
+    </article></div>
+    </section>
+    <section class="group">
+      <h3 class="group-title">Nhóm 20 — Công nghệ, vận động, kết nối</h3>
+      <div class="entries">
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">자</span></div>
+        <div class="reading">tự</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">자 (自)</span>
+        </div>
+        <p class="meaning">Do chính mình, không nhờ tác động bên ngoài.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">자동</span><span class="hv">[tự động]</span><span class="def">tự vận hành, không cần can thiệp</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">자율</span><span class="hv">[tự luật]</span><span class="def">tự giác, tự quản theo quy tắc riêng</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">자립</span><span class="hv">[tự lập]</span><span class="tag">mở rộng</span><span class="def">tự đứng vững, không phụ thuộc</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 자 nhưng khác chữ Hán với 자 (者, người) ở Nhóm 22.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">동</span></div>
+        <div class="reading">động</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">동</span>
+        </div>
+        <p class="meaning">Sự chuyển động, hoạt động.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">이동</span><span class="hv">[di động]</span><span class="def">di chuyển từ nơi này sang nơi khác</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">운동</span><span class="hv">[vận động]</span><span class="tag">mở rộng</span><span class="def">hoạt động thể chất hoặc phong trào</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">망</span></div>
+        <div class="reading">võng</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">망 (網)</span>
+        </div>
+        <p class="meaning">Hệ thống kết nối dạng lưới.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">통신망</span><span class="hv">[thông tín võng]</span><span class="def">mạng lưới liên lạc</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">교통망</span><span class="hv">[giao thông võng]</span><span class="tag">mở rộng</span><span class="def">mạng lưới giao thông</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 망 nhưng khác chữ Hán với 망 (望, trông đợi) ở Phần I.</p>
+      </div>
+    </article></div>
+    </section>
+    <section class="group">
+      <h3 class="group-title">Nhóm 21 — Quan hệ quốc tế, ngoại giao</h3>
+      <div class="entries">
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">외</span></div>
+        <div class="reading">ngoại</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">외</span>
+        </div>
+        <p class="meaning">Ở phạm vi bên ngoài.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">외교</span><span class="hv">[ngoại giao]</span><span class="def">quan hệ giữa các quốc gia</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">해외</span><span class="hv">[hải ngoại]</span><span class="def">ở nước ngoài</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">국외</span><span class="hv">[quốc ngoại]</span><span class="tag">mở rộng</span><span class="def">ngoài phạm vi đất nước</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">교</span></div>
+        <div class="reading">giao</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">교 (交)</span>
+        </div>
+        <p class="meaning">Sự trao đổi, tiếp xúc qua lại.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">교류</span><span class="hv">[giao lưu]</span><span class="def">trao đổi, tương tác qua lại</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">교섭</span><span class="hv">[giao thiệp]</span><span class="tag">mở rộng</span><span class="def">đàm phán, thương lượng</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 교 nhưng khác chữ Hán với 교 (敎, dạy học) ở Phần III.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">국</span></div>
+        <div class="reading">quốc</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">국</span>
+        </div>
+        <p class="meaning">Quốc gia.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">국가</span><span class="hv">[quốc gia]</span><span class="def">một nước</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">선진국</span><span class="hv">[tiên tiến quốc]</span><span class="tag">mở rộng</span><span class="def">nước phát triển</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">협</span></div>
+        <div class="reading">hiệp</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">협</span>
+        </div>
+        <p class="meaning">Cùng nhau phối hợp.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">협력</span><span class="hv">[hiệp lực]</span><span class="def">hợp tác, cùng góp sức</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">협상</span><span class="hv">[hiệp thương]</span><span class="def">đàm phán, thương lượng</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">협정</span><span class="hv">[hiệp định]</span><span class="tag">mở rộng</span><span class="def">thỏa thuận chính thức giữa các bên</span></div></div></div>
+        
+      </div>
+    </article></div>
+    </section>
+    <section class="group">
+      <h3 class="group-title">Nhóm 22 — Lao động, việc làm</h3>
+      <div class="entries">
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">노</span></div>
+        <div class="reading">lao</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">노 (勞)</span>
+        </div>
+        <p class="meaning">Công sức bỏ ra để làm việc.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">노동</span><span class="hv">[lao động]</span><span class="def">hoạt động làm việc để tạo ra giá trị</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">노사</span><span class="hv">[lao tư]</span><span class="tag">mở rộng</span><span class="def">quan hệ giữa người lao động và chủ sử dụng lao động</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 노 nhưng khác chữ Hán với 노 (老, già) ở Nhóm 18.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">임</span></div>
+        <div class="reading">nhâm</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">임</span>
+        </div>
+        <p class="meaning">Tiền công hoặc trách nhiệm được giao.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">임금</span><span class="hv">[nhâm kim]</span><span class="def">tiền lương</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">책임</span><span class="hv">[trách nhiệm]</span><span class="def">nghĩa vụ phải gánh vác</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">임무</span><span class="hv">[nhiệm vụ]</span><span class="tag">mở rộng</span><span class="def">công việc được giao</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">자</span></div>
+        <div class="reading">giả</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">자 (者)</span>
+        </div>
+        <p class="meaning">Người thực hiện một vai trò cụ thể.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">소비자</span><span class="hv">[tiêu phí giả]</span><span class="def">người tiêu dùng</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">생산자</span><span class="hv">[sinh sản giả]</span><span class="def">người hoặc đơn vị sản xuất</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">근로자</span><span class="hv">[cần lao giả]</span><span class="tag">mở rộng</span><span class="def">người lao động</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 자 nhưng khác chữ Hán với 자 (自, tự thân) ở Nhóm 20.</p>
+      </div>
+    </article></div>
+    </section>
+    <section class="group">
+      <h3 class="group-title">Nhóm 23 — Tiêu dùng, vấn đề xã hội</h3>
+      <div class="entries">
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">소</span></div>
+        <div class="reading">tiêu</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">소 (消)</span>
+        </div>
+        <p class="meaning">Tiêu hao, sử dụng hết.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">소비자</span><span class="hv">[tiêu phí giả]</span><span class="def">người tiêu dùng</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">소모</span><span class="hv">[tiêu hao]</span><span class="def">hao mòn, tiêu tốn dần</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">소모품</span><span class="hv">[tiêu hao phẩm]</span><span class="tag">mở rộng</span><span class="def">vật dụng bị hao mòn khi dùng</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 소 nhưng khác chữ Hán với 소 (小, tiểu) ở Phần I.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">저</span></div>
+        <div class="reading">đê</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">저 (低)</span>
+        </div>
+        <p class="meaning">Ở mức thấp.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">저출산</span><span class="hv">[đê xuất sản]</span><span class="def">tỷ lệ sinh thấp</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">저소득</span><span class="hv">[đê sở đắc]</span><span class="tag">mở rộng</span><span class="def">mức thu nhập thấp</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 저 nhưng khác chữ Hán với 저 (沮, cản trở) ở Phần I.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">다</span></div>
+        <div class="reading">đa</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">다</span>
+        </div>
+        <p class="meaning">Số lượng lớn, phong phú.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">다문화</span><span class="hv">[đa văn hóa]</span><span class="def">có nhiều nền văn hóa cùng tồn tại</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">다수</span><span class="hv">[đa số]</span><span class="tag">mở rộng</span><span class="def">phần lớn về số lượng</span></div></div></div>
+        
+      </div>
+    </article></div>
+    </section>
+    <section class="group">
+      <h3 class="group-title">Nhóm 24 — Văn hóa, thói quen</h3>
+      <div class="entries">
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">문</span></div>
+        <div class="reading">văn</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">문</span>
+        </div>
+        <p class="meaning">Liên quan tới tri thức, văn hóa.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">문화</span><span class="hv">[văn hóa]</span><span class="def">các giá trị tinh thần, phong tục của một cộng đồng</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">문명</span><span class="hv">[văn minh]</span><span class="tag">mở rộng</span><span class="def">trình độ phát triển văn hóa, xã hội</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">습</span></div>
+        <div class="reading">tập</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">습</span>
+        </div>
+        <p class="meaning">Hành vi lặp lại thành nếp.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">습관</span><span class="hv">[tập quán]</span><span class="def">thói quen thường xuyên</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">학습</span><span class="hv">[học tập]</span><span class="def">việc học và luyện tập</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">풍습</span><span class="hv">[phong tập]</span><span class="tag">mở rộng</span><span class="def">tập tục, phong tục</span></div></div></div>
+        
+      </div>
+    </article></div>
+    </section>
+    <section class="group">
+      <h3 class="group-title">Nhóm 25 — Thiên tai, an toàn</h3>
+      <div class="entries">
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">재</span></div>
+        <div class="reading">tai</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">재 (災)</span>
+        </div>
+        <p class="meaning">Tai họa, thiệt hại bất ngờ.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">재난</span><span class="hv">[tai nạn]</span><span class="def">sự cố gây thiệt hại lớn</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">재해</span><span class="hv">[tai hại]</span><span class="def">thiên tai, thảm họa</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">자연재해</span><span class="hv">[tự nhiên tai hại]</span><span class="tag">mở rộng</span><span class="def">thảm họa thiên nhiên</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 재 nhưng khác chữ Hán với 재 (再, tái) và 재 (財, tài) đã học ở Phần II.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">위</span></div>
+        <div class="reading">nguy</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">위</span>
+        </div>
+        <p class="meaning">Trạng thái bất ổn, có thể gây hại.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">위험</span><span class="hv">[nguy hiểm]</span><span class="def">có khả năng gây hại</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">위기</span><span class="hv">[nguy cơ]</span><span class="def">tình huống nguy hiểm, khủng hoảng</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">위태</span><span class="hv">[nguy đãi]</span><span class="tag">mở rộng</span><span class="def">bấp bênh, không vững chắc</span></div></div></div>
+        
+      </div>
+    </article></div>
+    </section>
+    </section>
+    <section class="part" id="phan-5">
+      <div class="part-header">
+        <span class="part-roman">V</span>
+        <div>
+          <h2 class="part-title">Giáo dục nâng cao, giao thông, khoa học kỹ thuật, gia đình, ngôn ngữ</h2>
+          <p class="part-intro">Phần bổ sung các nhóm gốc chữ phục vụ chủ đề đô thị hóa, nghiên cứu khoa học, đời sống gia đình và truyền thông đại chúng.</p>
+        </div>
+      </div>
+      <p class="part-stat">21 gốc Hán tự &middot; 48 từ vựng phái sinh</p>
+      
+    <section class="group">
+      <h3 class="group-title">Nhóm 26 — Giáo dục nâng cao, thi cử, khóa học</h3>
+      <div class="entries">
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">력</span></div>
+        <div class="reading">lịch</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">력 (歷)</span>
+        </div>
+        <p class="meaning">Quá trình đã trải qua.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">경력</span><span class="hv">[kinh lịch]</span><span class="def">kinh nghiệm làm việc đã trải qua</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">이력서</span><span class="hv">[lý lịch thư]</span><span class="def">bản sơ yếu lý lịch</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">학력</span><span class="hv">[học lịch]</span><span class="tag">mở rộng</span><span class="def">trình độ học vấn</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 력 nhưng khác chữ Hán với 력 (力, sức mạnh) ở Phần II.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">수</span></div>
+        <div class="reading">thụ</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">수 (受)</span>
+        </div>
+        <p class="meaning">Tiếp nhận, đón nhận.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">수업</span><span class="hv">[thụ nghiệp]</span><span class="def">buổi học</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">접수</span><span class="hv">[tiếp thụ]</span><span class="def">tiếp nhận hồ sơ, đơn từ</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">수강</span><span class="hv">[thụ giảng]</span><span class="tag">mở rộng</span><span class="def">tham gia một khóa học</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">수</span></div>
+        <div class="reading">tu</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">수 (修)</span>
+        </div>
+        <p class="meaning">Trau dồi, hoàn thiện bản thân.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">이수</span><span class="hv">[dĩ tu]</span><span class="def">đã hoàn thành một khóa học</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">연수</span><span class="hv">[nghiên tu]</span><span class="tag">mở rộng</span><span class="def">khóa đào tạo, tu nghiệp</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 수 nhưng khác chữ Hán với 수 (受) ở trên.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">강</span></div>
+        <div class="reading">giảng</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">강</span>
+        </div>
+        <p class="meaning">Việc truyền đạt bài học.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">강의</span><span class="hv">[giảng nghĩa]</span><span class="def">bài giảng</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">강사</span><span class="hv">[giảng sư]</span><span class="tag">mở rộng</span><span class="def">người đứng lớp giảng dạy</span></div></div></div>
+        
+      </div>
+    </article></div>
+    </section>
+    <section class="group">
+      <h3 class="group-title">Nhóm 27 — Giao thông, đô thị</h3>
+      <div class="entries">
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">도</span></div>
+        <div class="reading">đạo</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">도 (道)</span>
+        </div>
+        <p class="meaning">Con đường, tuyến đi.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">도로</span><span class="hv">[đạo lộ]</span><span class="def">con đường</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">철도</span><span class="hv">[thiết đạo]</span><span class="tag">mở rộng</span><span class="def">đường sắt</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">도</span></div>
+        <div class="reading">đô</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">도 (都)</span>
+        </div>
+        <p class="meaning">Đô thị, thành phố lớn.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">도시</span><span class="hv">[đô thị]</span><span class="def">thành phố</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">수도</span><span class="hv">[thủ đô]</span><span class="def">thành phố trung tâm của một nước</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">도심</span><span class="hv">[đô tâm]</span><span class="tag">mở rộng</span><span class="def">trung tâm thành phố</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 도 nhưng khác chữ Hán với 도 (道) ở trên.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">로</span></div>
+        <div class="reading">lộ</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">로</span>
+        </div>
+        <p class="meaning">Lối đi, tuyến đường.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">통로</span><span class="hv">[thông lộ]</span><span class="def">lối đi thông suốt</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">진로</span><span class="hv">[tiến lộ]</span><span class="tag">mở rộng</span><span class="def">hướng đi trong tương lai, cũng dùng cho hướng nghề nghiệp</span></div></div></div>
+        
+      </div>
+    </article></div>
+    </section>
+    <section class="group">
+      <h3 class="group-title">Nhóm 28 — Khoa học, kỹ thuật</h3>
+      <div class="entries">
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">연</span></div>
+        <div class="reading">nghiên</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">연 (硏)</span>
+        </div>
+        <p class="meaning">Tìm tòi, nghiên cứu.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">연구</span><span class="hv">[nghiên cứu]</span><span class="def">việc tìm hiểu chuyên sâu</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">연구소</span><span class="hv">[nghiên cứu sở]</span><span class="tag">mở rộng</span><span class="def">viện nghiên cứu</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 연 nhưng khác chữ Hán với 연 (延, kéo dài) ở Phần I.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">공</span></div>
+        <div class="reading">công</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">공 (工)</span>
+        </div>
+        <p class="meaning">Việc chế tạo, gia công.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">인공</span><span class="hv">[nhân công]</span><span class="def">do con người tạo ra, nhân tạo</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">공사</span><span class="hv">[công sự]</span><span class="tag">mở rộng</span><span class="def">công trình xây dựng</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">공</span></div>
+        <div class="reading">công</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">공 (功)</span>
+        </div>
+        <p class="meaning">Thành quả đạt được nhờ nỗ lực.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">성공</span><span class="hv">[thành công]</span><span class="def">đạt được kết quả mong muốn</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">공로</span><span class="hv">[công lao]</span><span class="tag">mở rộng</span><span class="def">sự đóng góp, cống hiến</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 공 nhưng khác chữ Hán với 공 (工) ở trên.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">공</span></div>
+        <div class="reading">không</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">공 (空)</span>
+        </div>
+        <p class="meaning">Khoảng trống, bầu trời.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">공간</span><span class="hv">[không gian]</span><span class="def">khoảng không, phạm vi</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">항공</span><span class="hv">[hàng không]</span><span class="tag">mở rộng</span><span class="def">ngành vận tải bằng máy bay</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Chữ thứ ba trong nhóm ba chữ 공 đồng âm khác nghĩa.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">기</span></div>
+        <div class="reading">kỹ</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">기 (技)</span>
+        </div>
+        <p class="meaning">Khả năng, tài năng chuyên môn.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">기술</span><span class="hv">[kỹ thuật]</span><span class="def">khả năng, công nghệ chuyên môn</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">특기</span><span class="hv">[đặc kỹ]</span><span class="tag">mở rộng</span><span class="def">sở trường, tài lẻ nổi bật</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">기</span></div>
+        <div class="reading">cơ</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">기 (機)</span>
+        </div>
+        <p class="meaning">Máy móc hoặc thời điểm thuận lợi.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">기계</span><span class="hv">[cơ giới]</span><span class="def">máy móc</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">기회</span><span class="hv">[cơ hội]</span><span class="def">thời điểm thuận lợi</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">위기</span><span class="hv">[nguy cơ]</span><span class="tag">mở rộng</span><span class="def">tình huống nguy hiểm, khủng hoảng</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 기 nhưng khác chữ Hán với 기 (技) ở trên.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">기</span></div>
+        <div class="reading">khí</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">기 (器)</span>
+        </div>
+        <p class="meaning">Vật dụng, công cụ.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">기구</span><span class="hv">[khí cụ]</span><span class="def">dụng cụ, tổ chức</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">무기</span><span class="hv">[vũ khí]</span><span class="tag">mở rộng</span><span class="def">công cụ dùng để chiến đấu</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Chữ thứ ba trong nhóm ba chữ 기 đồng âm khác nghĩa.</p>
+      </div>
+    </article></div>
+    </section>
+    <section class="group">
+      <h3 class="group-title">Nhóm 29 — Gia đình, hôn nhân</h3>
+      <div class="entries">
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">혼</span></div>
+        <div class="reading">hôn</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">혼</span>
+        </div>
+        <p class="meaning">Việc lập gia đình.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">결혼</span><span class="hv">[kết hôn]</span><span class="def">việc trở thành vợ chồng</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">이혼</span><span class="hv">[ly hôn]</span><span class="def">chấm dứt quan hệ hôn nhân</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">혼인</span><span class="hv">[hôn nhân]</span><span class="tag">mở rộng</span><span class="def">quan hệ vợ chồng theo pháp luật</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">가</span></div>
+        <div class="reading">gia</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">가</span>
+        </div>
+        <p class="meaning">Gia đình, nhà cửa.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">가정</span><span class="hv">[gia đình]</span><span class="def">tổ ấm, những người thân trong nhà</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">국가</span><span class="hv">[quốc gia]</span><span class="tag">mở rộng</span><span class="def">một nước, cùng gốc chữ 家 với gia đình</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">족</span></div>
+        <div class="reading">tộc</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">족</span>
+        </div>
+        <p class="meaning">Một cộng đồng người có chung đặc điểm.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">가족</span><span class="hv">[gia tộc]</span><span class="def">những người trong một nhà</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">민족</span><span class="hv">[dân tộc]</span><span class="tag">mở rộng</span><span class="def">cộng đồng người có chung nguồn gốc, văn hóa</span></div></div></div>
+        
+      </div>
+    </article></div>
+    </section>
+    <section class="group">
+      <h3 class="group-title">Nhóm 30 — Ngôn ngữ, truyền thông</h3>
+      <div class="entries">
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">어</span></div>
+        <div class="reading">ngữ</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">어</span>
+        </div>
+        <p class="meaning">Tiếng nói, ngôn ngữ.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">언어</span><span class="hv">[ngôn ngữ]</span><span class="def">hệ thống tiếng nói, chữ viết</span></div></div><div class="ex-wrap"><div class="ex"><span class="kr">외국어</span><span class="hv">[ngoại quốc ngữ]</span><span class="def">tiếng nước ngoài</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">단어</span><span class="hv">[đơn ngữ]</span><span class="tag">mở rộng</span><span class="def">từ vựng</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">언</span></div>
+        <div class="reading">ngôn</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">언</span>
+        </div>
+        <p class="meaning">Lời nói, phát biểu.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">발언</span><span class="hv">[phát ngôn]</span><span class="def">việc lên tiếng, phát biểu</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">언론</span><span class="hv">[ngôn luận]</span><span class="tag">mở rộng</span><span class="def">báo chí, truyền thông nói chung</span></div></div></div>
+        
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">매</span></div>
+        <div class="reading">môi</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">매 (媒)</span>
+        </div>
+        <p class="meaning">Vật hoặc người làm cầu nối trung gian.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">매체</span><span class="hv">[môi thể]</span><span class="def">phương tiện truyền thông</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">매개</span><span class="hv">[môi giới]</span><span class="tag">mở rộng</span><span class="def">làm trung gian kết nối</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 매 nhưng khác chữ Hán với 매 (賣, bán) và 매 (買, mua) ở Phần III.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="entry-left">
+        <div class="seal"><span class="seal-char">방</span></div>
+        <div class="reading">phóng</div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-head">
+          <span class="root-full">방 (放)</span>
+        </div>
+        <p class="meaning">Phát ra, tỏa ra.</p>
+        <div class="examples"><div class="ex-wrap"><div class="ex"><span class="kr">방송</span><span class="hv">[phóng tống]</span><span class="def">việc phát sóng truyền hình hoặc radio</span></div></div><div class="ex-wrap"><div class="ex extra"><span class="kr">방출</span><span class="hv">[phóng xuất]</span><span class="tag">mở rộng</span><span class="def">phát ra, giải phóng</span></div></div></div>
+        <p class="note"><span class="note-label">Đồng âm</span>Cùng đọc là 방 nhưng khác chữ Hán với 방 (防, phòng ngừa) và 방 (方, phương hướng) ở Phần III.</p>
+      </div>
+    </article></div>
+    </section>
+    </section>
+
+  <footer class="colophon">
+    <div class="stat-row">
+      <div class="stat"><b>152</b><span>gốc Hán tự</span></div>
+      <div class="stat"><b>482</b><span>từ vựng phái sinh</span></div>
+    </div>
+    <p>Nhãn <em>mở rộng</em> đánh dấu các từ vựng phái sinh được bổ sung thêm ngoài danh sách gốc. Khung có viền trái đánh dấu <strong>Đồng âm</strong> ghi chú các gốc chữ có cùng cách đọc trong tiếng Hàn nhưng khác chữ Hán và khác nghĩa, cần phân biệt theo ngữ cảnh khi ôn luyện.</p>
+  </footer>
+</div>
+
+<script id="topic-theme-sync">
+// Nhận theme từ app cha (index.html): lần đầu qua ?theme=..., sau đó qua postMessage khi user bấm nút sáng/tối.
+(function () {
+  function apply(t) {
+    if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    else document.documentElement.removeAttribute('data-theme');
+  }
+  try { apply(new URLSearchParams(location.search).get('theme')); } catch (e) {}
+  window.addEventListener('message', function (e) {
+    if (e.data && e.data.type === 'vocabapp-theme') apply(e.data.theme);
+  });
+})();
+</script>
+</body>
+</html>

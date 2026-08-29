@@ -642,6 +642,350 @@
   --c-gray300:#8a93a6; --c-gray400:#9aa4ba; --c-gray500:#b3bccf; --c-gray600:#cbd2e0;
   --light-sh: rgba(255,255,255,0.045); --dark-sh: rgba(0,0,0,0.55);
 }
+
+        /* ─── CARD "TỪ VỰNG THEO CHỦ ĐỀ" ─── */
+        .topic-card{
+            border-radius:26px; overflow:hidden; padding:0; border:0; cursor:pointer;
+            display:flex; flex-direction:column; background:var(--c-e6ebf3);
+            transition:transform .18s ease, box-shadow .18s ease;
+        }
+        .topic-card:hover{ transform:translateY(-4px); }
+        .topic-card:active{ transform:translateY(-1px); }
+        .topic-card-top{
+            position:relative; height:118px; display:flex; align-items:center; justify-content:center;
+        }
+        .topic-card-top::after{
+            content:''; position:absolute; inset:0;
+            background:radial-gradient(120px 80px at 22% 20%, rgba(255,255,255,.28), transparent 70%);
+        }
+        .topic-card-badge{
+            font-size:52px; line-height:1; font-weight:700; color:#fff;
+            font-family:'Nanum Myeongjo', Georgia, serif; text-shadow:0 4px 16px rgba(0,0,0,.22);
+            position:relative; z-index:1;
+        }
+        .topic-card-tag{
+            position:absolute; top:12px; left:14px; z-index:1;
+            font-size:10px; font-weight:800; letter-spacing:.12em; text-transform:uppercase;
+            color:#fff; background:rgba(255,255,255,.22); border:1px solid rgba(255,255,255,.35);
+            padding:3px 9px; border-radius:999px;
+        }
+        .topic-card-body{ padding:16px 18px 18px; display:flex; flex-direction:column; gap:7px; flex:1; }
+        .topic-card-title{ font-size:16px; font-weight:800; color:var(--c-1a1a24); line-height:1.25; }
+        .topic-card-sub{ font-size:12px; font-weight:700; color:var(--c-8290aa); }
+        .topic-card-desc{ font-size:12.5px; line-height:1.6; color:var(--c-6b7280); }
+        .topic-card-stats{ display:flex; flex-wrap:wrap; gap:6px; margin-top:2px; }
+        .topic-chip{
+            font-size:10.5px; font-weight:700; color:var(--c-516079);
+            background:rgba(255,255,255,.55);
+            border:1px solid var(--c-d8e0ec); border-radius:999px; padding:3px 9px;
+        }
+        :root[data-theme="dark"] .topic-chip{ background:rgba(255,255,255,.07); color:#c3cbdd; }
+        .topic-card-cta{
+            margin-top:auto; padding-top:10px; display:inline-flex; align-items:center; gap:6px;
+            font-size:12.5px; font-weight:800;
+        }
+
+        /* ─── CHẾ ĐỘ ĐỌC BÀI CHỦ ĐỀ (overlay toàn màn hình) ─── */
+        #topic-reader{
+            position:fixed; inset:0; z-index:90; display:flex; flex-direction:column;
+            background:#F8F6EF;
+        }
+        :root[data-theme="dark"] #topic-reader{ background:#171a21; }
+        #topic-reader.hidden{ display:none; }
+        .topic-reader-bar{
+            position:relative; z-index:2; flex-shrink:0;
+            background:rgba(250,247,240,.92); backdrop-filter:blur(8px);
+            border-bottom:1px solid #D8D4C6;
+        }
+        :root[data-theme="dark"] .topic-reader-bar{ background:rgba(23,26,33,.92); border-bottom-color:#333844; }
+        .topic-reader-bar-main{
+            max-width:1080px; margin:0 auto; padding:10px 18px;
+            display:flex; align-items:center; gap:10px;
+        }
+        .topic-back-btn{
+            display:inline-flex; align-items:center; gap:6px; flex-shrink:0;
+            background:transparent; border:1px solid #D8D4C6; border-radius:999px;
+            padding:6px 13px 6px 9px; cursor:pointer;
+            font-family:'Plus Jakarta Sans',sans-serif; font-size:12.5px; font-weight:700;
+            color:#33396B; transition:all .15s ease;
+        }
+        .topic-back-btn:hover{ border-color:#33396B; background:rgba(51,57,107,.06); }
+        :root[data-theme="dark"] .topic-back-btn{ border-color:#3c4252; color:#a9b0ee; }
+        :root[data-theme="dark"] .topic-back-btn:hover{ border-color:#a9b0ee; background:rgba(169,176,238,.1); }
+        .topic-crumb-sep{ color:#B9B4A4; font-size:13px; flex-shrink:0; }
+        :root[data-theme="dark"] .topic-crumb-sep{ color:#5a6172; }
+        .topic-reader-titles{ display:flex; flex-direction:column; min-width:0; flex:1; }
+        .topic-reader-title{
+            font-family:'Plus Jakarta Sans',sans-serif; font-size:14px; font-weight:800;
+            color:#20232A; line-height:1.2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+        }
+        .topic-reader-sub{
+            font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#5B5F66;
+            line-height:1.3; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:1px;
+        }
+        :root[data-theme="dark"] .topic-reader-title{ color:#e6e8ee; }
+        :root[data-theme="dark"] .topic-reader-sub{ color:#a4abb9; }
+        .topic-reader-actions{ display:flex; align-items:center; gap:6px; margin-left:auto; flex-shrink:0; }
+        .topic-link-badge{
+            font-family:'Plus Jakarta Sans',sans-serif; font-size:10.5px; font-weight:700;
+            color:#5B4B8A; background:#EEECF4; border:1px solid #d7d2e6;
+            border-radius:999px; padding:4px 10px; white-space:nowrap; cursor:default;
+        }
+        :root[data-theme="dark"] .topic-link-badge{ color:#c0b3e8; background:#262436; border-color:#3d3752; }
+        .topic-icon-btn{
+            width:32px; height:32px; border-radius:10px; border:1px solid #D8D4C6;
+            background:transparent; color:#5B5F66; cursor:pointer;
+            display:flex; align-items:center; justify-content:center; transition:all .15s ease;
+        }
+        .topic-icon-btn:hover{ border-color:#33396B; color:#33396B; }
+        :root[data-theme="dark"] .topic-icon-btn{ border-color:#3c4252; color:#a4abb9; }
+        :root[data-theme="dark"] .topic-icon-btn:hover{ border-color:#a9b0ee; color:#a9b0ee; }
+        .topic-parts-nav{
+            max-width:1080px; margin:0 auto; padding:0 18px 9px;
+            display:flex; gap:6px; overflow-x:auto; scrollbar-width:none;
+        }
+        .topic-parts-nav::-webkit-scrollbar{ display:none; }
+        .topic-part-chip{
+            flex-shrink:0; border:1px solid #D8D4C6; background:transparent; cursor:pointer;
+            border-radius:999px; padding:4px 12px; font-size:11.5px; font-weight:600;
+            font-family:'Plus Jakarta Sans',sans-serif; color:#5B5F66; transition:all .15s ease;
+            max-width:230px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+        }
+        .topic-part-chip .topic-chip-num{ font-family:'IBM Plex Mono',monospace; font-weight:700; margin-right:5px; color:#2E4A73; }
+        .topic-part-chip:hover{ border-color:#2E4A73; color:#2E4A73; }
+        .topic-part-chip[data-active="true"]{ background:#33396B; border-color:#33396B; color:#fff; }
+        .topic-part-chip[data-active="true"] .topic-chip-num{ color:#fff; }
+        :root[data-theme="dark"] .topic-part-chip{ border-color:#3c4252; color:#a4abb9; }
+        :root[data-theme="dark"] .topic-part-chip .topic-chip-num{ color:#8fb3e0; }
+        :root[data-theme="dark"] .topic-part-chip[data-active="true"]{ background:#4a5180; border-color:#4a5180; color:#fff; }
+        .topic-progress{ height:2px; background:transparent; }
+        .topic-progress > span{ display:block; height:100%; width:0%; background:#5B4B8A; transition:width .1s linear; }
+        :root[data-theme="dark"] .topic-progress > span{ background:#c0b3e8; }
+        .topic-reader-scroll{ flex:1; min-height:0; overflow-y:auto; overflow-x:hidden; -webkit-overflow-scrolling:touch; }
+        .topic-doc-loading{
+            max-width:880px; margin:0 auto; padding:80px 24px; text-align:center;
+            font-family:'Plus Jakarta Sans',sans-serif; font-size:14px; color:#5B5F66;
+        }
+        /* Từ vựng trong bài có trong thư viện → bấm được để mở thẻ chi tiết */
+        .topic-doc .topic-word-link{
+            cursor:pointer; border-bottom:1.5px dashed rgba(91,75,138,.55);
+            padding-bottom:1px; transition:all .13s ease; border-radius:2px;
+        }
+        .topic-doc .topic-word-link:hover{
+            color:#5B4B8A; background:rgba(91,75,138,.1); border-bottom-color:#5B4B8A;
+            box-shadow:0 0 0 3px rgba(91,75,138,.1);
+        }
+        html[data-theme="dark"] .topic-doc .topic-word-link{ border-bottom-color:rgba(192,179,232,.6); }
+        html[data-theme="dark"] .topic-doc .topic-word-link:hover{ color:#c0b3e8; background:rgba(192,179,232,.14); border-bottom-color:#c0b3e8; }
+        @media (max-width:640px){
+            .topic-reader-bar-main{ padding:9px 12px; gap:8px; }
+            .topic-back-label{ display:none; }
+            .topic-back-btn{ padding:6px 9px; }
+            .topic-crumb-sep{ display:none; }
+            .topic-link-badge{ display:none !important; }
+            .topic-parts-nav{ padding:0 12px 8px; }
+        }
+
+        /* ==== GIAO DIỆN BÀI VIẾT CHỦ ĐỀ (.topic-doc) — dùng chung cho mọi bài ==== */
+.topic-doc{
+  --paper:#F8F6EF;
+  --paper-2:#EBEAE3;
+  --ink:#20232A;
+  --ink-soft:#5B5F66;
+  --indigo:#33396B;
+  --seal:#2E4A73;
+  --seal-2:#4C6C9E;
+  --violet:#5B4B8A;
+  --violet-bg:#EEECF4;
+  --line:#D8D4C6;
+}
+.topic-doc *{box-sizing:border-box;}
+.topic-doc{scroll-behavior:smooth;}
+.topic-doc{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:Georgia,'Times New Roman',serif;
+  line-height:1.5;
+}
+.topic-doc .wrap{max-width:880px;margin:0 auto;padding:0 1.25rem 4rem;}
+
+.topic-doc header.top{
+  position:sticky;top:0;z-index:20;
+  background:rgba(250,247,240,.94);
+  backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--line);
+}
+.topic-doc .top-inner{max-width:880px;margin:0 auto;padding:.6rem 1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+.topic-doc .brand{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--indigo);}
+.topic-doc nav.parts-nav{display:flex;gap:.4rem;}
+.topic-doc nav.parts-nav a{
+  font-family:ui-monospace,Menlo,Consolas,monospace;
+  font-size:.75rem;color:var(--ink-soft);
+  text-decoration:none;border:1px solid var(--line);
+  border-radius:999px;padding:.2rem .55rem;
+}
+.topic-doc nav.parts-nav a:hover{border-color:var(--seal);color:var(--seal);}
+
+.topic-doc .cover{padding:3rem 0 2rem;border-bottom:1px solid var(--line);}
+.topic-doc .eyebrow{
+  font-family:ui-monospace,Menlo,Consolas,monospace;
+  font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--seal);margin:0 0 .6rem;
+}
+.topic-doc h1.doc-title{
+  font-size:2rem;line-height:1.2;margin:0 0 .7rem;
+  color:var(--indigo);font-weight:700;
+}
+.topic-doc p.doc-lede{max-width:62ch;color:var(--ink-soft);margin:0 0 1.4rem;font-size:1.02rem;}
+.topic-doc .stat-row{display:flex;gap:1.5rem;flex-wrap:wrap;}
+.topic-doc .stat{border-left:2px solid var(--seal);padding-left:.6rem;}
+.topic-doc .stat b{display:block;font-size:1.4rem;color:var(--indigo);line-height:1.1;}
+.topic-doc .stat span{font-size:.78rem;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em;}
+
+.topic-doc .part{padding-top:3.2rem;}
+.topic-doc .part-header{display:flex;gap:1.1rem;align-items:flex-start;border-bottom:2px solid var(--ink);padding-bottom:.9rem;}
+.topic-doc .part-roman{
+  font-size:2.4rem;font-weight:700;color:var(--seal);
+  line-height:1;flex-shrink:0;min-width:2.4rem;
+}
+.topic-doc h2.part-title{
+  font-size:1.15rem;letter-spacing:.01em;text-transform:uppercase;
+  font-weight:700;color:var(--indigo);margin:0 0 .35rem;
+}
+.topic-doc p.part-intro{margin:0;color:var(--ink-soft);font-size:.92rem;max-width:58ch;font-style:italic;}
+.topic-doc p.part-stat{
+  font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.72rem;
+  color:var(--ink-soft);letter-spacing:.03em;margin:.6rem 0 0;
+}
+
+.topic-doc h3.group-title{
+  font-size:1rem;font-weight:700;color:var(--ink);
+  margin:1.9rem 0 .2rem;padding-bottom:.3rem;
+  border-bottom:1px dotted var(--line);
+}
+
+.topic-doc .entry{display:flex;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--line);}
+.topic-doc .entry:last-child{border-bottom:none;}
+.topic-doc .entry-left{display:flex;flex-direction:column;align-items:center;gap:.35rem;width:74px;flex-shrink:0;}
+.topic-doc .seal{
+  width:52px;height:52px;border-radius:6px;
+  background:linear-gradient(155deg,var(--seal),var(--seal-2));
+  display:flex;align-items:center;justify-content:center;
+  transform:rotate(-3deg);
+  box-shadow:0 2px 5px rgba(30,20,10,.18);
+}
+.topic-doc .seal-char{
+  color:#FBF4E8;font-size:1.55rem;font-weight:700;
+  transform:rotate(3deg);
+  font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+}
+.topic-doc .reading{
+  /* 👉 CỠ CHỮ NGHĨA TIẾNG VIỆT dưới mỗi gốc Hán — sửa font-size ở đây */
+  font-family:ui-monospace,Menlo,Consolas,monospace;
+  font-size:.95rem;font-weight:600;line-height:1.25;
+  color:var(--indigo);text-align:center;
+}
+.topic-doc .entry-body{flex:1;min-width:0;}
+.topic-doc .root-full{
+  font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  font-weight:700;font-size:.95rem;color:var(--ink);
+  letter-spacing:.02em;
+}
+.topic-doc p.meaning{margin:.3rem 0 .55rem;color:var(--ink-soft);font-size:.92rem;font-style:italic;}
+.topic-doc .examples{display:flex;flex-direction:column;gap:.5rem;}
+.topic-doc .ex-wrap{display:flex;flex-direction:column;gap:0;}
+.topic-doc .ex{display:flex;flex-wrap:wrap;align-items:baseline;gap:.4rem;font-size:.93rem;}
+.topic-doc .ex .kr{
+  font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  font-weight:700;color:var(--ink);
+}
+.topic-doc .ex .hv{
+  font-family:ui-monospace,Menlo,Consolas,monospace;
+  color:var(--indigo);font-size:.82rem;
+}
+.topic-doc .ex .def{color:var(--ink);flex:1;min-width:140px;}
+.topic-doc .ex.extra .def{color:var(--ink-soft);}
+.topic-doc .ex .tag{
+  font-family:ui-monospace,Menlo,Consolas,monospace;
+  font-size:.62rem;text-transform:uppercase;letter-spacing:.05em;
+  color:var(--seal);border:1px solid var(--seal);border-radius:999px;
+  padding:.03rem .4rem;
+}
+.topic-doc p.note{
+  margin:.7rem 0 0;padding:.5rem .7rem;
+  background:var(--paper-2);border-left:3px solid var(--seal);
+  font-size:.83rem;color:var(--ink-soft);
+}
+.topic-doc .note-label{
+  font-family:ui-monospace,Menlo,Consolas,monospace;
+  text-transform:uppercase;font-size:.66rem;letter-spacing:.06em;
+  color:var(--seal);margin-right:.5rem;font-weight:700;
+}
+.topic-doc .sample{
+  margin:.3rem 0 .15rem 0;padding:.4rem .65rem;
+  background:var(--violet-bg);border-left:3px solid var(--violet);
+  border-radius:2px;font-size:.85rem;
+}
+.topic-doc .sample-label{
+  font-family:ui-monospace,Menlo,Consolas,monospace;
+  text-transform:uppercase;font-size:.62rem;letter-spacing:.06em;
+  color:var(--violet);font-weight:700;display:block;margin-bottom:.2rem;
+}
+.topic-doc .sample-kr{
+  font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  color:var(--ink);
+}
+.topic-doc .sample-vi{
+  display:block;margin-top:.2rem;color:var(--violet);
+  font-style:italic;font-size:.82rem;
+}
+
+.topic-doc footer.colophon{
+  margin-top:3.5rem;padding-top:1.5rem;border-top:2px solid var(--ink);
+  color:var(--ink-soft);font-size:.85rem;
+}
+.topic-doc footer.colophon .stat-row{margin-bottom:1rem;}
+
+@media (max-width:560px){
+  .topic-doc h1.doc-title{font-size:1.5rem;}
+  .topic-doc .part-roman{font-size:1.9rem;}
+  .topic-doc nav.parts-nav{gap:.3rem;}
+  .topic-doc .ex .def{min-width:100%;}
+}
+
+/* ─── CHẾ ĐỘ TỐI — tự đồng bộ theo app (html[data-theme="dark"]) ─── */
+html[data-theme="dark"] .topic-doc{
+  --paper:#171a21;
+  --paper-2:#1f232c;
+  --ink:#e6e8ee;
+  --ink-soft:#a4abb9;
+  --indigo:#a9b0ee;
+  --seal:#8fb3e0;
+  --seal-2:#6f92c9;
+  --violet:#c0b3e8;
+  --violet-bg:#262436;
+  --line:#333844;
+}
+html[data-theme="dark"] .topic-doc header.top{background:rgba(23,26,33,.94);}
+html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
+
+/* ─── Các thẻ Markdown thông dụng dùng cho bài dạng bài đọc / bài phân tích ─── */
+.topic-doc h4.md-h4{font-size:.98rem;font-weight:700;color:var(--indigo);margin:1.4rem 0 .3rem;}
+.topic-doc p.md-p{margin:.55rem 0;color:var(--ink);font-size:.95rem;line-height:1.75;}
+.topic-doc ul.md-list{margin:.5rem 0 .8rem;padding-left:1.3rem;color:var(--ink);font-size:.95rem;line-height:1.75;list-style:disc outside;}
+.topic-doc ul.md-list li::marker{color:var(--seal);}
+.topic-doc ul.md-list li{margin:.18rem 0;}
+.topic-doc blockquote.md-quote{margin:.6rem 0;padding:.55rem .85rem;border-left:3px solid var(--seal);background:var(--paper-2);font-size:.92rem;color:var(--ink-soft);}
+.topic-doc hr.md-hr{border:none;border-top:1px solid var(--line);margin:2rem 0;}
+.topic-doc code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.85em;background:var(--paper-2);padding:.08em .35em;border-radius:3px;}
+.topic-doc a{color:var(--violet);}
+.topic-doc .md-table-wrap{overflow-x:auto;margin:.8rem 0;}
+.topic-doc table.md-table{border-collapse:collapse;width:100%;font-size:.9rem;}
+.topic-doc table.md-table th,.topic-doc table.md-table td{border:1px solid var(--line);padding:.45rem .6rem;text-align:left;vertical-align:top;}
+.topic-doc table.md-table th{background:var(--paper-2);color:var(--indigo);font-weight:700;}
+.topic-doc img{max-width:100%;height:auto;border-radius:6px;}
+
     </style>
 </head>
 <body class="font-sans antialiased text-[color:var(--c-3d3d4e)] px-3 sm:px-5 lg:px-8 pb-3 sm:pb-5 lg:pb-8 pt-1 sm:pt-2 min-h-screen">
@@ -724,6 +1068,11 @@
                 <a href="#" class="sidebar-nav-item" data-active="false" id="tab-notebook" title="Sổ từ vựng">
                     <span class="sidebar-nav-icon-box" data-theme-icon="notebook"></span>
                     <span class="sidebar-nav-label">Sổ từ vựng</span>
+                    <svg class="sidebar-nav-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </a>
+                <a href="#" class="sidebar-nav-item" data-active="false" id="tab-topic" title="Từ vựng theo chủ đề">
+                    <span class="sidebar-nav-icon-box" data-theme-icon="topic"></span>
+                    <span class="sidebar-nav-label">Từ vựng theo chủ đề</span>
                     <svg class="sidebar-nav-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
                 <a href="#" class="sidebar-nav-item" data-active="false" id="tab-full-topik" title="Thư viện FULL MASTER">
@@ -935,6 +1284,23 @@
                             <button class="neo-button px-5 py-2.5 text-white bg-point font-bold text-xs mt-1" onclick="openCreateNotebookModal()">+ Tạo sổ mới</button>
                         </div>
                     </div>
+                </section>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- VIEW: TỪ VỰNG THEO CHỦ ĐỀ — trang tổng hợp các card chủ đề  -->
+            <!-- Mỗi card = 1 bài post nằm trong thư mục topics/ (HTML tĩnh, -->
+            <!-- nhúng bằng iframe nên CSS của bài không đụng CSS của app).   -->
+            <!-- Muốn thêm chủ đề mới: thêm 1 phần tử vào TOPIC_POSTS.        -->
+            <!-- ============================================================ -->
+            <div id="view-topic-home" class="view-group hidden w-full max-w-[1250px] mx-auto">
+                <section class="mb-6">
+                    <div class="home-sec-head">
+                        <h3 class="home-sec-title text-[13px] font-extrabold text-[color:var(--c-516079)] tracking-[0.14em]">TỪ VỰNG THEO CHỦ ĐỀ</h3>
+                        <span class="home-sec-note" id="topic-count-note"></span>
+                    </div>
+                    <p class="text-[12.5px] font-medium mt-1 mb-4" style="color:var(--c-6b7280);">Các bài tổng hợp từ vựng theo từng chủ đề — bấm vào thẻ để đọc bài đầy đủ.</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5" id="topic-cards-grid"></div>
                 </section>
             </div>
 
@@ -1164,6 +1530,13 @@
             libraryFast: (c) => `
                 <path d="M24 4c11 0 19.5 8.8 19.5 19.6C43.5 34.9 35 44 24 44S4.5 34.9 4.5 23.6C4.5 12.8 13 4 24 4z" fill="${c.light}"/>
                 <path d="M26.5 7.5 11 27.5h9l-2.7 13 15.7-20.3h-9.8z" fill="${c.dark}"/>
+            `,
+            topic: (c) => `
+                <rect x="5.5" y="6" width="16" height="16" rx="4" fill="${c.light}"/>
+                <rect x="26.5" y="6" width="16" height="16" rx="4" fill="${c.dark}" opacity=".85"/>
+                <rect x="5.5" y="26" width="16" height="16" rx="4" fill="${c.dark}" opacity=".85"/>
+                <rect x="26.5" y="26" width="16" height="16" rx="4" fill="${c.light}"/>
+                <path d="M31 33.8h7M34.5 30.3v7" stroke="${c.dark}" stroke-width="3" stroke-linecap="round"/>
             `,
             edit: (c) => `
                 <path d="M8.5 33.8 11.3 24l19-19a3.1 3.1 0 0 1 4.4 0l6 6a3.1 3.1 0 0 1 0 4.4l-19 19z" fill="${c.light}"/>
@@ -2720,9 +3093,13 @@
             const tabNotebook = document.getElementById('tab-notebook');
             const tabFullTopik = document.getElementById('tab-full-topik');
             const tabFastPace = document.getElementById('tab-fast-pace');
-            [tabHome, tabNotebook, tabFullTopik, tabFastPace].forEach(t => t && t.setAttribute('data-active', 'false'));
+            [tabHome, tabNotebook, tabFullTopik, tabFastPace, document.getElementById('tab-topic')].forEach(t => t && t.setAttribute('data-active', 'false'));
             if (target === 'view-home-dashboard' && tabHome) tabHome.setAttribute('data-active', 'true');
             else if (target === 'view-notebook-home' && tabNotebook) tabNotebook.setAttribute('data-active', 'true');
+            else if (target === 'view-topic-home') {
+                const tabTopic = document.getElementById('tab-topic');
+                if (tabTopic) tabTopic.setAttribute('data-active', 'true');
+            }
             else if (target === 'view-library-stage') {
                 const activeTab = currentSource === 'fast' ? tabFastPace : tabFullTopik;
                 if (activeTab) activeTab.setAttribute('data-active', 'true');
@@ -3884,7 +4261,7 @@
             if (typeof closeLibraryDetailPopup === 'function') closeLibraryDetailPopup();
             document.querySelectorAll('.view-group').forEach(v => v.classList.add('hidden'));
             document.getElementById('view-practice-stage').classList.remove('hidden');
-            [document.getElementById('tab-notebook'), document.getElementById('tab-full-topik'), document.getElementById('tab-fast-pace')].forEach(el => {
+            [document.getElementById('tab-notebook'), document.getElementById('tab-full-topik'), document.getElementById('tab-fast-pace'), document.getElementById('tab-topic')].forEach(el => {
                 if (el) el.setAttribute('data-active', 'false');
             });
 
@@ -6054,7 +6431,7 @@
             document.querySelectorAll('.view-group').forEach(v => v.classList.add('hidden'));
             const view = document.getElementById('view-quiz-maze');
             if (view) view.classList.remove('hidden');
-            [document.getElementById('tab-home'), document.getElementById('tab-notebook'), document.getElementById('tab-full-topik'), document.getElementById('tab-fast-pace')].forEach(t => t && t.setAttribute('data-active', 'false'));
+            [document.getElementById('tab-home'), document.getElementById('tab-notebook'), document.getElementById('tab-full-topik'), document.getElementById('tab-fast-pace'), document.getElementById('tab-topic')].forEach(t => t && t.setAttribute('data-active', 'false'));
 
             const genFn = mode === 'topic' ? generateTopicPracticeQuestion : generateQuizMazeQuestion;
             const questions = picked.map(w => genFn(w, fullPool.length > 3 ? fullPool : picked));
@@ -6253,11 +6630,604 @@
             if (view) view.classList.add('hidden');
             const home = document.getElementById('view-home-dashboard');
             if (home) home.classList.remove('hidden');
-            [document.getElementById('tab-notebook'), document.getElementById('tab-full-topik'), document.getElementById('tab-fast-pace')].forEach(t => t && t.setAttribute('data-active', 'false'));
+            [document.getElementById('tab-notebook'), document.getElementById('tab-full-topik'), document.getElementById('tab-fast-pace'), document.getElementById('tab-topic')].forEach(t => t && t.setAttribute('data-active', 'false'));
             const tabHome = document.getElementById('tab-home');
             if (tabHome) tabHome.setAttribute('data-active', 'true');
             renderHomeStatusSection();
             renderHomeAllWordsTable();
+        }
+
+
+        // ============================================================
+        // TỪ VỰNG THEO CHỦ ĐỀ
+        // Mỗi chủ đề là 1 file HTML tĩnh trong thư mục topics/, hiển thị
+        // bằng iframe để CSS của bài viết không đụng CSS của app.
+        // ➕ THÊM CHỦ ĐỀ MỚI: copy file .html vào topics/ rồi thêm 1 object
+        //    vào mảng TOPIC_POSTS bên dưới (id phải là duy nhất).
+        // ============================================================
+        let topicCatalogueLoaded = false;
+        let TOPIC_POSTS = [
+            {
+                id: 'han-han',
+                title: 'Từ vựng Hán Hàn',
+                subtitle: 'Gốc Hán tự thường gặp trong đề TOPIK II',
+                badge: '漢',
+                accent: '#5B4B8A',
+                accent2: '#33396B',
+                tag: 'Từ nguyên',
+                desc: 'Tổng hợp các gốc chữ Hán xuất hiện phổ biến trong đề đọc, nghe và viết TOPIK II — kèm âm Hán Việt, phạm vi nghĩa và từ vựng phái sinh.',
+                stats: ['152 gốc Hán tự', '482 từ phái sinh', '5 phần chủ đề'],
+                file: 'topics/tu-vung-han-han.html'
+            }
+        ];
+
+        function topicById(id) { return TOPIC_POSTS.find(t => t.id === id) || null; }
+
+        async function renderTopicHome() {
+            await loadTopicCatalogue();
+            renderTopicCards();
+        }
+
+        function renderTopicCards() {
+            const grid = document.getElementById('topic-cards-grid');
+            const note = document.getElementById('topic-count-note');
+            if (!grid) return;
+            if (note) note.textContent = TOPIC_POSTS.length + ' chủ đề';
+
+            if (!TOPIC_POSTS.length) {
+                grid.innerHTML = `<div class="neo-raised p-10 flex flex-col items-center gap-2 text-center sm:col-span-2 xl:col-span-3">
+                        <p class="text-sm font-bold text-[color:var(--c-2d2d3a)]">Chưa có chủ đề nào</p>
+                        <p class="text-xs text-gray-400">Các bài từ vựng theo chủ đề sẽ được cập nhật dần.</p>
+                    </div>`;
+                return;
+            }
+
+            grid.innerHTML = TOPIC_POSTS.map(t => `
+                <button type="button" class="topic-card neo-raised text-left w-full" onclick="openTopicPost('${t.id}')" title="${t.title}">
+                    <div class="topic-card-top" style="background:linear-gradient(135deg, ${t.accent}, ${t.accent2});">
+                        <span class="topic-card-badge">${t.badge}</span>
+                        <span class="topic-card-tag">${t.tag}</span>
+                    </div>
+                    <div class="topic-card-body">
+                        <h4 class="topic-card-title">${t.title}</h4>
+                        <p class="topic-card-sub">${t.subtitle}</p>
+                        <p class="topic-card-desc">${t.desc}</p>
+                        <div class="topic-card-stats">
+                            ${t.stats.map(x => `<span class="topic-chip">${x}</span>`).join('')}
+                        </div>
+                        <span class="topic-card-cta" style="color:${t.accent};">
+                            Đọc bài
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </span>
+                    </div>
+                </button>
+            `).join('');
+        }
+
+        // ============================================================
+        // BỘ ĐỌC BÀI VIẾT DẠNG MARKDOWN (.md)
+        // Mỗi bài là 1 file .md trong thư mục topics/ — cô giáo sửa thẳng
+        // trên GitHub, không cần đụng file code này.
+        // Cú pháp rút gọn: xem topics/_HUONG-DAN-TAO-BAI-CHU-DE-MOI.md
+        // ============================================================
+        const TOPIC_COLOR_PRESETS = {
+            'tim':        ['#5B4B8A', '#33396B'],
+            'xanh duong': ['#2E5C8A', '#1D3B5C'],
+            'xanh la':    ['#2F6B52', '#1E4636'],
+            'cam':        ['#C2683C', '#8A3F22'],
+            'do':         ['#B2434B', '#7A2A32'],
+            'hong':       ['#B4517E', '#7C3055'],
+            'nau':        ['#8A6240', '#5C3F28'],
+            'xam':        ['#5A6472', '#39414D'],
+            'vang':       ['#A8802C', '#75581B'],
+        };
+
+        // Bỏ dấu tiếng Việt để so khớp tên khoá/tên màu cho dễ tính
+        function topicSlug(str) {
+            return (str || '').toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                .replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase().trim();
+        }
+
+        function topicColorPair(value) {
+            const v = topicSlug(value);
+            if (!v) return TOPIC_COLOR_PRESETS['tim'];
+            if (v.startsWith('#')) {
+                const parts = v.split(/[\s,|]+/).filter(Boolean);
+                return [parts[0], parts[1] || parts[0]];
+            }
+            return TOPIC_COLOR_PRESETS[v] || TOPIC_COLOR_PRESETS['tim'];
+        }
+
+        // ─── Đọc file danh mục topics/danh-muc.txt để dựng các thẻ ở trang tổng hợp ───
+        async function loadTopicCatalogue() {
+            if (TOPIC_POSTS.length && topicCatalogueLoaded) return TOPIC_POSTS;
+            try {
+                const res = await fetch('topics/danh-muc.txt', { cache: 'no-cache' });
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                const list = parseTopicCatalogue(await res.text());
+                if (list.length) TOPIC_POSTS = list;
+                topicCatalogueLoaded = true;
+            } catch (e) {
+                console.warn('Không đọc được topics/danh-muc.txt, dùng danh sách dự phòng trong code.', e);
+            }
+            return TOPIC_POSTS;
+        }
+
+        function parseTopicCatalogue(text) {
+            const posts = [];
+            let cur = null;
+            text.split(/\r?\n/).forEach(rawLine => {
+                const line = rawLine.trim();
+                if (!line || line.startsWith('#')) return;              // dòng trống & dòng chú thích
+                if (line.startsWith('===')) {                            // bắt đầu 1 bài mới
+                    const fileName = line.replace(/^=+/, '').trim();
+                    if (!fileName) return;
+                    cur = {
+                        id: fileName.replace(/\.(md|html)$/i, ''),
+                        file: 'topics/' + fileName,
+                        title: fileName, subtitle: '', badge: '★', tag: 'Chủ đề',
+                        desc: '', stats: [], accent: '#5B4B8A', accent2: '#33396B'
+                    };
+                    posts.push(cur);
+                    return;
+                }
+                if (!cur) return;
+                const sep = line.indexOf(':');
+                if (sep === -1) return;
+                const key = topicSlug(line.slice(0, sep));
+                const val = line.slice(sep + 1).trim();
+                if (key === 'ten' || key === 'tieu de') cur.title = val;
+                else if (key === 'mo ta ngan' || key === 'mo ta') cur.subtitle = val;
+                else if (key === 'chu tren the' || key === 'chu the') cur.badge = val;
+                else if (key === 'nhan') cur.tag = val;
+                else if (key === 'gioi thieu') cur.desc = val;
+                else if (key === 'so lieu') cur.stats = val.split('|').map(x => x.trim()).filter(Boolean);
+                else if (key === 'mau') { const c = topicColorPair(val); cur.accent = c[0]; cur.accent2 = c[1]; }
+            });
+            return posts;
+        }
+
+        // ─── Chuyển nội dung Markdown của bài thành HTML theo đúng bộ class của bài viết ───
+        function renderTopicMarkdown(md) {
+            const lines = md.replace(/\r\n?/g, '\n').split('\n');
+            const front = {};
+            let i = 0;
+
+            // Khối thông tin đầu bài giữa 2 dòng ---
+            if (lines[0] && lines[0].trim() === '---') {
+                i = 1;
+                while (i < lines.length && lines[i].trim() !== '---') {
+                    const sep = lines[i].indexOf(':');
+                    if (sep > -1) front[topicSlug(lines[i].slice(0, sep))] = lines[i].slice(sep + 1).trim();
+                    i++;
+                }
+                i++;
+            }
+
+            const out = [];
+            let openTags = [];           // ngăn xếp thẻ đang mở: part / group / entry / examples / ex-wrap
+            let listOpen = false, paraOpen = false, coverOpen = false, tableRows = null, pendingMeaning = false;
+
+            const topName = () => (openTags.length ? openTags[openTags.length - 1].name : '');
+            const closeOne = () => '</' + openTags.pop().tag + '>';
+            const closeInline = () => {
+                if (listOpen) { out.push('</ul>'); listOpen = false; }
+                if (paraOpen) { out.push('</p>'); paraOpen = false; }
+                if (tableRows) { out.push(renderTable(tableRows)); tableRows = null; }
+            };
+            const closeEntryLevel = () => {
+                closeInline();
+                while (openTags.length && ['ex-wrap', 'examples', 'entry-body', 'entry'].includes(topName())) out.push(closeOne());
+            };
+            const closeGroupLevel = () => {
+                closeEntryLevel();
+                while (openTags.length && ['entries', 'group'].includes(topName())) out.push(closeOne());
+            };
+            const closeAll = () => {
+                closeGroupLevel();
+                while (openTags.length) out.push(closeOne());
+                if (coverOpen) { /* cover đã đóng ngay khi mở phần đầu tiên */ }
+            };
+            const openTag = (cls, name) => { out.push('<div class="' + cls + '">'); openTags.push({ name: name || cls, tag: 'div' }); };
+            const hasOpen = (name) => openTags.some(t => t.name === name);
+
+            const renderTable = (rows) => {
+                const head = rows[0], body = rows.slice(1).filter(r => !/^[-\s|:]+$/.test(r.join('')));
+                return '<div class="md-table-wrap"><table class="md-table"><thead><tr>' +
+                    head.map(c => '<th>' + inline(c) + '</th>').join('') + '</tr></thead><tbody>' +
+                    body.map(r => '<tr>' + r.map(c => '<td>' + inline(c) + '</td>').join('') + '</tr>').join('') +
+                    '</tbody></table></div>';
+            };
+
+            const esc = (t) => (t || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            const inline = (t) => esc(t)
+                .replace(/`([^`]+)`/g, '<code>$1</code>')
+                .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+                .replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>')
+                .replace(/\[([^\]]+)\]\((https?:[^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+
+            for (; i < lines.length; i++) {
+                const raw = lines[i];
+                const line = raw.trim();
+
+                if (!line) { closeInline(); continue; }
+
+                // Bảng
+                if (line.startsWith('|') && line.endsWith('|')) {
+                    if (paraOpen) { out.push('</p>'); paraOpen = false; }
+                    const cells = line.slice(1, -1).split('|').map(c => c.trim());
+                    tableRows = tableRows || [];
+                    tableRows.push(cells);
+                    continue;
+                } else if (tableRows) { out.push(renderTable(tableRows)); tableRows = null; }
+
+                // Tiêu đề bài (trang bìa)
+                if (line.startsWith('# ')) {
+                    closeAll();
+                    out.push('<section class="cover">');
+                    if (front['dong nho']) out.push('<p class="eyebrow">' + esc(front['dong nho']) + '</p>');
+                    out.push('<h1 class="doc-title">' + inline(line.slice(2)) + '</h1>');
+                    coverOpen = true;
+                    continue;
+                }
+
+                // Phần lớn:  ## I — Tên phần
+                if (line.startsWith('## ')) {
+                    if (coverOpen) {
+                        closeInline();
+                        if (front['so lieu']) {
+                            out.push('<div class="stat-row">' + front['so lieu'].split('|').map(s => {
+                                const m = s.trim().match(/^([\d.,]+)\s+(.*)$/);
+                                return m ? '<div class="stat"><b>' + esc(m[1]) + '</b><span>' + esc(m[2]) + '</span></div>'
+                                         : '<div class="stat"><b>' + esc(s.trim()) + '</b><span></span></div>';
+                            }).join('') + '</div>');
+                        }
+                        out.push('</section>');
+                        coverOpen = false;
+                    }
+                    closeAll();
+                    const body = line.slice(3).trim();
+                    const m = body.match(/^(\S{1,6})\s*[—–\-.·]\s*(.+)$/);
+                    const num = m ? m[1] : '';
+                    const title = m ? m[2] : body;
+                    out.push('<section class="part">');
+                    openTags.push({ name: 'part-section', tag: 'section' });
+                    out.push('<div class="part-header"><span class="part-roman">' + esc(num) + '</span><div><h2 class="part-title">' +
+                             inline(title) + '</h2><p class="part-intro" data-intro></p></div></div>');
+                    continue;
+                }
+
+                // Nhóm nhỏ: ### Tên nhóm
+                if (line.startsWith('### ')) {
+                    closeGroupLevel();
+                    out.push('<h3 class="group-title">' + inline(line.slice(4)) + '</h3>');
+                    openTag('entries', 'entries');
+                    continue;
+                }
+                if (line.startsWith('#### ')) { closeInline(); out.push('<h4 class="md-h4">' + inline(line.slice(5)) + '</h4>'); continue; }
+
+                // Mục từ gốc:  [증] tăng
+                const mEntry = line.match(/^\[([^\]]+)\]\s*(.*)$/);
+                if (mEntry) {
+                    closeEntryLevel();
+                    if (!hasOpen('entries')) openTag('entries', 'entries');
+                    pendingMeaning = true;
+                    out.push('<article class="entry"><div class="entry-left"><div class="seal"><span class="seal-char">' +
+                             esc(mEntry[1]) + '</span></div><div class="reading">' + esc(mEntry[2]) + '</div></div>');
+                    openTags.push({ name: 'entry', tag: 'article' });
+                    openTag('entry-body', 'entry-body');
+                    out.push('<div class="entry-head"><span class="root-full">' + esc(mEntry[1]) + '</span></div>');
+                    continue;
+                }
+
+                // Ghi chú:  ! Đồng âm: nội dung
+                if (line.startsWith('! ')) {
+                    closeInline();
+                    const body = line.slice(2);
+                    const c = body.indexOf(':');
+                    const label = c > -1 && c < 30 ? body.slice(0, c) : 'Ghi chú';
+                    const text = c > -1 && c < 30 ? body.slice(c + 1).trim() : body;
+                    out.push('<p class="note"><span class="note-label">' + esc(label) + '</span>' + inline(text) + '</p>');
+                    continue;
+                }
+
+                // Câu ví dụ:  > 한국어 문장 // nghĩa tiếng Việt
+                if (line.startsWith('> ')) {
+                    closeInline();
+                    const body = line.slice(2);
+                    const parts = body.split('//');
+                    if (hasOpen('ex-wrap')) {
+                        out.push('<div class="sample"><span class="sample-label">Ví dụ</span><span class="sample-kr">' +
+                                 inline(parts[0].trim()) + '</span>' +
+                                 (parts[1] ? '<span class="sample-vi">' + inline(parts.slice(1).join('//').trim()) + '</span>' : '') +
+                                 '</div>');
+                    } else {
+                        out.push('<blockquote class="md-quote">' + inline(body.replace('//', ' — ')) + '</blockquote>');
+                    }
+                    continue;
+                }
+
+                // Dòng từ vựng:  증대 [tăng đại] {mở rộng} = mở rộng quy mô
+                const mWord = line.match(/^([^\s=\[{][^=\[{]*?)\s*(?:\[([^\]]+)\])?\s*(?:\{([^}]+)\})?\s*=\s*(.+)$/);
+                if (mWord) {
+                    closeInline();
+                    while (openTags.length && topName() === 'ex-wrap') out.push(closeOne());
+                    if (!hasOpen('examples')) openTag('examples', 'examples');
+                    openTag('ex-wrap', 'ex-wrap');
+                    out.push('<div class="ex' + (mWord[3] ? ' extra' : '') + '"><span class="kr">' + esc(mWord[1].trim()) + '</span>' +
+                             (mWord[2] ? '<span class="hv">[' + esc(mWord[2]) + ']</span>' : '') +
+                             (mWord[3] ? '<span class="tag">' + esc(mWord[3]) + '</span>' : '') +
+                             '<span class="def">' + inline(mWord[4]) + '</span></div>');
+                    continue;
+                }
+
+                // Đường kẻ ngang
+                if (/^(---|\*\*\*|___)$/.test(line)) { closeInline(); out.push('<hr class="md-hr">'); continue; }
+
+                // Gạch đầu dòng
+                if (/^[-*•]\s+/.test(line)) {
+                    if (paraOpen) { out.push('</p>'); paraOpen = false; }
+                    if (!listOpen) { out.push('<ul class="md-list">'); listOpen = true; }
+                    out.push('<li>' + inline(line.replace(/^[-*•]\s+/, '')) + '</li>');
+                    continue;
+                }
+
+                // Đoạn văn thường
+                if (listOpen) { out.push('</ul>'); listOpen = false; }
+                if (coverOpen && !paraOpen) { out.push('<p class="doc-lede">' + inline(line)); paraOpen = true; continue; }
+                if (!paraOpen) {
+                    // Dòng in nghiêng ngay sau tiêu đề phần → lời giới thiệu của phần đó
+                    if (/^\*[^*].*\*$/.test(line) && out.length && out[out.length - 1].includes('data-intro')) {
+                        out[out.length - 1] = out[out.length - 1].replace('<p class="part-intro" data-intro></p>',
+                            '<p class="part-intro">' + inline(line.slice(1, -1)) + '</p>');
+                        continue;
+                    }
+                    if (pendingMeaning && hasOpen('entry-body')) { out.push('<p class="meaning">' + inline(line)); pendingMeaning = false; }
+                    else out.push('<p class="md-p">' + inline(line));
+                    paraOpen = true;
+                } else out.push(' ' + inline(line));
+            }
+            closeInline();
+            closeAll();
+            if (coverOpen) out.push('</section>');
+            return { front, html: '<div class="wrap">' + out.join('\n') + '</div>' };
+        }
+
+        // Tự đếm số mục & số từ của mỗi phần rồi ghi dòng thống kê (khỏi phải sửa tay)
+        function annotateTopicPartStats(root) {
+            root.querySelectorAll('section.part').forEach(sec => {
+                const entries = sec.querySelectorAll('.entry').length;
+                const words = sec.querySelectorAll('.ex').length;
+                if (!entries && !words) return;
+                const bits = [];
+                if (entries) bits.push(entries + ' mục');
+                if (words) bits.push(words + ' từ vựng');
+                const p = document.createElement('p');
+                p.className = 'part-stat';
+                p.textContent = bits.join(' · ');
+                const header = sec.querySelector('.part-header');
+                if (header && header.nextSibling) sec.insertBefore(p, header.nextSibling);
+                else sec.appendChild(p);
+            });
+            root.querySelectorAll('.part-intro:empty').forEach(el => el.remove());
+        }
+
+        // ─── CHẾ ĐỘ ĐỌC: mở bài viết phủ kín màn hình ───
+        // Bài được fetch rồi CHÈN THẲNG vào trang (CSS của bài đã gói trong .topic-doc)
+        // nên từ vựng trong bài bấm được để mở thẻ chi tiết của thư viện.
+        let topicReaderParts = [];
+
+        async function openTopicPost(id) {
+            const t = topicById(id);
+            if (!t) return;
+            const reader = document.getElementById('topic-reader');
+            const root = document.getElementById('topic-doc-root');
+            const scroller = document.getElementById('topic-reader-scroll');
+            if (!reader || !root) return;
+
+            document.getElementById('topic-reader-title').textContent = t.title;
+            document.getElementById('topic-reader-sub').textContent = t.subtitle;
+            reader.classList.remove('hidden');
+            reader.dataset.topicId = id;
+            document.body.style.overflow = 'hidden';
+            updateTopicThemeIcon();
+
+            if (root.dataset.topicId !== id) {
+                root.dataset.topicId = id;
+                delete root.dataset.linked;
+                root.innerHTML = '<div class="topic-doc-loading">Đang mở bài viết…</div>';
+                document.getElementById('topic-parts-nav').innerHTML = '';
+                const ok = /\.md$/i.test(t.file) ? await loadTopicMarkdownInto(t, root) : await loadTopicDocInto(t, root);
+                if (!ok) return;
+            }
+            if (scroller) scroller.scrollTop = 0;
+            buildTopicPartsNav();
+            updateTopicReaderProgress();
+            linkTopicWordsToLibrary();
+        }
+
+        // Nạp bài dạng Markdown (.md) — cách viết bài được khuyên dùng
+        async function loadTopicMarkdownInto(t, root) {
+            try {
+                const res = await fetch(t.file, { cache: 'no-cache' });
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                const parsed = renderTopicMarkdown(await res.text());
+                root.innerHTML = parsed.html;
+                annotateTopicPartStats(root);
+                return true;
+            } catch (err) {
+                root.innerHTML = topicLoadErrorHtml(t);
+                return false;
+            }
+        }
+
+        function topicLoadErrorHtml(t) {
+            return `
+                <div class="topic-doc-loading">
+                    <p style="font-weight:700; margin-bottom:8px;">Chưa nạp được nội dung bài viết</p>
+                    <p style="font-size:13px; line-height:1.7;">Trình duyệt chặn đọc file khi mở trang bằng đường dẫn <b>file://</b>.
+                    Hãy mở web qua đường link (GitHub Pages / máy chủ) — hoặc bấm nút dưới để đọc bài ở tab riêng.</p>
+                    <p style="margin-top:14px;"><a href="${t.file}" target="_blank" style="color:#5B4B8A; font-weight:700;">Mở bài viết ở tab mới →</a></p>
+                </div>`;
+        }
+
+        // Nạp file HTML của bài: tách <style> gắn vào <head>, phần thân chèn vào #topic-doc-root
+        async function loadTopicDocInto(t, root) {
+            try {
+                const res = await fetch(t.file, { cache: 'no-cache' });
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                const doc = new DOMParser().parseFromString(await res.text(), 'text/html');
+
+                const styleId = 'topic-style-' + t.id;
+                if (!document.getElementById(styleId)) {
+                    const css = [...doc.querySelectorAll('style')]
+                        .filter(el => el.id !== 'topic-standalone-only')   // CSS chỉ dành cho lúc mở file riêng
+                        .map(el => el.textContent).join('\n');
+                    const styleEl = document.createElement('style');
+                    styleEl.id = styleId;
+                    styleEl.textContent = css;
+                    document.head.appendChild(styleEl);
+                }
+
+                const body = doc.body;
+                body.querySelectorAll('script, style, header.top').forEach(el => el.remove());
+                root.innerHTML = body.innerHTML;
+                return true;
+            } catch (err) {
+                // Mở index.html trực tiếp bằng file:// thì trình duyệt chặn fetch → hướng dẫn cách xem
+                root.innerHTML = topicLoadErrorHtml(t);
+                return false;
+            }
+        }
+
+        function closeTopicPost() {
+            const reader = document.getElementById('topic-reader');
+            if (!reader || reader.classList.contains('hidden')) return;
+            reader.classList.add('hidden');
+            document.body.style.overflow = '';
+            document.querySelectorAll('.view-group').forEach(v => v.classList.add('hidden'));
+            document.getElementById('view-topic-home').classList.remove('hidden');
+            document.querySelectorAll('.sidebar-nav-item').forEach(el => el.setAttribute('data-active', 'false'));
+            const tabTopic = document.getElementById('tab-topic');
+            if (tabTopic) tabTopic.setAttribute('data-active', 'true');
+            renderTopicHome();
+        }
+
+        function openTopicPostInNewTab() {
+            const reader = document.getElementById('topic-reader');
+            const t = reader ? topicById(reader.dataset.topicId) : null;
+            if (t) window.open(t.file, '_blank');
+        }
+
+        // Thanh chip I · II · III… lấy thẳng từ các <section class="part"> trong bài
+        function buildTopicPartsNav() {
+            const root = document.getElementById('topic-doc-root');
+            const nav = document.getElementById('topic-parts-nav');
+            if (!root || !nav) return;
+            topicReaderParts = [...root.querySelectorAll('section.part')].map(sec => ({
+                el: sec,
+                num: (sec.querySelector('.part-roman') || {}).textContent || '',
+                title: ((sec.querySelector('.part-title') || {}).textContent || '').trim()
+            }));
+            nav.innerHTML = topicReaderParts.map((p, i) => `
+                <button class="topic-part-chip" data-part-index="${i}" data-active="false" onclick="scrollToTopicPart(${i})" title="${p.title}">
+                    <span class="topic-chip-num">${p.num}</span>${p.title}
+                </button>
+            `).join('');
+        }
+
+        function scrollToTopicPart(i) {
+            const scroller = document.getElementById('topic-reader-scroll');
+            const p = topicReaderParts[i];
+            if (!scroller || !p) return;
+            const top = p.el.getBoundingClientRect().top - scroller.getBoundingClientRect().top + scroller.scrollTop - 12;
+            scroller.scrollTo({ top, behavior: 'smooth' });
+        }
+
+        // Thanh tiến độ đọc + tô sáng phần đang xem (để user biết mình đang ở đâu trong bài)
+        function updateTopicReaderProgress() {
+            const scroller = document.getElementById('topic-reader-scroll');
+            const fill = document.getElementById('topic-progress-fill');
+            if (!scroller || !fill) return;
+            const max = scroller.scrollHeight - scroller.clientHeight;
+            fill.style.width = (max > 0 ? Math.min(100, (scroller.scrollTop / max) * 100) : 0) + '%';
+
+            let activeIdx = -1;
+            const anchor = scroller.getBoundingClientRect().top + 90;
+            topicReaderParts.forEach((p, i) => { if (p.el.getBoundingClientRect().top <= anchor) activeIdx = i; });
+            document.querySelectorAll('.topic-part-chip').forEach(chip => {
+                chip.setAttribute('data-active', Number(chip.dataset.partIndex) === activeIdx ? 'true' : 'false');
+            });
+            const sub = document.getElementById('topic-reader-sub');
+            const reader = document.getElementById('topic-reader');
+            const t = reader ? topicById(reader.dataset.topicId) : null;
+            if (sub) {
+                sub.textContent = activeIdx >= 0
+                    ? `Phần ${topicReaderParts[activeIdx].num} · ${topicReaderParts[activeIdx].title}`
+                    : (t ? t.subtitle : '');
+            }
+        }
+
+        function updateTopicThemeIcon() {
+            const box = document.getElementById('topic-theme-icon');
+            if (!box) return;
+            box.innerHTML = currentTheme() === 'dark'
+                ? '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"></circle><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"></path></svg>'
+                : '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>';
+        }
+
+        // ─── LIÊN KẾT TỪ VỰNG TRONG BÀI VỚI 2 THƯ VIỆN ───
+        // Đối chiếu chính xác chữ Hàn của từ phái sinh (.ex .kr) với kho từ vựng;
+        // trùng thì gắn class .topic-word-link để bấm mở thẻ chi tiết y như trong thư viện.
+        async function linkTopicWordsToLibrary() {
+            const root = document.getElementById('topic-doc-root');
+            const badge = document.getElementById('topic-link-badge');
+            if (!root || root.dataset.linked === '1') return;
+            try { await ensureAllLibraryLoaded(); } catch (e) { return; }
+            if (!allLibraryCache || !allLibraryCache.length) return;
+
+            const byWord = new Map();
+            allLibraryCache.forEach(w => {
+                const k = (w.word || '').trim();
+                if (k && !byWord.has(k)) byWord.set(k, w);
+            });
+
+            let n = 0;
+            root.querySelectorAll('.ex .kr, .root-full').forEach(el => {
+                const hit = byWord.get(el.textContent.trim());
+                if (!hit) return;
+                el.classList.add('topic-word-link');
+                el.setAttribute('role', 'button');
+                el.setAttribute('tabindex', '0');
+                el.dataset.wordId = hit.id;
+                el.title = `Xem chi tiết: ${hit.word} — ${hit.vietnamese || hit.deep_meaning || ''}`;
+                n++;
+            });
+            root.dataset.linked = '1';
+            if (badge) {
+                badge.textContent = n ? `🔗 ${n} từ có trong thư viện` : '';
+                badge.classList.toggle('hidden', !n);
+            }
+        }
+
+        // Thẻ chi tiết từ vựng bật lên ngay trong bài đọc (dùng chung card của thư viện)
+        function openTopicWordDetailModal(wordId) {
+            const full = (allLibraryCache || []).find(x => x.id === wordId) || GENERIC_DETAIL_DATA_MAP[wordId];
+            if (!full) return;
+            const overlay = document.createElement('div');
+            overlay.id = 'topic-word-modal';
+            overlay.className = 'fixed inset-0 z-[130] flex items-center justify-center p-4';
+            overlay.style.background = 'rgba(26,32,44,0.5)';
+            overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
+            detailCardHistory['topic-word-detail-card'] = [];
+            overlay.innerHTML = `
+                <div class="w-full max-w-[430px] max-h-[86vh] overflow-y-auto p-1 relative">
+                    <button class="absolute top-3 right-3 w-9 h-9 rounded-full neo-button flex items-center justify-center text-gray-400 z-10" onclick="this.closest('#topic-word-modal').remove()">✕</button>
+                    <div class="m-card-base" id="topic-word-detail-card" data-current-word-id="${full.id}">
+                        ${buildGenericDetailCardHtml(full, 'topic-word-detail-card')}
+                    </div>
+                </div>`;
+            document.body.appendChild(overlay);
         }
 
         // ============================================================
@@ -6576,7 +7546,7 @@
             document.querySelectorAll('.view-group').forEach(v => v.classList.add('hidden'));
             const view = document.getElementById('view-activity-dashboard');
             if (view) view.classList.remove('hidden');
-            [document.getElementById('tab-notebook'), document.getElementById('tab-full-topik'), document.getElementById('tab-fast-pace')].forEach(el => {
+            [document.getElementById('tab-notebook'), document.getElementById('tab-full-topik'), document.getElementById('tab-fast-pace'), document.getElementById('tab-topic')].forEach(el => {
                 if (el) el.setAttribute('data-active', 'false');
             });
             await ensureAllLibraryLoaded();
@@ -6593,9 +7563,13 @@
             const tabNotebook = document.getElementById('tab-notebook');
             const tabFullTopik = document.getElementById('tab-full-topik');
             const tabFastPace = document.getElementById('tab-fast-pace');
-            [tabHome, tabNotebook, tabFullTopik, tabFastPace].forEach(t => t && t.setAttribute('data-active', 'false'));
+            [tabHome, tabNotebook, tabFullTopik, tabFastPace, document.getElementById('tab-topic')].forEach(t => t && t.setAttribute('data-active', 'false'));
             if (target === 'view-home-dashboard' && tabHome) tabHome.setAttribute('data-active', 'true');
             else if (target === 'view-notebook-home' && tabNotebook) tabNotebook.setAttribute('data-active', 'true');
+            else if (target === 'view-topic-home') {
+                const tabTopic = document.getElementById('tab-topic');
+                if (tabTopic) tabTopic.setAttribute('data-active', 'true');
+            }
             else if (target === 'view-library-stage') {
                 const activeTab = currentSource === 'fast' ? tabFastPace : tabFullTopik;
                 if (activeTab) activeTab.setAttribute('data-active', 'true');
@@ -7152,6 +8126,7 @@
             else document.documentElement.removeAttribute('data-theme');
             try { localStorage.setItem('vocabapp_theme', t); } catch (e) {}
             updateThemeToggleIcon();
+            updateTopicThemeIcon();
         }
         function toggleTheme() { applyTheme(currentTheme() === 'dark' ? 'light' : 'dark'); }
 
@@ -7169,7 +8144,7 @@
         // Đồng bộ tiêu đề trên header theo tab đang active (dùng MutationObserver để không phải
         // sửa hàng chục chỗ set data-active rải rác trong code)
         function initHeaderTitleSync() {
-            const map = { 'tab-home': 'Trang chủ', 'tab-notebook': 'Sổ từ vựng', 'tab-full-topik': 'Thư viện FULL MASTER', 'tab-fast-pace': 'Thư viện FOCUS' };
+            const map = { 'tab-home': 'Trang chủ', 'tab-notebook': 'Sổ từ vựng', 'tab-topic': 'Từ vựng theo chủ đề', 'tab-full-topik': 'Thư viện FULL MASTER', 'tab-fast-pace': 'Thư viện FOCUS' };
             const titleEl = document.getElementById('app-header-title');
             if (!titleEl) return;
             const update = () => {
@@ -7264,6 +8239,28 @@
 
             const tabHome = document.getElementById('tab-home');
             const tabNotebook = document.getElementById('tab-notebook');
+            // Chế độ đọc bài chủ đề: bấm từ vựng → thẻ chi tiết · cuộn → tiến độ · Esc → thoát
+            const topicScroller = document.getElementById('topic-reader-scroll');
+            if (topicScroller) {
+                topicScroller.addEventListener('scroll', () => updateTopicReaderProgress(), { passive: true });
+                topicScroller.addEventListener('click', (e) => {
+                    const link = e.target.closest('.topic-word-link');
+                    if (link && link.dataset.wordId) openTopicWordDetailModal(link.dataset.wordId);
+                });
+                topicScroller.addEventListener('keydown', (e) => {
+                    if (e.key !== 'Enter' && e.key !== ' ') return;
+                    const link = e.target.closest('.topic-word-link');
+                    if (link && link.dataset.wordId) { e.preventDefault(); openTopicWordDetailModal(link.dataset.wordId); }
+                });
+            }
+            document.addEventListener('keydown', (e) => {
+                if (e.key !== 'Escape') return;
+                const modal = document.getElementById('topic-word-modal');
+                if (modal) { modal.remove(); return; }   // Esc lần 1 đóng thẻ từ, lần 2 mới thoát bài
+                closeTopicPost();
+            });
+
+            const tabTopic = document.getElementById('tab-topic');
             const tabFullTopik = document.getElementById('tab-full-topik');
             const tabFastPace = document.getElementById('tab-fast-pace');
             const viewHomeDashboard = document.getElementById('view-home-dashboard');
@@ -7271,7 +8268,7 @@
             const viewLibraryStage = document.getElementById('view-library-stage');
 
             const clearSidebarActive = () => {
-                [tabHome, tabNotebook, tabFullTopik, tabFastPace].forEach(i => i.setAttribute('data-active', 'false'));
+                [tabHome, tabNotebook, tabTopic, tabFullTopik, tabFastPace].forEach(i => i && i.setAttribute('data-active', 'false'));
                 viewHomeDashboard.classList.add('hidden');
                 viewNotebookHome.classList.add('hidden');
                 viewLibraryStage.classList.add('hidden');
@@ -7283,6 +8280,8 @@
                 if (viewSearchResults) viewSearchResults.classList.add('hidden');
                 const viewQuizMaze = document.getElementById('view-quiz-maze');
                 if (viewQuizMaze) viewQuizMaze.classList.add('hidden');
+                const viewTopicHome = document.getElementById('view-topic-home');
+                if (viewTopicHome) viewTopicHome.classList.add('hidden');
             };
 
             tabHome.addEventListener('click', (e) => {
@@ -7304,6 +8303,15 @@
                 renderRecentActivitySection();
             });
 
+            if (tabTopic) {
+                tabTopic.addEventListener('click', (e) => {
+                    e.preventDefault(); clearSidebarActive();
+                    tabTopic.setAttribute('data-active', 'true');
+                    document.getElementById('view-topic-home').classList.remove('hidden');
+                    renderTopicHome();
+                });
+            }
+
             tabFullTopik.addEventListener('click', (e) => {
                 e.preventDefault(); clearSidebarActive();
                 tabFullTopik.setAttribute('data-active', 'true');
@@ -7323,5 +8331,43 @@
             });
         });
     </script>
+    <!-- ========================================================== -->
+    <!-- CHẾ ĐỘ ĐỌC BÀI CHỦ ĐỀ — overlay phủ kín màn hình            -->
+    <!-- Nội dung bài được NẠP THẲNG vào trang (không iframe) nên    -->
+    <!-- bấm được vào từ vựng để mở card chi tiết của thư viện.      -->
+    <!-- ========================================================== -->
+    <div id="topic-reader" class="hidden" role="dialog" aria-modal="true" aria-label="Bài viết chủ đề">
+        <div class="topic-reader-bar">
+            <div class="topic-reader-bar-main">
+                <button class="topic-back-btn" onclick="closeTopicPost()" title="Quay lại danh sách chủ đề (phím Esc)">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    <span class="topic-back-label">Từ vựng theo chủ đề</span>
+                </button>
+                <span class="topic-crumb-sep">/</span>
+                <div class="topic-reader-titles">
+                    <span class="topic-reader-title" id="topic-reader-title">Bài viết</span>
+                    <span class="topic-reader-sub" id="topic-reader-sub"></span>
+                </div>
+                <div class="topic-reader-actions">
+                    <span class="topic-link-badge hidden" id="topic-link-badge" title="Những từ có gạch chân trong bài đều có trong thư viện — bấm vào để xem thẻ chi tiết"></span>
+                    <button class="topic-icon-btn" onclick="toggleTheme()" title="Chế độ sáng / tối">
+                        <span id="topic-theme-icon"></span>
+                    </button>
+                    <button class="topic-icon-btn" onclick="openTopicPostInNewTab()" title="Mở bài viết ở tab mới">
+                        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </button>
+                    <button class="topic-icon-btn topic-close-btn" onclick="closeTopicPost()" title="Đóng bài viết (Esc)">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
+                </div>
+            </div>
+            <nav class="topic-parts-nav" id="topic-parts-nav"></nav>
+            <div class="topic-progress"><span id="topic-progress-fill"></span></div>
+        </div>
+        <div class="topic-reader-scroll" id="topic-reader-scroll">
+            <div class="topic-doc" id="topic-doc-root"></div>
+        </div>
+    </div>
+
 </body>
 </html>

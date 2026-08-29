@@ -1,0 +1,20 @@
+# ══════════════════════════════════════════════════════════════════
+# DANH MỤC BÀI VIẾT — quyết định các thẻ hiện ở tab "Từ vựng theo chủ đề"
+#
+# Mỗi bài bắt đầu bằng dòng  === tên-file.md  rồi tới các dòng thông tin.
+# Thêm bài mới = chép nguyên khối dưới đây, sửa lại nội dung. Xoá bài = xoá khối.
+# Thứ tự các khối chính là thứ tự thẻ hiện trên trang.
+# Dòng bắt đầu bằng # là ghi chú, web bỏ qua.
+#
+# Màu nhận: tím · xanh dương · xanh lá · cam · đỏ · hồng · nâu · xám · vàng
+#           (hoặc ghi mã màu, ví dụ: #5B4B8A #33396B)
+# ══════════════════════════════════════════════════════════════════
+
+=== tu-vung-han-han.md
+Tên: Từ vựng Hán Hàn
+Mô tả ngắn: Gốc Hán tự thường gặp trong đề TOPIK II
+Chữ trên thẻ: 漢
+Nhãn: Từ nguyên
+Màu: tím
+Giới thiệu: Tổng hợp các gốc chữ Hán xuất hiện phổ biến trong đề đọc, nghe và viết TOPIK II — kèm âm Hán Việt, phạm vi nghĩa và từ vựng phái sinh.
+Số liệu: 152 gốc Hán tự | 482 từ phái sinh | 5 phần chủ đề
