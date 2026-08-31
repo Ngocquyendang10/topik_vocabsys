@@ -195,6 +195,48 @@
         .bulk-chip.bulk-chip-active { box-shadow: var(--shadow-sunk); color: #5b4fcf; border-color: #5b4fcf55; }
         .bulk-chip:hover:not(.bulk-chip-active) { transform: translateY(-1px); }
 
+        /* ── THANH "XEM / CHỌN TỪ" của list Thư viện ───────────────────────── */
+        .lrn-pill { display:inline-flex; align-items:center; gap:5px; border-radius:999px; padding:5px 11px; font-size:11px; font-weight:800; background:var(--c-e6ebf3); box-shadow:var(--shadow-btn); color:var(--c-8290aa); border:1.5px solid transparent; white-space:nowrap; transition:all .13s ease; cursor:pointer; }
+        .lrn-pill:hover:not(.lrn-on) { transform:translateY(-1px); }
+        .lrn-pill.lrn-on { box-shadow:var(--shadow-sunk); }
+        .lrn-pill .lrn-num { font-weight:900; font-variant-numeric:tabular-nums; }
+        /* Checkbox chọn từ trong row: viền rõ, không còn "mờ căm" như bản cũ */
+        .lib-check { width:22px; height:22px; border-radius:7px; display:flex; align-items:center; justify-content:center; flex-shrink:0; background:var(--c-f2f4f9); border:2px solid var(--c-c0cad8); transition:all .12s ease; cursor:pointer; }
+        .lib-check:hover { border-color:#6C63FF; }
+        .lib-check.is-on { background:linear-gradient(135deg,#7c6ee8,#5b4fcf); border-color:transparent; }
+        .vocab-row.row-picked { background:rgba(108,99,255,0.10); box-shadow:inset 0 0 0 1.5px rgba(108,99,255,0.35); }
+        .sel-bar { display:flex; align-items:center; gap:7px; flex-wrap:wrap; padding:8px 14px; border-top:1.5px solid var(--c-d8e0ec); background:linear-gradient(90deg, rgba(108,99,255,0.09), rgba(108,99,255,0.02)); }
+        .sel-btn { border-radius:11px; padding:6px 11px; font-size:11px; font-weight:800; background:var(--c-e6ebf3); box-shadow:var(--shadow-btn); color:var(--c-6b7a99); white-space:nowrap; border:none; transition:all .12s ease; cursor:pointer; }
+        .sel-btn:hover:not(:disabled) { color:#4F46E5; transform:translateY(-1px); }
+        .sel-btn:disabled { opacity:.4; cursor:not-allowed; }
+        .sel-btn.sel-primary { background:linear-gradient(135deg,#7c6ee8,#5b4fcf); color:#fff; box-shadow:none; }
+        .sel-btn.sel-primary:hover:not(:disabled) { color:#fff; }
+        .sel-qty { width:58px; text-align:center; border-radius:10px; padding:6px 4px; font-size:11px; font-weight:800; background:var(--c-inputbg); box-shadow:var(--shadow-sunk); border:none; outline:none; color:var(--c-3d3d4e); }
+
+        /* ── MODAL TẠO SỔ: khối "bước" có đánh số, phân cấp rõ ─────────────── */
+        /* Khung cuộn của bước 1: mobile giữ nguyên chiều cao (modal tự cuộn),
+           desktop thì co giãn theo chỗ trống để nút "Tạo sổ" luôn nằm trong tầm mắt. */
+        #modal-tab-content { flex-shrink: 0; max-height: 38vh; min-height: 110px; }
+        @media (min-width: 640px) { #modal-tab-content { flex: 1 1 auto; } }
+
+        .nb-block { background:var(--c-e6ebf3); border-radius:20px; box-shadow:var(--shadow-sunk); padding:12px 13px; display:flex; flex-direction:column; gap:10px; }
+        .nb-block-head { display:flex; align-items:center; gap:8px; }
+        .nb-num { width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10.5px; font-weight:900; color:#fff; background:linear-gradient(135deg,#7c6ee8,#5b4fcf); flex-shrink:0; }
+        .nb-block-title { font-size:12px; font-weight:900; color:var(--c-2d2d3a); }
+        .nb-or { display:flex; align-items:center; gap:8px; font-size:9.5px; font-weight:900; color:var(--c-9aa4b8); text-transform:uppercase; letter-spacing:.14em; }
+        .nb-or::before, .nb-or::after { content:''; flex:1; height:1.5px; background:linear-gradient(90deg,transparent,var(--c-d0d8e8),transparent); }
+        .nb-cta { width:100%; border-radius:14px; padding:11px; font-size:12.5px; font-weight:900; background:linear-gradient(135deg,#7c6ee8,#5b4fcf); color:#fff; border:none; transition:all .13s ease; cursor:pointer; }
+        .nb-cta:hover:not(:disabled) { transform:translateY(-1px); }
+        .nb-cta:disabled { opacity:.42; cursor:not-allowed; }
+        .nb-cta-sub { border-radius:12px; padding:9px 13px; font-size:11.5px; font-weight:800; background:var(--c-e6ebf3); box-shadow:var(--shadow-btn); color:#5b4fcf; white-space:nowrap; border:none; cursor:pointer; }
+        .nb-cta-sub:hover:not(:disabled) { transform:translateY(-1px); }
+        .nb-cta-sub:disabled { opacity:.42; cursor:not-allowed; }
+        .nb-tag { display:inline-flex; align-items:center; gap:4px; border-radius:999px; padding:3px 8px; font-size:10px; font-weight:800; white-space:nowrap; }
+        .nb-selword { display:inline-flex; align-items:center; gap:5px; border-radius:999px; padding:4px 5px 4px 10px; font-size:11px; font-weight:800; background:var(--c-e6ebf3); box-shadow:var(--shadow-btn); color:var(--c-3d3d4e); max-width:100%; }
+        .nb-selword b { font-family:'Noto Serif KR', serif !important; font-weight:800; }
+        .nb-selword .x { width:15px; height:15px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:9px; color:var(--c-9aa4b8); background:rgba(0,0,0,.05); flex-shrink:0; }
+        .nb-selword .x:hover { color:#ef4444; background:rgba(239,68,68,.12); }
+
         .filter-dd-trigger { display: flex; align-items: center; gap: 6px; border-radius: 12px; padding: 7px 12px; font-size: 11.5px; font-weight: 700; background: var(--c-e6ebf3); box-shadow: var(--shadow-btn); color: var(--c-6b7a99); transition: all .15s ease; white-space: nowrap; border: none; }
         .filter-dd-trigger.dd-open, .filter-dd-trigger.dd-has-selection { box-shadow: var(--shadow-sunk); color: #4F46E5; }
         .filter-dd-panel { position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); z-index: 40; width: max-content; min-width: 190px; max-width: calc(100vw - 32px); max-height: 240px; overflow-y: auto; background: var(--c-e6ebf3); border-radius: 18px; box-shadow: 8px 8px 20px var(--c-bec8e4), -6px -6px 16px var(--c-ffffff); padding: 8px; }
@@ -207,7 +249,7 @@
         /* Checkbox neumorphism dùng chung (VD: Quiz Maze setup) — thay cho checkbox mặc định của trình duyệt */
         .neo-checkbox { appearance: none; -webkit-appearance: none; width: 20px; height: 20px; border-radius: 7px; flex-shrink: 0; background: var(--c-e6ebf3); box-shadow: var(--shadow-sunk); cursor: pointer; position: relative; transition: all .15s ease; margin: 0; }
         .neo-checkbox:checked { background: linear-gradient(135deg, #7c6ee8, #5b4fcf); box-shadow: none; }
-        .neo-checkbox:checked::after { content: ''; position: absolute; left: 7px; top: 3px; width: 5px; height: 10px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+        .neo-checkbox:checked::after { content: ''; position: absolute; left: 50%; top: 46%; width: 5px; height: 10px; border: solid #fff; border-width: 0 2px 2px 0; transform: translate(-55%, -55%) rotate(45deg); }
         .neo-checkbox:active { transform: scale(0.92); }
 
         .bookmark-popup { position: fixed; z-index: 140; min-width: 200px; background: var(--c-e6ebf3); border-radius: 20px; box-shadow: 10px 10px 24px var(--c-bec8e4), -6px -6px 18px var(--c-ffffff); padding: 10px; font-family: 'Plus Jakarta Sans', sans-serif !important; }
@@ -1471,9 +1513,9 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                                     <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" id="lib-collapse-icon"><polyline points="9 18 15 12 9 6"></polyline></svg>
                                 </button>
                             </div>
-                            <!-- Stats row -->
-                            <div class="flex items-center gap-3 px-5 py-2 shrink-0" id="vocab-list-stats">
-                                <span class="text-[12px] text-[color:var(--c-9aa4b8)] font-medium">Đang tải dữ liệu...</span>
+                            <!-- Thanh XEM (Tất cả / Đã học / Chưa học) + CHỌN TỪ — JS render -->
+                            <div class="shrink-0 border-b border-[color:var(--c-d8e0ec)]" id="vocab-list-stats">
+                                <span class="block px-5 py-2 text-[12px] text-[color:var(--c-9aa4b8)] font-medium">Đang tải dữ liệu...</span>
                             </div>
                             <!-- Rows: cố định bề ngang, chỉ cuộn dọc — không cho phép cuộn ngang ở bất kỳ kích thước màn hình nào -->
                             <div class="flex-1 min-h-0 overflow-y-auto overflow-x-hidden px-3 pb-3 flex flex-col gap-0.5 lg:min-h-[260px] lg:max-h-[70vh]" id="library-vocab-list">
@@ -1574,10 +1616,10 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 
     <!-- MODAL TẠO SỔ TAY -->
     <div class="fixed inset-0 bg-black/10 backdrop-blur-[2px] flex items-center justify-center z-50 hidden p-3 sm:p-4" id="create-notebook-modal">
-        <div class="w-full max-w-[560px] max-h-[90vh] sm:max-h-[88vh] overflow-y-auto p-5 sm:p-8 neo-raised relative flex flex-col gap-4 sm:gap-5 !rounded-[24px] sm:!rounded-[32px]">
+        <div class="w-full max-w-[560px] max-h-[92vh] sm:max-h-[88vh] overflow-y-auto sm:overflow-hidden p-5 sm:p-8 neo-raised relative flex flex-col gap-4 sm:gap-5 !rounded-[24px] sm:!rounded-[32px]">
             <button class="absolute top-4 right-4 sm:top-6 sm:right-6 w-9 h-9 sm:w-10 sm:h-10 rounded-full neo-button flex items-center justify-center text-gray-400 text-sm z-10" id="close-modal-btn">✕</button>
             <div id="step-1-container" class="flex flex-col gap-4"></div>
-            <div id="step-2-container" class="flex flex-col gap-4 hidden"></div>
+            <div id="step-2-container" class="flex flex-col gap-4 flex-1 min-h-0 hidden"></div>
         </div>
     </div>
 
@@ -1588,7 +1630,8 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         // LOGIC QUẢN LÝ KHO DỮ LIỆU LỚN & BỘ CHUYỂN ĐỔI DATA THẬT
         // ===================================================
         let vocabDatabase = [];      // Kho dữ liệu tạm sau khi đã chuẩn hóa
-        let filteredDatabase = [];   // Kho dữ liệu thực tế sau khi qua bộ lọc
+        let filteredDatabase = [];   // Kho dữ liệu thực tế sau khi qua bộ lọc (kể cả lọc Đã học/Chưa học)
+        let filteredBase = [];       // Như trên nhưng CHƯA áp lọc Đã học/Chưa học — dùng để đếm 3 con số ở thanh "Xem"
         
         let currentPage = 1;         
         const itemsPerPage = 32;     
@@ -1596,6 +1639,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         let selectedWordId = null;   // id của từ đang được chọn để hiện Card chi tiết
         let libSelectMode = false;   // đang bật chế độ chọn nhiều (checkbox) trong list thư viện?
         let libSelectedIds = new Set(); // các id đã được tick chọn để thêm vào sổ tay
+        let libSelQty = '';          // ô "chọn nhanh N từ" — giữ lại giá trị giữa các lần re-render
 
         // Ánh xạ 6 màu đại diện Level chuẩn khít theo spec của Pen (Hình 2)
         const levelColorsMap = {
@@ -1707,7 +1751,8 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         }
 
         // ─── BỘ LỌC MỚI: state đa lựa chọn cho 급 / Chủ đề / Loại từ / Dạng câu TOPIK ───
-        const filterState = { levels: [], topics: [], wordTypes: [], examTypes: [] };
+        // learned: 'all' | 'learned' | 'unlearned' — lọc theo trạng thái học, áp SAU 4 bộ lọc phễu
+        const filterState = { levels: [], topics: [], wordTypes: [], examTypes: [], learned: 'all' };
         let filterOptions = { levels: [], topics: [], wordTypes: [], examTypes: [] };
 
         // ─── DANH SÁCH SỔ TAY CỦA NGƯỜI DÙNG (rỗng ban đầu — chỉ chứa sổ tay do chính user tạo) ───
@@ -2390,7 +2435,10 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 // FIX: Xoá sạch database cũ trước khi nạp nguồn mới để tránh bị trùng lặp số từ vựng
                 vocabDatabase = [];
                 filteredDatabase = [];
+                filteredBase = [];
                 filterState.levels = []; filterState.topics = []; filterState.wordTypes = []; filterState.examTypes = [];
+                filterState.learned = 'all';
+                libSelectMode = false; libSelectedIds.clear(); libSelQty = '';
 
                 const targetFile = sourceType === 'full' ? 'DATA/full_topik.json' : 'DATA/fast_pace.json';
                 const response = await fetch(targetFile);
@@ -2404,6 +2452,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 applyLearnedStateToArray(vocabDatabase);
                 applySavedNotebooksStateToArray(vocabDatabase);
                 filteredDatabase = [...vocabDatabase];
+                filteredBase = [...vocabDatabase];
 
                 // Tính các option lọc thực tế từ dữ liệu (Chủ đề / Loại từ / Dạng câu / 급)
                 computeFilterOptions();
@@ -2448,7 +2497,8 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 
         function applyFilters() {
             computeFilterOptions(); // thu hẹp lại các option của dropdown theo phễu 급 → Chủ đề → Loại từ → Dạng câu (và dọn các lựa chọn không còn hợp lệ)
-            filteredDatabase = vocabDatabase.filter(w => {
+            // filteredBase = kết quả của bộ lọc phễu (chưa tách Đã học / Chưa học) → dùng để đếm
+            filteredBase = vocabDatabase.filter(w => {
                 if (filterState.levels.length && !filterState.levels.includes(w.level)) return false;
                 if (filterState.topics.length && !filterState.topics.includes(w.topic)) return false;
                 if (filterState.wordTypes.length && !filterState.wordTypes.includes(w.word_type)) return false;
@@ -2457,6 +2507,10 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 if (q && !(w.word.toLowerCase().includes(q) || (w.vietnamese || '').toLowerCase().includes(q))) return false;
                 return true;
             });
+            // filteredDatabase = thứ đang thực sự hiển thị = filteredBase + lọc trạng thái học
+            filteredDatabase = filterState.learned === 'all'
+                ? filteredBase
+                : filteredBase.filter(w => (filterState.learned === 'learned' ? !!w.learned : !w.learned));
             currentPage = 1;
             renderFilterBar();
             renderVocabRows();
@@ -2471,6 +2525,13 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 
         function resetFilters() {
             filterState.levels = []; filterState.topics = []; filterState.wordTypes = []; filterState.examTypes = [];
+            filterState.learned = 'all';
+            applyFilters();
+        }
+
+        // Thanh "Xem: Tất cả / Đã học / Chưa học" — bấm lại pill đang bật thì quay về Tất cả
+        function setLearnedFilter(val) {
+            filterState.learned = (filterState.learned === val) ? 'all' : val;
             applyFilters();
         }
 
@@ -2484,7 +2545,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         function renderFilterBar() {
             const bar = document.getElementById('vocab-filter-bar');
             if (!bar) return;
-            const activeTotal = filterState.levels.length + filterState.topics.length + filterState.wordTypes.length + filterState.examTypes.length;
+            const activeTotal = filterState.levels.length + filterState.topics.length + filterState.wordTypes.length + filterState.examTypes.length + (filterState.learned !== 'all' ? 1 : 0);
 
             const gupChipsHtml = filterOptions.levels.map(lv => {
                 const active = filterState.levels.includes(lv);
@@ -2554,9 +2615,6 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                     <div class="w-px h-6 shrink-0" style="background:linear-gradient(180deg,transparent,var(--c-d0d8e8),transparent);"></div>
                     <div class="hidden lg:block lg:flex-1"></div>
                     <div class="flex items-center gap-2 shrink-0 lg:px-2">
-                        <button class="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[11px] font-semibold shrink-0" style="background:${libSelectMode ? 'linear-gradient(135deg,#7c6ee8,#5b4fcf)' : 'var(--c-e6ebf3)'}; box-shadow:${libSelectMode ? 'none' : 'var(--shadow-btn)'}; color:${libSelectMode ? '#fff' : 'var(--c-8290aa)'};" onclick="toggleLibSelectMode()">
-                            ☑️ ${libSelectMode ? `Đã chọn ${libSelectedIds.size}` : 'Chọn nhiều'}
-                        </button>
                         <span class="text-[12px] font-semibold tabular-nums shrink-0" style="color:${filteredDatabase.length < vocabDatabase.length ? '#5b4fcf' : 'var(--c-9aa4b8)'}">
                             ${filteredDatabase.length}<span class="text-[color:var(--c-b0bad0)] font-normal">/${vocabDatabase.length}</span>
                         </span>
@@ -2567,13 +2625,61 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                     </div>
                 </div>
                 ${mobileExpandHtml}
-                ${libSelectMode ? `
-                <div class="flex items-center justify-between gap-3 px-4 py-2.5 border-t border-[color:var(--c-d8e0ec)] flex-wrap">
-                    <span class="text-xs font-semibold text-gray-500">${libSelectedIds.size} từ đã chọn</span>
-                    <div class="flex items-center gap-2">
-                        <button class="neo-button px-3.5 py-1.5 text-xs font-bold text-gray-400" onclick="libSelectedIds.clear(); renderFilterBar(); renderVocabRows();">Bỏ chọn hết</button>
-                        <button class="neo-button px-4 py-1.5 text-xs font-bold text-white" style="background:#6C63FF;" onclick="openAddSelectedToNotebookPopup(event)" ${libSelectedIds.size ? '' : 'disabled style="opacity:.5;"'}>+ Thêm vào Sổ từ vựng</button>
+            `;
+        }
+
+        // ============================================================
+        // THANH "XEM / CHỌN TỪ" ngay trên đầu list (#vocab-list-stats)
+        // Hàng 1  : Xem [Tất cả N] [Đã học N] [Chưa học N]  ······  [☑ Chọn từ]
+        // Hàng 2  : (chỉ khi bật chọn) Đã chọn x/y · Chọn hết · Chọn nhanh N · Bỏ chọn · + Thêm vào sổ
+        // Mấu chốt UX: LỌC (lọc ra cái mình muốn xem) và CHỌN (nhặt từ để bỏ sổ) nằm cạnh nhau,
+        // ngay trên đúng danh sách đang thao tác — không còn nằm lẫn trong filter bar phía trên.
+        // ============================================================
+        function renderLibToolbar() {
+            const bar = document.getElementById('vocab-list-stats');
+            if (!bar) return;
+            const total = filteredBase.length;
+            const learnedCount = filteredBase.filter(w => w.learned).length;
+            const unlearnedCount = total - learnedCount;
+            const lf = filterState.learned;
+            const pill = (val, label, num, color) => `
+                <button class="lrn-pill ${lf === val ? 'lrn-on' : ''}" style="${lf === val ? `color:${color};border-color:${color}55;` : ''}" onclick="setLearnedFilter('${val}')" title="${lf === val ? 'Bấm lần nữa để xem tất cả' : `Chỉ xem ${label.toLowerCase()}`}">
+                    ${label} <span class="lrn-num">${num}</span>
+                </button>`;
+
+            const shown = filteredDatabase.length;
+            const selCount = libSelectedIds.size;
+            // Số từ đang chọn mà vẫn nằm trong danh sách đang xem (để nút "Chọn hết" biết đã đủ chưa)
+            const selInView = filteredDatabase.reduce((n, w) => n + (libSelectedIds.has(w.id) ? 1 : 0), 0);
+
+            bar.innerHTML = `
+                <div class="flex items-center gap-2 px-4 py-2">
+                    <!-- 3 pill cuộn ngang được trên máy hẹp, nhưng nút Chọn từ luôn dính bên phải -->
+                    <div class="flex items-center gap-2 flex-1 min-w-0 overflow-x-auto">
+                        <span class="text-[10px] font-black uppercase tracking-widest text-[color:var(--c-8290aa)] shrink-0">Xem</span>
+                        ${pill('all', 'Tất cả', total, '#5b4fcf')}
+                        ${pill('learned', 'Đã học', learnedCount, '#2ec65e')}
+                        ${pill('unlearned', 'Chưa học', unlearnedCount, '#e8804a')}
                     </div>
+                    <button class="sel-btn ${libSelectMode ? 'sel-primary' : ''} shrink-0" onclick="toggleLibSelectMode()">
+                        ${libSelectMode ? '✕ Xong' : '☑ Chọn từ'}
+                    </button>
+                </div>
+                ${libSelectMode ? `
+                <div class="sel-bar">
+                    <span class="text-[11px] font-black shrink-0" style="color:#4c3fbe;">
+                        Đã chọn ${selCount}<span class="font-semibold text-[color:var(--c-8290aa)]"> / ${shown} từ đang xem</span>
+                    </span>
+                    <div class="flex-1 min-w-[4px]"></div>
+                    <button class="sel-btn" onclick="libSelectAllFiltered()" ${shown && selInView < shown ? '' : 'disabled'}>Chọn hết ${shown}</button>
+                    <div class="flex items-center gap-1.5 shrink-0">
+                        <input type="number" min="1" max="${shown}" id="lib-sel-qty" class="sel-qty" placeholder="20" value="${libSelQty}" oninput="libSelQty = this.value" onkeydown="if(event.key==='Enter'){event.preventDefault(); libSelectFirstN();}">
+                        <button class="sel-btn" onclick="libSelectFirstN()" title="Chọn N từ đầu danh sách đang xem">Chọn nhanh</button>
+                    </div>
+                    <button class="sel-btn" onclick="libClearSelection()" ${selCount ? '' : 'disabled'}>Bỏ chọn</button>
+                    <button class="sel-btn sel-primary" onclick="openAddSelectedToNotebookPopup(event)" ${selCount ? '' : 'disabled'}>
+                        + Thêm ${selCount ? selCount + ' từ ' : ''}vào sổ
+                    </button>
                 </div>` : ''}
             `;
         }
@@ -2583,15 +2689,11 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         // ============================================================
         function renderVocabRows() {
             const list = document.getElementById('library-vocab-list');
-            const stats = document.getElementById('vocab-list-stats');
             if (!list) return;
 
             list.innerHTML = '';
 
-            const learnedCount = filteredDatabase.filter(w => w.learned).length;
-            if (stats) {
-                stats.innerHTML = `<span class="text-[12px] text-[color:var(--c-9aa4b8)]">${filteredDatabase.length} từ · <span class="text-[#2ec65e] font-semibold">${learnedCount} đã học</span> · <span class="text-[color:var(--c-9aa4b8)]">${filteredDatabase.length - learnedCount} chưa học</span></span>`;
-            }
+            renderLibToolbar();
 
             if (filteredDatabase.length === 0) {
                 list.innerHTML = `
@@ -2623,11 +2725,12 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                     ? item.hanja.map(h => `${h.kr}(${h.vi})`).join(' — ')
                     : '';
 
+                const picked = libSelectMode && libSelectedIds.has(item.id);
                 const rowHtml = `
-                    <div class="vocab-row flex items-center gap-3 ${selected ? 'row-selected' : ''}" data-index="${globalIndex}" onclick="selectVocabRow(${globalIndex})">
+                    <div class="vocab-row flex items-center gap-3 ${selected ? 'row-selected' : ''} ${picked ? 'row-picked' : ''}" data-index="${globalIndex}" onclick="selectVocabRow(${globalIndex})">
                         ${libSelectMode ? `
-                        <button class="w-5 h-5 rounded-md flex items-center justify-center shrink-0" style="background:${libSelectedIds.has(item.id) ? '#6C63FF' : 'var(--c-e6ebf3)'}; box-shadow:var(--shadow-sunk);" onclick="event.stopPropagation(); toggleLibSelectId('${item.id}')">
-                            ${libSelectedIds.has(item.id) ? `<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>` : ''}
+                        <button class="lib-check ${picked ? 'is-on' : ''}" onclick="event.stopPropagation(); toggleLibSelectId('${item.id}')" title="${picked ? 'Bỏ chọn từ này' : 'Chọn từ này'}">
+                            ${picked ? `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#fff" stroke-width="3.2"><polyline points="20 6 9 17 4 12"></polyline></svg>` : ''}
                         </button>` : ''}
                         <span class="text-[11px] text-[color:var(--c-c0cad8)] w-6 text-right shrink-0 font-mono tabular-nums">${rowIndex + 1}</span>
                         <div class="vr-strip" style="background: linear-gradient(180deg, ${c}, ${c}44);"></div>
@@ -2855,15 +2958,41 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         // ─── Chọn nhiều từ trong list thư viện để thêm hàng loạt vào 1 sổ tay ───
         function toggleLibSelectMode() {
             libSelectMode = !libSelectMode;
-            if (!libSelectMode) libSelectedIds.clear();
-            renderFilterBar();
+            if (!libSelectMode) { libSelectedIds.clear(); libSelQty = ''; }
             renderVocabRows();
         }
 
         function toggleLibSelectId(wordId) {
             if (libSelectedIds.has(wordId)) libSelectedIds.delete(wordId);
             else libSelectedIds.add(wordId);
-            renderFilterBar();
+            renderVocabRows();
+        }
+
+        // "Chọn hết": tick TOÀN BỘ danh sách đang xem (mọi trang, đã áp cả bộ lọc Đã học/Chưa học),
+        // không chỉ 32 từ của trang hiện tại.
+        function libSelectAllFiltered() {
+            if (!libSelectMode) libSelectMode = true;
+            filteredDatabase.forEach(w => libSelectedIds.add(w.id));
+            renderVocabRows();
+        }
+
+        // "Chọn nhanh N": lấy N từ đầu tiên của danh sách đang xem (bỏ qua từ đã tick sẵn).
+        function libSelectFirstN() {
+            const n = parseInt(libSelQty, 10);
+            const input = document.getElementById('lib-sel-qty');
+            if (!n || n < 1) { if (input) input.focus(); return; }
+            if (!libSelectMode) libSelectMode = true;
+            let added = 0;
+            for (const w of filteredDatabase) {
+                if (added >= n) break;
+                if (!libSelectedIds.has(w.id)) { libSelectedIds.add(w.id); added++; }
+            }
+            if (added < n) alert(`Danh sách đang xem chỉ còn ${added} từ chưa chọn, không đủ ${n} từ như bạn muốn.`);
+            renderVocabRows();
+        }
+
+        function libClearSelection() {
+            libSelectedIds.clear();
             renderVocabRows();
         }
 
@@ -2930,7 +3059,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 syncSavedNotebooksEverywhere();
                 saveNotebooksToServer();
                 libSelectedIds.clear();
-                libSelectMode = false;
+                libSelQty = '';
                 renderFilterBar();
                 renderVocabRows();
             };
@@ -3110,8 +3239,18 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             name: '', note: '', activeTab: 'add',
             selectedWords: [], // { id, word, vietnamese, source }
             bulkFilters: { libs: [], levels: [], examTypes: [], wordTypes: [], topics: [] },
+            includeLearned: false, // ở tab Lọc hàng loạt: có tính cả từ đã học thuộc không
+            bulkQty: '',           // ô số lượng của "Lấy ngẫu nhiên", giữ qua các lần re-render
             editingNotebookId: null, // nếu khác null: đang "Thêm từ" vào 1 sổ tay đã có sẵn (bỏ qua bước Thông tin)
         };
+
+        function freshNbModalState(extra) {
+            return Object.assign({
+                name: '', note: '', activeTab: 'add', selectedWords: [],
+                bulkFilters: { libs: [], levels: [], examTypes: [], wordTypes: [], topics: [] },
+                includeLearned: false, bulkQty: '', editingNotebookId: null,
+            }, extra || {});
+        }
 
         // Trả về Map<wordId, {nbId, nbName}> cho các từ đang thuộc về 1 sổ tay bất kỳ
         // (trừ sổ tay đang được chỉnh sửa, nếu có) — dùng để cảnh báo trùng lặp khi thêm từ.
@@ -3508,7 +3647,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         }
 
         function openCreateNotebookModal() {
-            nbModalState = { name: '', note: '', activeTab: 'add', selectedWords: [], bulkFilters: { libs: [], levels: [], examTypes: [], wordTypes: [], topics: [] }, editingNotebookId: null };
+            nbModalState = freshNbModalState();
             document.getElementById('create-notebook-modal').classList.remove('hidden');
             document.getElementById('step-1-container').classList.remove('hidden');
             document.getElementById('step-2-container').classList.add('hidden');
@@ -3519,7 +3658,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         async function openAddWordsToNotebookModal(nbId) {
             const nb = notebooksList.find(n => n.id === nbId);
             if (!nb) return;
-            nbModalState = { name: nb.name, note: nb.note || '', activeTab: 'add', selectedWords: [], bulkFilters: { libs: [], levels: [], examTypes: [], wordTypes: [], topics: [] }, editingNotebookId: nbId };
+            nbModalState = freshNbModalState({ name: nb.name, note: nb.note || '', editingNotebookId: nbId });
             document.getElementById('create-notebook-modal').classList.remove('hidden');
             document.getElementById('step-1-container').classList.add('hidden');
             const step2 = document.getElementById('step-2-container');
@@ -3585,26 +3724,37 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         function renderModalStep2() {
             const container = document.getElementById('step-2-container');
             const isEditing = !!nbModalState.editingNotebookId;
+            const nSel = nbModalState.selectedWords.length;
             container.innerHTML = `
-                <h3 class="text-xl font-bold text-[color:var(--c-2d2d3a)]">${isEditing ? `📚 Thêm từ vào "${nbModalState.name}"` : '📚 Thêm từ vựng'}</h3>
-                <p class="text-xs text-gray-400 -mt-2.5" id="nb-selected-count">${nbModalState.selectedWords.length} từ đã được chọn</p>
+                <div>
+                    <h3 class="text-xl font-bold text-[color:var(--c-2d2d3a)]">${isEditing ? `📚 Thêm từ vào "${nbModalState.name}"` : '📚 Chọn từ vựng cho sổ'}</h3>
+                    <p class="text-xs text-gray-400 mt-1">Nhặt từng từ, hoặc lọc theo tiêu chí rồi thêm hàng loạt.</p>
+                </div>
                 ${isEditing ? '' : `
-                <div class="flex items-center gap-2 text-xs font-bold">
+                <div class="flex items-center gap-2 text-xs font-bold -mt-1">
                     <span class="w-6 h-6 rounded-full flex items-center justify-center neo-sunk text-point">✓</span>
                     <span class="text-point">Thông tin</span>
                     <span class="text-gray-400">›</span>
                     <span class="w-6 h-6 rounded-full flex items-center justify-center text-white" style="background:#6C63FF;">2</span>
                     <span class="text-point">Từ vựng</span>
                 </div>`}
+                <!-- 2 CÁCH THÊM TỪ — nói rõ mỗi tab làm gì để khỏi phải đoán -->
                 <div class="neo-sunk p-1 flex gap-1 !rounded-2xl">
-                    <button class="flex-1 py-2 text-xs font-bold !rounded-xl transition-all ${nbModalState.activeTab === 'add' ? 'text-point' : 'text-gray-400'}" style="${nbModalState.activeTab === 'add' ? 'background:var(--c-e6ebf3); box-shadow: var(--shadow-btn);' : ''}" onclick="switchModalTab('add')">Thêm từ</button>
-                    <button class="flex-1 py-2 text-xs font-bold !rounded-xl transition-all ${nbModalState.activeTab === 'bulk' ? 'text-point' : 'text-gray-400'}" style="${nbModalState.activeTab === 'bulk' ? 'background:var(--c-e6ebf3); box-shadow: var(--shadow-btn);' : ''}" onclick="switchModalTab('bulk')">Lọc hàng loạt</button>
+                    <button class="flex-1 py-2 px-2 !rounded-xl transition-all ${nbModalState.activeTab === 'add' ? 'text-point' : 'text-gray-400'}" style="${nbModalState.activeTab === 'add' ? 'background:var(--c-e6ebf3); box-shadow: var(--shadow-btn);' : ''}" onclick="switchModalTab('add')">
+                        <span class="block text-xs font-bold">🔍 Nhặt từng từ</span>
+                        <span class="block text-[9.5px] font-semibold opacity-70 mt-0.5">Tìm hoặc tự nhập</span>
+                    </button>
+                    <button class="flex-1 py-2 px-2 !rounded-xl transition-all ${nbModalState.activeTab === 'bulk' ? 'text-point' : 'text-gray-400'}" style="${nbModalState.activeTab === 'bulk' ? 'background:var(--c-e6ebf3); box-shadow: var(--shadow-btn);' : ''}" onclick="switchModalTab('bulk')">
+                        <span class="block text-xs font-bold">⚡ Lọc hàng loạt</span>
+                        <span class="block text-[9.5px] font-semibold opacity-70 mt-0.5">Thêm nhiều từ 1 lần</span>
+                    </button>
                 </div>
-                <div id="modal-tab-content" class="flex flex-col gap-3 overflow-y-auto pr-1" style="max-height:42vh;"></div>
+                <div id="modal-tab-content" class="flex flex-col gap-3 overflow-y-auto overflow-x-hidden pr-1 -mr-1"></div>
+                <div id="modal-bulk-action"></div>
                 <div id="modal-selected-list-wrap"></div>
                 <div class="flex gap-3 mt-1 sticky bottom-0 sm:static bg-[color:var(--c-e6ebf3)] sm:bg-transparent pt-2 pb-1 sm:pt-0 sm:pb-0 -mx-1 px-1 sm:mx-0 sm:px-0">
                     ${isEditing ? `<button class="neo-button px-6 py-3.5 text-sm font-bold text-gray-400 !rounded-2xl" onclick="closeCreateNotebookModal()">Huỷ</button>` : `<button class="neo-button px-6 py-3.5 text-sm font-bold text-gray-400 !rounded-2xl" onclick="backToModalStep1()">← Quay lại</button>`}
-                    <button class="neo-button flex-1 py-3.5 text-sm font-bold text-white bg-point !rounded-2xl" id="btn-submit-notebook">${isEditing ? 'Thêm vào sổ' : 'Tạo sổ'}</button>
+                    <button class="neo-button flex-1 py-3.5 text-sm font-bold text-white bg-point !rounded-2xl" id="btn-submit-notebook">${isEditing ? `Thêm ${nSel ? nSel + ' từ ' : ''}vào sổ` : `Tạo sổ${nSel ? ` (${nSel} từ)` : ''}`}</button>
                 </div>
             `;
             document.getElementById('btn-submit-notebook').addEventListener('click', submitCreateNotebook);
@@ -3619,18 +3769,21 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 
         function renderModalTabContent() {
             const el = document.getElementById('modal-tab-content');
+            const actionEl = document.getElementById('modal-bulk-action');
             if (!el) return;
+            if (actionEl) actionEl.innerHTML = '';
             if (nbModalState.activeTab === 'add') {
                 el.innerHTML = `
                     <div class="relative">
                         <div class="neo-sunk flex items-center px-4 py-2.5 !rounded-2xl">
                             <span class="text-gray-400 mr-2 text-xs">🔍</span>
-                            <input id="nb-search-input" type="text" placeholder="Tìm từ vựng trong hệ thống..." class="w-full bg-transparent border-none outline-none text-sm text-[color:var(--c-2d2d3a)]" autocomplete="off">
+                            <input id="nb-search-input" type="text" placeholder="Gõ tiếng Hàn hoặc tiếng Việt để tìm..." class="w-full bg-transparent border-none outline-none text-sm text-[color:var(--c-2d2d3a)]" autocomplete="off">
                         </div>
                         <div id="nb-suggestions-box" class="flex flex-col gap-1 mt-2"></div>
                     </div>
+                    <div class="nb-or">hoặc</div>
                     <div class="neo-sunk p-4 !rounded-2xl flex flex-col gap-3">
-                        <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Thêm từ mới thủ công</p>
+                        <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Tự nhập từ chưa có trong thư viện</p>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div>
                                 <label class="text-[11px] font-bold text-gray-400 flex items-center gap-1 mb-1">🇰🇷 Tiếng Hàn</label>
@@ -3650,31 +3803,72 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 const matches = getBulkMatches();
                 const ownership = getWordOwnershipMap(nbModalState.editingNotebookId);
                 const dupCount = matches.filter(w => ownership.has(w.id)).length;
+                const learnedSkipped = nbModalState.includeLearned ? 0 : countBulkLearnedSkipped();
+                const f = nbModalState.bulkFilters;
+                const activeFilters = f.libs.length + f.levels.length + f.examTypes.length + f.wordTypes.length + f.topics.length;
                 const chip = (key, val, label) => {
                     const active = nbModalState.bulkFilters[key].includes(val);
                     return `<button class="bulk-chip ${active ? 'bulk-chip-active' : ''}" onclick="toggleBulkFilterVal('${key}','${String(val).replace(/'/g, "\\'")}')">${label}</button>`;
                 };
-                const section = (icon, title, key, opts, labelFn) => `
+                const section = (icon, title, key, opts, labelFn) => {
+                    const n = nbModalState.bulkFilters[key].length;
+                    return `
                     <div>
-                        <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">${icon} ${title}</p>
+                        <p class="text-[11px] font-bold uppercase tracking-wider mb-1.5 flex items-center gap-1.5" style="color:${n ? '#5b4fcf' : 'var(--c-9aa4b8)'};">
+                            ${icon} ${title}${n ? `<span class="nb-tag" style="background:rgba(108,99,255,.14); color:#4c3fbe;">${n}</span>` : ''}
+                        </p>
                         <div class="flex flex-wrap gap-1">${opts.length ? opts.map(v => chip(key, v, labelFn ? labelFn(v) : v)).join('') : '<span class="text-[12px] text-gray-400">Không có dữ liệu</span>'}</div>
                     </div>`;
+                };
                 el.innerHTML = `
-                    <div class="neo-sunk p-3 !rounded-2xl flex flex-col gap-2.5 sticky -top-0.5 z-10" style="background:var(--c-e6ebf3);">
-                        <div class="flex items-center justify-between gap-2 flex-wrap">
-                            <span class="text-xs font-semibold text-gray-500">${matches.length} từ phù hợp bộ lọc${dupCount ? ` <span class="text-[11px] text-amber-500 font-bold">(${dupCount} từ đã ở sổ khác)</span>` : ''}</span>
-                            <button class="neo-button px-4 py-2 text-xs font-bold text-point !rounded-xl shrink-0" onclick="addAllBulkMatches()">+ Thêm tất cả</button>
+                    <!-- BƯỚC 1: khoanh vùng từ vựng -->
+                    <div class="nb-block">
+                        <div class="nb-block-head">
+                            <span class="nb-num">1</span>
+                            <span class="nb-block-title">Khoanh vùng từ vựng</span>
+                            <div class="flex-1"></div>
+                            ${activeFilters
+                                ? `<button class="text-[10.5px] font-black text-[color:var(--c-8290aa)] hover:text-red-400" onclick="clearBulkFilters()">✕ Xoá lọc (${activeFilters})</button>`
+                                : `<span class="text-[10px] font-bold text-[color:var(--c-b0bad0)]">Không chọn gì = cả thư viện</span>`}
                         </div>
-                        <div class="flex items-center gap-2">
-                            <input type="number" min="1" max="${matches.length}" id="bulk-qty-input" placeholder="Số lượng" class="w-24 px-2.5 py-2 text-xs rounded-xl outline-none border-none" style="background:var(--c-inputbg); box-shadow: var(--shadow-sunk);">
-                            <button class="neo-button px-3.5 py-2 text-xs font-bold text-point !rounded-xl shrink-0" onclick="addRandomBulkMatches()">🎲 Thêm ngẫu nhiên</button>
+                        <div class="flex flex-col gap-2.5">
+                            ${section('📚', 'Thư viện', 'libs', bulkOptions.libs, v => BULK_LIB_LABELS[v] || v)}
+                            ${section('📊', 'Cấp độ', 'levels', bulkOptions.levels, v => `Cấp ${v}`)}
+                            ${section('📝', 'Dạng đề', 'examTypes', bulkOptions.examTypes)}
+                            ${section('🧩', 'Loại từ', 'wordTypes', bulkOptions.wordTypes)}
+                            ${section('📁', 'Chủ đề', 'topics', bulkOptions.topics)}
                         </div>
                     </div>
-                    ${section('📚', 'Thư viện', 'libs', bulkOptions.libs, v => BULK_LIB_LABELS[v] || v)}
-                    ${section('📊', 'Cấp độ', 'levels', bulkOptions.levels, v => `Cấp ${v}`)}
-                    ${section('📝', 'Dạng đề', 'examTypes', bulkOptions.examTypes)}
-                    ${section('🧩', 'Loại từ', 'wordTypes', bulkOptions.wordTypes)}
-                    ${section('📁', 'Chủ đề', 'topics', bulkOptions.topics)}
+                `;
+                // BƯỚC 2 nằm NGOÀI khung cuộn của bước 1 → lọc tới đâu là thấy kết quả + nút bấm
+                // ngay bên dưới, không phải cuộn ngược lên đầu tìm nút như bản cũ.
+                if (actionEl) actionEl.innerHTML = `
+                    <div class="nb-block" style="box-shadow:var(--shadow-raised);">
+                        <div class="nb-block-head">
+                            <span class="nb-num">2</span>
+                            <span class="nb-block-title">Đưa vào danh sách chọn</span>
+                        </div>
+                        <div class="flex items-center justify-between gap-3 flex-wrap -mt-1">
+                            <div class="flex items-baseline gap-2 flex-wrap">
+                                <span class="text-[22px] font-black leading-none" style="color:#5b4fcf;">${matches.length}</span>
+                                <span class="text-[11.5px] font-bold text-[color:var(--c-6b7a99)]">từ khớp bộ lọc</span>
+                            </div>
+                            <label class="flex items-center gap-1.5 cursor-pointer shrink-0">
+                                <input type="checkbox" class="neo-checkbox" style="width:17px;height:17px;border-radius:6px;" ${nbModalState.includeLearned ? 'checked' : ''} onchange="toggleBulkIncludeLearned(this.checked)">
+                                <span class="text-[10.5px] font-bold text-[color:var(--c-6b7a99)]">Tính cả từ đã thuộc</span>
+                            </label>
+                        </div>
+                        ${dupCount || learnedSkipped ? `<div class="flex items-center gap-1.5 flex-wrap -mt-1.5">
+                            ${dupCount ? `<span class="nb-tag" style="background:rgba(245,158,11,.16); color:#a86a06;">${dupCount} từ đã ở sổ khác</span>` : ''}
+                            ${learnedSkipped ? `<span class="nb-tag" style="background:rgba(46,198,94,.16); color:#1d8a41;">đã bỏ ${learnedSkipped} từ đã thuộc</span>` : ''}
+                        </div>` : ''}
+                        <button class="nb-cta" onclick="addAllBulkMatches()" ${matches.length ? '' : 'disabled'}>+ Thêm hết ${matches.length} từ</button>
+                        <div class="nb-or">hoặc chỉ lấy một phần</div>
+                        <div class="flex items-center gap-2">
+                            <input type="number" min="1" max="${matches.length}" id="bulk-qty-input" value="${nbModalState.bulkQty}" placeholder="VD: 20 từ" class="flex-1 min-w-0 px-3 py-2.5 text-xs font-bold rounded-xl outline-none border-none" style="background:var(--c-inputbg); box-shadow: var(--shadow-sunk); color:var(--c-3d3d4e);" oninput="nbModalState.bulkQty = this.value" onkeydown="if(event.key==='Enter'){event.preventDefault(); addRandomBulkMatches();}">
+                            <button class="nb-cta-sub" onclick="addRandomBulkMatches()" ${matches.length ? '' : 'disabled'}>🎲 Lấy ngẫu nhiên</button>
+                        </div>
+                    </div>
                 `;
             }
         }
@@ -3762,25 +3956,39 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         }
 
         function refreshModalSelectionUI() {
-            const countEl = document.getElementById('nb-selected-count');
-            if (countEl) countEl.textContent = `${nbModalState.selectedWords.length} từ đã được chọn`;
+            const n = nbModalState.selectedWords.length;
+            const btn = document.getElementById('btn-submit-notebook');
+            if (btn) btn.textContent = nbModalState.editingNotebookId
+                ? `Thêm ${n ? n + ' từ ' : ''}vào sổ`
+                : `Tạo sổ${n ? ` (${n} từ)` : ''}`;
             renderSelectedWordsList();
         }
 
         function renderSelectedWordsList() {
             const wrap = document.getElementById('modal-selected-list-wrap');
             if (!wrap) return;
-            if (!nbModalState.selectedWords.length) { wrap.innerHTML = ''; return; }
+            const words = nbModalState.selectedWords;
+            if (!words.length) {
+                wrap.innerHTML = `<div class="nb-block !py-3"><p class="text-[11px] font-bold text-[color:var(--c-b0bad0)] text-center">Giỏ từ đang trống — chọn ở trên rồi từ sẽ rơi xuống đây</p></div>`;
+                return;
+            }
+            // Giỏ từ: luôn nằm ngay trên nút "Tạo sổ" → user thấy rõ mình sắp lưu cái gì
             wrap.innerHTML = `
-                <div class="neo-sunk p-3 !rounded-2xl flex flex-col gap-1.5" style="max-height:110px; overflow-y:auto;">
-                    <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Đã chọn (${nbModalState.selectedWords.length})</p>
-                    ${nbModalState.selectedWords.map(w => `
-                        <div class="flex items-center gap-2 text-xs">
-                            <span class="font-bold font-kr-serif shrink-0">${w.word}</span>
-                            <span class="text-gray-400 truncate flex-1">${w.vietnamese}</span>
-                            <button class="text-gray-400 hover:text-red-400 font-bold shrink-0" onclick="removeSelectedWord('${w.id}')">✕</button>
-                        </div>
-                    `).join('')}
+                <div class="nb-block">
+                    <div class="nb-block-head">
+                        <span class="nb-num" style="background:linear-gradient(135deg,#2ec65e,#22a34a);">✓</span>
+                        <span class="nb-block-title">Giỏ từ · ${words.length} từ</span>
+                        <div class="flex-1"></div>
+                        <button class="text-[10.5px] font-black text-[color:var(--c-8290aa)] hover:text-red-400" onclick="clearSelectedWords()">✕ Xoá hết</button>
+                    </div>
+                    <div class="flex flex-wrap gap-1.5" style="max-height:104px; overflow-y:auto;">
+                        ${words.map(w => `
+                            <span class="nb-selword" title="${(w.vietnamese || '').replace(/"/g, '&quot;')}">
+                                <b>${w.word}</b>
+                                <button class="x" onclick="removeSelectedWord('${w.id}')" title="Bỏ từ này">✕</button>
+                            </span>
+                        `).join('')}
+                    </div>
                 </div>
             `;
         }
@@ -3793,11 +4001,12 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             renderModalTabContent();
         }
 
-        function getBulkMatches() {
+        function getBulkMatchesRaw(includeLearned) {
             const f = nbModalState.bulkFilters;
             return (allLibraryCache || []).filter(w => {
                 // Mặc định không đưa từ đã "Đã học thuộc" vào diện thêm hàng loạt/ngẫu nhiên vào sổ
-                if (w.learned) return false;
+                // (bật ô "Tính cả những từ đã học thuộc" ở bước 2 thì mới lấy).
+                if (w.learned && !includeLearned) return false;
                 if (f.libs.length && !f.libs.includes(w.source)) return false;
                 if (f.levels.length && !f.levels.includes(w.level)) return false;
                 if (f.examTypes.length && !f.examTypes.includes(w.exam_type)) return false;
@@ -3805,6 +4014,29 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 if (f.topics.length && !f.topics.includes(w.topic)) return false;
                 return true;
             });
+        }
+
+        function getBulkMatches() { return getBulkMatchesRaw(nbModalState.includeLearned); }
+
+        // Số từ bị loại chỉ vì "đã học thuộc" — hiện ra để user hiểu vì sao con số nhỏ hơn mong đợi
+        function countBulkLearnedSkipped() {
+            return getBulkMatchesRaw(true).length - getBulkMatchesRaw(false).length;
+        }
+
+        function toggleBulkIncludeLearned(val) {
+            nbModalState.includeLearned = !!val;
+            renderModalTabContent();
+        }
+
+        function clearBulkFilters() {
+            nbModalState.bulkFilters = { libs: [], levels: [], examTypes: [], wordTypes: [], topics: [] };
+            computeBulkOptionsCascaded();
+            renderModalTabContent();
+        }
+
+        function clearSelectedWords() {
+            nbModalState.selectedWords = [];
+            refreshModalSelectionUI();
         }
 
         function addAllBulkMatches() {
@@ -3835,7 +4067,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         // Thêm ngẫu nhiên N từ (ưu tiên từ chưa có ở sổ tay nào khác)
         function addRandomBulkMatches() {
             const qtyInput = document.getElementById('bulk-qty-input');
-            const qty = parseInt(qtyInput && qtyInput.value, 10);
+            const qty = parseInt((qtyInput && qtyInput.value) || nbModalState.bulkQty, 10);
             if (!qty || qty < 1) { if (qtyInput) qtyInput.focus(); return; }
             const matches = getBulkMatches();
             const ownership = getWordOwnershipMap(nbModalState.editingNotebookId);
