@@ -205,7 +205,10 @@
         .lib-check:hover { border-color:#6C63FF; }
         .lib-check.is-on { background:linear-gradient(135deg,#7c6ee8,#5b4fcf); border-color:transparent; }
         .vocab-row.row-picked { background:rgba(108,99,255,0.10); box-shadow:inset 0 0 0 1.5px rgba(108,99,255,0.35); }
-        .sel-bar { display:flex; align-items:center; gap:7px; flex-wrap:wrap; padding:8px 14px; border-top:1.5px solid var(--c-d8e0ec); background:linear-gradient(90deg, rgba(108,99,255,0.09), rgba(108,99,255,0.02)); }
+        .sel-bar { display:flex; align-items:center; gap:7px; flex-wrap:wrap; padding:9px 16px 10px 14px; border-top:1.5px solid var(--c-d8e0ec); background:linear-gradient(90deg, rgba(108,99,255,0.09), rgba(108,99,255,0.02)); }
+        /* Ẩn thanh cuộn ngang của dải pill cho gọn (vẫn vuốt/lăn được) */
+        .lib-pill-scroll { scrollbar-width: none; }
+        .lib-pill-scroll::-webkit-scrollbar { display: none; }
         .sel-btn { border-radius:11px; padding:6px 11px; font-size:11px; font-weight:800; background:var(--c-e6ebf3); box-shadow:var(--shadow-btn); color:var(--c-6b7a99); white-space:nowrap; border:none; transition:all .12s ease; cursor:pointer; }
         .sel-btn:hover:not(:disabled) { color:#4F46E5; transform:translateY(-1px); }
         .sel-btn:disabled { opacity:.4; cursor:not-allowed; }
@@ -1495,7 +1498,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                             <!-- Column header (ẩn trên mobile để dành chỗ cho rows) -->
                             <!-- Cấu trúc mới: Hàn+Việt (flex-[2]) chiếm phần lớn; cột meta (flex-1) GỌN,
                                  chỉ hiện khi bấm THU GỌN card chi tiết (.lib-col-meta) -->
-                            <div class="hidden lg:flex items-center gap-2 px-4 pt-3.5 pb-2.5 shrink-0 border-b border-[color:var(--c-d8e0ec)]">
+                            <div class="hidden lg:flex items-center gap-2 pl-4 pr-5 pt-3.5 pb-3 shrink-0 border-b border-[color:var(--c-d8e0ec)]">
                                 <span class="w-6 shrink-0"></span>
                                 <span class="w-[3px] shrink-0"></span>
                                 <div class="flex-[2] min-w-0 flex items-center gap-2">
@@ -1772,6 +1775,36 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         }
         // Danh sách sổ dùng cho MỌI thống kê (đã học / cần luyện / cần chú ý / hoạt động gần đây):
         // gồm sổ thật của học sinh + "sổ ẩn" luyện ở Trang chủ (nếu có) → không bỏ sót từ đã luyện.
+        // ============================================================
+        // 🔊 ÂM THANH PHẢN HỒI ĐÚNG / SAI (dùng chung cho MỌI dạng kiểm tra:
+        // Trắc nghiệm, Viết từ, Nghe hiểu, Đoán nghĩa và Quiz Maze)
+        // ============================================================
+        const SND_CORRECT_URL = 'assets/right.mp3';
+        const SND_WRONG_URL = 'assets/wrong.mp3';
+        let _sndCorrect = null, _sndWrong = null;
+
+        function isFeedbackSoundOn() {
+            return localStorage.getItem('vocabapp_quizSound') !== '0'; // mặc định BẬT
+        }
+        function toggleFeedbackSound() {
+            const next = !isFeedbackSoundOn();
+            localStorage.setItem('vocabapp_quizSound', next ? '1' : '0');
+            if (next) playFeedbackSound(true); // nghe thử ngay khi vừa bật
+            renderProfilePopupContent();
+        }
+
+        function playFeedbackSound(isCorrect) {
+            if (!isFeedbackSoundOn()) return;
+            try {
+                // Tạo Audio ở lần dùng đầu tiên, sau đó tái sử dụng cho nhẹ
+                if (!_sndCorrect) { _sndCorrect = new Audio(SND_CORRECT_URL); _sndCorrect.preload = 'auto'; _sndCorrect.volume = 0.75; }
+                if (!_sndWrong) { _sndWrong = new Audio(SND_WRONG_URL); _sndWrong.preload = 'auto'; _sndWrong.volume = 0.75; }
+                const a = isCorrect ? _sndCorrect : _sndWrong;
+                a.currentTime = 0;
+                a.play().catch(() => {}); // trình duyệt chặn autoplay khi chưa tương tác — bỏ qua
+            } catch (e) { /* thiếu file mp3 cũng không được làm hỏng bài kiểm tra */ }
+        }
+
         function notebooksForStats() {
             return homePracticeNotebook ? notebooksList.concat([homePracticeNotebook]) : notebooksList;
         }
@@ -2371,13 +2404,40 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         // lên 1 mảng từ vựng vừa nạp — gọi lại mỗi khi vocabDatabase/allLibraryCache được tạo mới
         // hoặc mỗi khi learnedWordsMap vừa được tải xong từ server (tránh trường hợp thư viện
         // tải xong trước khi tải sổ tay/learnedWordsMap từ server).
-        function applyLearnedStateToArray(arr) {
+        // NGUỒN DUY NHẤT cho khái niệm "đã học" trên TOÀN BỘ app (thẻ Dashboard, pill Xem ở
+        // Thư viện, dấu ✓ từng dòng, bộ lọc bulk...). Gồm 2 nhóm, hợp lại:
+        //   1. Từ đã trả lời ĐÚNG ở 1 trong 4 dạng kiểm tra của bất kỳ sổ nào (progress.correctIds)
+        //   2. Từ được tick tay dấu ✓ ở Thư viện (learnedWordsMap)
+        // Trước đây Dashboard dùng cả 2, còn Thư viện chỉ dùng nhóm 2 → cùng 1 tài khoản mà
+        // Dashboard báo 54 từ trong khi Thư viện chỉ đếm được 3.
+        function getLearnedIdSet() {
+            const ids = new Set();
+            (typeof notebooksForStats === 'function' ? notebooksForStats() : (notebooksList || [])).forEach(nb => {
+                if (!nb || !nb.progress) return;
+                ['quiz', 'typing', 'listen', 'guess'].forEach(k => {
+                    ((nb.progress[k] && nb.progress[k].correctIds) || []).forEach(id => ids.add(id));
+                });
+            });
+            Object.keys(learnedWordsMap || {}).forEach(id => ids.add(id));
+            return ids;
+        }
+
+        function applyLearnedStateToArray(arr, learnedIds) {
             if (!Array.isArray(arr)) return;
+            const ids = learnedIds || getLearnedIdSet();
             arr.forEach(w => {
                 const ts = learnedWordsMap[w.id] || null;
-                w.learned = !!ts;
-                w.learnedAt = ts;
+                w.learned = ids.has(w.id);
+                w.learnedAt = ts; // mốc thời gian chỉ có với từ tick tay; từ học qua quiz thì để trống
             });
+        }
+
+        // Đồng bộ cờ learned cho CẢ 2 mảng từ vựng đang sống trong bộ nhớ (vocabDatabase khi lướt
+        // Thư viện, allLibraryCache khi mở Sổ tay/Tìm kiếm) — gọi sau mỗi lần tiến độ quiz đổi.
+        function syncLearnedFlagsEverywhere() {
+            const ids = getLearnedIdSet();
+            applyLearnedStateToArray(vocabDatabase, ids);
+            applyLearnedStateToArray(allLibraryCache, ids);
         }
 
         // Đồng bộ trạng thái "đã lưu vào sổ nào" — CÙNG NGUYÊN TẮC như applyLearnedStateToArray
@@ -2496,6 +2556,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         }
 
         function applyFilters() {
+            syncLearnedFlagsEverywhere(); // đảm bảo cờ "đã học" khớp với tiến độ quiz mới nhất
             computeFilterOptions(); // thu hẹp lại các option của dropdown theo phễu 급 → Chủ đề → Loại từ → Dạng câu (và dọn các lựa chọn không còn hợp lệ)
             // filteredBase = kết quả của bộ lọc phễu (chưa tách Đã học / Chưa học) → dùng để đếm
             filteredBase = vocabDatabase.filter(w => {
@@ -2653,13 +2714,15 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             const selInView = filteredDatabase.reduce((n, w) => n + (libSelectedIds.has(w.id) ? 1 : 0), 0);
 
             bar.innerHTML = `
-                <div class="flex items-center gap-2 px-4 py-2">
-                    <!-- 3 pill cuộn ngang được trên máy hẹp, nhưng nút Chọn từ luôn dính bên phải -->
-                    <div class="flex items-center gap-2 flex-1 min-w-0 overflow-x-auto">
+                <div class="flex items-center gap-2 pl-3 pr-4 py-1">
+                    <!-- 3 pill cuộn ngang được trên máy hẹp, nhưng nút Chọn từ luôn dính bên phải.
+                         px/py + margin âm ở khung cuộn = chừa chỗ cho bóng đổ, tránh bị xén phẳng. -->
+                    <div class="lib-pill-scroll flex items-center gap-2 flex-1 min-w-0 overflow-x-auto overflow-y-hidden px-1.5 py-2.5 -my-1">
                         <span class="text-[10px] font-black uppercase tracking-widest text-[color:var(--c-8290aa)] shrink-0">Xem</span>
                         ${pill('all', 'Tất cả', total, '#5b4fcf')}
                         ${pill('learned', 'Đã học', learnedCount, '#2ec65e')}
                         ${pill('unlearned', 'Chưa học', unlearnedCount, '#e8804a')}
+                        <span class="shrink-0 w-1"></span>
                     </div>
                     <button class="sel-btn ${libSelectMode ? 'sel-primary' : ''} shrink-0" onclick="toggleLibSelectMode()">
                         ${libSelectMode ? '✕ Xong' : '☑ Chọn từ'}
@@ -3109,13 +3172,24 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         // duy nhất, được lưu lên server), đồng bộ lại lên cả vocabDatabase lẫn allLibraryCache
         // (2 mảng object riêng biệt, không share reference) rồi lưu lên server.
         function setWordLearnedState(wordId, learned) {
-            const wasLearned = !!learnedWordsMap[wordId];
-            if (learned) learnedWordsMap[wordId] = Date.now();
-            else delete learnedWordsMap[wordId];
-            const ts = learnedWordsMap[wordId] || null;
-            const syncOne = w => { if (w && w.id === wordId) { w.learned = !!ts; w.learnedAt = ts; } };
-            (vocabDatabase || []).forEach(syncOne);
-            (allLibraryCache || []).forEach(syncOne);
+            const wasLearned = getLearnedIdSet().has(wordId);
+            if (learned) {
+                learnedWordsMap[wordId] = Date.now();
+            } else {
+                delete learnedWordsMap[wordId];
+                // Từ có thể đang "đã học" vì đã trả lời đúng trong quiz. Bỏ tick ✓ nghĩa là
+                // "tôi chưa thuộc từ này" → phải gỡ khỏi correctIds của mọi sổ, nếu không cờ
+                // learned sẽ bật lại ngay ở lần đồng bộ kế tiếp (dấu ✓ bấm mãi không tắt).
+                (typeof notebooksForStats === 'function' ? notebooksForStats() : (notebooksList || [])).forEach(nb => {
+                    if (!nb || !nb.progress) return;
+                    ['quiz', 'typing', 'listen', 'guess'].forEach(k => {
+                        const prog = nb.progress[k];
+                        if (!prog || !Array.isArray(prog.correctIds)) return;
+                        prog.correctIds = prog.correctIds.filter(id => id !== wordId);
+                    });
+                });
+            }
+            syncLearnedFlagsEverywhere();
             if (learned && !wasLearned) recordVocabLearned(1); // đánh dấu 1 từ mới thuộc → +1 cho biểu đồ & streak
             saveNotebooksToServer();
         }
@@ -4485,7 +4559,9 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             if (wordObj) wordObj.lastSeenAt = Date.now();
             clearNewlyAddedFlag(nb, wordId);
             recordVocabActivity(1); // làm quiz (đúng/sai) đều tính là hoạt động thực trong ngày (streak)
+            syncLearnedFlagsEverywhere(); // trả lời đúng = "đã học" → cập nhật ngay cờ ở Thư viện
             updateNotebookCardProgressUI(nb);
+            playFeedbackSound(isCorrect);
             saveNotebooksToServer();
         }
 
@@ -4679,7 +4755,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                     <div class="lib-list-panel-mobile-light order-1 lg:flex-1 w-full min-w-0 neo-raised !rounded-[28px] overflow-hidden flex flex-col sticky top-2 z-20 h-[34vh] lg:static lg:top-auto lg:z-auto lg:h-auto">
                         <div id="pl-toolbar" class="shrink-0"></div>
                         <div class="hidden lg:block overflow-x-auto" style="max-height:520px; overflow-y:auto;">
-                            <table class="w-full text-sm" style="border-collapse:collapse;">
+                            <table class="w-full text-sm" style="border-collapse:collapse; table-layout:fixed; min-width:600px;">
                                 <thead id="pl-thead"></thead>
                                 <tbody id="pl-tbody"></tbody>
                             </table>
@@ -4735,11 +4811,11 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 
             thead.innerHTML = `
                 <tr class="text-left">
-                    <th class="py-2.5 px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider" style="min-width:280px;">Tiếng Hàn</th>
-                    <th class="py-2.5 px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider" style="max-width:180px;">Tiếng Việt</th>
-                    ${!pls.hideEx ? `<th class="py-2.5 px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider">Ví dụ</th>` : ''}
-                    <th class="py-2.5 px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider" style="width:110px;">Ghi chú</th>
-                    <th class="py-2.5 px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider text-center">Trạng thái</th>
+                    <th class="py-2.5 px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider" style="width:${pls.hideEx ? '30%' : '23%'};">Tiếng Hàn</th>
+                    <th class="py-2.5 px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider" style="width:${pls.hideEx ? '34%' : '25%'};">Tiếng Việt</th>
+                    ${!pls.hideEx ? `<th class="py-2.5 px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider" style="width:24%;">Ví dụ</th>` : ''}
+                    <th class="py-2.5 px-2 text-[11px] font-bold text-gray-400 uppercase tracking-wider" style="width:${pls.hideEx ? '21%' : '15%'};">Ghi chú</th>
+                    <th class="py-2.5 px-1.5 text-[11px] font-bold text-gray-400 uppercase tracking-wider text-center" style="width:${pls.hideEx ? '15%' : '13%'};">Trạng thái</th>
                 </tr>
             `;
 
@@ -4768,10 +4844,10 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 
                 const koBlurred = pls.blurKo && !w._revealedKo;
                 const koCell = `
-                    <td class="py-3 px-3 align-top" style="min-width:280px;">
+                    <td class="py-3 px-3 align-top">
                         <div class="flex items-start gap-2.5">
                             <div class="vr-strip" style="background: linear-gradient(180deg, ${c}, ${c}44); min-height:32px;"></div>
-                            <div class="pl-blur-wrap cursor-pointer ${koBlurred ? 'pl-blur-cell' : ''}" onclick="handlePlWordClick(${i}, 'ko')" title="Bấm để xem chi tiết">
+                            <div class="pl-blur-wrap cursor-pointer min-w-0 ${koBlurred ? 'pl-blur-cell' : ''}" style="word-break:break-word;" onclick="handlePlWordClick(${i}, 'ko')" title="Bấm để xem chi tiết">
                                 <span class="font-kr-serif font-bold text-base text-[color:var(--c-1e2a4a)]">${w.word}</span>${newBadge}
                                 ${hanLine ? `<span class="text-[11px] text-gray-400 block mt-0.5">${hanLine}</span>` : ''}
                             </div>
@@ -4780,7 +4856,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 
                 const viBlurred = pls.blurVi && !w._revealedVi;
                 const viCell = `
-                    <td class="py-3 px-3 align-top font-semibold text-[color:var(--c-2d3a54)]" style="max-width:180px;">
+                    <td class="py-3 px-3 align-top font-semibold text-[color:var(--c-2d3a54)]" style="word-break:break-word;">
                         <span class="pl-blur-wrap cursor-pointer ${viBlurred ? 'pl-blur-cell' : ''}" onclick="handlePlWordClick(${i}, 'vi')" title="Bấm để xem chi tiết">
                             ${w.vietnamese || (full && (full.deep_meaning || full.literal)) || '—'}
                         </span>
@@ -4791,7 +4867,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                     if (full && full.examples && full.examples.length) {
                         const ex = full.examples[0];
                         const moreCount = full.examples.length - 1;
-                        exCell = `<td class="py-3 px-3 align-top">
+                        exCell = `<td class="py-3 px-3 align-top" style="word-break:break-word;">
                             <p class="text-xs font-semibold text-[color:var(--c-1e2a4a)]">${ex.kr}</p>
                             <p class="text-[12px] text-gray-400 italic mt-0.5">${ex.vi}</p>
                             ${moreCount > 0 ? `<span class="text-[11px] text-point font-bold">+${moreCount} câu khác</span>` : ''}
@@ -4838,10 +4914,10 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 return `
                     <tr class="border-b border-[color:var(--c-f2f4f9)] hover:bg-[rgba(108,99,255,0.03)] transition-colors" data-row-idx="${i}">
                         ${koCell}${viCell}${exCell}
-                        <td class="py-3 px-2 align-top" style="width:110px;">
-                            <input type="text" value="${(w._note || '').replace(/"/g, '&quot;')}" placeholder="Ghi chú..." class="neo-sunk px-2.5 py-1.5 !rounded-xl text-[12px] w-full outline-none border-none bg-transparent" oninput="updateWordNote(${i}, this.value)">
+                        <td class="py-3 px-2 align-top">
+                            <input type="text" value="${(w._note || '').replace(/"/g, '&quot;')}" placeholder="Ghi chú..." class="neo-sunk px-2 py-1.5 !rounded-xl text-[12px] w-full min-w-0 outline-none border-none bg-transparent" oninput="updateWordNote(${i}, this.value)">
                         </td>
-                        <td class="py-3 px-3 align-top">
+                        <td class="py-3 px-1.5 align-top">
                             <div class="flex items-center justify-center gap-1.5">
                                 <button class="vr-status-btn" title="Nghe phát âm" onclick="speakKorean('${w.word.replace(/'/g, "\\'")}')">
                                     <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#9ca3af" stroke-width="2.5"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
@@ -6074,6 +6150,15 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                         </div>
                         <div class="flex items-center justify-between gap-2">
                             <div class="min-w-0">
+                                <p class="text-xs font-bold text-[color:var(--c-1a1a24)]">Âm thanh khi làm đúng / sai</p>
+                                <p class="text-[11px] text-gray-400 mt-0.5">Phát tiếng phản hồi trong mọi bài kiểm tra</p>
+                            </div>
+                            <button class="meaning-toggle-switch ${isFeedbackSoundOn() ? 'is-on' : ''}" onclick="toggleFeedbackSound()">
+                                <span class="meaning-toggle-knob"></span>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between gap-2">
+                            <div class="min-w-0">
                                 <p class="text-xs font-bold text-[color:var(--c-1a1a24)]">Tốc độ "Từ vựng hôm nay"</p>
                                 <p class="text-[11px] text-gray-400 mt-0.5">Số giây hiện 1 từ trước khi tự chuyển (3–60)</p>
                             </div>
@@ -6227,16 +6312,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         // Số từ vựng đã học = (từ trả lời đúng ở 4 chức năng quiz/typing/listen/guess, không tính Flashcard)
         // hợp với (từ đã tick "Đã học" ở thư viện) — đếm duy nhất theo id, không trùng lặp
         function computeLearnedWordCount() {
-            const learnedIds = new Set();
-            notebooksForStats().forEach(nb => {
-                if (!nb.progress) return;
-                ['quiz', 'typing', 'listen', 'guess'].forEach(k => {
-                    (nb.progress[k] && nb.progress[k].correctIds || []).forEach(id => learnedIds.add(id));
-                });
-            });
-            (vocabDatabase || []).forEach(w => { if (w.learned) learnedIds.add(w.id); });
-            if (allLibraryCache) allLibraryCache.forEach(w => { if (w.learned) learnedIds.add(w.id); });
-            return learnedIds.size;
+            return getLearnedIdSet().size;
         }
 
         // Danh sách các từ hiện đang bị đánh dấu sai ở ít nhất 1 trong 4 chức năng kiểm tra
@@ -6896,7 +6972,12 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         // homePractice. Cả hai đều đồng bộ lên server nên Dashboard giáo viên đều thấy.
         function recordQmResult(q, funcKey, isCorrect) {
             if (!q || !q.word) return;
-            if (q.word._nbId) { recordQuizMazeResult(q.word._nbId, funcKey, q.word.id, isCorrect); return; }
+            if (q.word._nbId) {
+                recordQuizMazeResult(q.word._nbId, funcKey, q.word.id, isCorrect);
+                syncLearnedFlagsEverywhere();
+                playFeedbackSound(isCorrect);
+                return;
+            }
             const nb = ensureHomePracticeNotebook();
             if (!nb.words.some(w => w.id === q.word.id)) {
                 nb.words.push({ id: q.word.id, word: q.word.word, vietnamese: q.word.vietnamese || q.word.deep_meaning || '—' });
@@ -6910,6 +6991,8 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             prog.lastActivityAt = Date.now();
             nb.lastActivityAt = Date.now();
             recordVocabActivity(1);
+            syncLearnedFlagsEverywhere();
+            playFeedbackSound(isCorrect);
             saveNotebooksToServer();
         }
 
@@ -8762,16 +8845,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 
         // Union các id đã học (đúng ở 4 dạng kiểm tra hoặc đã tick trong thư viện), map ra dữ liệu đầy đủ để lọc
         function computeLearnedWordsFullList() {
-            const learnedIds = new Set();
-            notebooksForStats().forEach(nb => {
-                if (!nb.progress) return;
-                ['quiz', 'typing', 'listen', 'guess'].forEach(k => {
-                    (nb.progress[k] && nb.progress[k].correctIds || []).forEach(id => learnedIds.add(id));
-                });
-            });
-            (vocabDatabase || []).forEach(w => { if (w.learned) learnedIds.add(w.id); });
-            if (allLibraryCache) allLibraryCache.forEach(w => { if (w.learned) learnedIds.add(w.id); });
-
+            const learnedIds = getLearnedIdSet();
             const results = [];
             learnedIds.forEach(id => {
                 const w = (allLibraryCache || []).find(x => x.id === id) || (vocabDatabase || []).find(x => x.id === id);
