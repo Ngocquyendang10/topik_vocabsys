@@ -2417,6 +2417,129 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
   .hm-stats{ margin-top:24px; }
 }
 
+/* ══════════════════════════════════════════════════════════════════════
+   34. THƯ VIỆN — HẠ TÔNG TÍM, SÁNG & TRUNG TÍNH HƠN
+   Bản trước tím quá đậm nên 3 khối chìm vào nhau. Nay:
+     · mặt khối gần TRẮNG (chỉ ngả tím rất nhẹ) → nổi hẳn trên nền trang
+     · bóng đổ đổi sang xám trung tính ngả tím → hết cảm giác "tím lè"
+     · 3 bậc sáng rõ ràng: nền trang < bộ lọc/list < card chi tiết
+   ══════════════════════════════════════════════════════════════════════ */
+:root:not([data-theme="dark"]) #view-library-stage,
+:root:not([data-theme="dark"]) #view-search-results,
+:root:not([data-theme="dark"]) .lib-detail-sheet{
+  /* Bậc 2 — bộ lọc + list từ vựng */
+  --c-e6ebf3:  #F7F6FB;
+  --c-e1e6ee:  #F1F0F7;
+  --c-e1e5ec:  #F1F0F7;
+  --c-f0f2f7:  #F4F3F9;
+  --c-f2f4f9:  #F7F6FB;
+  --c-eef1f7:  #F4F3F9;
+  /* Bậc 3 — card chi tiết, sáng nhất */
+  --c-f5f7fb:  #FDFCFE;
+  --c-f3f5fb:  #FDFCFE;
+  --c-inputbg: #FFFFFF;
+
+  /* Bóng: xám trung tính pha rất ít tím */
+  --c-ffffff:  #FFFFFF;
+  --c-bec8e4:  #DEDCE7;
+  --c-c4ccd9:  #DEDCE7;
+  --c-d0d4de:  #DEDCE7;
+  --c-d7dae4:  #E7E5EE;
+  --c-c0cad8:  #CFCDDA;
+  --c-c4c9d4:  #CFCDDA;
+  --c-d8e0ec:  #E7E5EE;
+  --c-d1d9e4:  #E7E5EE;
+  --c-d0d8e8:  #E7E5EE;
+  --c-dde3ed:  #ECEAF3;
+  --c-d7dce6:  #ECEAF3;
+  --light-sh:  rgba(255,255,255,0.95);
+  --dark-sh:   rgba(126,122,150,0.26);
+
+  --shadow-raised: 7px 7px 18px var(--c-bec8e4), -7px -7px 18px #FFFFFF;
+  --shadow-sunk:   inset 5px 5px 12px var(--c-bec8e4), inset -5px -5px 12px #FFFFFF;
+  --shadow-btn:    4px 4px 10px var(--c-bec8e4), -4px -4px 10px #FFFFFF;
+  --card-shadow:   -5px -5px 12px var(--light-sh), 6px 6px 18px var(--dark-sh);
+  --raised-hero:   -6px -6px 14px var(--light-sh), 7px 7px 20px var(--dark-sh);
+  --raised-block:  -3px -3px 7px var(--light-sh), 3px 3px 9px var(--dark-sh);
+  --pressed-block: inset -3px -3px 7px var(--light-sh), inset 3px 3px 9px var(--dark-sh);
+  --pressed-btn:   inset -2px -2px 5px var(--light-sh), inset 2px 2px 6px var(--dark-sh);
+  --ui-hair:       rgba(90,86,120,0.13);
+}
+/* Card chi tiết sáng nhất + viền tóc để tách hẳn khỏi panel list */
+:root:not([data-theme="dark"]) #view-library-stage .m-card-base,
+:root:not([data-theme="dark"]) #view-search-results .m-card-base,
+:root:not([data-theme="dark"]) .lib-detail-sheet .m-card-base{
+  background:#FDFCFE; box-shadow:var(--card-shadow), 0 0 0 1px rgba(90,86,120,.06);
+}
+:root:not([data-theme="dark"]) #view-library-stage .neo-raised,
+:root:not([data-theme="dark"]) #view-search-results .neo-raised{ background:#F7F6FB; }
+/* Dòng từ đang chọn: giữ tím nhưng nhạt, không loang cả panel */
+:root:not([data-theme="dark"]) #view-library-stage .vocab-row.row-selected,
+:root:not([data-theme="dark"]) #view-search-results .vocab-row.row-selected{
+  background:rgba(108,99,255,0.09); box-shadow:var(--shadow-sunk);
+}
+:root:not([data-theme="dark"]) #view-library-stage .vocab-row:hover{ background:rgba(108,99,255,0.04); }
+:root:not([data-theme="dark"]) #view-library-stage .sel-bar{
+  background:linear-gradient(90deg, rgba(108,99,255,0.07), rgba(108,99,255,0.01));
+  border-top:1px solid var(--c-d8e0ec);
+}
+:root:not([data-theme="dark"]) #view-library-stage .neo-button,
+:root:not([data-theme="dark"]) #view-library-stage .gup-chip,
+:root:not([data-theme="dark"]) #view-library-stage .bulk-chip,
+:root:not([data-theme="dark"]) #view-library-stage .lrn-pill,
+:root:not([data-theme="dark"]) #view-library-stage .sel-btn,
+:root:not([data-theme="dark"]) #view-library-stage .pg-btn,
+:root:not([data-theme="dark"]) #view-library-stage .filter-dd-trigger,
+:root:not([data-theme="dark"]) #view-library-stage .vr-status-btn,
+:root:not([data-theme="dark"]) #view-library-stage .m-pressed-btn{ color:#5F6480; }
+
+/* ══════════════════════════════════════════════════════════════════════
+   35. HEADER PHẢI CHE HẲN NỘI DUNG CUỘN QUA
+   Header sticky ở top:8px nên vẫn hở 8px phía trên cho nội dung lọt qua.
+   Dải cố định bên dưới bịt đúng khe đó (z thấp hơn header, cao hơn nội dung).
+   ══════════════════════════════════════════════════════════════════════ */
+@media (min-width:768px){
+  body::before{
+    content:''; position:fixed; top:0; left:0; right:0; height:9px;
+    background:var(--bg-color); z-index:29; pointer-events:none;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   36. TRANG CHỦ — LỜI CHÀO TÁCH KHỎI THẺ, HÌNH 3D CÓ CHỖ LƠ LỬNG
+   ══════════════════════════════════════════════════════════════════════ */
+.hm-greet{ padding:2px 4px 0; max-width:min(100%,620px); }
+.hm-greet .hm-hello{ margin-bottom:9px; }
+
+.hm-hero{
+  position:relative; margin-top:110px;
+  background:linear-gradient(135deg,#EFEAFF 0%, #F5F2FF 45%, #E9F0FF 100%);
+  border:1.5px solid var(--clay-line); border-radius:28px;
+  padding:134px 30px 26px;
+  overflow:visible;
+}
+.hm-hero-img{
+  position:absolute; right:34px; top:-188px; width:280px;
+  height:auto; max-height:none; object-fit:contain;
+  z-index:2; pointer-events:none;
+  filter:drop-shadow(0 22px 30px rgba(80,60,160,.20));
+}
+.hm-stats{ margin-top:0; grid-template-columns:repeat(3,1fr); gap:14px; }
+
+@media (max-width:1240px){
+  .hm-hero{ margin-top:96px; padding-top:118px; }
+  .hm-hero-img{ width:250px; right:20px; top:-166px; }
+}
+@media (max-width:1023px){
+  .hm-hero{ margin-top:78px; padding-top:96px; }
+  .hm-hero-img{ width:210px; right:12px; top:-138px; }
+}
+@media (max-width:860px){
+  .hm-hero{ margin-top:16px; padding:22px 18px; }
+  .hm-hero-img{ display:none; }
+  .hm-stats{ margin-top:0; }
+}
+
     </style>
 </head>
 <body class="font-sans antialiased text-[color:var(--c-3d3d4e)] px-3 sm:px-5 lg:px-8 pb-3 sm:pb-5 lg:pb-8 pt-1 sm:pt-2 min-h-screen">
@@ -2563,11 +2686,12 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 
                 <!-- SECTION 1: HỘP CHÀO HỎI — bao luôn 3 thẻ thống kê bên trong -->
                 <section class="mb-7">
+                    <!-- Lời chào tách RIÊNG khỏi thẻ để hình 3D có chỗ lơ lửng, không bị header che -->
+                    <div class="hm-greet">
+                        <p class="hm-hello" id="home-hello-name">Chào bạn! 👋</p>
+                        <p class="hm-hello-sub" id="home-hello-sub">Hôm nay bạn đã tiến xa hơn một chút rồi đó! ✨</p>
+                    </div>
                     <div class="hm-hero">
-                        <div class="hm-hero-txt">
-                            <p class="hm-hello" id="home-hello-name">Chào bạn! 👋</p>
-                            <p class="hm-hello-sub" id="home-hello-sub">Hôm nay bạn đã tiến xa hơn một chút rồi đó! ✨</p>
-                        </div>
                         <img src="assets/dashboard-hero.png" alt="" class="hm-hero-img" onerror="this.style.display='none'">
                         <div class="hm-stats" id="home-status-cards"></div>
                     </div>
