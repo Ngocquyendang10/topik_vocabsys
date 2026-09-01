@@ -1439,20 +1439,17 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 :root:not([data-theme="dark"]) .mini-card-3d,
 :root:not([data-theme="dark"]) .rd-card,
 :root:not([data-theme="dark"]) .rd-card-sm,
-:root:not([data-theme="dark"]) .donut-card,
 :root:not([data-theme="dark"]) .topic-card,
 :root:not([data-theme="dark"]) .filter-dd-panel,
 :root:not([data-theme="dark"]) .bookmark-popup,
-:root:not([data-theme="dark"]) .lib-detail-sheet,
-:root:not([data-theme="dark"]) .journey-wrap{
+:root:not([data-theme="dark"]) .lib-detail-sheet{
   background: var(--clay-surface);
   border: 1px solid var(--clay-line);
   box-shadow: none;
 }
 :root:not([data-theme="dark"]) .neo-raised,
 :root:not([data-theme="dark"]) .rd-card,
-:root:not([data-theme="dark"]) .journey-wrap,
-:root:not([data-theme="dark"]) .donut-card{ border-radius: 24px; }
+:root:not([data-theme="dark"]) .rd-card{ border-radius: 24px; }
 :root:not([data-theme="dark"]) .m-card-base,
 :root:not([data-theme="dark"]) .mini-card-3d,
 :root:not([data-theme="dark"]) .rd-card-sm,
@@ -1468,8 +1465,6 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
   border-color: rgba(108,99,255,.34);
 }
 :root:not([data-theme="dark"]) .topic-card:hover,
-:root:not([data-theme="dark"]) .journey-nb-card:hover,
-:root:not([data-theme="dark"]) .journey-stat-card.is-clickable:hover,
 :root:not([data-theme="dark"]) .quick-quiz-card:hover{ transform: translateY(-2px); }
 
 /* Vùng "lõm" (ô tìm kiếm, thanh nền) → phẳng, nền pastel nhạt */
@@ -1483,15 +1478,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
   background: #F7F5FD; box-shadow: none; border: 1px solid var(--clay-line);
 }
 
-/* Thẻ "kính mờ" của Trang chủ → phẳng theo hệ mới */
-:root:not([data-theme="dark"]) .glass-card,
-:root:not([data-theme="dark"]) .journey-stat-card,
-:root:not([data-theme="dark"]) .journey-nb-card{
-  background: var(--clay-surface);
-  backdrop-filter: none; -webkit-backdrop-filter: none;
-  border: 1px solid var(--clay-line);
-  box-shadow: none;
-}
+/* Dashboard "Hoạt động của bạn" giữ NGUYÊN phong cách Glassmorphism — xem mục 30. */
 
 /* ─── 5. ĐẤT SÉT CHO CÁC PHẦN TỬ BẤM ĐƯỢC ───────────────────────────── */
 :root:not([data-theme="dark"]) .neo-button,
@@ -1556,7 +1543,6 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 .tq-chip.sel,
 .tq-w.inslot,
 .tq-obtn.primary,
-.period-pill.period-active,
 .gb-violet{
   background: var(--clay-indigo) !important;
   color: #FFFFFF !important;
@@ -2189,6 +2175,247 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 }
 /* Thanh tiến độ mảnh trong thẻ quiz */
 :root:not([data-theme="dark"]) .qn-card .h-full[style*="linear-gradient(90deg,#a5b4fc"]{ background:var(--clay-indigo) !important; }
+
+/* ══════════════════════════════════════════════════════════════════════
+   30. DASHBOARD "HOẠT ĐỘNG CỦA BẠN" — TRẢ LẠI GLASSMORPHISM
+   Màn hình này đã chốt thiết kế riêng, KHÔNG áp hệ Clay + Flat lên.
+   Khối token bên dưới trả lại đúng các giá trị gốc trong phạm vi view,
+   vì hệ Clay đã đặt 5 token bóng = transparent ở :root.
+   ══════════════════════════════════════════════════════════════════════ */
+:root:not([data-theme="dark"]) #view-activity-dashboard{
+  --c-ffffff:#ffffff;
+  --c-bec8e4:#bec8e4;
+  --c-c4ccd9:#c4ccd9;
+  --c-d0d4de:#d0d4de;
+  --c-d7dae4:#d7dae4;
+  --c-f0f2f7:#f0f2f7;
+  --c-f5f7fb:#f5f7fb;
+  --c-1e1b4b:#1e1b4b;
+  --c-3730a3:#3730a3;
+  --c-6b6f8a:#6b6f8a;
+  --c-9096a8:#9096a8;
+  --c-374151:#374151;
+  --c-6b7280:#6b7280;
+}
+/* Chặn mọi rule Clay ở trên tràn vào dashboard */
+:root:not([data-theme="dark"]) #view-activity-dashboard .glass-card{
+  background:rgba(255,255,255,0.2) !important;
+  backdrop-filter:blur(11.5px) !important; -webkit-backdrop-filter:blur(11.5px) !important;
+  border:1px solid rgba(255,255,255,0.3) !important;
+  box-shadow:0 4px 30px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.5) !important;
+}
+:root:not([data-theme="dark"]) #view-activity-dashboard .journey-stat-card{
+  background:rgba(255,255,255,0.28) !important;
+  backdrop-filter:blur(14px) !important; -webkit-backdrop-filter:blur(14px) !important;
+  border:1px solid rgba(255,255,255,0.4) !important;
+  box-shadow:0 4px 20px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.5) !important;
+}
+:root:not([data-theme="dark"]) #view-activity-dashboard .journey-nb-card{
+  background:rgba(255,255,255,0.13) !important;
+  backdrop-filter:blur(8px) !important; -webkit-backdrop-filter:blur(8px) !important;
+  border:1px solid rgba(255,255,255,0.3) !important;
+  box-shadow:0 4px 24px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.4) !important;
+}
+:root:not([data-theme="dark"]) #view-activity-dashboard .journey-wrap{
+  background:var(--c-f0f2f7) !important; border:none !important; box-shadow:none !important; border-radius:24px !important;
+}
+:root:not([data-theme="dark"]) #view-activity-dashboard .donut-card{
+  background:var(--c-f5f7fb) !important; border:none !important;
+  box-shadow:8px 8px 20px var(--c-d0d4de),-8px -8px 20px var(--c-ffffff) !important;
+  border-radius:24px !important;
+}
+:root:not([data-theme="dark"]) #view-activity-dashboard .period-pill.period-active{
+  background:linear-gradient(135deg,#7c6ee8,#5b4fcf) !important; color:#fff !important; box-shadow:none !important;
+}
+:root:not([data-theme="dark"]) #view-activity-dashboard .weak-pill{
+  background:rgba(255,255,255,0.65) !important; box-shadow:0 4px 10px rgba(108,99,255,0.1) !important;
+}
+:root:not([data-theme="dark"]) #view-activity-dashboard .neo-button,
+:root:not([data-theme="dark"]) #view-activity-dashboard .neo-raised{
+  background:var(--c-f5f7fb); border:none; box-shadow:6px 6px 14px var(--c-d0d4de),-6px -6px 14px var(--c-ffffff);
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   31. THƯ VIỆN (FULL MASTER + FOCUS) — TRẢ LẠI SOFT 3D NEUMORPHISM
+   3 khối: bộ lọc · list từ vựng · card từ vựng chi tiết.
+   Chỉnh màu bóng sang tông tím nhạt cho hợp nền mới, và làm SÁNG hơn bản
+   cũ (bản cũ #bec8e4 hơi tối, nhìn không ra phân cấp).
+   Neumorphism đòi hỏi mặt khối = màu nền cha, nên bề mặt lấy đúng --clay-bg.
+   ══════════════════════════════════════════════════════════════════════ */
+:root:not([data-theme="dark"]) #view-library-stage,
+:root:not([data-theme="dark"]) #view-search-results,
+:root:not([data-theme="dark"]) .lib-detail-sheet{
+  /* Bề mặt: 3 bậc sáng dần để có phân cấp — nền view < panel < card chi tiết */
+  --c-e6ebf3:  #EDEAF9;
+  --c-e1e6ee:  #E6E2F5;
+  --c-e1e5ec:  #E6E2F5;
+  --c-f0f2f7:  #F3F0FC;
+  --c-f5f7fb:  #F7F5FE;
+  --c-f3f5fb:  #F7F5FE;
+  --c-f2f4f9:  #F3F0FC;
+  --c-eef1f7:  #F3F0FC;
+  --c-inputbg: #FFFFFF;
+  /* Bóng: trắng ở trên-trái, tím nhạt ở dưới-phải (nhạt hơn bản cũ 1 bậc) */
+  --c-ffffff:  #FFFFFF;
+  --c-bec8e4:  #D3CBEE;
+  --c-c4ccd9:  #D3CBEE;
+  --c-d0d4de:  #D3CBEE;
+  --c-d7dae4:  #DCD6F2;
+  --c-c0cad8:  #C6BEE4;
+  --c-d8e0ec:  #DCD6F2;
+  --c-d1d9e4:  #DCD6F2;
+  --c-d0d8e8:  #DCD6F2;
+  --c-dde3ed:  #E2DDF3;
+  --c-d7dce6:  #E2DDF3;
+  --light-sh:  rgba(255,255,255,0.92);
+  --dark-sh:   rgba(150,136,200,0.40);
+
+  --shadow-raised: 8px 8px 20px var(--c-bec8e4), -8px -8px 20px #FFFFFF;
+  --shadow-sunk:   inset 6px 6px 14px var(--c-bec8e4), inset -6px -6px 14px #FFFFFF;
+  --shadow-btn:    5px 5px 12px var(--c-bec8e4), -5px -5px 12px #FFFFFF;
+  --card-shadow:   -5px -5px 12px var(--light-sh), 6px 6px 18px var(--dark-sh);
+  --raised-hero:   -6px -6px 14px var(--light-sh), 7px 7px 20px var(--dark-sh);
+  --raised-block:  -3px -3px 7px var(--light-sh), 3px 3px 9px var(--dark-sh);
+  --pressed-block: inset -3px -3px 7px var(--light-sh), inset 3px 3px 9px var(--dark-sh);
+  --pressed-btn:   inset -2px -2px 5px var(--light-sh), inset 2px 2px 6px var(--dark-sh);
+  --ui-hair:       rgba(108,99,255,0.13);
+}
+
+/* Gỡ lớp "phẳng" mà hệ Clay đã đắp lên, trả về nổi khối */
+:root:not([data-theme="dark"]) #view-library-stage .neo-raised,
+:root:not([data-theme="dark"]) #view-search-results .neo-raised,
+:root:not([data-theme="dark"]) .lib-detail-sheet .neo-raised{
+  background:var(--c-e6ebf3); border:none; box-shadow:var(--shadow-raised); border-radius:28px;
+}
+:root:not([data-theme="dark"]) #view-library-stage .m-card-base,
+:root:not([data-theme="dark"]) #view-search-results .m-card-base,
+:root:not([data-theme="dark"]) .lib-detail-sheet .m-card-base{
+  /* Card chi tiết SÁNG hơn panel list 1 bậc → tách bậc thị giác rõ */
+  background:var(--c-f5f7fb); border:none; box-shadow:var(--card-shadow); border-radius:22px;
+}
+:root:not([data-theme="dark"]) #view-library-stage .m-zone-a,
+:root:not([data-theme="dark"]) .lib-detail-sheet .m-zone-a{
+  background:var(--c-f5f7fb); border:none; box-shadow:var(--raised-hero);
+}
+:root:not([data-theme="dark"]) #view-library-stage .m-raised-block,
+:root:not([data-theme="dark"]) .lib-detail-sheet .m-raised-block{
+  background:var(--c-e6ebf3); border:none; box-shadow:var(--raised-block);
+}
+:root:not([data-theme="dark"]) #view-library-stage .m-pressed-block,
+:root:not([data-theme="dark"]) .lib-detail-sheet .m-pressed-block{
+  background:var(--c-e6ebf3); border:none; box-shadow:var(--pressed-block);
+}
+:root:not([data-theme="dark"]) #view-library-stage .neo-sunk,
+:root:not([data-theme="dark"]) #view-search-results .neo-sunk,
+:root:not([data-theme="dark"]) .lib-detail-sheet .neo-sunk{
+  background:var(--c-e6ebf3); border:none; box-shadow:var(--shadow-sunk);
+}
+:root:not([data-theme="dark"]) #view-library-stage .mini-card-3d,
+:root:not([data-theme="dark"]) #view-search-results .mini-card-3d{
+  background:var(--c-e6ebf3); border:none; box-shadow:var(--shadow-raised);
+}
+:root:not([data-theme="dark"]) .lib-detail-sheet{
+  background:var(--c-e6ebf3); border:none; box-shadow:0 -12px 40px rgba(80,60,160,.22);
+}
+
+/* Nút / chip trong thư viện: nổi mềm thay vì đất sét */
+:root:not([data-theme="dark"]) #view-library-stage .neo-button,
+:root:not([data-theme="dark"]) #view-library-stage .gup-chip,
+:root:not([data-theme="dark"]) #view-library-stage .bulk-chip,
+:root:not([data-theme="dark"]) #view-library-stage .lrn-pill,
+:root:not([data-theme="dark"]) #view-library-stage .sel-btn,
+:root:not([data-theme="dark"]) #view-library-stage .pg-btn,
+:root:not([data-theme="dark"]) #view-library-stage .filter-dd-trigger,
+:root:not([data-theme="dark"]) #view-library-stage .vr-status-btn,
+:root:not([data-theme="dark"]) #view-library-stage .ex-mini-btn,
+:root:not([data-theme="dark"]) #view-library-stage .ex-audio-control,
+:root:not([data-theme="dark"]) #view-library-stage .m-pressed-btn,
+:root:not([data-theme="dark"]) #view-search-results .neo-button,
+:root:not([data-theme="dark"]) #view-search-results .m-pressed-btn,
+:root:not([data-theme="dark"]) .lib-detail-sheet .ex-mini-btn,
+:root:not([data-theme="dark"]) .lib-detail-sheet .ex-audio-control,
+:root:not([data-theme="dark"]) .lib-detail-sheet .m-pressed-btn,
+:root:not([data-theme="dark"]) .lib-detail-close{
+  background:var(--c-e6ebf3); border:none; box-shadow:var(--shadow-btn); color:var(--c-6b7a99);
+}
+:root:not([data-theme="dark"]) #view-library-stage .gup-chip.gup-active,
+:root:not([data-theme="dark"]) #view-library-stage .lrn-pill.lrn-on,
+:root:not([data-theme="dark"]) #view-library-stage .bulk-chip.bulk-chip-active,
+:root:not([data-theme="dark"]) #view-library-stage .pg-btn.pg-active,
+:root:not([data-theme="dark"]) #view-library-stage .filter-dd-trigger.dd-open,
+:root:not([data-theme="dark"]) #view-library-stage .filter-dd-trigger.dd-has-selection,
+:root:not([data-theme="dark"]) #view-library-stage .vr-status-btn.vr-active{
+  background:var(--c-e6ebf3); box-shadow:var(--shadow-sunk); color:#5B4FCF; border-color:transparent;
+}
+:root:not([data-theme="dark"]) #view-library-stage .filter-dd-panel,
+:root:not([data-theme="dark"]) #view-library-stage .bookmark-popup{
+  background:var(--c-e6ebf3); border:none;
+  box-shadow:8px 8px 22px var(--c-bec8e4), -6px -6px 16px #FFFFFF;
+}
+/* Dòng từ đang chọn trong list */
+:root:not([data-theme="dark"]) #view-library-stage .vocab-row.row-selected,
+:root:not([data-theme="dark"]) #view-search-results .vocab-row.row-selected{
+  background:linear-gradient(135deg, rgba(108,99,255,0.13), rgba(108,99,255,0.05));
+  box-shadow:var(--shadow-sunk);
+}
+:root:not([data-theme="dark"]) #view-library-stage .vocab-row:hover{ background:rgba(108,99,255,0.05); }
+:root:not([data-theme="dark"]) #view-library-stage .sel-bar{
+  background:linear-gradient(90deg, rgba(108,99,255,0.10), rgba(108,99,255,0.02));
+  border-top:1.5px solid var(--c-d8e0ec);
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   32. VIỀN THẺ — bỏ xám, đổi sang tím nhạt cho hợp concept
+   Xám trung tính lạc hẳn khỏi bảng màu tím pastel của web.
+   ══════════════════════════════════════════════════════════════════════ */
+:root:not([data-theme="dark"]){
+  --clay-line: rgba(112, 96, 200, .20);
+  --ui-hair:   rgba(112, 96, 200, .18);
+}
+:root:not([data-theme="dark"]) .rd-card,
+:root:not([data-theme="dark"]) .rd-card-sm,
+:root:not([data-theme="dark"]) .m-card-base,
+:root:not([data-theme="dark"]) .neo-raised,
+:root:not([data-theme="dark"]) .mini-card-3d,
+:root:not([data-theme="dark"]) .topic-card,
+:root:not([data-theme="dark"]) .nbs-panel,
+:root:not([data-theme="dark"]) .nbq-wrap,
+:root:not([data-theme="dark"]) .hm-nb,
+:root:not([data-theme="dark"]) .hm-hero,
+:root:not([data-theme="dark"]) .hm-stat-card,
+:root:not([data-theme="dark"]) .qn-card,
+:root:not([data-theme="dark"]) .qn-feature,
+:root:not([data-theme="dark"]) .lesson-card{ border-color: var(--clay-line) !important; }
+:root:not([data-theme="dark"]) .lesson-card{ border-color: rgba(112,96,200,.28) !important; }
+:root:not([data-theme="dark"]) .neo-sunk{ border-color: var(--clay-line); }
+:root:not([data-theme="dark"]) .nbq-bar{ border-color: var(--clay-line); }
+:root:not([data-theme="dark"]) .nbs-sum{ background: var(--clay-line); border-bottom-color: var(--clay-line); }
+:root:not([data-theme="dark"]) .nbs-row{ border-bottom-color: var(--clay-line); }
+:root:not([data-theme="dark"]) .home-sec-head{ border-bottom-color: var(--clay-line); }
+:root:not([data-theme="dark"]) .ui-thead th{ border-bottom-color: var(--ui-hair); }
+
+/* ── 33. HÌNH 3D TRANG CHỦ: to & lơ lửng vượt khỏi mép thẻ ───────────── */
+.hm-hero{ overflow: visible; }
+.hm-hero-img{
+  position:absolute; right:30px; top:-56px; width:320px;
+  height:auto; max-height:none; object-fit:contain;
+  z-index:2; pointer-events:none;
+  filter: drop-shadow(0 22px 30px rgba(80,60,160,.20));
+}
+/* Chừa đủ chỗ để hình 3D không đè lên 3 thẻ thống kê */
+.hm-stats{ margin-top:184px; }
+@media (max-width:1240px){
+  .hm-hero-img{ width:270px; right:16px; top:-46px; }
+  .hm-stats{ margin-top:150px; }
+}
+@media (max-width:1100px){
+  .hm-hero-img{ width:220px; right:10px; top:-38px; }
+  .hm-stats{ margin-top:120px; }
+}
+@media (max-width:860px){
+  .hm-hero-img{ display:none; }
+  .hm-stats{ margin-top:24px; }
+}
 
     </style>
 </head>
