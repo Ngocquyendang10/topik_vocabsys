@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Chặn trình duyệt (nhất là app lưu ra màn hình chính của Safari) giữ mãi bản HTML cũ.
+         Meta này chỉ là gợi ý; cơ chế chắc chắn là checkForAppUpdate() ở cuối file. -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Ngoc Quyen's Classroom</title>
     <!-- Đặt theme SỚM (trước khi render) để không bị nháy sáng khi đang ở dark mode -->
     <script>(function(){try{if(localStorage.getItem('vocabapp_theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
@@ -280,8 +285,132 @@
         /* ============================================================ */
         /* PHẢN HỒI ĐÚNG/SAI CHO CÁC CHẾ ĐỘ ÔN TẬP (Trắc nghiệm/Nghe...) */
         /* ============================================================ */
+
+        /* ============================================================
+           LỚP PHÂN CẤP THỊ GIÁC (ui-*)
+           Giao diện neumorphism vốn cùng một tông nên dễ bị "trơn tuột",
+           không phân biệt được đâu là tiêu đề trang / tiêu đề mục / mô tả.
+           Khối này định nghĩa sẵn 4 bậc chữ + mẫu "đầu panel" (ô icon +
+           tiêu đề + mô tả + nút hành động + gạch chân mảnh) để dùng lại.
+           Chỉ dùng token màu có sẵn -> tự chạy đúng ở cả nền sáng và tối.
+           ============================================================ */
+        :root { --ui-hair: rgba(30,42,74,0.11); --ui-accent: #6C63FF; }
+        :root[data-theme="dark"] { --ui-hair: rgba(255,255,255,0.12); }
+
+        /* Bậc 0 — nhãn nhỏ phía trên tiêu đề trang */
+        .ui-eyebrow { font-size:10.5px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--c-9aa4b8); line-height:1.2; }
+        /* Bậc 1 — tiêu đề trang */
+        .ui-h1 { font-size:21px; line-height:1.18; font-weight:800; letter-spacing:-.015em; color:var(--c-1a1a24); }
+        @media (min-width:640px) { .ui-h1 { font-size:25px; } }
+        /* Bậc 2 — tiêu đề panel / mục */
+        .ui-h3 { font-size:15px; line-height:1.3; font-weight:800; color:var(--c-1a1a24); }
+        /* Bậc 3 — mô tả phụ */
+        .ui-sub { font-size:12px; line-height:1.45; font-weight:600; color:var(--c-9aa4b8); }
+        /* Nhãn chỉ mục nhỏ (đầu cột bảng, tên nhóm) */
+        .ui-cap { font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--c-9aa4b8); }
+
+        /* Đầu panel dùng chung cho các tab luyện tập */
+        .ui-phead { display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; width:100%; padding-bottom:14px; border-bottom:1.5px solid var(--ui-hair); }
+        .ui-phead-l { display:flex; align-items:center; gap:12px; min-width:0; }
+        .ui-phead-r { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+        .ui-ptile { width:44px; height:44px; border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:20px; line-height:1; flex:0 0 auto; background:var(--c-e6ebf3); box-shadow:var(--shadow-btn); }
+
+        /* Đường kẻ mảnh phân tách đầu bảng với phần thân */
+        .ui-thead th { border-bottom:1.5px solid var(--ui-hair); }
+
+        /* ---------- TAB CHÍNH của màn hình luyện tập ----------
+           Trước đây tab đang chọn chỉ khác tab thường ở chút bóng nổi nên gần như
+           không nhận ra; giờ tab đang chọn tô đặc màu điểm nhấn. */
+        .ptab { display:flex; align-items:center; justify-content:center; gap:7px; padding:11px 14px; border:none; border-radius:14px; font-family:inherit; font-size:13px; font-weight:800; white-space:nowrap; cursor:pointer; outline:none; background:transparent; color:var(--c-9aa4b8); transition:all .18s ease; }
+        .ptab:hover { color:var(--c-516079); }
+        .ptab-ico { font-size:15px; line-height:1; filter:grayscale(1); opacity:.55; transition:all .18s ease; }
+        .ptab.is-active { background:var(--ui-accent); color:#fff; box-shadow:0 6px 16px rgba(108,99,255,.34); }
+        .ptab.is-active .ptab-ico { filter:none; opacity:1; }
+
+        /* ---------- TAB CON (4 dạng luyện trong tab Quiz) ----------
+           Cố ý nhẹ hơn tab cha một bậc: viền + chữ màu điểm nhấn thay vì tô đặc. */
+        .psub-lead { font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--c-9aa4b8); margin-bottom:7px; padding-left:2px; }
+        .psub-row { display:flex; gap:8px; flex-wrap:wrap; }
+        .psub { display:inline-flex; align-items:center; gap:6px; padding:8px 14px; border:1.5px solid transparent; border-radius:999px; font-family:inherit; font-size:12.5px; font-weight:800; white-space:nowrap; cursor:pointer; outline:none; background:var(--c-e6ebf3); box-shadow:var(--shadow-btn); color:var(--c-9aa4b8); transition:all .18s ease; }
+        .psub:hover { color:var(--c-516079); }
+        .psub-ico { font-size:13.5px; line-height:1; filter:grayscale(1); opacity:.55; transition:all .18s ease; }
+        .psub.is-active { color:var(--ui-accent); border-color:rgba(108,99,255,.5); box-shadow:var(--shadow-sunk); }
+        .psub.is-active .psub-ico { filter:none; opacity:1; }
+
+        @media (max-width:640px) {
+            .psub-row { flex-wrap:nowrap; overflow-x:auto; padding:2px 2px 6px; margin:-2px -2px -6px; }
+            .psub { flex:0 0 auto; }
+            .ui-ptile { width:38px; height:38px; border-radius:13px; font-size:17px; }
+            .ptab { padding:10px 10px; font-size:12px; }
+        }
+
+        @media (max-width: 767px) {
+            input, textarea, select,
+            input[type="text"], input[type="search"], input[type="password"], input[type="number"],
+            .typing-input { font-size: 16px !important; }
+        }
+
         .quiz-correct { box-shadow: var(--shadow-sunk) !important; color: #1a8a45 !important; background: var(--c-dff5e8) !important; }
         .quiz-wrong { box-shadow: var(--shadow-sunk) !important; color: #b81a1a !important; background: var(--c-ffeaea) !important; }
+
+        /* ============================================================
+           TRẮC NGHIỆM NÂNG CAO (12 dạng câu hỏi) — dùng lại token màu
+           --c-* nên tự chạy đúng ở cả sáng lẫn tối, không cần khai báo riêng.
+           ============================================================ */
+        .tq-bar { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:8px; width:100%; max-width:34rem; }
+        .tq-bar-lead { font-size:11px; font-weight:800; color:var(--c-9aa4b8); white-space:nowrap; }
+        .tq-pills { display:inline-flex; gap:4px; padding:4px; border-radius:999px; background:var(--c-e6ebf3); box-shadow:var(--shadow-sunk); }
+        .tq-pill { border:none; background:transparent; font-family:inherit; font-size:11.5px; font-weight:800; color:var(--c-9aa4b8); padding:6px 14px; border-radius:999px; cursor:pointer; outline:none; white-space:nowrap; transition:all .18s ease; }
+        .tq-pill:hover { color:#6C63FF; }
+        .tq-pill.active { background:#6C63FF; color:#fff; box-shadow:0 3px 8px rgba(108,99,255,.3); }
+        .tq-pill.active:hover { color:#fff; }
+        .tq-hard { display:inline-flex; align-items:center; gap:6px; border:none; border-radius:999px; padding:7px 14px; font-family:inherit; font-size:11.5px; font-weight:800; cursor:pointer; outline:none; white-space:nowrap; background:var(--c-e6ebf3); color:var(--c-9aa4b8); box-shadow:var(--shadow-btn); transition:all .18s ease; }
+        .tq-hard-box { width:15px; height:15px; border-radius:5px; background:var(--c-e6ebf3); box-shadow:var(--shadow-sunk); color:transparent; font-size:10px; font-weight:900; display:inline-flex; align-items:center; justify-content:center; line-height:1; }
+        .tq-hard.on { background:#2d3a54; color:#fff; box-shadow:0 3px 8px rgba(45,58,84,.3); }
+        .tq-hard.on .tq-hard-box { background:#fff; color:#2d3a54; box-shadow:none; }
+
+        .tq-badge { display:inline-block; font-size:9.5px; font-weight:800; letter-spacing:.6px; text-transform:uppercase; color:#fff; background:#6C63FF; padding:3px 10px; border-radius:999px; }
+        .tq-badge.hard { background:#FF9F43; }
+
+        .tq-cloze { font-size:16px; font-weight:700; color:var(--c-1e2a4a); text-align:center; line-height:1.65; }
+        .tq-cloze .tq-blank { color:#6C63FF; letter-spacing:1px; }
+        .tq-sub { font-size:13px; font-weight:600; font-style:italic; color:var(--c-9aa4b8); text-align:center; line-height:1.5; }
+
+        /* Ô đáp án chi tiết: chiếm chỗ sẵn (visibility) để chọn xong không bị nhảy giao diện */
+        .tq-reveal { width:100%; max-width:34rem; font-size:13px; font-weight:600; line-height:1.6; text-align:center; color:var(--c-2d3a54); background:var(--c-f0f2f7); box-shadow:var(--shadow-sunk); border-radius:16px; padding:10px 14px; }
+
+        /* Ghép cặp */
+        .tq-match { display:flex; gap:10px; align-items:flex-start; width:100%; }
+        .tq-mcol { flex:1 1 0; min-width:0; display:flex; flex-direction:column; gap:8px; }
+        .tq-mhd { font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.6px; color:var(--c-9aa4b8); text-align:center; }
+        .tq-chip { width:100%; min-height:48px; display:flex; align-items:center; justify-content:center; padding:10px 8px; border:none; border-radius:16px; background:var(--c-e6ebf3); box-shadow:var(--shadow-btn); font-family:inherit; font-size:13.5px; font-weight:700; color:var(--c-2d3a54); cursor:pointer; outline:none; text-align:center; line-height:1.35; word-break:break-word; transition:background .15s, color .15s, box-shadow .15s; }
+        .tq-chip.ko { font-family:'Noto Serif KR', serif; font-size:15px; }
+        .tq-chip.sel { background:#6C63FF; color:#fff; box-shadow:0 3px 10px rgba(108,99,255,.32); }
+        .tq-chip.done { background:var(--c-dff5e8); color:#1a8a45; box-shadow:var(--shadow-sunk); cursor:default; opacity:.75; }
+        .tq-chip.bad { background:var(--c-ffeaea); color:#b81a1a; animation:tqShake .3s; }
+        @keyframes tqShake { 25%{transform:translateX(-5px);} 75%{transform:translateX(5px);} }
+
+        /* Sắp xếp câu */
+        .tq-slot { min-height:58px; display:flex; flex-wrap:wrap; gap:8px; align-content:flex-start; padding:12px; border-radius:20px; background:var(--c-e6ebf3); box-shadow:var(--shadow-sunk); }
+        .tq-slot.empty { align-items:center; justify-content:center; font-size:12.5px; font-weight:600; color:var(--c-b0bad0); }
+        .tq-pool { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; min-height:40px; }
+        .tq-w { padding:9px 15px; border:none; border-radius:14px; background:var(--c-e6ebf3); box-shadow:var(--shadow-btn); font-family:'Noto Serif KR', serif; font-size:15px; font-weight:700; color:var(--c-2d3a54); cursor:pointer; outline:none; transition:opacity .15s, background .15s; }
+        .tq-w.vi { font-family:inherit; font-size:14px; }
+        .tq-w.used { opacity:.22; pointer-events:none; }
+        .tq-w.inslot { background:#6C63FF; color:#fff; box-shadow:0 3px 8px rgba(108,99,255,.26); }
+        .tq-oact { display:flex; gap:10px; justify-content:center; align-items:center; flex-wrap:wrap; }
+        .tq-obtn { display:inline-flex; align-items:center; gap:6px; border:none; border-radius:999px; padding:9px 18px; font-family:inherit; font-size:12.5px; font-weight:800; cursor:pointer; outline:none; background:var(--c-e6ebf3); color:var(--c-9aa4b8); box-shadow:var(--shadow-btn); transition:all .15s; }
+        .tq-obtn.primary { background:#6C63FF; color:#fff; box-shadow:0 4px 12px rgba(108,99,255,.28); }
+        .tq-obtn:disabled { opacity:.45; cursor:default; }
+        .tq-obtn.is-on { color:#c98a00; }
+        .tq-hint { font-size:13px; font-weight:600; color:var(--c-2d3a54); background:var(--c-f0f2f7); border:1px dashed #FF9F43; border-radius:14px; padding:10px 14px; text-align:center; line-height:1.55; }
+
+        @media (max-width: 640px) {
+            .tq-chip { min-height:44px; font-size:12.5px; }
+            .tq-chip.ko { font-size:14px; }
+            .tq-cloze { font-size:15px; }
+            .tq-pill { padding:6px 11px; font-size:11px; }
+        }
 
         /* ============================================================ */
         /* SIDEBAR TRÁI — item dạng pill với icon-box, theo mẫu tham khảo */
@@ -1137,6 +1266,930 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 .topic-doc .rl-answer{margin:.55rem 0 0;padding:.5rem .7rem;border-left:3px solid #219F5E;
   background:rgba(47,138,91,.1);font-size:.92rem;color:var(--ink);line-height:1.7;}
 
+/* ══════════════════════════════════════════════════════════════════════
+   HỆ THIẾT KẾ "CLAY + FLAT"  (2026-09-02)
+   Nguyên tắc: PHẲNG cho thông tin — ĐẤT SÉT cho hành động.
+     · Phẳng   = khối chứa nội dung (thẻ, bảng, panel): nền đặc, bo 20px,
+                 viền 1px, KHÔNG bóng đổ.
+     · Đất sét = thứ bấm được (nút, chip, ô icon, mục menu đang chọn):
+                 nguồn sáng ở DƯỚI-PHẢI, tối ở TRÊN-TRÁI.
+   Khối này đặt CUỐI <style> nên đè lên mọi khai báo phía trên.
+   FONT giữ nguyên như bản cũ (Plus Jakarta Sans / Nunito / Noto Serif KR).
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ─── 1. TOKEN MÀU ───────────────────────────────────────────────────── */
+:root{
+  --clay-bg:        #EFECFA;
+  --clay-surface:   #FFFFFF;
+  --clay-ink:       #201D3B;
+  --clay-body:      #55536F;
+  --clay-tertiary:  #8A87A6;
+  --clay-line:      rgba(32,29,59,.10);
+
+  --clay-indigo:    #6C63FF;
+  --clay-mint:      #22B98A;
+  --clay-peach:     #FF7A70;
+  --clay-amber:     #FFA82E;
+  --clay-pink:      #FF7FB3;
+  --clay-sky:       #58AEEF;
+
+  /* Nền pastel "dễ thương" cho thẻ phân loại / chip / vùng nhấn */
+  --clay-p-indigo:  #EAE5FF;
+  --clay-p-mint:    #D3F5E5;
+  --clay-p-peach:   #FFE0D8;
+  --clay-p-pink:    #FFE1EE;
+  --clay-p-lemon:   #FFF1CC;
+  --clay-p-sky:     #DDEDFF;
+  --clay-p-lilac:   #F4E5FF;
+
+  /* Màu CHỮ tương ứng để đặt trên nền pastel (đủ tương phản) */
+  --clay-i-indigo:  #5B4FCF;
+  --clay-i-mint:    #0E9270;
+  --clay-i-peach:   #DE5647;
+  --clay-i-pink:    #CE3D80;
+  --clay-i-lemon:   #A97407;
+  --clay-i-sky:     #2A79C2;
+
+  /* Bề mặt nút đất sét (sáng) — hơi ngả tím để inset trắng đọc được */
+  --clay-btn-face:  #F1EFFA;
+}
+
+/* ─── 2. GẮN VÀO HỆ TOKEN --c-* CŨ (chỉ nền SÁNG) ────────────────────
+   Đổi ở đây là toàn bộ 10.000 dòng markup phía dưới đổi theo,
+   không cần sửa từng chỗ. Dark mode giữ nguyên khối cũ.            */
+:root:not([data-theme="dark"]){
+  --bg-color:     var(--clay-bg);
+
+  /* Bề mặt */
+  --c-e6ebf3:     var(--clay-btn-face);
+  --c-e1e6ee:     #EDEAF8;
+  --c-e1e5ec:     #EDEAF8;
+  --c-f0f2f7:     #F7F5FD;
+  --c-f5f7fb:     #FBFAFF;
+  --c-f3f5fb:     #FBFAFF;
+  --c-f2f4f9:     #F7F5FD;
+  --c-eef1f7:     #F7F5FD;
+  --c-e4e6ee:     #EDEAF8;
+  --c-dde3ed:     #EDEAF8;
+  --c-d7dce6:     #E4E0F4;
+  --c-inputbg:    #FFFFFF;
+  --c-ede9fe:     var(--clay-p-indigo);
+  --c-dff5e8:     var(--clay-p-mint);
+  --c-ffeaea:     var(--clay-p-peach);
+
+  /* Đường kẻ */
+  --c-d8e0ec:     #E5E1F3;
+  --c-d1d9e4:     #E5E1F3;
+  --c-d0d8e8:     #E5E1F3;
+  --c-c0cad8:     #CFC9E6;
+  --c-c4c9d4:     #CFC9E6;
+
+  /* Chữ — bậc 1 (tiêu đề) */
+  --c-1a1a24:     var(--clay-ink);
+  --c-1a1520:     var(--clay-ink);
+  --c-1e293b:     var(--clay-ink);
+  --c-1e2a4a:     var(--clay-ink);
+  --c-2d2d3a:     var(--clay-ink);
+  --c-1c1917:     var(--clay-ink);
+  --c-111827:     var(--clay-ink);
+
+  /* Chữ — bậc 2 (thân bài). KHÔNG dùng tím nhạt ở đây. */
+  --c-2d3a54:     var(--clay-body);
+  --c-3d3d4e:     var(--clay-body);
+  --c-374151:     var(--clay-body);
+  --c-475569:     var(--clay-body);
+  --c-516079:     var(--clay-body);
+  --c-4b5563:     var(--clay-body);
+  --c-64748b:     var(--clay-body);
+  --c-6b7280:     var(--clay-body);
+  --c-6b6f8a:     var(--clay-body);
+  --c-6a6a7f:     var(--clay-body);
+  --c-6b7a99:     var(--clay-body);
+  --c-8290aa:     var(--clay-body);
+  --c-7d8aa6:     var(--clay-body);
+  --c-9aa4b8:     var(--clay-body);
+  --c-9096a8:     var(--clay-body);
+  --c-8a94a8:     var(--clay-body);
+  --c-gray400:    var(--clay-body);
+  --c-gray500:    var(--clay-body);
+  --c-gray600:    var(--clay-ink);
+
+  /* Chữ — bậc 3 (placeholder / ghi chú mờ) */
+  --c-94a3b8:     var(--clay-tertiary);
+  --c-9ca3af:     var(--clay-tertiary);
+  --c-9facbd:     var(--clay-tertiary);
+  --c-b0bad0:     var(--clay-tertiary);
+  --c-b0bac7:     var(--clay-tertiary);
+  --c-b8c4d4:     var(--clay-tertiary);
+  --c-b0b4c4:     var(--clay-tertiary);
+  --c-gray300:    var(--clay-tertiary);
+
+  /* Nhấn */
+  --c-rowsel:     var(--clay-i-indigo);
+  --c-3730a3:     var(--clay-i-indigo);
+  --c-5b21b6:     var(--clay-i-indigo);
+  --c-1e1b4b:     var(--clay-i-indigo);
+
+  /* TẮT toàn bộ bóng neumorphism cũ ở nền sáng:
+     4 token này chỉ được dùng làm MÀU BÓNG, không dùng làm nền. */
+  --c-bec8e4:     transparent;
+  --c-c4ccd9:     transparent;
+  --c-d0d4de:     transparent;
+  --c-d7dae4:     transparent;
+  --c-ffffff:     transparent;
+
+  --ui-hair:      var(--clay-line);
+  --ui-accent:    var(--clay-indigo);
+}
+
+/* ─── 3. CÔNG THỨC ĐẤT SÉT ───────────────────────────────────────────
+   Nguồn sáng DƯỚI-PHẢI. Dùng box-shadow (không dùng filter). */
+:root:not([data-theme="dark"]){
+  /* Nút / chip sáng — mặc định cho mọi thứ đang dùng --shadow-btn */
+  --shadow-btn:
+      0 7px 14px rgba(32,26,90,.10),
+      inset 5px 5px 13px #FFFFFF,
+      inset -5px -5px 9px rgba(32,26,90,.13);
+
+  /* Trạng thái "đang chọn / lún xuống" */
+  --shadow-sunk:
+      inset 4px 4px 9px rgba(32,26,90,.13),
+      inset -3px -3px 7px rgba(255,255,255,.85);
+  --pressed-block: var(--shadow-sunk);
+  --pressed-btn:   inset 3px 3px 6px rgba(32,26,90,.12), inset -2px -2px 5px rgba(255,255,255,.85);
+
+  /* Khối chứa nội dung → PHẲNG */
+  --shadow-raised: none;
+  --card-shadow:   none;
+  --raised-hero:   none;
+  --raised-block:  none;
+}
+
+/* Biến thể theo màu: đặt --glow rồi dùng class */
+.clay-md  { box-shadow: 0 5px 23px var(--glow,rgba(108,99,255,.4)), inset  5px  5px  9px rgba(255,255,255,.25), inset -5px -5px 12px rgba(0,0,0,.20); }
+.clay-btn { box-shadow: 0 4px 21px var(--glow,rgba(108,99,255,.4)), inset  4px  4px  9px rgba(255,255,255,.25), inset -4px -4px 11px rgba(0,0,0,.20); }
+.clay-sm  { box-shadow: 0 4px 17px var(--glow,rgba(108,99,255,.4)), inset  4px  4px  7px rgba(255,255,255,.25), inset -4px -4px  9px rgba(0,0,0,.20); }
+.clay-light { background: var(--clay-btn-face); color: var(--clay-ink); box-shadow: var(--shadow-btn); }
+
+/* ─── 4. LỚP PHẲNG DÙNG CHUNG ────────────────────────────────────────── */
+:root:not([data-theme="dark"]) .clay-flat,
+:root:not([data-theme="dark"]) .neo-raised,
+:root:not([data-theme="dark"]) .m-card-base,
+:root:not([data-theme="dark"]) .m-zone-a,
+:root:not([data-theme="dark"]) .mini-card-3d,
+:root:not([data-theme="dark"]) .rd-card,
+:root:not([data-theme="dark"]) .rd-card-sm,
+:root:not([data-theme="dark"]) .donut-card,
+:root:not([data-theme="dark"]) .topic-card,
+:root:not([data-theme="dark"]) .filter-dd-panel,
+:root:not([data-theme="dark"]) .bookmark-popup,
+:root:not([data-theme="dark"]) .lib-detail-sheet,
+:root:not([data-theme="dark"]) .journey-wrap{
+  background: var(--clay-surface);
+  border: 1px solid var(--clay-line);
+  box-shadow: none;
+}
+:root:not([data-theme="dark"]) .neo-raised,
+:root:not([data-theme="dark"]) .rd-card,
+:root:not([data-theme="dark"]) .journey-wrap,
+:root:not([data-theme="dark"]) .donut-card{ border-radius: 24px; }
+:root:not([data-theme="dark"]) .m-card-base,
+:root:not([data-theme="dark"]) .mini-card-3d,
+:root:not([data-theme="dark"]) .rd-card-sm,
+:root:not([data-theme="dark"]) .topic-card,
+:root:not([data-theme="dark"]) .filter-dd-panel,
+:root:not([data-theme="dark"]) .bookmark-popup{ border-radius: 20px; }
+
+/* Thẻ nội dung KHÔNG được nhấc lên/đổ bóng khi hover — chỉ đổi viền cho biết bấm được */
+:root:not([data-theme="dark"]) .rd-hover:hover,
+:root:not([data-theme="dark"]) .rd-hover-sm:hover,
+:root:not([data-theme="dark"]) .qn-feature{
+  box-shadow: none;
+  border-color: rgba(108,99,255,.34);
+}
+:root:not([data-theme="dark"]) .topic-card:hover,
+:root:not([data-theme="dark"]) .journey-nb-card:hover,
+:root:not([data-theme="dark"]) .journey-stat-card.is-clickable:hover,
+:root:not([data-theme="dark"]) .quick-quiz-card:hover{ transform: translateY(-2px); }
+
+/* Vùng "lõm" (ô tìm kiếm, thanh nền) → phẳng, nền pastel nhạt */
+:root:not([data-theme="dark"]) .rd-inset{
+  background: #F4F2FC; box-shadow: none; border: 1px solid var(--clay-line);
+}
+:root:not([data-theme="dark"]) .m-pressed-block,
+:root:not([data-theme="dark"]) .tq-slot,
+:root:not([data-theme="dark"]) .tq-reveal,
+:root:not([data-theme="dark"]) .nb-block{
+  background: #F7F5FD; box-shadow: none; border: 1px solid var(--clay-line);
+}
+
+/* Thẻ "kính mờ" của Trang chủ → phẳng theo hệ mới */
+:root:not([data-theme="dark"]) .glass-card,
+:root:not([data-theme="dark"]) .journey-stat-card,
+:root:not([data-theme="dark"]) .journey-nb-card{
+  background: var(--clay-surface);
+  backdrop-filter: none; -webkit-backdrop-filter: none;
+  border: 1px solid var(--clay-line);
+  box-shadow: none;
+}
+
+/* ─── 5. ĐẤT SÉT CHO CÁC PHẦN TỬ BẤM ĐƯỢC ───────────────────────────── */
+:root:not([data-theme="dark"]) .neo-button,
+:root:not([data-theme="dark"]) .rd-badge,
+:root:not([data-theme="dark"]) .ui-ptile,
+:root:not([data-theme="dark"]) .m-pressed-btn,
+:root:not([data-theme="dark"]) .vr-status-btn,
+:root:not([data-theme="dark"]) .fc-btn,
+:root:not([data-theme="dark"]) .lib-detail-close,
+:root:not([data-theme="dark"]) .ex-mini-btn,
+:root:not([data-theme="dark"]) .ex-audio-control{
+  background: var(--clay-btn-face);
+  box-shadow: var(--shadow-btn);
+  border: none;
+}
+:root:not([data-theme="dark"]) .neo-button{ border-radius: 16px; }
+:root:not([data-theme="dark"]) .ui-ptile,
+:root:not([data-theme="dark"]) .rd-badge{ border-radius: 14px; }
+:root:not([data-theme="dark"]) .fc-btn:active,
+:root:not([data-theme="dark"]) .lib-detail-close:active,
+:root:not([data-theme="dark"]) .neo-button:active{ box-shadow: var(--shadow-sunk); }
+
+/* Nút/chip đang dùng --shadow-btn sẵn (gup-chip, sel-btn, pg-btn, psub,
+   lrn-pill, bulk-chip, tq-chip, tq-w, tq-obtn, tq-hard, nb-cta-sub,
+   filter-dd-trigger…) tự động thành đất sét nhờ token ở mục 3.       */
+:root:not([data-theme="dark"]) .gup-chip,
+:root:not([data-theme="dark"]) .lrn-pill,
+:root:not([data-theme="dark"]) .bulk-chip,
+:root:not([data-theme="dark"]) .sel-btn,
+:root:not([data-theme="dark"]) .pg-btn,
+:root:not([data-theme="dark"]) .psub,
+:root:not([data-theme="dark"]) .tq-chip,
+:root:not([data-theme="dark"]) .tq-w,
+:root:not([data-theme="dark"]) .tq-obtn,
+:root:not([data-theme="dark"]) .tq-hard,
+:root:not([data-theme="dark"]) .nb-cta-sub,
+:root:not([data-theme="dark"]) .filter-dd-trigger{ background: var(--clay-btn-face); border-color: transparent; }
+
+/* Trạng thái ĐANG CHỌN của chip/pill → tô pastel + chữ đậm màu, KHÔNG lún mờ */
+:root:not([data-theme="dark"]) .gup-chip.gup-active,
+:root:not([data-theme="dark"]) .lrn-pill.lrn-on,
+:root:not([data-theme="dark"]) .bulk-chip.bulk-chip-active,
+:root:not([data-theme="dark"]) .pg-btn.pg-active,
+:root:not([data-theme="dark"]) .psub.is-active,
+:root:not([data-theme="dark"]) .filter-dd-trigger.dd-open,
+:root:not([data-theme="dark"]) .filter-dd-trigger.dd-has-selection{
+  background: var(--clay-p-indigo);
+  color: var(--clay-i-indigo);
+  box-shadow: inset 0 0 0 1.5px rgba(108,99,255,.35);
+  border-color: transparent;
+}
+
+/* ─── 6. CÁC NÚT/Ô MÀU ĐẶC → ĐẤT SÉT CÓ MÀU + CHỮ TRẮNG ─────────────── */
+.rd-btn-grad,
+.nb-cta,
+.sel-btn.sel-primary,
+.login-submit-btn,
+.nb-num,
+.sidebar-nav-item[data-active="true"],
+.ptab.is-active,
+.tq-pill.active,
+.tq-chip.sel,
+.tq-w.inslot,
+.tq-obtn.primary,
+.period-pill.period-active,
+.gb-violet{
+  background: var(--clay-indigo) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 21px rgba(108,99,255,.38),
+              inset  4px  4px  9px rgba(255,255,255,.25),
+              inset -4px -4px 11px rgba(0,0,0,.20) !important;
+  border: none;
+}
+.gb-green  { background: var(--clay-mint) !important; box-shadow: 0 4px 21px rgba(34,185,138,.38), inset 4px 4px 9px rgba(255,255,255,.25), inset -4px -4px 11px rgba(0,0,0,.20) !important; }
+.gb-red    { background: var(--clay-peach) !important; box-shadow: 0 4px 21px rgba(255,122,112,.38), inset 4px 4px 9px rgba(255,255,255,.25), inset -4px -4px 11px rgba(0,0,0,.20) !important; }
+.gb-amber  { background: var(--clay-amber) !important; box-shadow: 0 4px 21px rgba(255,168,46,.38), inset 4px 4px 9px rgba(255,255,255,.25), inset -4px -4px 11px rgba(0,0,0,.20) !important; }
+.gb-teal   { background: var(--clay-sky) !important; box-shadow: 0 4px 21px rgba(88,174,239,.38), inset 4px 4px 9px rgba(255,255,255,.25), inset -4px -4px 11px rgba(0,0,0,.20) !important; }
+.tq-hard.on{ background: var(--clay-ink) !important; color:#fff !important; box-shadow: 0 4px 17px rgba(32,29,59,.35), inset 4px 4px 7px rgba(255,255,255,.20), inset -4px -4px 9px rgba(0,0,0,.25) !important; }
+
+.sidebar-nav-item[data-active="true"]{ border-radius: 16px; }
+.ptab.is-active{ border-radius: 14px; }
+.nb-cta:hover:not(:disabled), .rd-btn-grad:hover{ filter: brightness(1.04); }
+
+/* Toggle / checkbox ở trạng thái bật */
+.meaning-toggle-switch.is-on,
+.lib-check.is-on,
+.filter-dd-checkbox.checked,
+.neo-checkbox:checked,
+.toggle-switch input:checked + .slider{ background: var(--clay-indigo) !important; }
+
+/* ─── 7. CHỮ TRẮNG / NÚT TRẮNG TRÊN MỌI NỀN TỐI ─────────────────────────
+   Bất kỳ khối nào mang .on-dark (hoặc là thẻ nền màu đặc) thì các nút bên
+   trong dùng nền TRẮNG chữ tím, không dùng đất sét xám.                */
+.clay-on-dark,
+.on-dark{ color:#FFFFFF; }
+.clay-on-dark .ui-h1, .clay-on-dark .ui-h3, .clay-on-dark .ui-sub,
+.clay-on-dark .ui-eyebrow, .clay-on-dark .ui-cap,
+.on-dark .ui-h1, .on-dark .ui-h3, .on-dark .ui-sub,
+.on-dark .ui-eyebrow, .on-dark .ui-cap{ color:#FFFFFF; }
+.clay-on-dark .ui-sub, .on-dark .ui-sub{ color:rgba(255,255,255,.82); }
+
+/* Nút trắng dùng trên nền tối/màu đặc */
+.clay-btn-white,
+.clay-on-dark .clay-act,
+.on-dark .clay-act{
+  background:#FFFFFF !important;
+  color: var(--clay-i-indigo) !important;
+  border: none !important;
+  box-shadow: 0 6px 16px rgba(0,0,0,.18),
+              inset  4px  4px  9px rgba(255,255,255,.9),
+              inset -4px -4px  9px rgba(32,29,59,.14) !important;
+}
+.clay-btn-white:hover, .clay-on-dark .clay-act:hover, .on-dark .clay-act:hover{ filter:brightness(.98); }
+
+/* Nút nằm trong thẻ nền màu đặc có sẵn của web → ép sang nút trắng */
+:root:not([data-theme="dark"]) .rd-btn-grad .clay-act,
+:root:not([data-theme="dark"]) [data-clay-dark] .neo-button,
+:root:not([data-theme="dark"]) [data-clay-dark] .ex-mini-btn,
+:root:not([data-theme="dark"]) [data-clay-dark] .sel-btn,
+:root:not([data-theme="dark"]) [data-clay-dark] .gup-chip,
+:root:not([data-theme="dark"]) [data-clay-dark] .pg-btn{
+  background:#FFFFFF !important;
+  color: var(--clay-i-indigo) !important;
+  box-shadow: 0 6px 16px rgba(0,0,0,.18),
+              inset  4px  4px  9px rgba(255,255,255,.9),
+              inset -4px -4px  9px rgba(32,29,59,.14) !important;
+}
+[data-clay-dark]{ color:#FFFFFF; }
+[data-clay-dark] .ui-h1, [data-clay-dark] .ui-h3,
+[data-clay-dark] h1, [data-clay-dark] h2, [data-clay-dark] h3{ color:#FFFFFF; }
+[data-clay-dark] .ui-sub, [data-clay-dark] .ui-eyebrow, [data-clay-dark] .ui-cap{ color:rgba(255,255,255,.82); }
+
+/* ─── 8. THẺ PHÂN LOẠI NỀN PASTEL ────────────────────────────────────── */
+.clay-tile-indigo{ background:var(--clay-p-indigo); color:var(--clay-i-indigo); }
+.clay-tile-mint  { background:var(--clay-p-mint);   color:var(--clay-i-mint); }
+.clay-tile-peach { background:var(--clay-p-peach);  color:var(--clay-i-peach); }
+.clay-tile-pink  { background:var(--clay-p-pink);   color:var(--clay-i-pink); }
+.clay-tile-lemon { background:var(--clay-p-lemon);  color:var(--clay-i-lemon); }
+.clay-tile-sky   { background:var(--clay-p-sky);    color:var(--clay-i-sky); }
+.clay-tile-indigo, .clay-tile-mint, .clay-tile-peach,
+.clay-tile-pink, .clay-tile-lemon, .clay-tile-sky{ border-radius:20px; border:1px solid var(--clay-line); box-shadow:none; }
+
+/* ─── 9. TIÊU ĐỀ MỤC: thanh màu 4×15 đứng trước ─────────────────────── */
+:root:not([data-theme="dark"]) .home-sec-title{ font-size:13px; font-weight:800; letter-spacing:.13em; color:var(--clay-ink); }
+:root:not([data-theme="dark"]) .home-sec-title::before{ width:4px; height:15px; border-radius:999px; background:var(--clay-indigo); }
+:root:not([data-theme="dark"]) .home-sec-title.hs-green::before{ background:var(--clay-mint); }
+:root:not([data-theme="dark"]) .home-sec-title.hs-amber::before{ background:var(--clay-amber); }
+:root:not([data-theme="dark"]) .home-sec-head{ border-bottom-color: var(--clay-line); }
+:root:not([data-theme="dark"]) .home-sec-note{ background:var(--clay-p-indigo); color:var(--clay-i-indigo); }
+
+/* ─── 10. TINH CHỈNH TỪNG MÀN HÌNH ──────────────────────────────────── */
+/* Sidebar + header */
+:root:not([data-theme="dark"]) .sidebar-nav-item{ color: var(--clay-body); }
+:root:not([data-theme="dark"]) .sidebar-nav-item:hover:not([data-active="true"]){
+  background: var(--clay-p-indigo); color: var(--clay-i-indigo);
+}
+:root:not([data-theme="dark"]) #sidebar-brand-box{ background:var(--clay-p-indigo); }
+
+/* Tab luyện tập: thanh nền phẳng */
+:root:not([data-theme="dark"]) .ptab{ color: var(--clay-body); }
+:root:not([data-theme="dark"]) .ptab:hover:not(.is-active){ background: var(--clay-p-indigo); color: var(--clay-i-indigo); }
+
+/* Trắc nghiệm nâng cao */
+:root:not([data-theme="dark"]) .tq-pills{ background:#F4F2FC; box-shadow:none; border:1px solid var(--clay-line); }
+:root:not([data-theme="dark"]) .tq-pill{ color: var(--clay-body); }
+:root:not([data-theme="dark"]) .tq-chip.done{ background:var(--clay-p-mint); color:var(--clay-i-mint); box-shadow:none; border:1px solid rgba(14,146,112,.20); }
+:root:not([data-theme="dark"]) .tq-chip.bad{ background:var(--clay-p-peach); color:var(--clay-i-peach); box-shadow:none; }
+:root:not([data-theme="dark"]) .tq-hint{ background:var(--clay-p-lemon); color:var(--clay-i-lemon); border:1px dashed rgba(169,116,7,.45); }
+:root:not([data-theme="dark"]) .tq-badge{ background:var(--clay-indigo); }
+:root:not([data-theme="dark"]) .tq-badge.hard{ background:var(--clay-amber); }
+:root:not([data-theme="dark"]) .tq-cloze .tq-blank{ color:var(--clay-i-indigo); }
+
+/* Đúng / sai */
+:root:not([data-theme="dark"]) .quiz-correct{ background:var(--clay-p-mint) !important; color:var(--clay-i-mint) !important; box-shadow: inset 0 0 0 1.5px rgba(14,146,112,.35) !important; }
+:root:not([data-theme="dark"]) .quiz-wrong  { background:var(--clay-p-peach) !important; color:var(--clay-i-peach) !important; box-shadow: inset 0 0 0 1.5px rgba(222,86,71,.35) !important; }
+:root:not([data-theme="dark"]) .typing-input.typing-row-correct{ border-color:var(--clay-mint); background:var(--clay-p-mint) !important; color:var(--clay-i-mint); }
+:root:not([data-theme="dark"]) .typing-input.typing-row-wrong{ border-color:var(--clay-peach); }
+
+/* Dòng từ vựng trong list */
+:root:not([data-theme="dark"]) .vocab-row:hover{ background: #F5F3FD; }
+:root:not([data-theme="dark"]) .vocab-row.row-selected{
+  background: var(--clay-p-indigo); box-shadow: inset 0 0 0 1.5px rgba(108,99,255,.32);
+}
+:root:not([data-theme="dark"]) .vocab-row.row-picked{ background: var(--clay-p-indigo); box-shadow: inset 0 0 0 1.5px rgba(108,99,255,.32); }
+:root:not([data-theme="dark"]) .search-row-active{ background: var(--clay-p-indigo) !important; }
+:root:not([data-theme="dark"]) .sel-bar{ background: var(--clay-p-indigo); border-top:1px solid var(--clay-line); }
+:root:not([data-theme="dark"]) .lib-check{ background:#fff; border:2px solid var(--c-c0cad8); }
+:root:not([data-theme="dark"]) .lib-check.is-on{ border-color:transparent; }
+
+/* Ô nhập */
+:root:not([data-theme="dark"]) .sel-qty,
+:root:not([data-theme="dark"]) .login-input{ background:#FFFFFF; box-shadow:none; border:1px solid var(--c-c0cad8); border-radius:12px; }
+:root:not([data-theme="dark"]) .neo-sunk input{ color: var(--clay-ink); }
+:root:not([data-theme="dark"]) input::placeholder,
+:root:not([data-theme="dark"]) textarea::placeholder{ color: var(--clay-tertiary); }
+
+/* Flashcard trang chủ */
+:root:not([data-theme="dark"]) .fc-tag-wrong{ background:var(--clay-p-peach); color:var(--clay-i-peach); }
+:root:not([data-theme="dark"]) .fc-tag-saved{ background:var(--clay-p-indigo); color:var(--clay-i-indigo); }
+:root:not([data-theme="dark"]) .fc-answer{ border-left-color: var(--clay-line); }
+:root:not([data-theme="dark"]) .fc-answer.is-open{ border-left-color: var(--clay-indigo); }
+:root:not([data-theme="dark"]) .fc-btn-primary{ color: var(--clay-i-indigo); }
+:root:not([data-theme="dark"]) .fc-btn-primary.is-on{ background:var(--clay-p-indigo); box-shadow: inset 0 0 0 1.5px rgba(108,99,255,.32); }
+
+/* Từ vựng theo chủ đề */
+:root:not([data-theme="dark"]) .topic-chip{ background:var(--clay-p-indigo); color:var(--clay-i-indigo); border:none; }
+:root:not([data-theme="dark"]) .topic-card-title{ color:var(--clay-ink); }
+:root:not([data-theme="dark"]) .topic-card-sub,
+:root:not([data-theme="dark"]) .topic-card-desc{ color:var(--clay-body); }
+
+/* Modal tạo sổ */
+:root:not([data-theme="dark"]) .nb-block-title{ color: var(--clay-ink); }
+:root:not([data-theme="dark"]) .nb-or{ color: var(--clay-tertiary); }
+:root:not([data-theme="dark"]) .nb-selword{ background: var(--clay-p-indigo); box-shadow:none; color: var(--clay-i-indigo); }
+:root:not([data-theme="dark"]) .nb-cta-sub{ color: var(--clay-i-indigo); }
+
+/* Đăng nhập */
+:root:not([data-theme="dark"]) #login-screen{ background: var(--clay-bg) !important; }
+:root:not([data-theme="dark"]) .login-card-shell{ box-shadow: none; border:1px solid var(--clay-line); border-radius:24px; }
+:root:not([data-theme="dark"]) .login-left-panel{ background: var(--clay-p-indigo); }
+:root:not([data-theme="dark"]) .login-left-title{ color: var(--clay-ink); }
+:root:not([data-theme="dark"]) .login-left-sub,
+:root:not([data-theme="dark"]) .login-right-info{ color: var(--clay-body); }
+:root:not([data-theme="dark"]) .login-right-title{ color: var(--clay-ink); }
+:root:not([data-theme="dark"]) .login-submit-btn{ border-radius:16px; }
+
+/* Bo góc theo spec: thẻ 20 · panel 24 · nút 14–16 · chip 999 · ô icon 14 */
+:root:not([data-theme="dark"]) .gup-chip,
+:root:not([data-theme="dark"]) .lrn-pill,
+:root:not([data-theme="dark"]) .bulk-chip,
+:root:not([data-theme="dark"]) .psub,
+:root:not([data-theme="dark"]) .tq-pill,
+:root:not([data-theme="dark"]) .tq-obtn{ border-radius:999px; }
+:root:not([data-theme="dark"]) .sel-btn,
+:root:not([data-theme="dark"]) .pg-btn,
+:root:not([data-theme="dark"]) .nb-cta-sub,
+:root:not([data-theme="dark"]) .filter-dd-trigger{ border-radius:12px; }
+
+/* Bóng đất sét lan rộng dễ bị cắt trong khung cuộn ngang → chừa chỗ */
+:root:not([data-theme="dark"]) .lib-pill-scroll,
+:root:not([data-theme="dark"]) .psub-row{ padding-top:4px; padding-bottom:8px; margin-top:-4px; margin-bottom:-8px; }
+
+/* ─── 11. VÙNG LÕM (.neo-sunk) → panel pastel phẳng ─────────────────────
+   .neo-sunk trong web này là "ô lõm": ô tìm kiếm, dải tab, ô nhập,
+   thanh tiến độ, khung icon nhỏ. Không phải thẻ nội dung → không tô trắng. */
+:root:not([data-theme="dark"]) .neo-sunk{
+  background: #F3F1FC;
+  border: 1px solid var(--clay-line);
+  box-shadow: none;
+}
+:root:not([data-theme="dark"]) .neo-sunk.text-point,
+:root:not([data-theme="dark"]) .neo-sunk[class*="w-6"],
+:root:not([data-theme="dark"]) .neo-sunk[class*="w-11"],
+:root:not([data-theme="dark"]) .neo-sunk[class*="w-14"]{
+  background: var(--clay-p-indigo);
+  border-color: transparent;
+  color: var(--clay-i-indigo);
+}
+/* Ô nhập nằm trong khung lõm → nền trắng cho dễ đọc */
+:root:not([data-theme="dark"]) input.neo-sunk,
+:root:not([data-theme="dark"]) textarea.neo-sunk,
+:root:not([data-theme="dark"]) .typing-input.neo-sunk{
+  background: #FFFFFF !important;
+  border: 1px solid var(--c-c0cad8);
+}
+
+/* ─── 12. NÚT MÀU ĐẶC VIẾT BẰNG TIỆN ÍCH TAILWIND ──────────────────────
+   .neo-button + .text-white / .bg-point vốn là nút chính (nền tím) —
+   không được đắp đất sét sáng lên. */
+:root:not([data-theme="dark"]) .neo-button.text-white,
+:root:not([data-theme="dark"]) .neo-button.bg-point,
+:root:not([data-theme="dark"]) .btn-lc-primary{
+  background: var(--clay-indigo) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 21px rgba(108,99,255,.38),
+              inset  4px  4px  9px rgba(255,255,255,.25),
+              inset -4px -4px 11px rgba(0,0,0,.20) !important;
+  border-radius: 16px;
+}
+:root:not([data-theme="dark"]) .neo-button.text-white:active,
+:root:not([data-theme="dark"]) .neo-button.bg-point:active,
+:root:not([data-theme="dark"]) .btn-lc-primary:active{ transform: scale(.98); }
+
+/* ─── 13. Ô HOẠT ĐỘNG TRONG THẺ SỔ TỪ VỰNG → 5 MÀU PASTEL ────────────── */
+:root:not([data-theme="dark"]) .nb-progress-box > div:nth-child(1) > div[style*="aspect-ratio"]{ background: var(--clay-p-indigo) !important; }
+:root:not([data-theme="dark"]) .nb-progress-box > div:nth-child(2) > div[style*="aspect-ratio"]{ background: var(--clay-p-mint)   !important; }
+:root:not([data-theme="dark"]) .nb-progress-box > div:nth-child(3) > div[style*="aspect-ratio"]{ background: var(--clay-p-lemon)  !important; }
+:root:not([data-theme="dark"]) .nb-progress-box > div:nth-child(4) > div[style*="aspect-ratio"]{ background: var(--clay-p-sky)    !important; }
+:root:not([data-theme="dark"]) .nb-progress-box > div:nth-child(5) > div[style*="aspect-ratio"]{ background: var(--clay-p-pink)   !important; }
+:root:not([data-theme="dark"]) .nb-progress-box > div > div[style*="aspect-ratio"]{ box-shadow: none !important; border-radius: 14px; }
+
+/* ─── 14. TIÊU ĐỀ MỤC Ở CÁC MÀN HÌNH KHÁC (h3 chữ hoa giãn) ──────────── */
+:root:not([data-theme="dark"]) .view-group section h3.tracking-widest{
+  font-size: 12.5px; font-weight: 800; letter-spacing: .13em; color: var(--clay-ink);
+}
+:root:not([data-theme="dark"]) .view-group section h3.tracking-widest svg{ color: var(--clay-indigo); }
+
+/* ─── 15. NÚT TRẮNG TRÊN MỌI MẶT NỀN TỐI / MÀU ĐẶC ─────────────────────
+   Yêu cầu: thẻ nào nền tối thì nút bên trong phải TRẮNG. */
+:root:not([data-theme="dark"]) .topic-card-top .topic-card-tag{
+  background: #FFFFFF; border: none; color: var(--clay-ink);
+  box-shadow: 0 4px 12px rgba(0,0,0,.18);
+}
+/* Ô "đất sét sáng" khi nằm trong khối nền tối → chuyển sang nút trắng */
+:root:not([data-theme="dark"]) [data-clay-dark] .neo-sunk,
+:root:not([data-theme="dark"]) [data-clay-dark] .ui-ptile,
+:root:not([data-theme="dark"]) [data-clay-dark] .lrn-pill,
+:root:not([data-theme="dark"]) [data-clay-dark] .psub,
+:root:not([data-theme="dark"]) [data-clay-dark] .tq-obtn,
+:root:not([data-theme="dark"]) [data-clay-dark] .nb-cta-sub,
+:root:not([data-theme="dark"]) [data-clay-dark] .filter-dd-trigger,
+:root:not([data-theme="dark"]) [data-clay-dark] .vr-status-btn,
+:root:not([data-theme="dark"]) [data-clay-dark] .fc-btn{
+  background:#FFFFFF !important;
+  color: var(--clay-i-indigo) !important;
+  border-color: transparent !important;
+  box-shadow: 0 6px 16px rgba(0,0,0,.18),
+              inset  4px  4px  9px rgba(255,255,255,.9),
+              inset -4px -4px  9px rgba(32,29,59,.14) !important;
+}
+
+/* ─── 16. LỚP PHỦ POPUP + THẺ POPUP ───────────────────────────────────── */
+:root:not([data-theme="dark"]) .lib-detail-sheet{ box-shadow: 0 -12px 40px rgba(32,29,59,.18); }
+
+/* ─── 17. THANH TIẾN ĐỘ ───────────────────────────────────────────────── */
+:root:not([data-theme="dark"]) .neo-sunk.rounded-full{ background:#EAE6F8; }
+
+/* ══════════════════════════════════════════════════════════════════════
+   18. PHÂN CẤP THỊ GIÁC — 3 BẬC NỀN
+   Lỗi bản trước: thẻ TRẮNG mà nút cũng gần trắng → nhìn trôi tuột.
+   Nay tách hẳn 3 bậc:  nền trang (tím nhạt) < thẻ (TRẮNG) < nút (tím nhạt hơn).
+   ══════════════════════════════════════════════════════════════════════ */
+:root{ --clay-btn-face: #EBE7F8; }
+:root:not([data-theme="dark"]){ --clay-line: rgba(32,29,59,.13); }
+
+/* Nút đất sét sáng: viền mảnh + chữ đậm màu → luôn thấy rõ trên nền trắng */
+:root:not([data-theme="dark"]) .neo-button,
+:root:not([data-theme="dark"]) .gup-chip,
+:root:not([data-theme="dark"]) .lrn-pill,
+:root:not([data-theme="dark"]) .bulk-chip,
+:root:not([data-theme="dark"]) .sel-btn,
+:root:not([data-theme="dark"]) .pg-btn,
+:root:not([data-theme="dark"]) .psub,
+:root:not([data-theme="dark"]) .tq-chip,
+:root:not([data-theme="dark"]) .tq-w,
+:root:not([data-theme="dark"]) .tq-obtn,
+:root:not([data-theme="dark"]) .tq-hard,
+:root:not([data-theme="dark"]) .nb-cta-sub,
+:root:not([data-theme="dark"]) .fc-btn,
+:root:not([data-theme="dark"]) .filter-dd-trigger{ color: var(--clay-i-indigo); }
+:root:not([data-theme="dark"]) .tq-chip,
+:root:not([data-theme="dark"]) .tq-w{ color: var(--clay-ink); }
+
+/* ── 19. TRANG CHỦ · HỘP CHÀO HỎI ────────────────────────────────────── */
+.hm-hero{
+  position:relative; overflow:hidden;
+  background:linear-gradient(135deg,#F6F3FF 0%, #FFFFFF 55%, #F3F7FF 100%);
+  border:1px solid var(--clay-line); border-radius:26px;
+  padding:26px 28px 24px;
+}
+.hm-hero-txt{ position:relative; z-index:1; max-width:min(100%,640px); }
+.hm-hello{
+  font-family:'Nunito','Noto Serif KR',sans-serif; font-weight:900;
+  font-size:clamp(48px,3vw,30px); line-height:1.5; letter-spacing:-.5px;
+  color:var(--clay-i-indigo);
+}
+.hm-hello-sub{ margin-top:9px; font-size:13.5px; font-weight:600; color:var(--clay-body); line-height:1.6; }
+.hm-hero-img{ position:absolute; right:26px; top:-14px; width:190px; height:auto; z-index:0; pointer-events:none; }
+.hm-stats{ position:relative; z-index:1; display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:26px; }
+.hm-stat{
+  display:flex; align-items:center; gap:12px; text-align:left; cursor:pointer;
+  border:1px solid transparent; border-radius:18px; padding:13px 14px; width:100%;
+  transition:transform .16s ease, border-color .16s ease;
+}
+.hm-stat:hover{ transform:translateY(-2px); }
+.hm-stat-ico{
+  flex:0 0 auto; width:42px; height:42px; border-radius:14px;
+  display:flex; align-items:center; justify-content:center; font-size:20px; line-height:1;
+}
+.hm-stat-txt{ display:flex; flex-direction:column; min-width:0; }
+.hm-stat-value{ font-family:'Nunito',sans-serif; font-weight:900; font-size:21px; line-height:1.1; letter-spacing:-.5px; white-space:nowrap; }
+.hm-stat-label{ font-size:11.5px; font-weight:700; margin-top:2px; }
+.hm-stat-go{ margin-left:auto; flex:0 0 auto; opacity:.55; }
+.hm-stat-indigo{ background:var(--clay-p-indigo); }
+.hm-stat-indigo .hm-stat-ico{ background:var(--clay-indigo); box-shadow:0 4px 14px rgba(108,99,255,.35); }
+.hm-stat-indigo .hm-stat-value, .hm-stat-indigo .hm-stat-go{ color:var(--clay-i-indigo); }
+.hm-stat-indigo .hm-stat-label{ color:var(--clay-body); }
+.hm-stat-indigo:hover{ border-color:rgba(108,99,255,.4); }
+.hm-stat-mint{ background:var(--clay-p-mint); }
+.hm-stat-mint .hm-stat-ico{ background:var(--clay-mint); box-shadow:0 4px 14px rgba(34,185,138,.35); }
+.hm-stat-mint .hm-stat-value, .hm-stat-mint .hm-stat-go{ color:var(--clay-i-mint); }
+.hm-stat-mint .hm-stat-label{ color:var(--clay-body); }
+.hm-stat-mint:hover{ border-color:rgba(34,185,138,.4); }
+.hm-stat-peach{ background:var(--clay-p-peach); }
+.hm-stat-peach .hm-stat-ico{ background:var(--clay-peach); box-shadow:0 4px 14px rgba(255,122,112,.35); }
+.hm-stat-peach .hm-stat-value, .hm-stat-peach .hm-stat-go{ color:var(--clay-i-peach); }
+.hm-stat-peach .hm-stat-label{ color:var(--clay-body); }
+.hm-stat-peach:hover{ border-color:rgba(255,122,112,.45); }
+
+/* ── 20. TRANG CHỦ · HÀNG "TỪ VỰNG HÔM NAY (1/3) + QUIZ NHANH (2/3)" ── */
+.hm-row{ display:grid; grid-template-columns:1fr; gap:18px; }
+@media (min-width:1024px){ .hm-row{ grid-template-columns:1fr 2fr; gap:22px; } }
+.hm-col-flash, .hm-col-quiz{ min-width:0; display:flex; flex-direction:column; }
+.hm-flash-card{
+  padding:16px 18px; display:flex; flex-direction:column;
+  aspect-ratio:3/2; min-height:210px;
+}
+@media (max-width:1023px){ .hm-flash-card{ aspect-ratio:auto; min-height:auto; } }
+.fc-compact{ display:flex; flex-direction:column; height:100%; min-height:0; }
+.fc-c-top{ display:flex; align-items:flex-start; justify-content:space-between; gap:8px; }
+.fc-c-top .fc-tags{ margin-bottom:0; }
+.fc-ring-sm{ position:relative; top:auto; right:auto; width:34px; height:34px; flex:0 0 auto; }
+.fc-ring-sm .fc-ring-num{ font-size:11px; }
+.fc-word-sm{ font-size:24px !important; margin-top:10px; line-height:1.2; }
+.hm-flash-card .fc-meta{ margin-top:3px; display:block; }
+.hm-flash-card .fc-answer{ margin-top:8px; }
+.hm-flash-card .fc-meaning{ font-size:13px; }
+.hm-flash-card .fc-hint{ font-size:12.5px; }
+.fc-actions-sm{ display:grid !important; grid-template-columns:1fr 1fr; gap:9px; margin-top:auto !important; padding-top:12px; }
+.fc-actions-sm .fc-btn{ padding:9px 8px; font-size:12px; }
+
+.hm-quiz-stack{ display:flex; flex-direction:column; gap:11px; flex:1; }
+.hm-qn{
+  display:flex; align-items:center; gap:14px; text-align:left; cursor:pointer;
+  background:var(--clay-surface); border:1px solid var(--clay-line); border-radius:20px;
+  padding:14px 16px; flex:1; min-height:74px;
+  transition:transform .16s ease, border-color .16s ease;
+}
+.hm-qn:hover{ transform:translateY(-2px); border-color:rgba(108,99,255,.42); }
+.hm-qn-ico{ flex:0 0 auto; width:46px; height:46px; border-radius:15px; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.hm-qn-ico img{ width:100%; height:100%; object-fit:contain; }
+.hm-qn-1 .hm-qn-ico{ background:var(--clay-p-indigo); }
+.hm-qn-2 .hm-qn-ico{ background:var(--clay-p-mint); }
+.hm-qn-3 .hm-qn-ico{ background:var(--clay-p-lemon); }
+.hm-qn-body{ flex:1; min-width:0; display:flex; flex-direction:column; gap:3px; }
+.hm-qn-line{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.hm-qn-title{ font-size:14.5px; font-weight:800; color:var(--clay-ink); letter-spacing:-.2px; }
+.hm-qn-badge{ font-size:10.5px; font-weight:800; padding:2.5px 9px; border-radius:999px; background:var(--clay-p-indigo); color:var(--clay-i-indigo); white-space:nowrap; }
+.hm-qn-badge-solid{ background:var(--clay-indigo); color:#fff; text-transform:uppercase; letter-spacing:.08em; }
+.hm-qn-desc{ font-size:12px; font-weight:600; color:var(--clay-body); line-height:1.45; }
+.hm-qn-count{ font-size:11px; font-weight:800; color:var(--clay-i-indigo); }
+.hm-qn-go{
+  flex:0 0 auto; display:inline-flex; align-items:center; gap:6px;
+  padding:9px 15px; border-radius:14px; font-size:12.5px; font-weight:800;
+  background:var(--clay-indigo); color:#fff;
+  box-shadow:0 4px 18px rgba(108,99,255,.36), inset 3px 3px 8px rgba(255,255,255,.25), inset -3px -3px 9px rgba(0,0,0,.20);
+}
+.hm-qn-arrow{
+  flex:0 0 auto; width:32px; height:32px; border-radius:11px; display:flex; align-items:center; justify-content:center;
+  background:var(--clay-btn-face); color:var(--clay-i-indigo); box-shadow:var(--shadow-btn);
+}
+@media (max-width:520px){
+  .hm-qn-go span, .hm-qn-desc{ font-size:11.5px; }
+  .hm-qn-go{ padding:8px 11px; font-size:11.5px; }
+}
+
+/* ── 21. TRANG CHỦ · LƯỚI SỔ TỪ VỰNG ─────────────────────────────────── */
+.hm-nb-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:13px; }
+.hm-nb{
+  display:flex; flex-direction:column; gap:9px; text-align:left; cursor:pointer;
+  background:var(--clay-surface); border:1px solid var(--clay-line); border-left-width:4px;
+  border-radius:18px; padding:14px 15px;
+  transition:transform .16s ease, border-color .16s ease;
+}
+.hm-nb:hover{ transform:translateY(-2px); }
+.hm-nb-head{ display:flex; align-items:center; gap:8px; min-width:0; }
+.hm-nb-dot{ flex:0 0 auto; width:9px; height:9px; border-radius:50%; }
+.hm-nb-name{ flex:1; min-width:0; font-size:13.5px; font-weight:800; color:var(--clay-ink); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.hm-nb-count{ flex:0 0 auto; font-size:10.5px; font-weight:800; padding:2.5px 8px; border-radius:999px; }
+.hm-nb-bar{ display:block; height:6px; border-radius:999px; background:#EDEAF7; overflow:hidden; }
+.hm-nb-fill{ display:block; height:100%; border-radius:999px; }
+.hm-nb-meta{ font-size:11.5px; font-weight:600; color:var(--clay-body); }
+.hm-nb-indigo{ border-left-color:var(--clay-indigo); }
+.hm-nb-indigo .hm-nb-dot, .hm-nb-indigo .hm-nb-fill{ background:var(--clay-indigo); }
+.hm-nb-indigo .hm-nb-count{ background:var(--clay-p-indigo); color:var(--clay-i-indigo); }
+.hm-nb-indigo:hover{ border-color:var(--clay-indigo); }
+.hm-nb-mint{ border-left-color:var(--clay-mint); }
+.hm-nb-mint .hm-nb-dot, .hm-nb-mint .hm-nb-fill{ background:var(--clay-mint); }
+.hm-nb-mint .hm-nb-count{ background:var(--clay-p-mint); color:var(--clay-i-mint); }
+.hm-nb-mint:hover{ border-color:var(--clay-mint); }
+.hm-nb-lemon{ border-left-color:var(--clay-amber); }
+.hm-nb-lemon .hm-nb-dot, .hm-nb-lemon .hm-nb-fill{ background:var(--clay-amber); }
+.hm-nb-lemon .hm-nb-count{ background:var(--clay-p-lemon); color:var(--clay-i-lemon); }
+.hm-nb-lemon:hover{ border-color:var(--clay-amber); }
+.hm-nb-sky{ border-left-color:var(--clay-sky); }
+.hm-nb-sky .hm-nb-dot, .hm-nb-sky .hm-nb-fill{ background:var(--clay-sky); }
+.hm-nb-sky .hm-nb-count{ background:var(--clay-p-sky); color:var(--clay-i-sky); }
+.hm-nb-sky:hover{ border-color:var(--clay-sky); }
+.hm-nb-pink{ border-left-color:var(--clay-pink); }
+.hm-nb-pink .hm-nb-dot, .hm-nb-pink .hm-nb-fill{ background:var(--clay-pink); }
+.hm-nb-pink .hm-nb-count{ background:var(--clay-p-pink); color:var(--clay-i-pink); }
+.hm-nb-pink:hover{ border-color:var(--clay-pink); }
+.hm-nb-new{
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; cursor:pointer;
+  border:1.5px dashed rgba(108,99,255,.42); border-radius:18px; background:rgba(108,99,255,.045);
+  color:var(--clay-i-indigo); min-height:96px; transition:background .16s ease, border-color .16s ease;
+}
+.hm-nb-new:hover{ background:rgba(108,99,255,.10); border-color:var(--clay-indigo); }
+.hm-nb-new-plus{ font-size:24px; font-weight:800; line-height:1; }
+.hm-nb-new-txt{ font-size:12.5px; font-weight:800; }
+.hm-nb-empty{
+  grid-column:1/-1; background:var(--clay-surface); border:1px solid var(--clay-line);
+  border-radius:18px; padding:22px; text-align:center;
+}
+.hm-nb-empty-title{ font-size:14px; font-weight:800; color:var(--clay-ink); }
+.hm-nb-empty-sub{ font-size:12.5px; font-weight:600; color:var(--clay-body); margin-top:5px; line-height:1.55; }
+
+/* ── 22. TAB SỔ TỪ VỰNG · MỤC 1: THỐNG KÊ HOẠT ĐỘNG ──────────────────── */
+.nbs-panel{ background:var(--clay-surface); border:1px solid var(--clay-line); border-radius:22px; overflow:hidden; }
+.nbs-empty{ padding:26px 18px; text-align:center; font-size:12.5px; font-weight:600; color:var(--clay-body); }
+.nbs-sum{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--clay-line); border-bottom:1px solid var(--clay-line); }
+.nbs-sum-item{ background:#F8F6FE; display:flex; flex-direction:column; align-items:center; gap:3px; padding:14px 8px; }
+.nbs-sum-v{ font-family:'Nunito',sans-serif; font-size:20px; font-weight:900; line-height:1; color:var(--clay-ink); letter-spacing:-.5px; }
+.nbs-sum-l{ font-size:10.5px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--clay-body); }
+.nbs-ok{ color:var(--clay-i-mint) !important; }
+.nbs-bad{ color:var(--clay-i-peach) !important; }
+.nbs-rows{ display:flex; flex-direction:column; }
+.nbs-row{
+  display:grid; align-items:center; gap:10px; width:100%; text-align:left; cursor:pointer;
+  grid-template-columns:88px 168px minmax(0,1fr) 92px 88px 40px;
+  padding:11px 16px; border-bottom:1px solid var(--clay-line); background:transparent;
+  transition:background .13s ease;
+}
+.nbs-row:last-child{ border-bottom:none; }
+.nbs-row:hover{ background:#F7F5FE; }
+.nbs-time{ font-size:11px; font-weight:700; color:var(--clay-tertiary); white-space:nowrap; }
+.nbs-chip{ display:inline-flex; align-items:center; gap:5px; font-size:11.5px; font-weight:800; padding:5px 11px; border-radius:999px; white-space:nowrap; justify-self:start; }
+.nbs-chip-indigo{ background:var(--clay-p-indigo); color:var(--clay-i-indigo); }
+.nbs-chip-lemon{ background:var(--clay-p-lemon); color:var(--clay-i-lemon); }
+.nbs-chip-mint{ background:var(--clay-p-mint); color:var(--clay-i-mint); }
+.nbs-chip-sky{ background:var(--clay-p-sky); color:var(--clay-i-sky); }
+.nbs-chip-pink{ background:var(--clay-p-pink); color:var(--clay-i-pink); }
+.nbs-nb{ font-size:12.5px; font-weight:700; color:var(--clay-ink); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.nbs-score{ font-size:12px; font-weight:700; color:var(--clay-body); white-space:nowrap; }
+.nbs-bar{ display:block; height:6px; border-radius:999px; background:#EDEAF7; overflow:hidden; }
+.nbs-fill{ display:block; height:100%; border-radius:999px; background:var(--clay-indigo); }
+.nbs-pct{ font-size:11.5px; font-weight:800; color:var(--clay-i-indigo); text-align:right; }
+@media (max-width:900px){
+  .nbs-row{ grid-template-columns:1fr auto; grid-auto-rows:auto; row-gap:6px; }
+  .nbs-time{ order:1; }
+  .nbs-chip{ order:2; justify-self:end; }
+  .nbs-nb{ order:3; grid-column:1/-1; }
+  .nbs-score{ order:4; }
+  .nbs-pct{ order:5; }
+  .nbs-bar{ order:6; grid-column:1/-1; }
+  .nbs-sum{ grid-template-columns:repeat(2,1fr); }
+}
+
+/* ── 23. TAB SỔ TỪ VỰNG · MỤC 2: THANH TÌM NHANH ─────────────────────── */
+.nbq-wrap{ background:var(--clay-surface); border:1px solid var(--clay-line); border-radius:22px; padding:14px 16px 16px; }
+.nbq-bar{ display:flex; align-items:center; gap:10px; background:#F5F2FD; border:1px solid var(--clay-line); border-radius:14px; padding:10px 14px; color:var(--clay-tertiary); }
+.nbq-bar input{ flex:1; min-width:0; background:transparent; border:none; outline:none; font-size:13.5px; font-weight:600; color:var(--clay-ink); }
+.nbq-bar input::placeholder{ color:var(--clay-tertiary); font-weight:500; }
+.nbq-clear{ flex:0 0 auto; width:22px; height:22px; border-radius:50%; border:none; cursor:pointer; background:rgba(32,29,59,.07); color:var(--clay-body); font-size:11px; line-height:1; }
+.nbq-clear:hover{ background:var(--clay-p-peach); color:var(--clay-i-peach); }
+.nbq-hint{ margin-top:11px; font-size:12.5px; font-weight:600; color:var(--clay-body); line-height:1.55; }
+.nbq-hint b{ color:var(--clay-i-indigo); font-weight:800; }
+.nbq-count{ margin-top:12px; font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--clay-tertiary); }
+.nbq-list{ margin-top:7px; max-height:330px; overflow-y:auto; display:flex; flex-direction:column; }
+.nbq-row{
+  display:grid; grid-template-columns:minmax(90px,180px) minmax(0,1fr) minmax(80px,190px);
+  align-items:center; gap:12px; width:100%; text-align:left; cursor:pointer;
+  padding:9px 10px; border-radius:12px; background:transparent; transition:background .12s ease;
+}
+.nbq-row:hover{ background:var(--clay-p-indigo); }
+.nbq-kr{ font-size:14.5px; font-weight:700; color:var(--clay-ink); }
+.nbq-vi{ font-size:12.5px; font-weight:600; color:var(--clay-body); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.nbq-nb{ font-size:11px; font-weight:700; color:var(--clay-tertiary); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; text-align:right; }
+@media (max-width:640px){
+  .nbq-row{ grid-template-columns:1fr; gap:2px; }
+  .nbq-nb{ text-align:left; }
+}
+
+/* ── 24. TAB SỔ TỪ VỰNG · MỤC 3: THẺ SỔ VIỀN RÕ ──────────────────────── */
+.nb-newbtn{
+  display:inline-flex; align-items:center; gap:7px; cursor:pointer;
+  padding:9px 16px; border-radius:14px; border:none;
+  font-size:12.5px; font-weight:800; color:#fff; background:var(--clay-indigo);
+  box-shadow:0 4px 18px rgba(108,99,255,.36), inset 3px 3px 8px rgba(255,255,255,.25), inset -3px -3px 9px rgba(0,0,0,.20);
+}
+.nb-newbtn:hover{ filter:brightness(1.05); }
+:root:not([data-theme="dark"]) .lesson-card{
+  border:1.5px solid rgba(32,29,59,.16) !important;
+  border-radius:24px !important;
+  transition:border-color .16s ease, transform .16s ease;
+}
+:root:not([data-theme="dark"]) .lesson-card:hover{ border-color:rgba(108,99,255,.55) !important; transform:translateY(-2px); }
+:root:not([data-theme="dark"]) .lesson-card h4{ font-size:15.5px; }
+/* Dải icon 5 hoạt động: thêm viền để mỗi ô tách khỏi nền trắng */
+:root:not([data-theme="dark"]) .nb-progress-box > div > div[style*="aspect-ratio"]{ border:1px solid rgba(32,29,59,.07); }
+
+/* Tiêu đề mục: thanh màu 4×15 theo spec */
+:root:not([data-theme="dark"]) .home-sec-head{ margin-bottom:14px; }
+
+/* ── 25. THẺ SỔ TỪ VỰNG: gọn lại, bớt khoảng trắng thừa ──────────────── */
+:root:not([data-theme="dark"]) .lesson-card{
+  min-height:0 !important; padding:20px 22px !important; gap:2px;
+}
+:root:not([data-theme="dark"]) .lesson-card .nb-progress-box{ gap:8px; }
+:root:not([data-theme="dark"]) .nb-progress-box > div > div[style*="aspect-ratio"]{
+  aspect-ratio:auto !important; height:48px; border-radius:13px;
+}
+:root:not([data-theme="dark"]) .lesson-card .btn-lc-primary{ padding-top:11px; padding-bottom:11px; }
+
+/* ── 26. HỘP CHÀO HỎI trên màn hình hẹp ──────────────────────────────── */
+@media (max-width:1100px){ .hm-hero-img{ width:150px; right:12px; opacity:.9; } }
+@media (max-width:900px){
+  .hm-hero-img{ display:none; }           /* tránh đè lên lời chào */
+  .hm-hero{ padding:22px 20px; }
+  .hm-stats{ grid-template-columns:1fr 1fr; gap:10px; margin-top:20px; }
+}
+@media (max-width:560px){
+  .hm-stats{ grid-template-columns:1fr; }
+  .hm-stat{ padding:11px 12px; }
+  .hm-stat-ico{ width:38px; height:38px; border-radius:12px; font-size:18px; }
+  .hm-stat-value{ font-size:19px; }
+  .hm-hello{ font-size:22px; }
+  .hm-hello-sub{ font-size:12.5px; }
+}
+/* Nhãn thẻ thống kê không được xuống dòng gãy chữ */
+.hm-stat-label{ white-space:nowrap; }
+
+/* ══════════════════════════════════════════════════════════════════════
+   27. HỘP CHÀO HỎI — bản 2: hình 3D lơ lửng giữa thẻ, 3 thẻ thống kê
+       giữ nguyên bố cục cũ (thanh màu · số lớn · dải chân "Xem thêm").
+   Nền hộp chuyển sang pastel để 3 thẻ TRẮNG bên trong nổi lên rõ.
+   ══════════════════════════════════════════════════════════════════════ */
+.hm-hero{
+  background:linear-gradient(135deg,#EFEAFF 0%, #F5F2FF 45%, #E9F0FF 100%);
+  border:1.5px solid var(--clay-line); border-radius:28px;
+  padding:30px 32px 28px;
+}
+.hm-hero-txt{ max-width:min(100%,600px); }
+.hm-hero-img{
+  position:absolute; right:44px; top:10px; width:240px;
+  height:auto; max-height:198px; object-fit:contain; object-position:top right;
+  z-index:0; pointer-events:none;
+}
+/* Khoảng chừa đủ cho hình 3D lơ lửng, để nó không đè lên 3 thẻ thống kê */
+.hm-stats{ grid-template-columns:repeat(3,1fr); gap:14px; margin-top:112px; }
+
+/* Thẻ thống kê — phẳng, trắng, viền dày để tách khỏi nền pastel của hộp */
+.hm-stat-card{
+  background:var(--clay-surface) !important;
+  border:1.5px solid var(--clay-line) !important;
+  border-radius:22px !important;
+  box-shadow:none !important;
+  min-height:142px;
+}
+.hm-stat-card.rd-hover:hover{ transform:translateY(-3px); border-color:rgba(108,99,255,.42) !important; }
+.hm-stat-foot{ border-radius:0 0 20px 20px; padding:10px 16px 12px 20px; }
+.hm-stat-card .rd-stat-ico{ top:-20px; right:-4px; width:92px; height:92px; }
+.hm-stat-card .rd-stat-ico-fallback{ top:-8px; right:4px; width:56px; height:56px; background:var(--clay-p-indigo); box-shadow:none; }
+
+@media (max-width:1100px){
+  .hm-hero-img{ width:190px; right:20px; max-height:160px; }
+  .hm-stats{ margin-top:88px; }
+}
+@media (max-width:860px){
+  .hm-hero-img{ display:none; }
+  .hm-hero{ padding:24px 20px; }
+  .hm-stats{ margin-top:24px; gap:12px; }
+}
+@media (max-width:640px){
+  /* Mobile: 3 thẻ cuộn ngang 1 hàng như bản cũ, đỡ dài trang */
+  .hm-stats{ display:flex; overflow-x:auto; scroll-snap-type:x mandatory; gap:12px; padding:4px 2px 8px; margin-left:-2px; margin-right:-2px; }
+  .hm-stat-card{ min-width:74%; }
+  .hm-hello{ font-size:22px; }
+  .hm-hello-sub{ font-size:12.5px; }
+}
+
+/* ── 28. VIỀN DÀY HƠN CHO CÁC KHỐI NỘI DUNG ─────────────────────────── */
+:root:not([data-theme="dark"]) .rd-card,
+:root:not([data-theme="dark"]) .rd-card-sm,
+:root:not([data-theme="dark"]) .m-card-base,
+:root:not([data-theme="dark"]) .neo-raised,
+:root:not([data-theme="dark"]) .mini-card-3d,
+:root:not([data-theme="dark"]) .topic-card,
+:root:not([data-theme="dark"]) .nbs-panel,
+:root:not([data-theme="dark"]) .nbq-wrap,
+:root:not([data-theme="dark"]) .hm-nb{ border-width:1.5px; }
+
+/* ── 29. QUIZ NHANH — trả lại bố cục/chữ/icon cũ, chỉ đổi màu & nút ──── */
+:root:not([data-theme="dark"]) .qn-card{ border-width:1.5px !important; }
+:root:not([data-theme="dark"]) .qn-feature{ box-shadow:none !important; border:1.5px solid var(--clay-line) !important; border-radius:24px !important; }
+:root:not([data-theme="dark"]) .qn-card.rd-hover:hover,
+:root:not([data-theme="dark"]) .qn-card.rd-hover-sm:hover{ border-color:rgba(108,99,255,.45) !important; transform:translateY(-3px); }
+/* Số chìm 01/02/03 */
+:root:not([data-theme="dark"]) .rd-watermark{ color:rgba(108,99,255,.11); }
+/* Icon 3D giữ nguyên như cũ — không đắp nền cho khỏi lệch giữa 3 thẻ */
+/* Nút mũi tên góc phải → đất sét sáng */
+:root:not([data-theme="dark"]) .qn-card .rd-badge{
+  background:var(--clay-btn-face) !important; color:var(--clay-i-indigo) !important;
+  box-shadow:var(--shadow-btn) !important; border-radius:11px !important;
+}
+/* Thanh tiến độ mảnh trong thẻ quiz */
+:root:not([data-theme="dark"]) .qn-card .h-full[style*="linear-gradient(90deg,#a5b4fc"]{ background:var(--clay-indigo) !important; }
+
     </style>
 </head>
 <body class="font-sans antialiased text-[color:var(--c-3d3d4e)] px-3 sm:px-5 lg:px-8 pb-3 sm:pb-5 lg:pb-8 pt-1 sm:pt-2 min-h-screen">
@@ -1281,29 +2334,23 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             <!-- VIEW TRANG CHỦ -->
             <div id="view-home-dashboard" class="view-group w-full max-w-[1250px] mx-auto">
 
-                <!-- SECTION 1: TỔNG QUAN -->
-                <section class="mb-8">
-                    <div class="home-sec-head">
-                        <h3 class="home-sec-title text-[13px] font-extrabold text-[color:var(--c-516079)] tracking-[0.14em]">TỔNG QUAN</h3>
-                        <span class="home-sec-note">Số liệu học tập</span>
+                <!-- SECTION 1: HỘP CHÀO HỎI — bao luôn 3 thẻ thống kê bên trong -->
+                <section class="mb-7">
+                    <div class="hm-hero">
+                        <div class="hm-hero-txt">
+                            <p class="hm-hello" id="home-hello-name">Chào bạn! 👋</p>
+                            <p class="hm-hello-sub" id="home-hello-sub">Hôm nay bạn đã tiến xa hơn một chút rồi đó! ✨</p>
+                        </div>
+                        <img src="assets/dashboard-hero.png" alt="" class="hm-hero-img" onerror="this.style.display='none'">
+                        <div class="hm-stats" id="home-status-cards"></div>
                     </div>
-                    <!-- Mobile: cuộn ngang 1 hàng (đỡ dài, vẫn bao quát) · sm+: lưới 3 cột -->
-                    <div class="flex sm:grid sm:grid-cols-3 overflow-x-auto sm:overflow-visible snap-x snap-mandatory gap-3 sm:gap-4 pt-4 pb-2 px-1 -mx-1 sm:pt-0 sm:pb-0 sm:px-0 sm:mx-0" id="home-status-cards"></div>
                 </section>
 
-                <!-- SECTION: TỪ VỰNG HÔM NAY (Flashcard tự chạy) -->
-                <section class="mb-8">
-                    <div class="home-sec-head">
-                        <h3 class="home-sec-title text-[13px] font-extrabold text-[color:var(--c-516079)] tracking-[0.14em]">TỪ VỰNG HÔM NAY</h3>
-                        <span class="home-sec-note" id="flash-counter">0 / 0</span>
-                    </div>
-                    <div class="rd-card p-6 relative overflow-hidden" id="today-flashcard" style="min-height:120px;"></div>
-                </section>
 
                 <!-- SECTION 2: QUIZ NHANH -->
-                <section class="mb-8">
+                <section class="mb-7">
                     <div class="home-sec-head">
-                        <h3 class="home-sec-title text-[13px] font-extrabold text-[color:var(--c-516079)] tracking-[0.14em]">QUIZ NHANH</h3>
+                        <h3 class="home-sec-title text-[13px] font-extrabold tracking-[0.13em]">QUIZ NHANH</h3>
                         <span class="home-sec-note">3 chế độ</span>
                     </div>
                     <div class="flex flex-col lg:flex-row gap-4 items-stretch">
@@ -1356,75 +2403,69 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                         </div>
                     </div>
                 </section>
-
-                <!-- SECTION 3: TỪ VỰNG TRONG SỔ -->
+                <!-- SECTION 3: TỪ VỰNG HÔM NAY (1/3) + SỔ TỪ VỰNG CỦA TÔI (2/3) -->
                 <section class="mb-6">
-                    <div class="home-sec-head">
-                        <h3 class="home-sec-title text-[13px] font-extrabold text-[color:var(--c-516079)] tracking-[0.14em]">TỪ VỰNG TRONG SỔ</h3>
-                        <span class="home-sec-note">Bấm 1 từ để xem chi tiết</span>
-                    </div>
-                    <div class="flex flex-col lg:flex-row gap-5 lg:gap-6 items-stretch lg:items-start w-full">
-                        <div class="w-full lg:flex-[3_1_0%] min-w-0 neo-raised !rounded-[28px] overflow-hidden">
-                            <div class="p-4 border-b border-[color:var(--c-d8e0ec)]">
-                                <div class="neo-sunk flex items-center px-4 py-2 !rounded-2xl w-full sm:w-[280px]">
-                                    <span class="text-gray-400 mr-2.5 text-xs">🔍</span>
-                                    <input type="text" id="home-allwords-search" placeholder="Tìm trong sổ..." class="w-full bg-transparent border-none outline-none text-xs text-[color:var(--c-3d3d4e)]" oninput="renderHomeAllWordsTable()">
-                                </div>
+                    <div class="hm-row">
+                        <!-- Cột trái 1/3 — thẻ nhỏ tỉ lệ ~3:2 -->
+                        <div class="hm-col-flash">
+                            <div class="home-sec-head">
+                                <h3 class="home-sec-title text-[13px] font-extrabold tracking-[0.13em]">TỪ VỰNG HÔM NAY</h3>
+                                <span class="home-sec-note" id="flash-counter">0 / 0</span>
                             </div>
-                            <div class="hidden sm:block overflow-x-auto" style="max-height:60vh; overflow-y:auto;">
-                                <table class="w-full text-sm" style="border-collapse:collapse;">
-                                    <thead>
-                                        <tr class="text-left">
-                                            <th class="py-2.5 px-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider" style="min-width:220px;">Từ vựng</th>
-                                            <th class="py-2.5 px-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider" style="max-width:160px;">Nghĩa</th>
-                                            <th class="py-2.5 px-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider">Tên sổ</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="home-allwords-tbody"></tbody>
-                                </table>
-                            </div>
-                            <div class="sm:hidden flex gap-3 overflow-x-auto snap-x snap-mandatory px-4 py-4" id="home-allwords-cards"></div>
+                            <div class="rd-card hm-flash-card" id="today-flashcard"></div>
                         </div>
-                        <aside class="w-full lg:flex-[2_1_0%] lg:min-w-[340px] shrink-0 lg:sticky lg:top-8">
-                            <div class="m-card-base flex flex-col min-h-[220px] sm:min-h-[400px] justify-center items-center text-center text-gray-400" id="home-allwords-detail-card">
-                                <span class="font-medium" style="font-family: 'Plus Jakarta Sans', sans-serif !important;">Bấm vào một từ bất kỳ để xem chi tiết</span>
+
+                        <!-- Cột phải 2/3 — danh sách sổ đã tạo -->
+                        <div class="hm-col-quiz">
+                            <div class="home-sec-head">
+                                <h3 class="home-sec-title hs-green text-[13px] font-extrabold tracking-[0.13em]">SỔ TỪ VỰNG CỦA TÔI</h3>
+                                <span class="home-sec-note" id="home-nb-note">0 sổ</span>
                             </div>
-                        </aside>
+                            <div class="hm-nb-grid" id="home-notebook-cards"></div>
+                        </div>
                     </div>
                 </section>
             </div>
 
             <!-- VIEW TRANG CHỦ: SỔ TAY TỪ VỰNG -->
             <div id="view-notebook-home" class="view-group hidden w-full max-w-[1250px] mx-auto">
-                <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
-                    <button class="neo-button px-5 py-2.5 text-white bg-point font-bold flex items-center text-sm gap-2" onclick="openCreateNotebookModal()">
-                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                        Tạo sổ mới
-                    </button>
-                </div>
 
-                <!-- 🕒 SECTION: GẦN ĐÂY -->
-                <section class="mb-6" id="recent-activity-section" style="display:none;">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-xs font-bold text-[color:var(--c-6a6a7f)] tracking-widest flex items-center gap-2">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                            HOẠT ĐỘNG GẦN ĐÂY
-                        </h3>
+                <!-- 1️⃣ THỐNG KÊ HOẠT ĐỘNG ĐÃ LÀM (thời gian · nội dung · điểm số) -->
+                <section class="mb-7" id="recent-activity-section">
+                    <div class="home-sec-head">
+                        <h3 class="home-sec-title text-[13px] font-extrabold tracking-[0.13em]">HOẠT ĐỘNG GẦN ĐÂY</h3>
+                        <span class="home-sec-note" id="nb-activity-note">—</span>
                     </div>
-                    <!-- pt/pb + -my để bóng neo-raised của thẻ không bị khung overflow cắt (blur hiện trọn) -->
-                    <div class="flex gap-4 overflow-x-auto snap-x snap-mandatory pt-4 pb-5 px-2 -mx-2" id="recent-activity-list"></div>
+                    <div class="nbs-panel" id="recent-activity-list"></div>
                 </section>
 
-                <!-- 📚 SECTION: SỔ TAY CỦA TÔI -->
+                <!-- 2️⃣ TÌM NHANH TỪ VỰNG TRONG SỔ -->
+                <section class="mb-7">
+                    <div class="home-sec-head">
+                        <h3 class="home-sec-title hs-amber text-[13px] font-extrabold tracking-[0.13em]">TÌM NHANH TỪ VỰNG TRONG SỔ</h3>
+                        <span class="home-sec-note" id="nb-search-note">0 từ</span>
+                    </div>
+                    <div class="nbq-wrap">
+                        <div class="nbq-bar">
+                            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+                            <input type="text" id="home-allwords-search" placeholder="Gõ tiếng Hàn hoặc tiếng Việt để tìm trong mọi sổ..." autocomplete="off" oninput="renderHomeAllWordsTable()">
+                            <button class="nbq-clear hidden" id="nbq-clear-btn" onclick="clearNotebookQuickSearch()" title="Xoá tìm kiếm">✕</button>
+                        </div>
+                        <div class="nbq-results" id="home-allwords-results"></div>
+                    </div>
+                </section>
+
+                <!-- 3️⃣ DANH SÁCH SỔ ĐÃ TẠO -->
                 <section class="mb-6">
-                    <div class="flex justify-between items-center mb-5">
-                        <h3 class="text-xs font-bold text-[color:var(--c-6a6a7f)] tracking-widest flex items-center gap-2">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
-                            SỔ TỪ VỰNG CỦA TÔI
-                        </h3>
+                    <div class="home-sec-head">
+                        <h3 class="home-sec-title hs-green text-[13px] font-extrabold tracking-[0.13em]">SỔ TỪ VỰNG CỦA TÔI</h3>
+                        <button class="nb-newbtn" onclick="openCreateNotebookModal()">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            Tạo sổ mới
+                        </button>
                     </div>
 
-                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-6" id="my-lessons-grid">
+                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-5" id="my-lessons-grid">
                         <!-- Trạng thái trống — hiện khi chưa có sổ tay nào; JS sẽ ẩn/tự xoá khi có sổ tay đầu tiên -->
                         <div class="neo-raised p-10 flex flex-col items-center justify-center text-center gap-3 xl:col-span-2" id="empty-lessons-state">
                             <div class="w-14 h-14 rounded-2xl neo-sunk flex items-center justify-center text-point">
@@ -1545,14 +2586,17 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
                     </button>
                     <div class="min-w-0">
-                        <h2 class="text-lg sm:text-xl font-bold text-[color:var(--c-1a1a24)] leading-tight truncate" id="practice-title">Ôn tập sổ từ vựng</h2>
-                        <p class="text-xs text-gray-400 font-mono mt-0.5" id="practice-subtitle">0 từ vựng</p>
+                        <p class="ui-eyebrow mb-1">Sổ từ vựng</p>
+                        <h2 class="ui-h1 truncate" id="practice-title">Ôn tập sổ từ vựng</h2>
+                        <p class="ui-sub mt-1" id="practice-subtitle">0 từ vựng</p>
                     </div>
                 </div>
 
                 <div id="new-words-banner"></div>
 
-                <div class="neo-sunk p-1.5 flex gap-1 !rounded-2xl overflow-x-auto sm:flex-wrap mb-5 sm:mb-6" id="practice-tabs"></div>
+                <div class="neo-sunk p-1.5 flex gap-1 !rounded-2xl overflow-x-auto sm:flex-wrap" id="practice-tabs"></div>
+                <div id="practice-subtabs" class="mt-3"></div>
+                <div class="mb-5 sm:mb-6"></div>
 
                 <div class="neo-raised p-4 sm:p-8 flex items-start justify-center" id="practice-content" style="min-height:440px;"></div>
             </div>
@@ -1588,7 +2632,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                     <div class="w-full lg:flex-1 lg:basis-0 min-w-0 neo-raised !rounded-[28px] overflow-hidden">
                         <div class="overflow-x-auto" style="max-height:70vh; overflow-y:auto;">
                             <table class="w-full text-sm" style="border-collapse:collapse;">
-                                <thead id="search-results-thead"></thead>
+                                <thead id="search-results-thead" class="ui-thead"></thead>
                                 <tbody id="search-results-tbody"></tbody>
                             </table>
                         </div>
@@ -2055,6 +3099,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 notebooksList.forEach(nb => renderNewNotebookLessonCard(nb));
             }
             renderRecentActivitySection();
+            renderHomeNotebookCards();
         }
 
         // ============================================================
@@ -2392,7 +3437,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                     explanation,
                     hanja,
                     examples,
-                    synonyms: item["ĐỒNG NGHIA/TRÁI NGHĨA"] || item["synonyms"] || "",
+                    synonyms: item["ĐỒNG NGHĨA/TRÁI NGHĨA"] || item["ĐỒNG NGHIA/TRÁI NGHĨA"] || item["synonyms"] || "",
                     learned: false,
                     learnedAt: null,
                     savedNotebooks: []
@@ -3340,8 +4385,11 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         async function ensureAllLibraryLoaded() {
             if (allLibraryCache) return allLibraryCache;
             try {
+                // cache:'no-cache' -> vẫn dùng bản đã lưu nếu server báo chưa đổi (nhanh),
+                // nhưng LUÔN hỏi server trước, nên cô giáo cập nhật Sheet là học sinh thấy ngay.
                 const [fullRes, fastRes] = await Promise.all([
-                    fetch('DATA/full_topik.json'), fetch('DATA/fast_pace.json')
+                    fetch('DATA/full_topik.json', { cache: 'no-cache' }),
+                    fetch('DATA/fast_pace.json', { cache: 'no-cache' })
                 ]);
                 const fullRaw = fullRes.ok ? await fullRes.json() : [];
                 const fastRaw = fastRes.ok ? await fastRes.json() : [];
@@ -3437,12 +4485,12 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 
             thead.innerHTML = `
                 <tr class="text-left">
-                    <th class="py-2.5 px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider">Từ vựng</th>
-                    <th class="py-2.5 px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider">Cấp độ</th>
-                    <th class="py-2.5 px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider">Chủ đề</th>
-                    <th class="py-2.5 px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider">Loại từ</th>
-                    <th class="py-2.5 px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider">Dạng câu</th>
-                    <th class="py-2.5 px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider">Thư viện</th>
+                    <th class="py-2.5 px-3 ui-cap">Từ vựng</th>
+                    <th class="py-2.5 px-3 ui-cap">Cấp độ</th>
+                    <th class="py-2.5 px-3 ui-cap">Chủ đề</th>
+                    <th class="py-2.5 px-3 ui-cap">Loại từ</th>
+                    <th class="py-2.5 px-3 ui-cap">Dạng câu</th>
+                    <th class="py-2.5 px-3 ui-cap">Thư viện</th>
                 </tr>
             `;
 
@@ -4431,19 +5479,25 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             return a;
         }
 
+        // 4 dạng luyện có chấm điểm được gom chung vào tab "Quiz"; 'quiz' vừa là khoá của
+        // tab cha, vừa là khoá của dạng con đầu tiên (Trắc nghiệm) — mặc định khi mở tab cha.
+        const QUIZ_SUB_TABS = [
+            { key: 'quiz', label: 'Trắc nghiệm', icon: '📝' },
+            { key: 'typing', label: 'Viết từ', icon: '✍️' },
+            { key: 'listen', label: 'Nghe & Chọn từ', icon: '🎧' },
+            { key: 'guess', label: 'Nghe & Tìm nghĩa', icon: '🧠' },
+        ];
+        const QUIZ_SUB_KEYS = QUIZ_SUB_TABS.map(t => t.key);
         const PRACTICE_TABS = [
-            { key: 'list', label: '1. List từ vựng' },
-            { key: 'flashcard', label: '2. Flashcard' },
-            { key: 'quiz', label: '3. Trắc nghiệm' },
-            { key: 'typing', label: '4. Viết từ' },
-            { key: 'listen', label: '5. Nghe & Chọn từ' },
-            { key: 'guess', label: '6. Nghe & Tìm nghĩa' },
+            { key: 'list', label: 'List từ vựng', icon: '📋' },
+            { key: 'flashcard', label: 'Flashcard', icon: '🔄' },
+            { key: 'quiz', label: 'Quiz', icon: '🎯', group: true },
         ];
 
         let practiceState = {
-            nbId: null, words: [], activeTab: 'list',
+            nbId: null, words: [], activeTab: 'list', lastQuizSub: 'quiz',
             flashcard: { indices: [], current: 0, flipped: false, shuffle: false },
-            quiz: { indices: [], current: 0, answered: false },
+            quiz: { indices: [], current: 0, answered: false, replyLang: null, hard: false, bag: null },
             typing: { direction: 'vi-to-ko', rows: null, status: {}, everWrong: {}, touched: false },
             listen: { indices: [], current: 0, answered: false },
             guess: { indices: [], current: 0, answered: false },
@@ -4657,11 +5711,14 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             practiceState.nbId = nbId;
             practiceState.words = words;
             practiceState.activeTab = initialTab || 'list';
+            if (QUIZ_SUB_KEYS.indexOf(practiceState.activeTab) >= 0) practiceState.lastQuizSub = practiceState.activeTab;
             practiceListState = { blurKo: false, blurVi: false, hideEx: false, starOnly: false, search: '' };
             plSelectedIdx = null;
             const fullIdx = words.map((_, i) => i);
             practiceState.flashcard = { indices: [...fullIdx], current: 0, flipped: false, shuffle: false };
-            practiceState.quiz = { queue: buildQueueForFunc('quiz', words, nb), answered: false };
+            const _qPref = tqLoadPrefs();
+            practiceState.quiz = { queue: buildQueueForFunc('quiz', words, nb), answered: false, replyLang: _qPref.replyLang, hard: _qPref.hard, bag: null };
+            tqInvalidateBank(); // kho từ nhiễu phụ thuộc sổ đang mở -> dựng lại cho đúng phạm vi
             // Viết từ: khôi phục lại đúng phiên đang làm dở của SỔ NÀY (nếu có) để chuyển tab/màn hình
             // rồi quay lại vẫn giữ nguyên tiến độ — lưu theo nbId trong typingSessionsByNb (bộ nhớ phiên).
             practiceState.typing = getOrCreateTypingSession(nbId);
@@ -4705,11 +5762,23 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         function renderPracticeTabs() {
             const el = document.getElementById('practice-tabs');
             if (!el) return;
-            el.innerHTML = PRACTICE_TABS.map(t => `
-                <button class="shrink-0 sm:flex-1 min-w-[110px] sm:min-w-[120px] py-2.5 px-3 text-xs font-bold rounded-xl transition-all whitespace-nowrap ${practiceState.activeTab === t.key ? 'text-point' : 'text-gray-400'}"
-                    style="${practiceState.activeTab === t.key ? 'background:var(--c-e6ebf3); box-shadow: var(--shadow-btn);' : ''}"
-                    onclick="switchPracticeTab('${t.key}')">${t.label}</button>
-            `).join('');
+            const inQuiz = QUIZ_SUB_KEYS.indexOf(practiceState.activeTab) >= 0;
+            el.innerHTML = PRACTICE_TABS.map(t => {
+                const active = t.group ? inQuiz : (practiceState.activeTab === t.key);
+                // Bấm tab cha "Quiz" thì quay lại đúng dạng con đang làm dở, không nhảy về Trắc nghiệm
+                const target = t.group ? (practiceState.lastQuizSub || 'quiz') : t.key;
+                return `<button class="ptab shrink-0 sm:flex-1 min-w-[112px]${active ? ' is-active' : ''}"
+                    onclick="switchPracticeTab('${target}')"><span class="ptab-ico">${t.icon}</span>${t.label}</button>`;
+            }).join('');
+
+            const sub = document.getElementById('practice-subtabs');
+            if (!sub) return;
+            if (!inQuiz) { sub.innerHTML = ''; sub.style.display = 'none'; return; }
+            sub.style.display = '';
+            sub.innerHTML = `<div class="psub-lead">Dạng luyện</div>
+                <div class="psub-row">${QUIZ_SUB_TABS.map(t =>
+                    `<button class="psub${practiceState.activeTab === t.key ? ' is-active' : ''}"
+                        onclick="switchPracticeTab('${t.key}')"><span class="psub-ico">${t.icon}</span>${t.label}</button>`).join('')}</div>`;
         }
 
         const PRACTICE_RENDERERS = {
@@ -4723,6 +5792,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 
         function switchPracticeTab(key) {
             practiceState.activeTab = key;
+            if (QUIZ_SUB_KEYS.indexOf(key) >= 0) practiceState.lastQuizSub = key;
             renderPracticeTabs();
             (PRACTICE_RENDERERS[key] || PRACTICE_RENDERERS.list)();
         }
@@ -4750,13 +5820,16 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             const el = document.getElementById('practice-content');
             el.className = 'w-full';
             el.innerHTML = `
+                <div class="hidden lg:block mb-5">
+                    ${practicePanelHead('📋', 'List từ vựng', 'Toàn bộ từ trong sổ. Bấm "Xem chi tiết" ở một từ để đọc Hán tự, ví dụ và ghi chú.', '')}
+                </div>
                 <div class="flex flex-col lg:flex-row gap-5 lg:gap-6 items-stretch lg:items-start w-full">
                     <!-- List: mobile sticky ~1/3 màn hình, đẩy lên trước card chi tiết; desktop quay lại vị trí phải 68% -->
                     <div class="lib-list-panel-mobile-light order-1 lg:flex-1 w-full min-w-0 neo-raised !rounded-[28px] overflow-hidden flex flex-col sticky top-2 z-20 h-[34vh] lg:static lg:top-auto lg:z-auto lg:h-auto">
                         <div id="pl-toolbar" class="shrink-0"></div>
                         <div class="hidden lg:block overflow-x-auto" style="max-height:520px; overflow-y:auto;">
                             <table class="w-full text-sm" style="border-collapse:collapse; table-layout:fixed; min-width:600px;">
-                                <thead id="pl-thead"></thead>
+                                <thead id="pl-thead" class="ui-thead"></thead>
                                 <tbody id="pl-tbody"></tbody>
                             </table>
                         </div>
@@ -4811,11 +5884,11 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 
             thead.innerHTML = `
                 <tr class="text-left">
-                    <th class="py-2.5 px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider" style="width:${pls.hideEx ? '30%' : '23%'};">Tiếng Hàn</th>
-                    <th class="py-2.5 px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider" style="width:${pls.hideEx ? '34%' : '25%'};">Tiếng Việt</th>
-                    ${!pls.hideEx ? `<th class="py-2.5 px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider" style="width:24%;">Ví dụ</th>` : ''}
-                    <th class="py-2.5 px-2 text-[11px] font-bold text-gray-400 uppercase tracking-wider" style="width:${pls.hideEx ? '21%' : '15%'};">Ghi chú</th>
-                    <th class="py-2.5 px-1.5 text-[11px] font-bold text-gray-400 uppercase tracking-wider text-center" style="width:${pls.hideEx ? '15%' : '13%'};">Trạng thái</th>
+                    <th class="py-2.5 px-3 ui-cap" style="width:${pls.hideEx ? '30%' : '23%'};">Tiếng Hàn</th>
+                    <th class="py-2.5 px-3 ui-cap" style="width:${pls.hideEx ? '34%' : '25%'};">Tiếng Việt</th>
+                    ${!pls.hideEx ? `<th class="py-2.5 px-3 ui-cap" style="width:24%;">Ví dụ</th>` : ''}
+                    <th class="py-2.5 px-2 ui-cap" style="width:${pls.hideEx ? '21%' : '15%'};">Ghi chú</th>
+                    <th class="py-2.5 px-1.5 ui-cap text-center" style="width:${pls.hideEx ? '15%' : '13%'};">Trạng thái</th>
                 </tr>
             `;
 
@@ -5010,16 +6083,15 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             const st = practiceState.flashcard;
             const item = practiceState.words[st.indices[st.current]];
             const kr = item.word.replace(/'/g, "\\'");
+            const fcRight = `<span class="ui-sub">Chế độ: ${st.shuffle ? 'Trộn ngẫu nhiên' : 'Theo thứ tự'}</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="fc-shuffle-cb" ${st.shuffle ? 'checked' : ''} onchange="togglePracticeFlashcardShuffle(this)">
+                    <span class="slider"></span>
+                </label>`;
             el.innerHTML = `
-                <div class="w-full">
+                <div class="w-full flex flex-col gap-5">
+                    ${practicePanelHead('🔄', 'Flashcard', 'Bấm vào thẻ để lật xem nghĩa, dùng nút bên dưới để chuyển từ.', fcRight)}
                     ${buildInlineFlashcardProgressHtml()}
-                    <div class="flex items-center justify-end gap-2.5 mt-3 mb-4">
-                        <span class="text-xs font-bold text-gray-400">Chế độ: ${st.shuffle ? 'Trộn ngẫu nhiên' : 'Theo thứ tự'}</span>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="fc-shuffle-cb" ${st.shuffle ? 'checked' : ''} onchange="togglePracticeFlashcardShuffle(this)">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
                     <div class="w-full neo-raised rounded-[28px] cursor-pointer" style="perspective:1200px; min-height:300px;" onclick="flipPracticeFlashcard()">
                         <div class="relative w-full transition-transform duration-500" style="min-height:300px; transform-style:preserve-3d; ${st.flipped ? 'transform:rotateY(180deg);' : ''}">
                             <div class="absolute inset-0 flex flex-col items-center justify-center gap-4 px-6" style="backface-visibility:hidden;">
@@ -5036,7 +6108,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                             </div>
                         </div>
                     </div>
-                    <div class="flex items-center justify-between mt-5 flex-wrap gap-3">
+                    <div class="flex items-center justify-between flex-wrap gap-3">
                         <div class="flex items-center gap-3">
                             <span class="text-xs font-mono font-bold text-gray-400">${st.current + 1} / ${st.indices.length}</span>
                             <button class="neo-button px-4 py-2.5 text-xs font-bold text-gray-500" onclick="movePracticeCard(-1)">← Trước đó</button>
@@ -5167,67 +6239,1028 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             if (justFinished) showPracticeCompletionPopup(funcKey);
         }
 
-        // ─── 3. TRẮC NGHIỆM ───
-        function renderPracticeQuiz() {
-            const el = document.getElementById('practice-content');
-            el.className = 'neo-raised p-4 sm:p-8 flex items-start justify-center';
-            const st = practiceState.quiz; st.answered = false;
-            if (!st.queue.length) { el.innerHTML = buildPracticeDoneStateHtml('quiz'); return; }
-            const words = practiceState.words;
-            const idx = st.queue[0];
-            const item = words[idx];
-            const isKoQuestion = Math.random() > 0.5 || words.length < 4;
-            let questionText, correctAnswer, pool;
-            if (isKoQuestion) {
-                questionText = `Nghĩa của từ "${item.word}" là gì?`;
-                correctAnswer = item.vietnamese || '—';
-                pool = words.filter((_, i) => i !== idx).map(w => w.vietnamese || '—');
-            } else {
-                questionText = `Từ nào mang nghĩa: "${item.vietnamese}"?`;
-                correctAnswer = item.word;
-                pool = words.filter((_, i) => i !== idx).map(w => w.word);
+        // ============================================================
+        // KHO DỮ LIỆU + BỘ SINH CÂU HỎI CHO 12 DẠNG TRẮC NGHIỆM
+        // Tất cả sinh bằng code từ data Sheet có sẵn (từ vựng, ví dụ, gốc Hán,
+        // giải thích, nghĩa đen, đồng/trái nghĩa) — KHÔNG cần AI, không gọi mạng.
+        // Tiền tố tq* = "topik quiz" để không đụng tên hàm nào khác trong file.
+        // ============================================================
+
+        // Kho từ dùng để lấy đáp án nhiễu: ưu tiên các từ trong sổ đang luyện,
+        // sau đó bổ sung toàn bộ thư viện (3.500+ từ) để sổ nhỏ vẫn đủ 4 đáp án.
+        let _tqBankCache = null, _tqBankSize = -1;
+        function tqBank() {
+            const global = allLibraryCache || vocabDatabase || [];
+            const own = practiceState.words || [];
+            const size = global.length * 100000 + own.length;
+            if (_tqBankCache && _tqBankSize === size) return _tqBankCache;
+            const seen = new Set(), out = [];
+            own.concat(global).forEach(w => {
+                if (!w || !w.word || seen.has(w.id || w.word)) return;
+                seen.add(w.id || w.word);
+                out.push(w);
+            });
+            _tqBankCache = out; _tqBankSize = size;
+            return out;
+        }
+        function tqInvalidateBank() { _tqBankCache = null; _tqBankSize = -1; _tqSentBank = null; _tqSentBankFor = null; _tqHanjaIdx = null; _tqHanjaIdxFor = null; }
+
+        // Rút gọn nghĩa tiếng Việt cho chip/đáp án ngắn (bỏ phần trong ngoặc, lấy nghĩa đầu)
+        function tqViShort(raw) {
+            let t = String(raw == null ? '' : raw).split(/[;\/\n]/)[0].trim();
+            t = t.replace(/\s*\([^)]*\)/g, ' ').replace(/\s{2,}/g, ' ').trim();
+            return t || String(raw == null ? '' : raw).trim();
+        }
+        function tqVi(item) { return (item && (item.vietnamese || item.deep_meaning || item.literal)) || ''; }
+        function tqChipText(raw, max) {
+            const t = tqViShort(raw), lim = max || 58;
+            if (t.length <= lim) return t;
+            const cut = t.slice(0, lim);
+            const sp = cut.lastIndexOf(' ');
+            return (sp > lim * 0.6 ? cut.slice(0, sp) : cut).replace(/[\s,.;:]+$/, '') + '…';
+        }
+
+        // Các cặp ví dụ đủ cả 2 vế Hàn/Việt của 1 từ (TOPIK có tới 3 cặp ví dụ mỗi từ)
+        function tqPairs(item) {
+            if (!item || !item.examples) return [];
+            return item.examples
+                .map(e => ({ kr: String((e && e.kr) || '').trim(), vi: String((e && e.vi) || '').trim() }))
+                .filter(e => e.kr && e.vi);
+        }
+
+        // Kho câu ví dụ toàn cục (để lấy câu nhiễu) — dedupe theo câu Hàn
+        let _tqSentBank = null, _tqSentBankFor = null;
+        function tqSentBank() {
+            const bank = tqBank();
+            if (_tqSentBank && _tqSentBankFor === bank) return _tqSentBank;
+            const seen = new Set(), list = [];
+            bank.forEach(it => tqPairs(it).forEach(p => {
+                if (seen.has(p.kr)) return;
+                seen.add(p.kr); list.push(p);
+            }));
+            _tqSentBank = list; _tqSentBankFor = bank;
+            return list;
+        }
+
+        const _TQ_VI_STOP = { 'tôi':1,'là':1,'của':1,'và':1,'có':1,'một':1,'các':1,'những':1,'đã':1,'sẽ':1,'được':1,'cho':1,'ở':1,'trong':1,'với':1,'rất':1,'này':1,'đó':1,'nên':1,'vì':1,'khi':1,'để':1,'bạn':1,'người':1,'nhưng':1,'thì':1,'mà':1,'cũng':1,'nên':1 };
+        function _tqViWords(s) {
+            return String(s || '').toLowerCase().replace(/[.,!?;:"'()]/g, ' ').split(/\s+/)
+                .filter(w => w.length >= 2 && !_TQ_VI_STOP[w]);
+        }
+        // Token tiếng Hàn: chỉ so 2 âm tiết đầu để bỏ qua trợ từ / đuôi chia
+        function _tqKoWords(s) {
+            return String(s || '').replace(/[^가-힣\s]/g, ' ').split(/\s+/)
+                .filter(w => w.length >= 2).map(w => w.slice(0, 2));
+        }
+
+        // Chọn n câu nhiễu HAO HAO câu đúng (ưu tiên câu chia sẻ nhiều từ nhất)
+        function tqSimilarSentences(correct, lang, n) {
+            const words = new Set(lang === 'ko' ? _tqKoWords(correct) : _tqViWords(correct));
+            const seen = new Set(); const cands = [];
+            tqSentBank().forEach(p => {
+                const t = lang === 'ko' ? p.kr : p.vi;
+                if (!t || t === correct || seen.has(t)) return;
+                seen.add(t);
+                let sim = 0;
+                (lang === 'ko' ? _tqKoWords(t) : _tqViWords(t)).forEach(w => { if (words.has(w)) sim++; });
+                cands.push({ s: t, sim: sim });
+            });
+            const L = String(correct).length;
+            const fit = c => c.s.length >= L * 0.5 && c.s.length <= L * 1.9;
+            const near = cands.filter(fit);
+            const pool = near.length >= n ? near : cands;
+            const similar = pool.filter(c => c.sim > 0).sort((a, b) => b.sim - a.sim);
+            const top = shuffleArr(similar.slice(0, Math.max(n * 3, 8)));
+            const rest = shuffleArr(pool.filter(c => c.sim === 0));
+            return top.concat(rest).slice(0, n).map(c => c.s);
+        }
+
+        /* ---------- ĐỤC LỖ CÂU TIẾNG HÀN ---------- */
+
+        function _tqJamo(str) {
+            const out = [];
+            for (const ch of String(str == null ? '' : str)) {
+                const c = ch.codePointAt(0);
+                if (c >= 0xAC00 && c <= 0xD7A3) {
+                    const s = c - 0xAC00;
+                    out.push('L' + Math.floor(s / 588), 'V' + (Math.floor(s / 28) % 21));
+                    const t = s % 28; if (t > 0) out.push('T' + t);
+                } else out.push(ch);
             }
-            const wrongs = shuffleArr(pool).slice(0, Math.min(3, pool.length));
-            const options = shuffleArr([correctAnswer, ...wrongs]);
-            el.innerHTML = `
-                <div class="flex flex-col items-center gap-6 w-full pt-4">
+            return out;
+        }
+        function _tqJamoCommon(a, b) { let n = 0; while (n < a.length && n < b.length && a[n] === b[n]) n++; return n; }
+
+        // Thay từ khoá trong câu ví dụ bằng chỗ trống ______
+        function tqMakeCloze(ex, ko) {
+            const blank = '<span class="tq-blank">______</span>';
+            if (!ex) return '';
+            if (!ko) return ex;
+            // 1) Xuất hiện nguyên dạng (danh từ, cụm cố định) -> thay trực tiếp, giữ trợ từ
+            if (ex.indexOf(ko) >= 0) return ex.replace(ko, blank);
+            // 2) Động/tính từ (đuôi 다): trong câu đã bị chia đuôi -> đục lỗ trọn token khớp gốc
+            if (/다$/.test(ko)) {
+                const stem = ko.replace(/하다$/, '').replace(/되다$/, '').replace(/다$/, '');
+                if (stem.length >= 1) {
+                    const stemJ = _tqJamo(stem);
+                    const tokens = ex.split(/(\s+)/);
+                    let bestIdx = -1, bestLen = 0;
+                    for (let i = 0; i < tokens.length; i++) {
+                        if (!tokens[i] || /^\s+$/.test(tokens[i])) continue;
+                        const core = tokens[i].replace(/^[^가-힣]+/, '').replace(/[^가-힣]+$/, '');
+                        if (!core) continue;
+                        const n = _tqJamoCommon(stemJ, _tqJamo(core));
+                        if (n > bestLen) { bestLen = n; bestIdx = i; }
+                    }
+                    const need = Math.max(2, stemJ.length - 2);
+                    if (bestIdx >= 0 && bestLen >= need) {
+                        tokens[bestIdx] = tokens[bestIdx].replace(/[가-힣]+/, blank);
+                        return tokens.join('');
+                    }
+                }
+            }
+            // 3) Dự phòng: cụm nhiều chữ (VD "일을 시작하다") -> thử khớp phần gốc
+            const stem2 = ko.replace(/하다$/, '').replace(/되다$/, '').replace(/다$/, '').trim();
+            if (stem2.length >= 1 && ex.indexOf(stem2) >= 0) return ex.replace(stem2, blank);
+            return ex;
+        }
+        function tqClozePairs(item) {
+            if (!item || !item.word) return [];
+            return tqPairs(item).map(p => {
+                const cloze = tqMakeCloze(p.kr, item.word);
+                return cloze.indexOf('tq-blank') < 0 ? null : { kr: p.kr, vi: p.vi, cloze: cloze };
+            }).filter(Boolean);
+        }
+
+        // Từ Hàn nhiễu — ƯU TIÊN cùng LOẠI TỪ, rồi cùng CHỦ ĐỀ (data TOPIK có sẵn 2 cột này,
+        // nên nhiễu chuẩn hơn hẳn cách chỉ đoán động/danh từ qua đuôi 다).
+        function tqKoDistractors(item, avoidSentence, n) {
+            const correct = (item && item.word) || '';
+            const type = tqNormType(item), topic = (item && item.topic) || '';
+            const seen = new Set([correct]);
+            const best = [], mid = [], rest = [];
+            tqBank().forEach(it => {
+                const w = String(it.word || '').trim();
+                if (!w || seen.has(w)) return;
+                seen.add(w);
+                if (avoidSentence && avoidSentence.indexOf(w) >= 0) return;
+                const sameType = tqNormType(it) === type;
+                const sameTopic = topic && it.topic === topic;
+                (sameType && sameTopic ? best : sameType ? mid : rest).push(w);
+            });
+            return shuffleArr(best).concat(shuffleArr(mid), shuffleArr(rest)).slice(0, n);
+        }
+        // Gộp các biến thể tên loại từ ("Danh từ ", "Cụm danh từ" -> "danh")
+        function tqNormType(item) {
+            const t = String((item && item.word_type) || '').toLowerCase().trim();
+            if (/danh/.test(t)) return 'danh';
+            if (/động/.test(t)) return 'dong';
+            if (/tính/.test(t)) return 'tinh';
+            if (/phó/.test(t)) return 'pho';
+            if (/quán dụng/.test(t)) return 'qdn';
+            if (/tục ngữ|thành ngữ/.test(t)) return 'tn';
+            return t || '_';
+        }
+
+        /* ---------- ĐỤC LỖ CÂU TIẾNG VIỆT ---------- */
+
+        // Bỏ dấu NHƯNG GIỮ NGUYÊN ĐỘ DÀI chuỗi (để vị trí tìm được vẫn khớp chuỗi gốc)
+        function tqViFold(str) {
+            let out = '';
+            for (const ch of String(str == null ? '' : str)) {
+                const b = ch.normalize('NFD').replace(/[̀-ͯ]/g, '');
+                out += (b.length >= 1 ? b[0] : ch);
+            }
+            return out.toLowerCase().replace(/đ/g, 'd');
+        }
+        // Mọi cách viết nghĩa tiếng Việt của 1 từ (dài trước, để khớp cụm dài nhất)
+        function tqViTargets(item) {
+            const raw = tqVi(item);
+            let list = String(raw).split(/[;\/\n]/);
+            list = list.map(x => x.replace(/\s*\([^)]*\)/g, ' ').replace(/\s{2,}/g, ' ').trim())
+                       .filter(x => x.length >= 2);
+            return Array.from(new Set(list)).sort((a, b) => b.length - a.length);
+        }
+        function tqFindViTarget(sentence, targets) {
+            const f = tqViFold(sentence);
+            for (const t of targets) {
+                const ft = tqViFold(t);
+                if (!ft) continue;
+                let pos = f.indexOf(ft);
+                while (pos >= 0) {
+                    const before = pos === 0 ? ' ' : f[pos - 1];
+                    const after = (pos + ft.length >= f.length) ? ' ' : f[pos + ft.length];
+                    if (!/[a-z0-9]/.test(before) && !/[a-z0-9]/.test(after)) return { start: pos, len: ft.length };
+                    pos = f.indexOf(ft, pos + 1);
+                }
+            }
+            return null;
+        }
+        function tqViClozePairs(item) {
+            const targets = tqViTargets(item);
+            if (!targets.length) return [];
+            const out = [];
+            tqPairs(item).forEach(p => {
+                const hit = tqFindViTarget(p.vi, targets);
+                if (!hit) return;
+                out.push({
+                    vi: p.vi, kr: p.kr,
+                    answer: p.vi.substr(hit.start, hit.len),
+                    atStart: hit.start === 0,
+                    cloze: p.vi.slice(0, hit.start) + '<span class="tq-blank">______</span>' + p.vi.slice(hit.start + hit.len)
+                });
+            });
+            return out;
+        }
+        function tqViDistractors(correctVi, sentenceVi, n, item) {
+            const fSen = tqViFold(sentenceVi || ''), fCor = tqViFold(correctVi);
+            const type = tqNormType(item), topic = (item && item.topic) || '';
+            const seen = new Set([fCor]);
+            const best = [], mid = [], rest = [];
+            tqBank().forEach(it => {
+                const w = tqViShort(tqVi(it));
+                const fw = tqViFold(w);
+                if (!w || w.length < 2 || seen.has(fw)) return;
+                seen.add(fw);
+                if (fSen && fSen.indexOf(fw) >= 0) return;
+                const sameType = tqNormType(it) === type;
+                const sameTopic = topic && it.topic === topic;
+                (sameType && sameTopic ? best : sameType ? mid : rest).push(w);
+            });
+            return shuffleArr(best).concat(shuffleArr(mid), shuffleArr(rest)).slice(0, n);
+        }
+
+        /* ---------- CHÍNH TẢ: SINH CÁC CÁCH VIẾT SAI ---------- */
+
+        function _tqDecompose(ch) {
+            const c = ch.codePointAt(0);
+            if (c < 0xAC00 || c > 0xD7A3) return null;
+            const x = c - 0xAC00;
+            return { l: Math.floor(x / 588), v: Math.floor(x / 28) % 21, t: x % 28 };
+        }
+        function _tqCompose(l, v, t) { return String.fromCodePoint(0xAC00 + (l * 21 + v) * 28 + t); }
+        const _TQ_L_GROUPS = [[0, 15, 1], [3, 16, 4], [7, 17, 8], [9, 10], [12, 14, 13], [2, 5], [6, 7], [11, 18]];
+        const _TQ_V_GROUPS = [[0, 4], [1, 5], [2, 6], [3, 7], [8, 13], [9, 14], [10, 15], [11, 16], [12, 17], [18, 20], [19, 20]];
+        const _TQ_T_GROUPS = [[0, 4], [0, 21], [4, 21], [16, 4], [16, 21], [1, 21], [8, 4], [19, 20], [17, 16]];
+
+        // Sinh các "cách viết sai" của 1 từ Hàn: đổi 1 nguyên âm / phụ âm đầu / 받침,
+        // loại bỏ những biến thể lỡ trùng với một từ có thật trong thư viện.
+        function tqMisspellings(word) {
+            const chars = Array.from(String(word || ''));
+            if (!chars.some(c => /[가-힣]/.test(c))) return [];
+            const real = new Set();
+            tqBank().forEach(it => { const w = String(it.word || '').trim(); if (w) real.add(w); });
+            const buckets = {}, seenW = new Set();
+            chars.forEach((ch, i) => {
+                const d = _tqDecompose(ch);
+                if (!d) return;
+                const push = (kind, l, v, t) => {
+                    const nc = _tqCompose(l, v, t);
+                    if (nc === ch) return;
+                    const w = chars.slice(0, i).join('') + nc + chars.slice(i + 1).join('');
+                    if (w === word || real.has(w) || seenW.has(w)) return;
+                    seenW.add(w);
+                    const k = i + ':' + kind;
+                    (buckets[k] = buckets[k] || []).push(w);
+                };
+                _TQ_V_GROUPS.forEach(g => { if (g.indexOf(d.v) >= 0) g.forEach(v => push('v', d.l, v, d.t)); });
+                _TQ_L_GROUPS.forEach(g => { if (g.indexOf(d.l) >= 0) g.forEach(l => push('l', l, d.v, d.t)); });
+                _TQ_T_GROUPS.forEach(g => { if (g.indexOf(d.t) >= 0) g.forEach(t => push('t', d.l, d.v, t)); });
+            });
+            // Rải đều: mỗi vòng lấy 1 từ ở mỗi nhóm (vị trí + kiểu lỗi) -> 3 đáp án sai khác kiểu nhau
+            const keys = shuffleArr(Object.keys(buckets));
+            keys.forEach(k => shuffleArr(buckets[k]));
+            const out = []; let round = 0, added = true;
+            while (added) {
+                added = false;
+                keys.forEach(k => { if (buckets[k][round] != null) { out.push(buckets[k][round]); added = true; } });
+                round++;
+            }
+            return out;
+        }
+
+        /* ---------- HÁN TỰ (data riêng của TOPIK, THTH2 không có) ---------- */
+
+        // Chuỗi chữ Hán + chuỗi nghĩa Hán Việt của 1 từ, VD 기능 -> { cn: '機能', vi: 'Cơ Năng' }
+        function tqHanja(item) {
+            const list = (item && item.hanja) || [];
+            if (!list.length) return null;
+            const vi = list.map(h => String(h.vi || '').trim()).filter(Boolean);
+            if (vi.length !== list.length) return null;
+            const cnParts = list.map(h => String(h.cn || '').trim());
+            const cn = cnParts.every(Boolean) ? cnParts.join('') : '';
+            return { cn: cn, vi: vi.join(' '), parts: list };
+        }
+        // Chỉ mục chữ Hán -> danh sách từ cùng chứa chữ Hán đó (dùng cho dạng "Gốc Hán")
+        let _tqHanjaIdx = null, _tqHanjaIdxFor = null;
+        function tqHanjaIndex() {
+            const bank = tqBank();
+            if (_tqHanjaIdx && _tqHanjaIdxFor === bank) return _tqHanjaIdx;
+            const idx = {};
+            bank.forEach(it => {
+                ((it && it.hanja) || []).forEach(h => {
+                    const cn = String(h.cn || '').trim();
+                    if (!cn) return;
+                    (idx[cn] = idx[cn] || []).push(it);
+                });
+            });
+            _tqHanjaIdx = idx; _tqHanjaIdxFor = bank;
+            return idx;
+        }
+        // Một gốc Hán của từ này mà còn ÍT NHẤT 1 từ khác cũng chứa nó
+        function tqPickSharedRoot(item) {
+            const idx = tqHanjaIndex();
+            const cands = ((item && item.hanja) || []).filter(h => {
+                const cn = String(h.cn || '').trim();
+                if (!cn || !h.vi) return false;
+                return (idx[cn] || []).some(x => x.id !== item.id && x.word !== item.word);
+            });
+            if (!cands.length) return null;
+            return cands[Math.floor(Math.random() * cands.length)];
+        }
+
+        /* ---------- GIẢI THÍCH / NGHĨA ĐEN / ĐỒNG-TRÁI NGHĨA ---------- */
+
+        // "상한 음식을 먹고 생기는 증상 (Triệu chứng ...)" -> { ko: '상한 ...', vi: 'Triệu chứng ...' }
+        function tqIsGloss(raw) { return /^\(/.test(raw) || /^[가-힣\s]{1,12}\s*:/.test(raw); }
+        function tqExplain(item) {
+            const raw = String((item && item.explanation) || '').trim();
+            if (raw.length < 6 || tqIsGloss(raw)) return null;
+            const m = raw.match(/^([\s\S]*?)\s*\(([^()]*)\)\s*$/);
+            if (m && m[1].trim() && m[2].trim()) return { ko: m[1].trim(), vi: m[2].trim(), full: raw };
+            return { ko: /[가-힣]/.test(raw) ? raw : '', vi: /[가-힣]/.test(raw) ? '' : raw, full: raw };
+        }
+        // "Đồng nghĩa: 근무하다" / "Trái nghĩa: 상사" (có thể nhiều mục ngăn bằng ; hoặc /)
+        function tqSynPairs(item) {
+            const raw = String((item && item.synonyms) || '').trim();
+            if (!raw) return [];
+            const out = [];
+            raw.split(/[;\n]|(?:\s\/\s)/).forEach(chunk => {
+                const m = chunk.match(/(Đồng\s*ngh[iĩ]a|Trái\s*ngh[iĩ]a)\s*[::]\s*(.+)$/i);
+                if (!m) return;
+                const target = m[2].replace(/[.。]\s*$/, '').trim();
+                if (!target || !/[가-힣]/.test(target)) return;
+                out.push({ kind: /trái/i.test(m[1]) ? 'trái nghĩa' : 'đồng nghĩa', target: target });
+            });
+            return out;
+        }
+
+        /* ============================================================
+           12 DẠNG CÂU HỎI — tỉ lệ, chiều trả lời và điều kiện khả thi
+           Pill (Việt / Hàn / Cả hai) = NGÔN NGỮ CỦA ĐÁP ÁN, áp cho mọi dạng.
+           ============================================================ */
+
+        const TQ_W      = { word: 16, sent: 13, cloze: 15, order: 8,  match: 8, spell: 8, hanja: 11, hanjaRoot: 5, explain: 7, literal: 5, syn: 4 };
+        const TQ_W_HARD = { word: 5,  sent: 15, cloze: 17, order: 12, match: 8, spell: 9, hanja: 13, hanjaRoot: 7, explain: 8, literal: 3, syn: 3 };
+        const TQ_LANGS = {
+            word:      ['vi', 'ko'],
+            sent:      ['vi', 'ko'],
+            cloze:     ['vi', 'ko'],   // ko = điền từ Hàn vào câu Hàn; vi = đục lỗ bản dịch
+            order:     ['vi', 'ko'],
+            match:     ['vi', 'ko'],
+            spell:     ['ko'],
+            hanja:     ['vi', 'ko'],   // vi = đọc ra nghĩa Hán Việt; ko = từ chữ Hán tìm từ Hàn
+            hanjaRoot: ['ko'],
+            explain:   ['vi', 'ko'],
+            literal:   ['vi'],
+            syn:       ['ko']
+        };
+        const TQ_BADGE = {
+            word: 'Từ vựng', sent: 'Nghĩa cả câu', clozeKo: 'Điền từ', clozeVi: 'Đục lỗ câu Việt',
+            order: 'Sắp xếp câu', match: 'Ghép cặp', spell: 'Chính tả',
+            hanjaKo: 'Hán tự → Từ', hanjaVi: 'Từ → Hán tự', hanjaRoot: 'Gốc Hán',
+            explainKo: 'Giải thích → Từ', explainVi: 'Từ → Giải thích',
+            literal: 'Nghĩa đen → Nghĩa bóng', syn: 'Đồng / Trái nghĩa'
+        };
+        const TQ_BADGE_HARD = { sent: 1, order: 1, spell: 1, hanjaRoot: 1, literal: 1, clozeVi: 1 };
+
+        function tqFeasible(type, item, d) {
+            if ((TQ_LANGS[type] || []).indexOf(d) < 0) return false;
+            if (!item) return false;
+            const bankOk = tqBank().length >= 4;
+            switch (type) {
+                case 'word':  return bankOk && !!tqVi(item);
+                case 'match': return bankOk;
+                case 'sent':  return tqPairs(item).length > 0 && tqSentBank().length >= 4;
+                case 'cloze': return (d === 'vi') ? tqViClozePairs(item).length > 0 : tqClozePairs(item).length > 0;
+                case 'order': return tqOrderPairs(item, d).length > 0;
+                case 'spell': return tqMisspellings(item.word).length >= 3;
+                case 'hanja': {
+                    const h = tqHanja(item);
+                    if (!h) return false;
+                    return d === 'ko' ? !!h.cn : !!h.vi;
+                }
+                case 'hanjaRoot': return !!tqPickSharedRoot(item);
+                case 'explain': {
+                    const e = tqExplain(item);
+                    if (!e || !e.full) return false;
+                    if (d === 'ko') return bankOk;
+                    return tqBank().filter(x => x.id !== item.id && tqExplain(x)).length >= 3;
+                }
+                case 'literal': return !!(String(item.literal || '').trim() && tqVi(item));
+                case 'syn': return tqSynPairs(item).length > 0;
+            }
+            return false;
+        }
+
+        // Câu đủ ngắn để bấm sắp xếp (câu ví dụ TOPIK dài hơn THTH2 nên nới nhẹ ngưỡng)
+        function tqOrderPairs(item, d) {
+            return tqPairs(item).filter(p => {
+                const n = String(d === 'vi' ? p.vi : p.kr).trim().split(/\s+/).filter(Boolean).length;
+                return d === 'vi' ? (n >= 4 && n <= 13) : (n >= 3 && n <= 10);
+            });
+        }
+
+        // Túi dạng câu hỏi: rải đúng tỉ lệ rồi xáo — hết túi thì bốc túi mới,
+        // nhờ vậy tỉ lệ các dạng luôn bám sát thiết kế dù hàng đợi dài ngắn thế nào.
+        function tqBuildBag(types, W) {
+            const N = 20;
+            const totalW = types.reduce((a, t) => a + W[t], 0) || 1;
+            const bag = [];
+            types.forEach(t => { const n = Math.round(N * W[t] / totalW); for (let i = 0; i < n; i++) bag.push(t); });
+            if (!bag.length) bag.push('word');
+            return shuffleArr(bag);
+        }
+
+        // Chọn dạng + chiều trả lời cho từ hiện tại; từ nào thiếu data cho dạng đó
+        // thì tự đổi sang dạng khác làm được để không bao giờ bị kẹt câu hỏi.
+        function tqNextPlan(item) {
+            const st = practiceState.quiz;
+            const lang = st.replyLang || 'mix';
+            const W = st.hard ? TQ_W_HARD : TQ_W;
+            const types = Object.keys(W).filter(t => lang === 'mix' || TQ_LANGS[t].indexOf(lang) >= 0);
+            if (!st.bag || !st.bag.length) st.bag = tqBuildBag(types, W);
+            let t = st.bag.shift();
+            if (types.indexOf(t) < 0) t = types[0] || 'word';
+            let d = (lang === 'mix') ? (Math.random() < 0.5 ? 'vi' : 'ko') : lang;
+            if (!tqFeasible(t, item, d)) {
+                const other = d === 'vi' ? 'ko' : 'vi';
+                if (lang === 'mix' && tqFeasible(t, item, other)) d = other;
+                else {
+                    const alt = shuffleArr(types.slice()).find(x => tqFeasible(x, item, d));
+                    if (alt) t = alt;
+                    else if (lang === 'mix') {
+                        const alt2 = shuffleArr(types.slice()).find(x => tqFeasible(x, item, other));
+                        if (alt2) { d = other; t = alt2; } else { t = 'word'; d = 'vi'; }
+                    } else { t = 'word'; }
+                }
+            }
+            return { t: t, d: d };
+        }
+
+        /* ---------- CÁC BỘ SINH CÂU HỎI ABCD ----------
+           Mỗi hàm trả về { key, label, promptHtml, correct, wrongs, reveal, optClass } */
+
+        const TQ_KO_CLS = 'font-kr-serif';
+
+        // 1. TỪ VỰNG
+        function tqQWord(item, d) {
+            const reveal = `<b class="${TQ_KO_CLS}">${item.word}</b><br>${tqVi(item)}`;
+            if (d === 'vi') {
+                return {
+                    key: 'word', label: 'Nghĩa của từ sau là gì?',
+                    promptHtml: `<div class="tq-cloze ${TQ_KO_CLS}">${item.word}</div>`, speak: item.word,
+                    correct: tqViShort(tqVi(item)) || tqVi(item),
+                    wrongs: tqViDistractors(tqViShort(tqVi(item)), '', 3, item), reveal: reveal
+                };
+            }
+            return {
+                key: 'word', label: `Từ nào mang nghĩa: "${tqViShort(tqVi(item))}"?`,
+                promptHtml: '', correct: item.word, optClass: TQ_KO_CLS,
+                wrongs: tqKoDistractors(item, '', 3), reveal: reveal
+            };
+        }
+
+        // 2. NGHĨA CẢ CÂU
+        function tqQSentence(item, d) {
+            const pairs = tqPairs(item);
+            if (!pairs.length) return null;
+            const p = pairs[Math.floor(Math.random() * pairs.length)];
+            const wrongs = tqSimilarSentences(d === 'vi' ? p.vi : p.kr, d === 'vi' ? 'vi' : 'ko', 3);
+            if (wrongs.length < 3) return null;
+            const reveal = `<b class="${TQ_KO_CLS}">${p.kr}</b><br>${p.vi}`;
+            if (d === 'vi') {
+                return {
+                    key: 'sent', label: 'Câu sau có nghĩa là gì?',
+                    promptHtml: `<div class="tq-cloze ${TQ_KO_CLS}">${p.kr}</div>`, speak: p.kr,
+                    correct: p.vi, wrongs: wrongs, reveal: reveal
+                };
+            }
+            return {
+                key: 'sent', label: 'Câu tiếng Hàn nào mang nghĩa sau?',
+                promptHtml: `<div class="tq-cloze">${p.vi}</div>`,
+                correct: p.kr, wrongs: wrongs, optClass: TQ_KO_CLS, reveal: reveal
+            };
+        }
+
+        // 3a. ĐIỀN TỪ vào câu tiếng Hàn
+        function tqQClozeKo(item) {
+            const pairs = tqClozePairs(item);
+            if (!pairs.length) return null;
+            const p = pairs[Math.floor(Math.random() * pairs.length)];
+            const wrongs = tqKoDistractors(item, p.kr, 3);
+            if (wrongs.length < 3) return null;
+            return {
+                key: 'clozeKo', label: 'Chọn từ đúng để hoàn thành câu:',
+                promptHtml: `<div class="tq-cloze ${TQ_KO_CLS}">${p.cloze}</div>` + (p.vi ? `<div class="tq-sub">(${p.vi})</div>` : ''),
+                correct: item.word, wrongs: wrongs, optClass: TQ_KO_CLS,
+                reveal: `<b class="${TQ_KO_CLS}">${p.kr}</b>` + (p.vi ? `<br>${p.vi}` : '')
+            };
+        }
+
+        // 3b. ĐỤC LỖ BẢN DỊCH TIẾNG VIỆT
+        function tqQClozeVi(item) {
+            const pairs = tqViClozePairs(item);
+            if (!pairs.length) return null;
+            const p = pairs[Math.floor(Math.random() * pairs.length)];
+            let wrongs = tqViDistractors(p.answer, p.vi, 3, item);
+            if (wrongs.length < 3) return null;
+            // Chỗ trống đứng đầu câu -> viết hoa hết đáp án để không lộ đáp án đúng
+            const cap = x => x.charAt(0).toUpperCase() + x.slice(1);
+            const answer = p.atStart ? cap(p.answer) : p.answer;
+            if (p.atStart) wrongs = wrongs.map(cap);
+            return {
+                key: 'clozeVi', label: 'Chọn từ đúng để hoàn thành bản dịch:',
+                promptHtml: (p.kr ? `<div class="tq-cloze ${TQ_KO_CLS}">${p.kr}</div>` : '') + `<div class="tq-cloze">${p.cloze}</div>`,
+                speak: p.kr || '',
+                correct: answer, wrongs: wrongs,
+                reveal: (p.kr ? `<b class="${TQ_KO_CLS}">${p.kr}</b><br>` : '') + p.vi
+            };
+        }
+
+        // 4. CHÍNH TẢ
+        function tqQSpell(item) {
+            const wrongs = shuffleArr(tqMisspellings(item.word)).slice(0, 3);
+            if (wrongs.length < 3) return null;
+            return {
+                key: 'spell', label: `Cách viết nào ĐÚNG cho nghĩa: "${tqViShort(tqVi(item))}"?`,
+                promptHtml: '', correct: item.word, wrongs: wrongs, optClass: TQ_KO_CLS,
+                reveal: `<b class="${TQ_KO_CLS}">${item.word}</b><br>${tqVi(item)}`
+            };
+        }
+
+        // 5. HÁN TỰ ↔ TỪ (dạng mới — khai thác cột GỐC HÁN / TỪ HÁN / NGHĨA HÁN VIỆT)
+        function tqQHanja(item, d) {
+            const h = tqHanja(item);
+            if (!h) return null;
+            const chain = h.parts.map(x => `<b class="${TQ_KO_CLS}">${x.kr}</b> ${x.cn ? '(' + x.cn + ')' : ''} — ${x.vi}`).join(' · ');
+            const reveal = `<b class="${TQ_KO_CLS}">${item.word}</b>${h.cn ? ' 【' + h.cn + '】' : ''} — ${h.vi}<br>${tqVi(item)}<br><span style="font-size:12px;">${chain}</span>`;
+            if (d === 'ko') {
+                if (!h.cn) return null;
+                const nSyl = Array.from(item.word.replace(/\s/g, '')).length;
+                const wrongs = tqKoDistractors(item, '', 60)
+                    .filter(w => Array.from(w.replace(/\s/g, '')).length === nSyl)
+                    .slice(0, 3);
+                const pad = wrongs.length < 3 ? tqKoDistractors(item, '', 8).filter(w => wrongs.indexOf(w) < 0).slice(0, 3 - wrongs.length) : [];
+                const all = wrongs.concat(pad);
+                if (all.length < 3) return null;
+                return {
+                    key: 'hanjaKo', label: 'Từ tiếng Hàn nào được viết bằng chữ Hán sau?',
+                    promptHtml: `<div class="tq-cloze" style="font-size:30px; letter-spacing:4px;">${h.cn}</div><div class="tq-sub">(${h.vi})</div>`,
+                    correct: item.word, wrongs: all, optClass: TQ_KO_CLS, reveal: reveal
+                };
+            }
+            // d === 'vi': đọc ra chuỗi nghĩa Hán Việt
+            const nParts = h.parts.length;
+            const seen = new Set([h.vi.toLowerCase()]);
+            const same = [], other = [];
+            tqBank().forEach(it => {
+                if (it.id === item.id) return;
+                const g = tqHanja(it);
+                if (!g || !g.vi || seen.has(g.vi.toLowerCase())) return;
+                seen.add(g.vi.toLowerCase());
+                (g.parts.length === nParts ? same : other).push(g.vi);
+            });
+            const wrongs = shuffleArr(same).concat(shuffleArr(other)).slice(0, 3);
+            if (wrongs.length < 3) return null;
+            return {
+                key: 'hanjaVi', label: 'Từ sau có gốc Hán Việt là gì?',
+                promptHtml: `<div class="tq-cloze ${TQ_KO_CLS}">${item.word}</div><div class="tq-sub">(${tqViShort(tqVi(item))})</div>`,
+                speak: item.word, correct: h.vi, wrongs: wrongs, reveal: reveal
+            };
+        }
+
+        // 6. GỐC HÁN CHUNG (dạng mới — tư duy đoán nghĩa từ mới qua gốc Hán, rất TOPIK II)
+        function tqQHanjaRoot(item) {
+            const root = tqPickSharedRoot(item);
+            if (!root) return null;
+            const cn = String(root.cn).trim();
+            const share = shuffleArr((tqHanjaIndex()[cn] || []).filter(x => x.id !== item.id && x.word !== item.word));
+            if (!share.length) return null;
+            const correctItem = share[0];
+            const shareWords = new Set(share.map(x => x.word).concat([item.word]));
+            const wrongs = tqKoDistractors(item, '', 30).filter(w => !shareWords.has(w)).slice(0, 3);
+            if (wrongs.length < 3) return null;
+            const ch = tqHanja(correctItem);
+            return {
+                key: 'hanjaRoot',
+                label: `Từ nào dưới đây cũng chứa gốc Hán <b>${cn}</b> (${root.vi})?`,
+                promptHtml: `<div class="tq-cloze"><span class="${TQ_KO_CLS}">${item.word}</span> = <b>${root.kr}</b> 【${cn}】 ${root.vi}</div><div class="tq-sub">(${tqViShort(tqVi(item))})</div>`,
+                correct: correctItem.word, wrongs: wrongs, optClass: TQ_KO_CLS,
+                reveal: `<b class="${TQ_KO_CLS}">${correctItem.word}</b>${ch && ch.cn ? ' 【' + ch.cn + '】' : ''} — ${tqViShort(tqVi(correctItem))}`
+            };
+        }
+
+        // 7. GIẢI THÍCH ↔ TỪ (dạng mới — dùng cột GIẢI THÍCH TỪ VỰNG, chủ yếu quán dụng ngữ / tục ngữ)
+        function tqQExplain(item, d) {
+            const e = tqExplain(item);
+            if (!e || !e.full) return null;
+            const body = (e.ko ? `<div class="tq-cloze ${TQ_KO_CLS}">${e.ko}</div>` : '') + (e.vi ? `<div class="tq-sub">${e.vi}</div>` : '');
+            const reveal = `<b class="${TQ_KO_CLS}">${item.word}</b> — ${tqViShort(tqVi(item))}<br><span style="font-size:12px;">${e.full}</span>`;
+            if (d === 'ko') {
+                const wrongs = tqKoDistractors(item, e.ko || '', 3);
+                if (wrongs.length < 3) return null;
+                return {
+                    key: 'explainKo', label: 'Cách giải thích sau nói về từ / thành ngữ nào?',
+                    promptHtml: body, correct: item.word, wrongs: wrongs, optClass: TQ_KO_CLS, reveal: reveal
+                };
+            }
+            const seen = new Set([e.full]);
+            const pool = [];
+            tqBank().forEach(it => {
+                if (it.id === item.id) return;
+                const g = tqExplain(it);
+                if (!g || !g.full || seen.has(g.full)) return;
+                seen.add(g.full);
+                pool.push(g.ko || g.vi || g.full);
+            });
+            const wrongs = shuffleArr(pool).slice(0, 3);
+            if (wrongs.length < 3) return null;
+            return {
+                key: 'explainVi', label: 'Cách giải thích nào đúng cho từ sau?',
+                promptHtml: `<div class="tq-cloze ${TQ_KO_CLS}">${item.word}</div>`, speak: item.word,
+                correct: e.ko || e.vi || e.full, wrongs: wrongs, reveal: reveal
+            };
+        }
+
+        // 8. NGHĨA ĐEN → NGHĨA BÓNG (dạng mới — cột NGHĨA ĐEN tách riêng với Ý NGHĨA)
+        function tqQLiteral(item) {
+            const lit = String(item.literal || '').trim();
+            if (!lit) return null;
+            const rawEx = String(item.explanation || '').trim();
+            const gloss = tqIsGloss(rawEx) ? rawEx : '';
+            const correct = tqViShort(tqVi(item));
+            const pool = [];
+            const seen = new Set([tqViFold(correct)]);
+            tqBank().forEach(it => {
+                if (it.id === item.id || !String(it.literal || '').trim()) return;
+                const w = tqViShort(tqVi(it));
+                const f = tqViFold(w);
+                if (!w || seen.has(f)) return;
+                seen.add(f); pool.push(w);
+            });
+            let wrongs = shuffleArr(pool).slice(0, 3);
+            if (wrongs.length < 3) wrongs = wrongs.concat(tqViDistractors(correct, '', 3 - wrongs.length, item));
+            if (wrongs.length < 3) return null;
+            return {
+                key: 'literal', label: 'Nghĩa đen như sau — vậy nghĩa thực sự khi dùng là gì?',
+                promptHtml: `<div class="tq-cloze ${TQ_KO_CLS}">${item.word}</div><div class="tq-sub">Nghĩa đen: ${lit}</div>`,
+                speak: item.word, correct: correct, wrongs: wrongs,
+                reveal: `<b class="${TQ_KO_CLS}">${item.word}</b><br>Nghĩa đen: ${lit}<br>Nghĩa dùng: ${tqVi(item)}`
+                    + (gloss ? `<br><span style="font-size:12px;">${gloss}</span>` : '')
+            };
+        }
+
+        // 9. ĐỒNG NGHĨA / TRÁI NGHĨA (dạng mới — cột ĐỒNG NGHĨA/TRÁI NGHĨA)
+        function tqQSyn(item) {
+            const pairs = tqSynPairs(item);
+            if (!pairs.length) return null;
+            const p = pairs[Math.floor(Math.random() * pairs.length)];
+            const wrongs = tqKoDistractors(item, '', 12).filter(w => w !== p.target).slice(0, 3);
+            if (wrongs.length < 3) return null;
+            const hit = tqBank().find(x => x.word === p.target);
+            return {
+                key: 'syn', label: `Từ nào <b>${p.kind.toUpperCase()}</b> với từ sau?`,
+                promptHtml: `<div class="tq-cloze ${TQ_KO_CLS}">${item.word}</div><div class="tq-sub">(${tqViShort(tqVi(item))})</div>`,
+                speak: item.word, correct: p.target, wrongs: wrongs, optClass: TQ_KO_CLS,
+                reveal: `<b class="${TQ_KO_CLS}">${item.word}</b> (${tqViShort(tqVi(item))}) — ${p.kind} — <b class="${TQ_KO_CLS}">${p.target}</b>${hit ? ' (' + tqViShort(tqVi(hit)) + ')' : ''}`
+            };
+        }
+
+        /* ============================================================
+           GIAO DIỆN TAB TRẮC NGHIỆM
+           ============================================================ */
+
+        // Ghi nhớ lựa chọn "Trả lời bằng" + "Khó" theo tài khoản (dùng chung mọi sổ)
+        function tqPrefKey(k) { return 'topikQuiz_' + k + '_' + ((typeof currentUser !== 'undefined' && currentUser && currentUser.username) || 'guest'); }
+        function tqLoadPrefs() {
+            let lang = 'mix', hard = false;
+            try {
+                lang = localStorage.getItem(tqPrefKey('lang')) || 'mix';
+                hard = localStorage.getItem(tqPrefKey('hard')) === '1';
+            } catch (e) {}
+            if (['vi', 'ko', 'mix'].indexOf(lang) < 0) lang = 'mix';
+            return { replyLang: lang, hard: hard };
+        }
+        function tqSavePrefs() {
+            const st = practiceState.quiz;
+            try {
+                localStorage.setItem(tqPrefKey('lang'), st.replyLang || 'mix');
+                st.hard ? localStorage.setItem(tqPrefKey('hard'), '1') : localStorage.removeItem(tqPrefKey('hard'));
+            } catch (e) {}
+        }
+        function tqSetLang(v) {
+            const st = practiceState.quiz;
+            if (st.replyLang === v) return;
+            st.replyLang = v; st.bag = null; tqSavePrefs();
+            // Đang chờ bấm "Câu tiếp theo" thì chỉ đổi thiết lập, không thay câu đang chấm
+            if (st.answered) { tqRenderBar(); return; }
+            renderPracticeQuiz();
+        }
+        function tqToggleHard() {
+            const st = practiceState.quiz;
+            st.hard = !st.hard; st.bag = null; tqSavePrefs();
+            if (st.answered) { tqRenderBar(); return; }
+            renderPracticeQuiz();
+        }
+        const TQ_LANG_OPTS = [['vi', 'Việt'], ['ko', 'Hàn'], ['mix', 'Cả hai']];
+        function tqBarHtml() {
+            const st = practiceState.quiz;
+            const cur = st.replyLang || 'mix';
+            return `
+                <div class="tq-bar" id="tq-bar">
+                    <span class="tq-bar-lead">Trả lời bằng:</span>
+                    <div class="tq-pills">
+                        ${TQ_LANG_OPTS.map(o => `<button type="button" class="tq-pill${o[0] === cur ? ' active' : ''}" onclick="tqSetLang('${o[0]}')">${o[1]}</button>`).join('')}
+                    </div>
+                    <button type="button" class="tq-hard${st.hard ? ' on' : ''}" onclick="tqToggleHard()" title="Bật: hầu hết câu hỏi là dạng nâng cao (nghĩa cả câu, điền từ, sắp xếp câu, Hán tự, chính tả)"><span class="tq-hard-box">✓</span>Khó</button>
+                </div>`;
+        }
+        function tqRenderBar() {
+            const el = document.getElementById('tq-bar');
+            if (el) el.outerHTML = tqBarHtml();
+        }
+
+        // Đầu panel dùng chung cho 4 tab luyện tập có chấm điểm — để mỗi màn hình
+        // đều có "tên màn hình + mô tả" rõ ràng thay vì thả thẳng câu hỏi ra giữa.
+        function practicePanelHead(icon, title, sub, rightHtml) {
+            return `<div class="ui-phead">
+                <div class="ui-phead-l">
+                    <div class="ui-ptile">${icon}</div>
+                    <div class="min-w-0">
+                        <h3 class="ui-h3">${title}</h3>
+                        <p class="ui-sub">${sub}</p>
+                    </div>
+                </div>
+                <div class="ui-phead-r">${rightHtml || ''}</div>
+            </div>`;
+        }
+
+        function tqBadgeHtml(key) {
+            return `<span class="tq-badge${TQ_BADGE_HARD[key] ? ' hard' : ''}">${TQ_BADGE[key] || 'Trắc nghiệm'}</span>`;
+        }
+        // Nút loa cho phần đề bài tiếng Hàn (đọc bằng giọng đã cấu hình sẵn của web)
+        function tqSpeakCurrent() {
+            const t = practiceState.quiz._speak;
+            if (t) speakKorean(t);
+        }
+        function tqSpeakBtnHtml() {
+            return `<button class="m-pressed-btn text-point shrink-0" title="Nghe phát âm" onclick="tqSpeakCurrent()">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+            </button>`;
+        }
+
+        // Khung màn hình chung cho cả 12 dạng: tiến độ · thanh chọn · đề bài · vùng trả lời ·
+        // ô đáp án chi tiết (đã chiếm sẵn chỗ) · phản hồi · nút điều hướng.
+        function tqShell(badgeKey, labelHtml, promptHtml, bodyHtml, revealHtml, hasSpeak) {
+            return `
+                <div class="w-full flex flex-col gap-5">
+                ${practicePanelHead('📝', 'Trắc nghiệm', 'Câu hỏi tự đổi dạng: nghĩa từ, nghĩa câu, điền từ, Hán tự, ghép cặp, sắp xếp câu…', tqBarHtml())}
+                <div class="flex flex-col items-center gap-5 w-full">
                     ${buildInlinePracticeProgressHtml('quiz')}
-                    <div class="flex items-center gap-2 max-w-lg">
-                        <p class="text-xl font-bold text-[color:var(--c-1e2a4a)] text-center">${questionText}</p>
-                        ${isKoQuestion ? `<button class="m-pressed-btn text-point shrink-0" title="Nghe phát âm" onclick="speakKorean('${item.word.replace(/'/g, "\\'")}')">
-                            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
-                        </button>` : ''}
+                    <div class="flex flex-col items-center gap-2 w-full max-w-lg">
+                        ${tqBadgeHtml(badgeKey)}
+                        <div class="flex items-center gap-2 justify-center">
+                            <p class="text-base sm:text-lg font-bold text-[color:var(--c-1e2a4a)] text-center">${labelHtml}</p>
+                            ${hasSpeak ? tqSpeakBtnHtml() : ''}
+                        </div>
+                        ${promptHtml || ''}
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-lg" id="pq-opts">
-                        ${options.map((opt, i) => `<button class="neo-button py-4 px-4 text-base font-bold text-[color:var(--c-2d3a54)]" data-opt-i="${i}" onclick="handlePracticeQuizAnswer(this)">${opt}</button>`).join('')}
-                    </div>
-                    <div id="pq-feedback" class="text-sm font-semibold h-5"></div>
+                    <div class="w-full max-w-lg" id="pq-body">${bodyHtml}</div>
+                    <div class="tq-reveal" id="pq-reveal" style="visibility:hidden;">${revealHtml || '&nbsp;'}</div>
+                    <div id="pq-feedback" class="text-sm font-semibold min-h-[20px] text-center"></div>
                     <div class="flex gap-3">
                         <button class="neo-button px-5 py-2.5 text-xs font-bold text-gray-400" id="pq-skip-btn" onclick="advancePracticeQueue('quiz', true)">Bỏ qua, làm lại sau</button>
                         <button class="neo-button px-6 py-3 text-sm font-bold text-point hidden" id="pq-next-btn" onclick="advancePracticeQueue('quiz', false)">Câu tiếp theo →</button>
                     </div>
                 </div>
-            `;
-            document.getElementById('pq-opts')._options = options;
-            document.getElementById('pq-opts')._correct = correctAnswer;
+                </div>`;
         }
+
+        // ─── 3. TRẮC NGHIỆM (12 dạng câu hỏi, trộn theo tỉ lệ) ───
+        function renderPracticeQuiz() {
+            const el = document.getElementById('practice-content');
+            el.className = 'neo-raised p-4 sm:p-7';
+            const st = practiceState.quiz;
+            st.answered = false; st._match = null; st._order = null; st._speak = '';
+            if (st.replyLang == null) { const pf = tqLoadPrefs(); st.replyLang = pf.replyLang; st.hard = pf.hard; }
+            if (!st.queue.length) { el.innerHTML = buildPracticeDoneStateHtml('quiz'); return; }
+
+            const item = practiceState.words[st.queue[0]];
+            if (!item) { el.innerHTML = buildPracticeDoneStateHtml('quiz'); return; }
+
+            const p = tqNextPlan(item);
+            if (p.t === 'match') { tqRenderMatch(item); return; }
+            if (p.t === 'order') { tqRenderOrder(item, p.d); return; }
+
+            let q = null;
+            if (p.t === 'sent') q = tqQSentence(item, p.d);
+            else if (p.t === 'cloze') q = (p.d === 'vi') ? tqQClozeVi(item) : tqQClozeKo(item);
+            else if (p.t === 'spell') q = tqQSpell(item);
+            else if (p.t === 'hanja') q = tqQHanja(item, p.d);
+            else if (p.t === 'hanjaRoot') q = tqQHanjaRoot(item);
+            else if (p.t === 'explain') q = tqQExplain(item, p.d);
+            else if (p.t === 'literal') q = tqQLiteral(item);
+            else if (p.t === 'syn') q = tqQSyn(item);
+            // Thiếu data cho dạng vừa bốc -> quay về dạng hỏi từ để không bị kẹt câu hỏi
+            if (!q) q = tqQWord(item, p.d);
+
+            st._speak = q.speak || '';
+            const options = shuffleArr([q.correct].concat(q.wrongs.slice(0, 3)));
+            const optsHtml = `<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full" id="pq-opts">
+                ${options.map((opt, i) => `<button class="neo-button py-4 px-4 text-base font-bold text-[color:var(--c-2d3a54)] ${q.optClass || ''}" data-opt-i="${i}" onclick="handlePracticeQuizAnswer(this)">${opt}</button>`).join('')}
+            </div>`;
+            el.innerHTML = tqShell(q.key, q.label, q.promptHtml, optsHtml, q.reveal, !!q.speak);
+            const optsEl = document.getElementById('pq-opts');
+            optsEl._options = options;
+            optsEl._correct = q.correct;
+        }
+
+        // Kết thúc 1 câu — dùng chung cho cả ABCD, Ghép cặp và Sắp xếp câu
+        function tqFinishQuiz(isCorrect, wrongHtml) {
+            const st = practiceState.quiz;
+            st.answered = true;
+            const rv = document.getElementById('pq-reveal');
+            if (rv) rv.style.visibility = 'visible';
+            const fb = document.getElementById('pq-feedback');
+            if (fb) fb.innerHTML = isCorrect
+                ? '<span class="text-[#2ec65e]">🎉 Chính xác!</span>'
+                : `<span class="text-[#ef4444]">😢 ${wrongHtml || 'Chưa đúng rồi, đáp án đúng là ô được tô xanh.'}</span>`;
+            const nx = document.getElementById('pq-next-btn'), sk = document.getElementById('pq-skip-btn');
+            if (nx) nx.classList.remove('hidden');
+            if (sk) sk.classList.add('hidden');
+            const item = practiceState.words[st.queue[0]];
+            if (item) recordPracticeResult('quiz', item.id, isCorrect);
+        }
+
         function handlePracticeQuizAnswer(btn) {
             const st = practiceState.quiz;
-            if (st.answered) return; st.answered = true;
+            if (st.answered) return;
             const optsEl = document.getElementById('pq-opts');
             const options = optsEl._options, correct = optsEl._correct;
             const selectedIdx = parseInt(btn.getAttribute('data-opt-i'), 10);
             document.querySelectorAll('#pq-opts button').forEach((b, i) => {
                 if (options[i] === correct) b.classList.add('quiz-correct');
                 else if (i === selectedIdx) b.classList.add('quiz-wrong');
+                b.disabled = true;
             });
-            const isCorrect = options[selectedIdx] === correct;
-            const fb = document.getElementById('pq-feedback');
-            fb.innerHTML = isCorrect ? '<span class="text-[#2ec65e]">🎉 Chính xác!</span>' : '<span class="text-[#ef4444]">😢 Chưa đúng rồi, đáp án đúng là ô được tô xanh.</span>';
-            document.getElementById('pq-next-btn').classList.remove('hidden');
-            document.getElementById('pq-skip-btn').classList.add('hidden');
-            const item = practiceState.words[st.queue[0]];
-            if (item) recordPracticeResult('quiz', item.id, isCorrect);
+            tqFinishQuiz(options[selectedIdx] === correct, '');
+        }
+
+        /* ---------- 10. GHÉP CẶP ---------- */
+
+        function tqRenderMatch(mainItem) {
+            const st = practiceState.quiz;
+            // 5 từ: từ đang hỏi + 4 từ khác, ưu tiên lấy trong sổ để học sinh ôn đúng phạm vi
+            const own = (practiceState.words || []).filter(w => w && w.id !== mainItem.id);
+            const extra = shuffleArr(own).slice(0, 4);
+            if (extra.length < 4) {
+                const used = new Set([mainItem.id].concat(extra.map(x => x.id)));
+                shuffleArr(tqBank().filter(w => !used.has(w.id) && tqVi(w))).slice(0, 4 - extra.length)
+                    .forEach(w => extra.push(w));
+            }
+            const items = [mainItem].concat(extra);
+            st._match = { items: items, remain: items.length, wrong: 0, sel: null };
+
+            const reveal = items.map(w => `<b class="${TQ_KO_CLS}">${w.word}</b> — ${tqViShort(tqVi(w))}`).join(' · ');
+            const left = shuffleArr(items.map((_, i) => i)), right = shuffleArr(items.map((_, i) => i));
+            const col = (arr, side) => arr.map(i =>
+                `<button type="button" class="tq-chip ${side}" id="tq-m-${side}-${i}" onclick="tqMatchPick('${side}',${i},this)">`
+                + (side === 'ko' ? items[i].word : tqChipText(tqVi(items[i]))) + '</button>').join('');
+            const body = `<div class="tq-match">
+                <div class="tq-mcol"><div class="tq-mhd">Tiếng Hàn</div>${col(left, 'ko')}</div>
+                <div class="tq-mcol"><div class="tq-mhd">Tiếng Việt</div>${col(right, 'vi')}</div>
+            </div>`;
+            document.getElementById('practice-content').innerHTML =
+                tqShell('match', 'Ghép từ tiếng Hàn với nghĩa tiếng Việt tương ứng:', '', body, reveal, false);
+        }
+
+        function tqMatchPick(side, i, btn) {
+            const st = practiceState.quiz, m = st._match;
+            if (!m || st.answered || btn.classList.contains('done')) return;
+            // Bấm lại chính nó -> bỏ chọn
+            if (m.sel && m.sel.side === side && m.sel.i === i) { btn.classList.remove('sel'); m.sel = null; return; }
+            // Chọn lại cùng cột -> đổi lựa chọn
+            if (!m.sel || m.sel.side === side) {
+                if (m.sel) { const old = document.getElementById('tq-m-' + m.sel.side + '-' + m.sel.i); if (old) old.classList.remove('sel'); }
+                btn.classList.add('sel'); m.sel = { side: side, i: i }; return;
+            }
+            // Đủ 1 cặp -> chấm
+            const other = document.getElementById('tq-m-' + m.sel.side + '-' + m.sel.i);
+            if (m.sel.i === i) {
+                [btn, other].forEach(b => { if (b) { b.classList.remove('sel', 'bad'); b.classList.add('done'); } });
+                m.sel = null; m.remain--;
+                if (m.remain <= 0) {
+                    const ok = m.wrong === 0;
+                    tqFinishQuiz(ok, ok ? '' : `Bạn ghép sai <b>${m.wrong}</b> lần. Xem lại các cặp bên dưới nhé!`);
+                }
+            } else {
+                m.wrong++;
+                [btn, other].forEach(b => { if (b) { b.classList.remove('sel'); b.classList.add('bad'); setTimeout(() => b.classList.remove('bad'), 450); } });
+                m.sel = null;
+            }
+        }
+
+        /* ---------- 11. SẮP XẾP TỪ THÀNH CÂU ---------- */
+
+        function tqRenderOrder(item, d) {
+            const st = practiceState.quiz;
+            const pairs = tqOrderPairs(item, d);
+            if (!pairs.length) { // hụt data -> quay về dạng hỏi từ
+                const q = tqQWord(item, d);
+                st._speak = q.speak || '';
+                const options = shuffleArr([q.correct].concat(q.wrongs.slice(0, 3)));
+                const optsHtml = `<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full" id="pq-opts">
+                    ${options.map((opt, i) => `<button class="neo-button py-4 px-4 text-base font-bold text-[color:var(--c-2d3a54)] ${q.optClass || ''}" data-opt-i="${i}" onclick="handlePracticeQuizAnswer(this)">${opt}</button>`).join('')}
+                </div>`;
+                document.getElementById('practice-content').innerHTML = tqShell(q.key, q.label, q.promptHtml, optsHtml, q.reveal, !!q.speak);
+                const oe = document.getElementById('pq-opts'); oe._options = options; oe._correct = q.correct;
+                return;
+            }
+            const p = pairs[Math.floor(Math.random() * pairs.length)];
+            // Bỏ dấu câu ở cuối để từ cuối cùng không bị lộ vị trí
+            const target = String(d === 'vi' ? p.vi : p.kr).trim().replace(/[.?!。？！]+$/, '');
+            const tokens = target.split(/\s+/).filter(Boolean);
+            // Câu tiếng Việt: viết thường chữ đầu để không lộ từ đứng đầu câu
+            if (d === 'vi' && tokens.length) tokens[0] = tokens[0].charAt(0).toLowerCase() + tokens[0].slice(1);
+            st._order = { tokens: tokens, pool: shuffleArr(tokens.slice()), placed: [], d: d, pair: p, item: item, hint: false };
+
+            const prompt = (d === 'vi') ? `<div class="tq-cloze ${TQ_KO_CLS}">${p.kr}</div>` : `<div class="tq-sub">Gợi ý nghĩa sẽ hiện khi bạn bấm 💡</div>`;
+            const body = `<div class="flex flex-col gap-3 w-full">
+                <div class="tq-slot empty" id="tq-slot"></div>
+                <div class="tq-pool" id="tq-pool"></div>
+                <div class="tq-oact">
+                    <button type="button" class="tq-obtn" id="tq-hint-btn" onclick="tqToggleOrderHint()">💡 Gợi ý</button>
+                    <button type="button" class="tq-obtn" onclick="tqResetOrder()">↺ Xoá hết</button>
+                    <button type="button" class="tq-obtn primary" id="tq-check" onclick="tqCheckOrder()" disabled>Kiểm tra</button>
+                </div>
+                <div class="tq-hint" id="tq-hint" style="display:none;"></div>
+            </div>`;
+            document.getElementById('practice-content').innerHTML = tqShell(
+                'order', 'Sắp xếp các từ sau thành câu hoàn chỉnh:', prompt, body,
+                `<b class="${TQ_KO_CLS}">${p.kr}</b><br>${p.vi}`, false);
+            tqRenderOrderBoard();
+        }
+
+        function tqRenderOrderBoard() {
+            const o = practiceState.quiz._order; if (!o) return;
+            const cls = o.d === 'vi' ? 'tq-w vi' : 'tq-w';
+            const slot = document.getElementById('tq-slot'), pool = document.getElementById('tq-pool');
+            if (!slot || !pool) return;
+            slot.classList.toggle('empty', o.placed.length === 0);
+            slot.innerHTML = o.placed.length === 0
+                ? 'Bấm các từ bên dưới để xếp thành câu...'
+                : o.placed.map((k, i) => `<button type="button" class="${cls} inslot" onclick="tqOrderUnplace(${i})">${o.pool[k]}</button>`).join('');
+            pool.innerHTML = o.pool.map((w, k) =>
+                `<button type="button" class="${cls}${o.placed.indexOf(k) >= 0 ? ' used' : ''}" onclick="tqOrderPlace(${k})">${w}</button>`).join('');
+            const chk = document.getElementById('tq-check');
+            if (chk) chk.disabled = (o.placed.length !== o.tokens.length) || practiceState.quiz.answered;
+        }
+        function tqOrderPlace(k) {
+            const o = practiceState.quiz._order;
+            if (!o || practiceState.quiz.answered || o.placed.indexOf(k) >= 0) return;
+            o.placed.push(k); tqRenderOrderBoard();
+        }
+        function tqOrderUnplace(pos) {
+            const o = practiceState.quiz._order;
+            if (!o || practiceState.quiz.answered) return;
+            o.placed.splice(pos, 1); tqRenderOrderBoard();
+        }
+        function tqResetOrder() {
+            const o = practiceState.quiz._order;
+            if (!o || practiceState.quiz.answered) return;
+            o.placed = []; tqRenderOrderBoard();
+        }
+        // Bóng đèn: nghĩa cả câu + từ vựng xuất hiện trong câu (kèm nghĩa)
+        function tqToggleOrderHint() {
+            const o = practiceState.quiz._order; if (!o) return;
+            const box = document.getElementById('tq-hint'), btn = document.getElementById('tq-hint-btn');
+            const on = box.style.display === 'none';
+            if (on) {
+                box.innerHTML = (o.d === 'vi' ? '' : `<div>Nghĩa của câu: <b>${o.pair.vi}</b></div>`)
+                    + `<div style="margin-top:4px;">Từ vựng: <b class="${TQ_KO_CLS}">${o.item.word}</b> — <b>${tqViShort(tqVi(o.item))}</b></div>`;
+            }
+            box.style.display = on ? 'block' : 'none';
+            if (btn) btn.classList.toggle('is-on', on);
+        }
+        function tqCheckOrder() {
+            const st = practiceState.quiz, o = st._order;
+            if (!o || st.answered || o.placed.length !== o.tokens.length) return;
+            const answer = o.placed.map(k => o.pool[k]).join(' ');
+            const ok = answer === o.tokens.join(' ');
+            const chk = document.getElementById('tq-check'); if (chk) chk.disabled = true;
+            document.querySelectorAll('#tq-slot .tq-w, #tq-pool .tq-w').forEach(b => b.style.pointerEvents = 'none');
+            tqFinishQuiz(ok, ok ? '' : `Câu đúng: <b class="${TQ_KO_CLS}">${o.tokens.join(' ')}</b>`);
         }
 
         // ─── 4. VIẾT TỪ ───
@@ -5335,17 +7368,15 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 
             el.innerHTML = `
                 <div class="w-full flex flex-col gap-5">
-                    <div class="flex items-center justify-between flex-wrap gap-3">
-                        <div class="flex items-center gap-3">
-                            <div class="w-11 h-11 rounded-2xl neo-raised flex items-center justify-center text-point shrink-0">
-                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-                            </div>
-                            <div>
-                                <h3 class="text-base font-bold text-[color:var(--c-1a1a24)]">Viết từ</h3>
-                                <p class="text-xs text-gray-400">Hãy nhập ${st.direction === 'vi-to-ko' ? 'tiếng Hàn' : 'tiếng Việt'} tương ứng với từ vựng bên dưới, xong nhấn Enter.</p>
+                    <div class="ui-phead">
+                        <div class="ui-phead-l">
+                            <div class="ui-ptile">✍️</div>
+                            <div class="min-w-0">
+                                <h3 class="ui-h3">Viết từ</h3>
+                                <p class="ui-sub">Hãy nhập ${st.direction === 'vi-to-ko' ? 'tiếng Hàn' : 'tiếng Việt'} tương ứng với từ vựng bên dưới, xong nhấn Enter.</p>
                             </div>
                         </div>
-                        <div class="flex items-center gap-2">
+                        <div class="ui-phead-r">
                             <button class="neo-button px-3.5 py-2 text-xs font-bold text-gray-500 flex items-center gap-1.5" onclick="requestShuffleTypingRows()">
                                 <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
                                 Trộn bài
@@ -5370,12 +7401,12 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                     <div class="neo-raised !rounded-[24px] overflow-hidden">
                         <div class="overflow-x-auto" style="max-height:60vh; overflow-y:auto;">
                             <table class="w-full text-sm" style="border-collapse:collapse;">
-                                <thead>
+                                <thead class="ui-thead">
                                     <tr class="text-left">
-                                        <th class="py-3 px-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider" style="width:50px;">STT</th>
-                                        <th class="py-3 px-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider">Từ vựng</th>
-                                        <th class="py-3 px-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider">Nhập đáp án</th>
-                                        <th class="py-3 px-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider text-center whitespace-nowrap" style="width:100px;">Kết quả</th>
+                                        <th class="py-3 px-4 ui-cap" style="width:50px;">STT</th>
+                                        <th class="py-3 px-4 ui-cap">Từ vựng</th>
+                                        <th class="py-3 px-4 ui-cap">Nhập đáp án</th>
+                                        <th class="py-3 px-4 ui-cap text-center whitespace-nowrap" style="width:100px;">Kết quả</th>
                                     </tr>
                                 </thead>
                                 <tbody id="typing-tbody">${rowsHtml}</tbody>
@@ -5575,7 +7606,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         // ─── 5. NGHE & CHỌN TỪ (nghe rồi chọn đúng từ Hàn) ───
         function renderPracticeListen() {
             const el = document.getElementById('practice-content');
-            el.className = 'neo-raised p-4 sm:p-8 flex items-start justify-center';
+            el.className = 'neo-raised p-4 sm:p-7';
             const st = practiceState.listen; st.answered = false;
             if (!st.queue.length) { el.innerHTML = buildPracticeDoneStateHtml('listen'); return; }
             const words = practiceState.words;
@@ -5585,10 +7616,11 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             const wrongs = shuffleArr(pool).slice(0, Math.min(4, pool.length));
             const options = shuffleArr([item.word, ...wrongs]);
             el.innerHTML = `
-                <div class="flex flex-col items-center gap-6 w-full pt-4">
+                <div class="w-full flex flex-col gap-5">
+                ${practicePanelHead('🎧', 'Nghe & Chọn từ', 'Bấm loa để nghe, rồi chọn đúng từ tiếng Hàn vừa nghe được.', '')}
+                <div class="flex flex-col items-center gap-6 w-full">
                     ${buildInlinePracticeProgressHtml('listen')}
                     <button class="w-20 h-20 rounded-full neo-raised flex items-center justify-center text-3xl text-point" onclick="speakKorean('${item.word.replace(/'/g, "\\'")}')">🔊</button>
-                    <p class="text-xs text-gray-400">Nghe và chọn đúng từ tiếng Hàn</p>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-lg" id="pl-opts">
                         ${options.map((opt, i) => `<button class="neo-button py-4 px-4 text-base font-kr-serif font-bold text-[color:var(--c-2d3a54)]" data-opt-i="${i}" onclick="handlePracticeListenAnswer(this)">${opt}</button>`).join('')}
                     </div>
@@ -5597,6 +7629,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                         <button class="neo-button px-5 py-2.5 text-xs font-bold text-gray-400" id="pl-skip-btn" onclick="advancePracticeQueue('listen', true)">Bỏ qua, làm lại sau</button>
                         <button class="neo-button px-6 py-3 text-sm font-bold text-point hidden" id="pl-next-btn" onclick="advancePracticeQueue('listen', false)">Câu tiếp theo →</button>
                     </div>
+                </div>
                 </div>
             `;
             document.getElementById('pl-opts')._options = options;
@@ -5624,7 +7657,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         // ─── 6. NGHE & TÌM NGHĨA (nghe rồi chọn đúng nghĩa Việt) ───
         function renderPracticeGuess() {
             const el = document.getElementById('practice-content');
-            el.className = 'neo-raised p-4 sm:p-8 flex items-start justify-center';
+            el.className = 'neo-raised p-4 sm:p-7';
             const st = practiceState.guess; st.answered = false;
             if (!st.queue.length) { el.innerHTML = buildPracticeDoneStateHtml('guess'); return; }
             const words = practiceState.words;
@@ -5635,10 +7668,11 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             const wrongs = shuffleArr(pool).slice(0, Math.min(3, pool.length));
             const options = shuffleArr([correctAnswer, ...wrongs]);
             el.innerHTML = `
-                <div class="flex flex-col items-center gap-6 w-full pt-4">
+                <div class="w-full flex flex-col gap-5">
+                ${practicePanelHead('🧠', 'Nghe & Tìm nghĩa', 'Bấm loa để nghe, rồi chọn đúng nghĩa tiếng Việt của từ vừa nghe.', '')}
+                <div class="flex flex-col items-center gap-6 w-full">
                     ${buildInlinePracticeProgressHtml('guess')}
                     <button class="w-20 h-20 rounded-full neo-raised flex items-center justify-center text-3xl text-point" onclick="speakKorean('${item.word.replace(/'/g, "\\'")}')">🔊</button>
-                    <p class="text-xs text-gray-400">Nghe và chọn đúng nghĩa tiếng Việt</p>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-lg" id="pg-opts">
                         ${options.map((opt, i) => `<button class="neo-button py-4 px-4 text-base font-bold text-[color:var(--c-2d3a54)]" data-opt-i="${i}" onclick="handlePracticeGuessAnswer(this)">${opt}</button>`).join('')}
                     </div>
@@ -5647,6 +7681,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                         <button class="neo-button px-5 py-2.5 text-xs font-bold text-gray-400" id="pg-skip-btn" onclick="advancePracticeQueue('guess', true)">Bỏ qua, làm lại sau</button>
                         <button class="neo-button px-6 py-3 text-sm font-bold text-point hidden" id="pg-next-btn" onclick="advancePracticeQueue('guess', false)">Câu tiếp theo →</button>
                     </div>
+                </div>
                 </div>
             `;
             document.getElementById('pg-opts')._options = options;
@@ -6365,33 +8400,95 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             const totalMin = Math.floor((currentUser.totalActiveMs || 0) / 60000);
             const hrs = Math.floor(totalMin / 60), mins = totalMin % 60;
             const timeShort = hrs ? `${hrs}g ${mins}p` : `${mins}p`;
+
+            // ---- Lời chào trong hộp chào hỏi ----
+            const nameEl = document.getElementById('home-hello-name');
+            const subEl = document.getElementById('home-hello-sub');
+            const displayName = currentUser.displayName || currentUser.username || 'bạn';
+            if (nameEl) nameEl.innerHTML = `Chào ${escapeHtmlDash(displayName)}! 👋`;
+            if (subEl) subEl.innerHTML = `Hôm nay bạn đã tiến xa hơn một chút rồi đó! ✨ · ⏱ ${formatDurationVN(currentUser.totalActiveMs)} học tập`;
+
+            // ---- 3 thẻ thống kê nằm TRONG hộp chào hỏi ----
+            // Giữ nguyên bố cục cũ (thanh màu + nhãn nhỏ · số lớn Nunito · dải chân thẻ
+            // có "Xem thêm" · icon 3D nổi góc phải); chỉ đổi màu cho khớp hệ Clay + Flat.
             const statCard = (opts) => `
-                <div class="rd-card ${opts.click ? 'rd-hover cursor-pointer' : ''} relative overflow-visible flex flex-col snap-start shrink-0 sm:shrink w-[78%] sm:w-auto" style="min-height:150px;" ${opts.click ? `onclick="${opts.click}" role="button"` : ''}>
+                <div class="rd-card hm-stat-card ${opts.click ? 'rd-hover cursor-pointer' : ''} relative overflow-visible flex flex-col snap-start shrink-0 sm:shrink w-[78%] sm:w-auto" ${opts.click ? `onclick="${opts.click}" role="button"` : ''}>
                     <img src="assets/${opts.img}" alt="" data-svg="${opts.svg}" class="rd-stat-ico" onerror="statIco3dFallback(this)">
-                    <div class="flex-1" style="padding:20px 18px 12px 22px;">
-                        <div class="flex items-center gap-2" style="margin-bottom:10px;">
+                    <div class="flex-1" style="padding:18px 18px 12px 20px;">
+                        <div class="flex items-center gap-2" style="margin-bottom:9px;">
                             <span style="width:3px; height:12px; border-radius:99px; flex-shrink:0; background:${opts.color};"></span>
                             <span class="font-extrabold uppercase" style="font-size:9px; letter-spacing:0.13em; color:${opts.color};">${opts.label}</span>
                         </div>
-                        <p class="font-black leading-none" style="font-family:'Nunito',sans-serif; font-size:clamp(32px,4.6vw,48px); letter-spacing:-2.5px; color:var(--c-1e293b); white-space:nowrap;">${opts.value}</p>
+                        <p class="font-black leading-none" style="font-family:'Nunito',sans-serif; font-size:clamp(28px,3.4vw,40px); letter-spacing:-2px; color:var(--clay-ink); white-space:nowrap;">${opts.value}</p>
                     </div>
-                    <div class="flex items-center justify-between" style="background:${opts.color}0f; border-radius:0 0 24px 24px; padding:10px 16px 12px 22px;">
-                        <span class="font-semibold" style="font-size:11px; color:var(--c-475569);">${opts.sub}</span>
+                    <div class="hm-stat-foot flex items-center justify-between" style="background:${opts.soft};">
+                        <span class="font-semibold" style="font-size:11px; color:var(--clay-body);">${opts.sub}</span>
                         <span class="inline-flex items-center gap-1 font-bold" style="font-size:10px; color:${opts.color}; white-space:nowrap;">Xem thêm
                             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
                         </span>
                     </div>
                 </div>`;
             el.innerHTML =
-                statCard({ label: 'Giờ học tập', value: timeShort, sub: 'Thực sự tương tác', color: '#6c63ff', img: 'icon-3d-time.png', svg: 'clock', click: 'openActivityDashboard()' }) +
-                statCard({ label: 'Đã học', value: `${learnedCount} từ`, sub: 'Xem theo bộ lọc', color: '#16a34a', img: 'icon-3d-learned.png', svg: 'bookCheck', click: 'openLearnedWordsModal()' }) +
-                statCard({ label: 'Cần luyện', value: `${wrongWords.length} từ`, sub: 'Ôn lại để nhớ vững', color: '#ef4444', img: 'icon-3d-practice.png', svg: 'warning', click: 'openNeedPracticeWordsModal()' });
+                statCard({ label: 'Giờ học tập', value: timeShort, sub: 'Thực sự tương tác', color: 'var(--clay-i-indigo)', soft: 'var(--clay-p-indigo)', img: 'icon-3d-time.png', svg: 'clock', click: 'openActivityDashboard()' }) +
+                statCard({ label: 'Đã học', value: `${learnedCount} từ`, sub: 'Xem theo bộ lọc', color: 'var(--clay-i-mint)', soft: 'var(--clay-p-mint)', img: 'icon-3d-learned.png', svg: 'bookCheck', click: 'openLearnedWordsModal()' }) +
+                statCard({ label: 'Cần luyện', value: `${wrongWords.length} từ`, sub: 'Ôn lại để nhớ vững', color: 'var(--clay-i-peach)', soft: 'var(--clay-p-peach)', img: 'icon-3d-practice.png', svg: 'warning', click: 'openNeedPracticeWordsModal()' });
             // Cập nhật số liệu động cho khối Quiz nhanh
             [document.getElementById('qn-longtime-count'), document.getElementById('qn-longtime-count-lg')]
                 .forEach(lc => { if (lc) lc.textContent = `${wrongWords.length} từ cần ôn`; });
             const gc = document.getElementById('qn-general-count');
             if (gc) gc.textContent = `${learnedCount} từ`;
+            renderHomeNotebookCards();
             startTodayFlashcard();
+        }
+
+        // ============================================================
+        // TRANG CHỦ — DANH SÁCH SỔ TỪ VỰNG (thay cho bảng "Từ vựng trong sổ",
+        // bảng đó đã dời sang tab Sổ từ vựng thành thanh tìm nhanh).
+        // ============================================================
+        function renderHomeNotebookCards() {
+            const grid = document.getElementById('home-notebook-cards');
+            if (!grid) return;
+            const note = document.getElementById('home-nb-note');
+            const list = notebooksList || [];
+            if (note) note.textContent = `${list.length} sổ`;
+
+            const newCardHtml = `
+                <button type="button" class="hm-nb-new" onclick="openCreateNotebookModal()">
+                    <span class="hm-nb-new-plus">+</span>
+                    <span class="hm-nb-new-txt">Tạo sổ mới</span>
+                </button>`;
+
+            if (!list.length) {
+                grid.innerHTML = `
+                    <div class="hm-nb-empty">
+                        <p class="hm-nb-empty-title">Bạn chưa có sổ từ vựng nào</p>
+                        <p class="hm-nb-empty-sub">Tạo sổ đầu tiên để gom từ và luyện tập theo Flashcard, Trắc nghiệm, Viết từ…</p>
+                    </div>` + newCardHtml;
+                return;
+            }
+
+            const tones = ['indigo', 'mint', 'lemon', 'sky', 'pink'];
+            // Dùng getLearnedIdSet() — nguồn DUY NHẤT của khái niệm "đã thuộc"
+            // (learnedWordsMap chỉ là phần tick tay, thiếu correctIds của quiz).
+            const learnedSet = getLearnedIdSet();
+            grid.innerHTML = list.map((nb, i) => {
+                const words = nb.words || [];
+                const learnedInNb = words.filter(w => learnedSet.has(w.id)).length;
+                const pct = words.length ? Math.round(learnedInNb / words.length * 100) : 0;
+                const prog = nb.progress || {};
+                const doneQuiz = ['quiz', 'typing', 'listen', 'guess'].reduce((s, k) =>
+                    s + ((prog[k] && prog[k].correctIds || []).length) + ((prog[k] && prog[k].wrongIds || []).length), 0);
+                return `
+                <button type="button" class="hm-nb hm-nb-${tones[i % tones.length]}" onclick="openPracticeView('${nb.id}')">
+                    <span class="hm-nb-head">
+                        <span class="hm-nb-dot"></span>
+                        <span class="hm-nb-name">${escapeHtmlDash(nb.name)}</span>
+                        <span class="hm-nb-count">${words.length} từ</span>
+                    </span>
+                    <span class="hm-nb-bar"><span class="hm-nb-fill" style="width:${pct}%;"></span></span>
+                    <span class="hm-nb-meta">Đã thuộc ${pct}% · ${doneQuiz} lượt làm bài</span>
+                </button>`;
+            }).join('') + newCardHtml;
         }
 
         // Fallback khi thiếu PNG icon 3D ở thẻ thống kê → badge neumorphic + icon SVG
@@ -6575,7 +8672,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 el.innerHTML = `
                     <div class="fc-empty">
                         <p class="fc-empty-title">Chưa có từ nào cần ôn</p>
-                        <p class="fc-empty-sub">Mục này chỉ hiện những từ bạn đã làm sai trong quiz hoặc đã lưu vào sổ tay.<br>Làm một bài quiz hoặc lưu vài từ để bắt đầu nhé!</p>
+                        <p class="fc-empty-sub">Mục này chỉ hiện những từ bạn đã làm sai trong quiz hoặc đã lưu vào sổ tay.</p>
                     </div>`;
                 return;
             }
@@ -6585,40 +8682,34 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             const C = 2 * Math.PI * 23;
             const offset = C * (1 - flashTimeLeft / total);
             const meta = [w.book, w.level ? `Lv.${w.level}` : ''].filter(Boolean).join(' · ');
-            const dotsN = Math.min(flashPool.length, 15);
-            const activeDot = flashIdx % dotsN;
             const tagHtml = w.tag === 'wrong'
                 ? `<span class="fc-tag fc-tag-wrong">Từng làm sai</span>`
                 : `<span class="fc-tag fc-tag-saved">Trong sổ tay</span>`;
+            // Bố cục GỌN: thẻ chỉ chiếm ~1/3 chiều ngang trang chủ nên xếp dọc,
+            // đồng hồ đếm ngược thu về góc phải trên.
             el.innerHTML = `
-                <div class="fc-shell">
-                    <!-- Đồng hồ đếm ngược: ở mobile trôi lên góc phải để nhường chỗ cho từ vựng -->
-                    <div class="fc-ring">
-                        <svg viewBox="0 0 56 56">
-                            <circle cx="28" cy="28" r="23" fill="none" stroke="var(--c-dde3ed)" stroke-width="4"></circle>
-                            <circle id="flash-ring-fg" cx="28" cy="28" r="23" fill="none" stroke="#6c63ff" stroke-width="4" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${offset}" style="transition:stroke-dashoffset 1s linear;"></circle>
-                        </svg>
-                        <span class="fc-ring-num" id="flash-count-num">${flashTimeLeft}</span>
-                    </div>
-                    <div class="fc-main">
-                        <!-- Cấp 3: nhãn nguồn -->
-                        <div class="fc-tags">${tagHtml}${meta ? `<span class="fc-meta">${meta}</span>` : ''}</div>
-                        <!-- Cấp 1: từ vựng -->
-                        <p class="fc-word">${w.word}</p>
-                        <!-- Cấp 2: nghĩa, có vạch dọc để tách khỏi từ -->
-                        <div class="fc-answer ${flashRevealed ? 'is-open' : ''}">
-                            ${flashRevealed
-                                ? `<p class="fc-meaning">${w.meaning || '—'}</p>`
-                                : `<p class="fc-hint">Bạn có nhớ nghĩa không?</p>`}
+                <div class="fc-compact">
+                    <div class="fc-c-top">
+                        <div class="fc-tags">${tagHtml}</div>
+                        <div class="fc-ring fc-ring-sm">
+                            <svg viewBox="0 0 56 56">
+                                <circle cx="28" cy="28" r="23" fill="none" stroke="var(--c-dde3ed)" stroke-width="5"></circle>
+                                <circle id="flash-ring-fg" cx="28" cy="28" r="23" fill="none" stroke="#6c63ff" stroke-width="5" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${offset}" style="transition:stroke-dashoffset 1s linear;"></circle>
+                            </svg>
+                            <span class="fc-ring-num" id="flash-count-num">${flashTimeLeft}</span>
                         </div>
                     </div>
-                    <div class="fc-actions">
-                        <button class="fc-btn fc-btn-primary ${flashRevealed ? 'is-on' : ''}" onclick="flashReveal()">${flashRevealed ? `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg> Ẩn nghĩa` : `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> Xem nghĩa`}</button>
-                        <button class="fc-btn" onclick="flashNext()">Từ tiếp <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="5 4 15 12 5 20"></polyline><line x1="19" y1="5" x2="19" y2="19"></line></svg></button>
+                    <p class="fc-word fc-word-sm">${w.word}</p>
+                    ${meta ? `<span class="fc-meta">${meta}</span>` : ''}
+                    <div class="fc-answer ${flashRevealed ? 'is-open' : ''}">
+                        ${flashRevealed
+                            ? `<p class="fc-meaning">${w.meaning || '—'}</p>`
+                            : `<p class="fc-hint">Bạn có nhớ nghĩa không?</p>`}
                     </div>
-                </div>
-                <div class="fc-dots">
-                    ${Array.from({ length: dotsN }).map((_, i) => `<span class="rd-flash-dot" style="width:${i === activeDot ? 16 : 5}px; background:${i === activeDot ? '#6c63ff' : 'var(--c-d1d9e4)'};"></span>`).join('')}
+                    <div class="fc-actions fc-actions-sm">
+                        <button class="fc-btn fc-btn-primary ${flashRevealed ? 'is-on' : ''}" onclick="flashReveal()">${flashRevealed ? 'Ẩn nghĩa' : 'Xem nghĩa'}</button>
+                        <button class="fc-btn" onclick="flashNext()">Từ tiếp ›</button>
+                    </div>
                 </div>
             `;
         }
@@ -6662,7 +8753,8 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         }
 
         // ============================================================
-        // TRANG CHỦ — SECTION 3: TẤT CẢ TỪ VỰNG ĐÃ BỎ SỔ (bố cục 6:4 như thư viện)
+        // TAB "SỔ TỪ VỰNG" — THANH TÌM NHANH TỪ VỰNG TRONG MỌI SỔ
+        // (trước đây là bảng "Từ vựng trong sổ" ở Trang chủ)
         // ============================================================
         function collectAllNotebookWords() {
             const map = new Map();
@@ -6675,51 +8767,53 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             return [...map.values()];
         }
 
+        function clearNotebookQuickSearch() {
+            const input = document.getElementById('home-allwords-search');
+            if (input) { input.value = ''; input.focus(); }
+            renderHomeAllWordsTable();
+        }
+
         async function renderHomeAllWordsTable() {
-            const tbody = document.getElementById('home-allwords-tbody');
-            const cardsWrap = document.getElementById('home-allwords-cards');
-            if (!tbody) return;
+            const box = document.getElementById('home-allwords-results');
+            if (!box) return;
             await ensureAllLibraryLoaded();
             const all = collectAllNotebookWords();
+            const note = document.getElementById('nb-search-note');
+            if (note) note.textContent = `${all.length} từ trong sổ`;
             const q = (document.getElementById('home-allwords-search')?.value || '').trim().toLowerCase();
-            const filtered = q ? all.filter(w => w.word.toLowerCase().includes(q) || (w.vietnamese || '').toLowerCase().includes(q)) : all;
+            const clearBtn = document.getElementById('nbq-clear-btn');
+            if (clearBtn) clearBtn.classList.toggle('hidden', !q);
 
+            // Chưa gõ gì thì KHÔNG đổ cả danh sách ra — giữ trang gọn để phần
+            // "Sổ từ vựng của tôi" bên dưới vẫn là trọng tâm.
+            if (!q) {
+                box.innerHTML = all.length
+                    ? `<p class="nbq-hint">Gõ để tìm nhanh trong <b>${all.length}</b> từ thuộc <b>${notebooksList.length}</b> sổ — bấm kết quả để xem thẻ chi tiết.</p>`
+                    : `<p class="nbq-hint">Bạn chưa bỏ từ vựng nào vào sổ cả.</p>`;
+                return;
+            }
+            const filtered = all.filter(w =>
+                w.word.toLowerCase().includes(q) || (w.vietnamese || '').toLowerCase().includes(q));
             if (!filtered.length) {
-                const emptyMsg = all.length ? 'Không tìm thấy từ phù hợp' : 'Bạn chưa bỏ từ vựng nào vào sổ cả';
-                tbody.innerHTML = `<tr><td colspan="3" class="text-center text-gray-400 text-sm py-10">${emptyMsg}</td></tr>`;
-                if (cardsWrap) cardsWrap.innerHTML = `<p class="text-center text-gray-400 text-xs py-6 w-full">${emptyMsg}</p>`;
+                box.innerHTML = `<p class="nbq-hint">Không tìm thấy từ nào khớp “${escapeHtmlDash(q)}”.</p>`;
                 return;
             }
-            tbody.innerHTML = filtered.map(w => `
-                <tr class="border-b border-[color:var(--c-f2f4f9)] hover:bg-[rgba(108,99,255,0.03)] cursor-pointer transition-colors" onclick="selectHomeAllWordsDetail('${w.id}')">
-                    <td class="py-2.5 px-4"><span class="font-kr-serif font-bold text-[color:var(--c-1e2a4a)]">${w.word}</span></td>
-                    <td class="py-2.5 px-4 text-xs text-gray-500">${w.vietnamese || '—'}</td>
-                    <td class="py-2.5 px-4 text-xs text-gray-500 truncate max-w-[200px]">${w._notebookNames.join(', ')}</td>
-                </tr>
-            `).join('');
-            if (cardsWrap) {
-                cardsWrap.innerHTML = filtered.map(w => `
-                    <button class="mini-card-3d shrink-0 snap-start w-[148px] text-left flex flex-col gap-1.5" style="padding:14px;" onclick="selectHomeAllWordsDetail('${w.id}')">
-                        <span class="font-kr-serif font-bold text-[color:var(--c-1e2a4a)] text-base truncate">${w.word}</span>
-                        <span class="text-xs text-gray-500 truncate">${w.vietnamese || '—'}</span>
-                        <span class="text-[11px] text-gray-400 truncate mt-auto pt-1 border-t border-[color:var(--c-eef1f7)]">${w._notebookNames.join(', ')}</span>
-                    </button>
-                `).join('');
-            }
+            box.innerHTML = `
+                <p class="nbq-count">${filtered.length} kết quả</p>
+                <div class="nbq-list">
+                    ${filtered.slice(0, 60).map(w => `
+                        <button type="button" class="nbq-row" onclick="openWrongWordDetailModal('${w.id}')">
+                            <span class="nbq-kr font-kr-serif">${escapeHtmlDash(w.word)}</span>
+                            <span class="nbq-vi">${escapeHtmlDash(w.vietnamese || '—')}</span>
+                            <span class="nbq-nb">${escapeHtmlDash(w._notebookNames.join(', '))}</span>
+                        </button>`).join('')}
+                </div>
+                ${filtered.length > 60 ? `<p class="nbq-hint">Đang hiện 60 kết quả đầu — gõ thêm để thu hẹp nhé.</p>` : ''}
+            `;
         }
 
-        function selectHomeAllWordsDetail(wordId) {
-            const panel = document.getElementById('home-allwords-detail-card');
-            if (!panel) return;
-            const full = (allLibraryCache || []).find(x => x.id === wordId) || GENERIC_DETAIL_DATA_MAP[wordId];
-            if (!full) {
-                panel.innerHTML = `<span class="font-medium text-gray-400" style="font-family: 'Plus Jakarta Sans', sans-serif !important;">Đây là từ tự tạo (không lấy từ thư viện) nên chưa có thông tin chi tiết để hiện ở đây.</span>`;
-                return;
-            }
-            detailCardHistory['home-allwords-detail-card'] = [];
-            panel.innerHTML = buildGenericDetailCardHtml(full, 'home-allwords-detail-card');
-            panel.dataset.currentWordId = full.id;
-        }
+        // Giữ lại để các lời gọi cũ không vỡ (cột chi tiết ở Trang chủ đã bỏ).
+        function selectHomeAllWordsDetail(wordId) { openWrongWordDetailModal(wordId); }
 
         // ============================================================
         // TRANG CHỦ — SECTION 2: QUIZ MAZE ("Lâu rồi không gặp" / "Ôn tập tổng hợp")
@@ -8386,31 +10480,63 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             return `${diffDay} ngày trước`;
         }
 
+        // Thống kê gọn các hoạt động đã làm: thời gian · nội dung quiz · điểm số.
+        // Nằm ở đầu tab "Sổ từ vựng" (mục 1), thay cho dải thẻ dọc cũ.
         function renderRecentActivitySection() {
             const section = document.getElementById('recent-activity-section');
             const list = document.getElementById('recent-activity-list');
+            const note = document.getElementById('nb-activity-note');
             if (!section || !list) return;
-            const items = collectRecentActivity(5);
-            if (!items.length) { section.style.display = 'none'; return; }
-            section.style.display = '';
-            list.innerHTML = items.map(item => {
-                const meta = PRACTICE_FUNC_META[item.funcKey];
-                const nb = notebooksList.find(n => n.id === item.nbId);
-                const prog = nb ? computeFuncProgress(nb, item.funcKey) : { pct: 0 };
-                return `
-                    <button class="shrink-0 snap-start flex flex-col rounded-2xl neo-raised p-3 gap-2 text-left" style="width:112px; aspect-ratio:2/3;" onclick="openPracticeView('${item.nbId}', '${item.funcKey}')">
-                        <span class="w-9 h-9 rounded-xl flex items-center justify-center text-white text-base shrink-0 ${meta.gradientClass}">${meta.icon}</span>
-                        <div class="flex-1 min-h-0 flex flex-col justify-end gap-1.5 min-w-0">
-                            <p class="text-xs font-bold text-[color:var(--c-2d2d3a)] truncate">${meta.label}</p>
-                            <p class="text-[11px] text-gray-400 truncate">${item.nbName}</p>
-                            <div class="w-full h-1.5 rounded-full overflow-hidden" style="background:rgba(0,0,0,0.08);">
-                                <div class="h-full rounded-full bg-black" style="width:${prog.pct}%;"></div>
-                            </div>
-                            <p class="text-[10px] text-gray-400 font-mono">${relativeTimeVN(item.ts)}</p>
-                        </div>
-                    </button>
-                `;
-            }).join('');
+            const items = collectRecentActivity(6);
+
+            if (!items.length) {
+                if (note) note.textContent = 'Chưa có';
+                list.innerHTML = `<p class="nbs-empty">Chưa có lượt luyện tập nào. Mở một sổ bên dưới và bắt đầu nhé!</p>`;
+                return;
+            }
+
+            // Tổng quan nhanh trên đầu bảng
+            let allCorrect = 0, allWrong = 0;
+            notebooksList.forEach(nb => {
+                ['quiz', 'typing', 'listen', 'guess'].forEach(k => {
+                    const p = nb.progress && nb.progress[k];
+                    if (!p) return;
+                    allCorrect += (p.correctIds || []).length;
+                    allWrong += (p.wrongIds || []).length;
+                });
+            });
+            const totalTries = allCorrect + allWrong;
+            const acc = totalTries ? Math.round(allCorrect / totalTries * 100) : 0;
+            if (note) note.textContent = `${items.length} lượt gần nhất`;
+
+            const tones = { flashcard: 'indigo', quiz: 'lemon', typing: 'mint', listen: 'sky', guess: 'pink' };
+
+            list.innerHTML = `
+                <div class="nbs-sum">
+                    <div class="nbs-sum-item"><span class="nbs-sum-v">${totalTries}</span><span class="nbs-sum-l">Lượt làm bài</span></div>
+                    <div class="nbs-sum-item"><span class="nbs-sum-v nbs-ok">${allCorrect}</span><span class="nbs-sum-l">Câu đúng</span></div>
+                    <div class="nbs-sum-item"><span class="nbs-sum-v nbs-bad">${allWrong}</span><span class="nbs-sum-l">Câu sai</span></div>
+                    <div class="nbs-sum-item"><span class="nbs-sum-v">${acc}%</span><span class="nbs-sum-l">Chính xác</span></div>
+                </div>
+                <div class="nbs-rows">
+                    ${items.map(item => {
+                        const meta = PRACTICE_FUNC_META[item.funcKey];
+                        const nb = notebooksList.find(n => n.id === item.nbId);
+                        const prog = nb ? computeFuncProgress(nb, item.funcKey) : { pct: 0, correctCount: null, wrongCount: 0, doneCount: 0, total: 0 };
+                        const score = prog.correctCount === null
+                            ? `${prog.doneCount}/${prog.total} thẻ`
+                            : `<b class="nbs-ok">✓${prog.correctCount}</b> <b class="nbs-bad">✕${prog.wrongCount}</b>`;
+                        return `
+                        <button type="button" class="nbs-row" onclick="openPracticeView('${item.nbId}', '${item.funcKey}')">
+                            <span class="nbs-time">${relativeTimeVN(item.ts)}</span>
+                            <span class="nbs-chip nbs-chip-${tones[item.funcKey] || 'indigo'}">${meta.icon} ${meta.label}</span>
+                            <span class="nbs-nb">${escapeHtmlDash(item.nbName)}</span>
+                            <span class="nbs-score">${score}</span>
+                            <span class="nbs-bar"><span class="nbs-fill" style="width:${prog.pct}%;"></span></span>
+                            <span class="nbs-pct">${prog.pct}%</span>
+                        </button>`;
+                    }).join('')}
+                </div>`;
         }
 
         // ============================================================
@@ -8920,13 +11046,13 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                     </div>
                     <div class="overflow-x-auto neo-sunk !rounded-2xl" style="max-height:44vh; overflow-y:auto;">
                         <table class="w-full text-sm" style="border-collapse:collapse;">
-                            <thead>
+                            <thead class="ui-thead">
                                 <tr class="text-left">
-                                    <th class="py-2.5 px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider">Từ vựng</th>
-                                    <th class="py-2.5 px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider">급</th>
-                                    <th class="py-2.5 px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider">Chủ đề</th>
-                                    <th class="py-2.5 px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider">Loại từ</th>
-                                    <th class="py-2.5 px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider">Thư viện</th>
+                                    <th class="py-2.5 px-3 ui-cap">Từ vựng</th>
+                                    <th class="py-2.5 px-3 ui-cap">급</th>
+                                    <th class="py-2.5 px-3 ui-cap">Chủ đề</th>
+                                    <th class="py-2.5 px-3 ui-cap">Loại từ</th>
+                                    <th class="py-2.5 px-3 ui-cap">Thư viện</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -9032,9 +11158,57 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             update();
         }
 
+        // ============================================================
+        // TỰ CẬP NHẬT KHI CÓ BẢN MỚI
+        // Vấn đề: app lưu ra màn hình chính của Safari (và cả trình duyệt trên máy học sinh)
+        // giữ lại bản index.html đã tải, nên cô giáo up bản mới lên GitHub mà máy học sinh
+        // vẫn chạy bản cũ. GitHub Pages không cho đặt HTTP header nên phải tự xử lý ở đây.
+        //
+        // Cách làm: tải lại chính file index.html từ server với cache:'no-store' (bắt buộc
+        // đi thẳng ra mạng), tính một "dấu vân tay" ngắn của nội dung rồi so với dấu vân tay
+        // đã lưu ở lần chạy trước. Khác nhau = trên server đã có bản mới mà máy này đang
+        // chạy bản cũ -> nạp lại kèm ?v=<vân tay> để chắc chắn phá được cache.
+        // Không cần cô giáo đánh số phiên bản thủ công.
+        // ============================================================
+        const APP_VER_KEY = 'vocabapp_buildFingerprint';
+
+        // Băm chuỗi kiểu FNV-1a 32-bit — đủ để phát hiện file đã đổi, rất nhanh.
+        function fingerprintOf(text) {
+            let h = 0x811c9dc5;
+            for (let i = 0; i < text.length; i++) {
+                h ^= text.charCodeAt(i);
+                h = (h + ((h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24))) >>> 0;
+            }
+            return h.toString(36) + '-' + text.length.toString(36);
+        }
+
+        async function checkForAppUpdate() {
+            // Chạy trên web thật thôi; mở file://... hoặc localhost thì bỏ qua cho đỡ phiền khi test
+            if (location.protocol !== 'http:' && location.protocol !== 'https:') return;
+            try {
+                const res = await fetch(location.pathname + '?_ck=' + Date.now(), { cache: 'no-store' });
+                if (!res.ok) return;
+                const fresh = fingerprintOf(await res.text());
+                let saved = null;
+                try { saved = localStorage.getItem(APP_VER_KEY); } catch (e) {}
+
+                if (saved && saved !== fresh) {
+                    // Đã có bản mới trên server -> ghi nhận rồi nạp lại đúng 1 lần.
+                    // Query ?v= khiến trình duyệt coi đây là địa chỉ khác nên buộc phải tải mới.
+                    try { localStorage.setItem(APP_VER_KEY, fresh); } catch (e) {}
+                    location.replace(location.pathname + '?v=' + encodeURIComponent(fresh));
+                    return;
+                }
+                if (!saved) { try { localStorage.setItem(APP_VER_KEY, fresh); } catch (e) {} }
+            } catch (e) {
+                // Mất mạng / chặn CORS: cứ chạy tiếp bản đang có, không làm phiền học sinh
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
 
             initActivityTracking();
+            setTimeout(checkForAppUpdate, 1200); // kiểm tra bản mới, không chặn lúc mở app
             initThemeIcons();
             updateThemeToggleIcon();
             applySidebarCollapseState();
@@ -9175,6 +11349,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 tabNotebook.setAttribute('data-active', 'true');
                 viewNotebookHome.classList.remove('hidden');
                 renderRecentActivitySection();
+                renderHomeAllWordsTable();
             });
 
             if (tabTopic) {
