@@ -7,7 +7,7 @@ Số liệu: 14 câu bài đọc | 15 từ vựng | 4 câu hỏi | 25 phút
 
 **Thay đổi lớn bắt đầu từ những hành động nhỏ**
 
-Bài đọc văn nghị luận (논설문), chủ đề bảo vệ môi trường (환경 보호), trình độ TOPIK 3–4 (중급)
+Bài đọc dạng 논설문, chủ đề 환경 보호, trình độ TOPIK 3–4.
 
 @audio tts
 
@@ -95,7 +95,7 @@ Bài đọc văn nghị luận (논설문), chủ đề bảo vệ môi trườn
 & 우리 모두 = tất cả chúng ta
 & 함께 = cùng nhau
 
-## II — 전체 번역 · Bản dịch toàn bài
+## II — 전체 번역 · Bản dịch đầy đủ
 
 #### Những thay đổi lớn được tạo nên từ những hành động nhỏ
 Gần đây, khi các vấn đề môi trường ngày càng trở nên nghiêm trọng, sự quan tâm của mọi người đối với việc bảo vệ môi trường cũng ngày càng tăng. Đặc biệt, khi lượng rác thải nhựa gia tăng và các hiện tượng thời tiết bất thường do biến đổi khí hậu xảy ra thường xuyên, bảo vệ môi trường đã trở thành một vấn đề không thể trì hoãn thêm nữa.
@@ -108,7 +108,7 @@ Chỉ bằng những hành động nhỏ của mỗi cá nhân thì không thể
 
 ## III — 핵심 어휘 · Từ vựng trọng tâm
 
-### Từ vựng
+### Từ vựng cần nhớ
 
 환경 보호 {환경을 보호하다} = bảo vệ môi trường
 심각하다 {문제가 심각하다} = nghiêm trọng
@@ -126,7 +126,7 @@ Chỉ bằng những hành động nhỏ của mỗi cá nhân thì không thể
 실천하다 {생활 속에서 실천하다} = thực hiện
 환경 문제 {환경 문제를 해결하다} = vấn đề môi trường
 
-### Cụm biểu hiện
+### Cụm từ thường đi kèm
 
 | Cụm tiếng Hàn | Nghĩa |
 | --- | --- |
@@ -188,35 +188,35 @@ Chỉ bằng những hành động nhỏ của mỗi cá nhân thì không thể
 
 ## VI — 문장 번역 연습 · Luyện dịch câu
 
-#### 1
+#### Mức 1
 %dich 최근 환경 문제가 심각해지고 있다. // Gần đây, các vấn đề môi trường đang trở nên nghiêm trọng.
 
-#### 2
+#### Mức 2
 %dich 이러한 행동은 당장은 편리하지만 결국 많은 쓰레기를 만들고 환경에 부담을 준다. // Những hành động này tuy trước mắt mang lại sự tiện lợi nhưng cuối cùng lại tạo ra nhiều rác thải và gây gánh nặng cho môi trường.
 ! Điểm cần chú ý: 당장은 (trước mắt) · -지만 (tuy… nhưng…) · 결국 (cuối cùng) · 환경에 부담을 주다 (gây gánh nặng cho môi trường)
 
-#### 3
+#### Mức 3
 %dich 환경을 보호하기 위해 반드시 거창한 일을 해야 하는 것은 아니다. // Để bảo vệ môi trường, chúng ta không nhất thiết phải làm những việc lớn lao.
 ! Cấu trúc: V-기 위해 (để…) · 반드시 V-아/어야 하는 것은 아니다 (không nhất thiết phải…)
 
-#### 4
+#### Mức 4
 %dich 많은 사람이 생활 속에서 작은 실천을 계속한다면 사회 전체의 생활 방식도 조금씩 달라질 수 있다. // Nếu nhiều người tiếp tục thực hiện những hành động nhỏ trong cuộc sống hằng ngày thì lối sống của toàn xã hội cũng có thể dần thay đổi.
 
 ## VII — 받아쓰기 · Nghe và chép chính tả
 
-#### 1
+#### Mức 1 · Dễ
 %chep 환경 문제가 심각해지고 있다. // 환경 문제가 __________ 있다.
 
-#### 2
+#### Mức 2 · Trung bình
 %chep 가까운 거리는 걷거나 대중교통을 이용할 수 있다. // 가까운 거리는 __________ 대중교통을 __________ 수 있다.
 
-#### 3
+#### Mức 3 · Khó
 %chep 환경을 보호하기 위해 반드시 거창한 일을 해야 하는 것은 아니다.
 
-#### 4
+#### Mức 4 · Thử thách
 %chep 그러나 많은 사람이 생활 속에서 작은 실천을 계속한다면 사회 전체의 생활 방식도 조금씩 달라질 수 있다.
 
-## VIII — 내용 구조 · Bố cục ý chính của bài viết
+## VIII — 내용 구조 · Bố cục bài viết kiểu câu 54
 
 ### ① 문제 제시 — Nêu vấn đề
 - 환경 문제가 심각해짐
@@ -243,5 +243,7 @@ Chỉ bằng những hành động nhỏ của mỗi cá nhân thì không thể
 %dien 가까운 거리는 자동차 대신 __________을 이용할 수 있다. // 대중교통
 %dien 사용한 물건을 다시 이용하는 것을 __________이라고 한다. // 재활용
 %dien 환경 보호를 생활 속에서 __________해야 한다. // 실천
+
+! Câu chốt: 환경 보호는 특별한 사람만이 하는 일이 아니라 우리 모두가 일상생활에서 함께 실천해야 할 일이다.
 
 Từ khoá: 환경 보호 · 기후 변화 · 일회용품 · 생활 방식 · 줄이다 · 재활용하다 · 실천하다

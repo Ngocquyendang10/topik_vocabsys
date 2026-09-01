@@ -2540,6 +2540,159 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
   .hm-stats{ margin-top:0; }
 }
 
+/* ══════════════════════════════════════════════════════════════════════
+   37. HỘP CHÀO — bản chốt: lời chào ngoài thẻ, dòng phụ là dải sáng
+       ở đầu thẻ, hình 3D to lơ lửng bên phải.
+   ══════════════════════════════════════════════════════════════════════ */
+.hm-greet{ padding:0 4px; max-width:min(100%,660px); }
+.hm-greet .hm-hello{ margin-bottom:0; }
+
+.hm-hero{
+  position:relative; margin-top:130px;
+  background:linear-gradient(135deg,#EFEAFF 0%, #F5F2FF 45%, #E9F0FF 100%);
+  border:1.5px solid var(--clay-line); border-radius:28px;
+  padding:34px 30px 28px; overflow:visible;
+}
+.hm-hero .hm-hello-sub{
+  position:relative; z-index:1;
+  width:fit-content; max-width:min(100%, 68%);
+  margin:0 0 40px; padding:13px 20px;
+  background:rgba(255,255,255,.62);
+  border:1px solid rgba(255,255,255,.9);
+  border-radius:16px;
+  font-size:14px; font-weight:600; color:var(--clay-body); line-height:1.5;
+}
+.hm-hero-img{
+  position:absolute; right:34px; top:-185px; width:250px;
+  height:auto; max-height:none; object-fit:contain;
+  z-index:2; pointer-events:none;
+  filter:drop-shadow(0 22px 30px rgba(80,60,160,.20));
+}
+.hm-stats{ margin-top:0; grid-template-columns:repeat(3,1fr); gap:14px; }
+
+@media (max-width:1240px){
+  .hm-hero{ margin-top:112px; padding-top:30px; }
+  .hm-hero-img{ width:218px; right:20px; top:-160px; }
+  .hm-hero .hm-hello-sub{ margin-bottom:32px; max-width:min(100%,64%); }
+}
+@media (max-width:1023px){
+  .hm-hero{ margin-top:92px; }
+  .hm-hero-img{ width:186px; right:12px; top:-136px; }
+  .hm-hero .hm-hello-sub{ max-width:min(100%,60%); }
+}
+@media (max-width:860px){
+  .hm-hero{ margin-top:14px; padding:20px 18px; }
+  .hm-hero-img{ display:none; }
+  .hm-hero .hm-hello-sub{ max-width:100%; margin-bottom:18px; font-size:13px; padding:11px 15px; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   38. NÚT ĐẤT SÉT — ĐẬM & NỔI HẲN LÊN
+   Lỗi cũ: mặt nút gần trắng nên nằm trên thẻ trắng là biến mất, cũng
+   không thấy chất "đất sét". Nay tăng độ đậm mặt nút + tăng lực bóng.
+   ══════════════════════════════════════════════════════════════════════ */
+:root:not([data-theme="dark"]){
+  --clay-btn-face: #E3DDF6;
+  --shadow-btn:
+      0 10px 18px rgba(46,32,110,.16),
+      inset 6px 6px 14px rgba(255,255,255,.95),
+      inset -6px -6px 11px rgba(46,32,110,.17);
+  --shadow-sunk:
+      inset 5px 5px 11px rgba(46,32,110,.17),
+      inset -4px -4px 9px rgba(255,255,255,.92);
+}
+/* Nút/chip nằm trên THẺ TRẮNG: thêm viền tím mảnh cho bật hẳn khỏi nền */
+:root:not([data-theme="dark"]) .neo-button,
+:root:not([data-theme="dark"]) .gup-chip,
+:root:not([data-theme="dark"]) .lrn-pill,
+:root:not([data-theme="dark"]) .bulk-chip,
+:root:not([data-theme="dark"]) .sel-btn,
+:root:not([data-theme="dark"]) .pg-btn,
+:root:not([data-theme="dark"]) .psub,
+:root:not([data-theme="dark"]) .tq-chip,
+:root:not([data-theme="dark"]) .tq-w,
+:root:not([data-theme="dark"]) .tq-obtn,
+:root:not([data-theme="dark"]) .tq-hard,
+:root:not([data-theme="dark"]) .nb-cta-sub,
+:root:not([data-theme="dark"]) .fc-btn,
+:root:not([data-theme="dark"]) .ui-ptile,
+:root:not([data-theme="dark"]) .rd-badge,
+:root:not([data-theme="dark"]) .m-pressed-btn,
+:root:not([data-theme="dark"]) .vr-status-btn,
+:root:not([data-theme="dark"]) .ex-mini-btn,
+:root:not([data-theme="dark"]) .filter-dd-trigger{
+  background: var(--clay-btn-face);
+  box-shadow: var(--shadow-btn), 0 0 0 1px rgba(108,99,255,.16);
+}
+/* Nút mũi tên nhỏ ở thẻ Quiz nhanh (nền thẻ trắng) */
+:root:not([data-theme="dark"]) .qn-card .rd-badge{
+  background: var(--clay-btn-face) !important;
+  box-shadow: var(--shadow-btn), 0 0 0 1px rgba(108,99,255,.18) !important;
+}
+/* Vùng nền của dải tab/chip đậm hơn 1 bậc để nút không "chìm" vào thẻ trắng */
+:root:not([data-theme="dark"]) .neo-sunk{ background:#EEEBFA; }
+:root:not([data-theme="dark"]) .tq-pills{ background:#EEEBFA; }
+/* Bảng đáp án ABCD của tab luyện tập nằm trên thẻ trắng → cho nền chữ đậm hơn */
+:root:not([data-theme="dark"]) #pq-opts .neo-button,
+:root:not([data-theme="dark"]) [id^="qm-opts-"] .neo-button{
+  color: var(--clay-ink);
+}
+:root:not([data-theme="dark"]) .psub{ background:#E9E5F8; }
+:root:not([data-theme="dark"]) .psub.is-active{ background:var(--clay-p-indigo); box-shadow: inset 0 0 0 1.5px rgba(108,99,255,.45); }
+
+/* ══════════════════════════════════════════════════════════════════════
+   39. THƯ VIỆN — LẤY LẠI RANH GIỚI KHỐI
+   Mặt khối gần trắng nên bóng trắng phía trên-trái vô hình → khối "tan"
+   vào nền. Thêm viền tóc + tăng lực bóng dưới-phải.
+   ══════════════════════════════════════════════════════════════════════ */
+:root:not([data-theme="dark"]) #view-library-stage,
+:root:not([data-theme="dark"]) #view-search-results,
+:root:not([data-theme="dark"]) .lib-detail-sheet{
+  --c-bec8e4: #D3CFE2;
+  --c-c4ccd9: #D3CFE2;
+  --c-d0d4de: #D3CFE2;
+  --dark-sh:  rgba(112,106,146,0.32);
+  --shadow-raised: 10px 10px 26px var(--c-bec8e4), -9px -9px 22px #FFFFFF;
+  --shadow-btn:    5px 5px 12px var(--c-bec8e4), -5px -5px 12px #FFFFFF;
+  --shadow-sunk:   inset 6px 6px 14px var(--c-bec8e4), inset -6px -6px 14px #FFFFFF;
+}
+/* Viền tóc là thứ CỨU cạnh trên-trái — bóng trắng ở đó vô hình trên nền sáng */
+:root:not([data-theme="dark"]) #view-library-stage .neo-raised,
+:root:not([data-theme="dark"]) #view-search-results .neo-raised{
+  box-shadow: var(--shadow-raised), 0 0 0 1px rgba(84,78,120,.13);
+}
+:root:not([data-theme="dark"]) #view-library-stage .m-card-base,
+:root:not([data-theme="dark"]) #view-search-results .m-card-base,
+:root:not([data-theme="dark"]) .lib-detail-sheet .m-card-base{
+  box-shadow: var(--card-shadow), 0 0 0 1px rgba(84,78,120,.13);
+}
+:root:not([data-theme="dark"]) #view-library-stage .neo-sunk,
+:root:not([data-theme="dark"]) #view-search-results .neo-sunk{
+  background:#EFECF9; box-shadow: var(--shadow-sunk);
+}
+:root:not([data-theme="dark"]) #view-library-stage .neo-button,
+:root:not([data-theme="dark"]) #view-library-stage .gup-chip,
+:root:not([data-theme="dark"]) #view-library-stage .bulk-chip,
+:root:not([data-theme="dark"]) #view-library-stage .lrn-pill,
+:root:not([data-theme="dark"]) #view-library-stage .sel-btn,
+:root:not([data-theme="dark"]) #view-library-stage .pg-btn,
+:root:not([data-theme="dark"]) #view-library-stage .filter-dd-trigger,
+:root:not([data-theme="dark"]) #view-library-stage .vr-status-btn,
+:root:not([data-theme="dark"]) #view-library-stage .m-pressed-btn,
+:root:not([data-theme="dark"]) #view-library-stage .ex-mini-btn,
+:root:not([data-theme="dark"]) #view-library-stage .ex-audio-control,
+:root:not([data-theme="dark"]) #view-search-results .neo-button,
+:root:not([data-theme="dark"]) #view-search-results .m-pressed-btn{
+  background:#F1EEFA; box-shadow: var(--shadow-btn), 0 0 0 1px rgba(84,78,120,.10);
+}
+/* Khối con trong card chi tiết (Hán tự, ví dụ, từ liên quan) cũng cần cạnh */
+:root:not([data-theme="dark"]) #view-library-stage .m-zone-a,
+:root:not([data-theme="dark"]) #view-library-stage .m-raised-block,
+:root:not([data-theme="dark"]) .lib-detail-sheet .m-zone-a,
+:root:not([data-theme="dark"]) .lib-detail-sheet .m-raised-block{
+  box-shadow: var(--raised-block), 0 0 0 1px rgba(84,78,120,.09);
+}
+
     </style>
 </head>
 <body class="font-sans antialiased text-[color:var(--c-3d3d4e)] px-3 sm:px-5 lg:px-8 pb-3 sm:pb-5 lg:pb-8 pt-1 sm:pt-2 min-h-screen">
@@ -2686,13 +2839,14 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 
                 <!-- SECTION 1: HỘP CHÀO HỎI — bao luôn 3 thẻ thống kê bên trong -->
                 <section class="mb-7">
-                    <!-- Lời chào tách RIÊNG khỏi thẻ để hình 3D có chỗ lơ lửng, không bị header che -->
+                    <!-- Lời chào tách RIÊNG khỏi thẻ để hình 3D có chỗ lơ lửng, không bị header che.
+                         Dòng phụ nằm TRONG thẻ, dạng dải sáng ở đầu thẻ. -->
                     <div class="hm-greet">
                         <p class="hm-hello" id="home-hello-name">Chào bạn! 👋</p>
-                        <p class="hm-hello-sub" id="home-hello-sub">Hôm nay bạn đã tiến xa hơn một chút rồi đó! ✨</p>
                     </div>
                     <div class="hm-hero">
                         <img src="assets/dashboard-hero.png" alt="" class="hm-hero-img" onerror="this.style.display='none'">
+                        <p class="hm-hello-sub" id="home-hello-sub">Hôm nay bạn đã tiến xa hơn một chút rồi đó! ✨</p>
                         <div class="hm-stats" id="home-status-cards"></div>
                     </div>
                 </section>
@@ -9262,43 +9416,189 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             buildAndShowQuizMaze(picked, pool, mode);
         }
 
-        function generateQuizMazeQuestion(word, pool) {
-            const templates = ['quiz-ko', 'quiz-vi', 'guess'];
-            const type = templates[Math.floor(Math.random() * templates.length)];
-            const otherWords = pool.filter(w => w.id !== word.id);
-            if (type === 'quiz-vi') {
-                const correct = word.word;
-                const wrongPool = otherWords.map(w => w.word).filter(v => v !== correct);
-                const wrongs = shuffleArr(wrongPool).slice(0, Math.min(3, wrongPool.length));
-                return { type, word, questionText: `Từ nào mang nghĩa: "${word.vietnamese || ''}"?`, correct, options: shuffleArr([correct, ...wrongs]), answered: false };
+        /* ============================================================
+           BỘ SINH CÂU HỎI CHO QUIZ NGOÀI TRANG CHỦ
+           (Quiz Maze "Ôn lại từ cũ" / "Ôn tập tổng hợp" + Luyện theo chủ đề)
+
+           Dùng CHUNG 12 dạng của tab Trắc nghiệm (tiền tố tq*) thay vì 3 dạng
+           cũ. Bỏ 2 dạng cần thao tác nhiều bước — Ghép cặp & Sắp xếp câu — vì
+           Quiz Maze hiện TẤT CẢ câu trên một trang, không hợp bố cục đó.
+           Thứ tự dạng được rải theo tỉ lệ rồi xáo + phá chuỗi trùng, nên không
+           bao giờ gặp 1 dạng lặp liên tiếp nhiều lần.
+           ============================================================ */
+        const QM_TQ_TYPES = ['word', 'sent', 'cloze', 'spell', 'hanja', 'hanjaRoot', 'explain', 'literal', 'syn'];
+        // Quiz Maze: trắc nghiệm + 2 dạng nghe
+        const QM_W_MAZE  = { word: 12, sent: 10, cloze: 13, spell: 7, hanja: 10, hanjaRoot: 5, explain: 7, literal: 4, syn: 3, listen: 6, guess: 6 };
+        // Luyện theo chủ đề: thêm dạng Viết từ
+        const QM_W_TOPIC = { word: 10, sent: 9, cloze: 11, spell: 6, hanja: 9, hanjaRoot: 4, explain: 6, literal: 3, syn: 3, listen: 5, guess: 5, typing: 9 };
+
+        // Rải n dạng theo tỉ lệ rồi xáo
+        function qmBuildTypeSeq(n, W) {
+            const types = Object.keys(W).filter(t => W[t] > 0);
+            const totalW = types.reduce((a, t) => a + W[t], 0) || 1;
+            const bag = [];
+            while (bag.length < n + types.length) {
+                types.forEach(t => {
+                    const k = Math.max(1, Math.round(24 * W[t] / totalW));
+                    for (let i = 0; i < k; i++) bag.push(t);
+                });
             }
-            if (type === 'guess') {
-                const correct = word.vietnamese || '—';
-                const wrongPool = otherWords.map(w => w.vietnamese || '—').filter(v => v !== correct);
-                const wrongs = shuffleArr(wrongPool).slice(0, Math.min(3, wrongPool.length));
-                return { type, word, questionText: 'Nghe rồi chọn đúng nghĩa tiếng Việt', correct, options: shuffleArr([correct, ...wrongs]), answered: false };
-            }
-            // quiz-ko (mặc định)
-            const correct = word.vietnamese || '—';
-            const wrongPool = otherWords.map(w => w.vietnamese || '—').filter(v => v !== correct);
-            const wrongs = shuffleArr(wrongPool).slice(0, Math.min(3, wrongPool.length));
-            return { type: 'quiz-ko', word, questionText: `Nghĩa của từ "${word.word}" là gì?`, correct, options: shuffleArr([correct, ...wrongs]), answered: false };
+            return qmSpreadTypes(shuffleArr(bag).slice(0, n));
         }
 
-        function buildAndShowQuizMaze(picked, fullPool, mode) {
+        // Phá các chuỗi trùng dạng liền kề: đổi chỗ câu bị trùng với một câu khác dạng
+        // ở xa. Chạy tối đa 5 lượt cho ổn định, không lặp vô hạn.
+        function qmSpreadTypes(seq) {
+            for (let pass = 0; pass < 5; pass++) {
+                let swapped = false;
+                for (let i = 1; i < seq.length; i++) {
+                    if (seq[i] !== seq[i - 1]) continue;
+                    let j = -1;
+                    for (let k = i + 2; k < seq.length; k++) {
+                        if (seq[k] === seq[i]) continue;
+                        if (seq[k] === seq[i - 1]) continue;
+                        if (k > 0 && seq[k - 1] === seq[i]) continue;
+                        if (k + 1 < seq.length && seq[k + 1] === seq[i]) continue;
+                        j = k; break;
+                    }
+                    if (j < 0) {
+                        for (let k = 0; k < i - 1; k++) {
+                            if (seq[k] === seq[i]) continue;
+                            if (k > 0 && seq[k - 1] === seq[i]) continue;
+                            if (seq[k + 1] === seq[i]) continue;
+                            j = k; break;
+                        }
+                    }
+                    if (j >= 0) { const t = seq[i]; seq[i] = seq[j]; seq[j] = t; swapped = true; }
+                }
+                if (!swapped) break;
+            }
+            return seq;
+        }
+
+        // Từ trong sổ có thể đã bị lược bớt cột (Hán tự, nghĩa đen, giải thích…) —
+        // lấy lại bản đầy đủ trong thư viện để các dạng nâng cao vẫn dùng được.
+        function qmEnrich(w) {
+            const full = (allLibraryCache || []).find(x => x.id === w.id);
+            if (!full) return w;
+            const merged = Object.assign({}, full);
+            Object.keys(w).forEach(k => { if (w[k] !== undefined && w[k] !== null && w[k] !== '') merged[k] = w[k]; });
+            return merged;
+        }
+
+        // Gọi đúng bộ sinh ABCD của tab Trắc nghiệm
+        function qmTqGen(item, t, d) {
+            if (t === 'sent') return tqQSentence(item, d);
+            if (t === 'cloze') return (d === 'vi') ? tqQClozeVi(item) : tqQClozeKo(item);
+            if (t === 'spell') return tqQSpell(item);
+            if (t === 'hanja') return tqQHanja(item, d);
+            if (t === 'hanjaRoot') return tqQHanjaRoot(item);
+            if (t === 'explain') return tqQExplain(item, d);
+            if (t === 'literal') return tqQLiteral(item);
+            if (t === 'syn') return tqQSyn(item);
+            return tqQWord(item, d);
+        }
+
+        // Chọn chiều trả lời khả thi cho dạng t; thiếu data thì đổi sang dạng khác.
+        function qmResolveType(item, t) {
+            const dirs = shuffleArr(['vi', 'ko']);
+            for (const d of dirs) if (tqFeasible(t, item, d)) return { t, d };
+            for (const alt of shuffleArr(QM_TQ_TYPES.slice())) {
+                for (const d of dirs) if (tqFeasible(alt, item, d)) return { t: alt, d };
+            }
+            return { t: 'word', d: 'vi' };
+        }
+
+        function qmMakeQuestion(word, pool, type) {
+            const item = qmEnrich(word);
+            const vn = (typeof tqVi === 'function' ? tqVi(item) : (item.vietnamese || '')) || '—';
+            const others = pool.filter(w => w.id !== item.id);
+            const uniq = arr => [...new Set(arr)];
+
+            if (type === 'typing') {
+                return { type: 'typing', word: item, badge: 'Viết từ',
+                    questionText: `Viết từ tiếng Hàn mang nghĩa: "${vn}"`, correct: item.word, answered: false };
+            }
+            if (type === 'listen' || type === 'guess') {
+                const ko = type === 'listen';
+                const correct = ko ? item.word : vn;
+                const wrongs = shuffleArr(uniq(others.map(w => ko ? w.word : (w.vietnamese || w.deep_meaning || '—'))
+                    .filter(v => v && v !== correct))).slice(0, 3);
+                return { type, word: item, badge: ko ? 'Nghe & Chọn từ' : 'Nghe & Tìm nghĩa',
+                    questionText: ko ? 'Nghe rồi chọn từ tiếng Hàn đúng' : 'Nghe rồi chọn đúng nghĩa tiếng Việt',
+                    correct, options: shuffleArr([correct, ...wrongs]),
+                    optClass: ko ? 'font-kr-serif' : '', answered: false };
+            }
+
+            const plan = qmResolveType(item, type);
+            let q = null;
+            try { q = qmTqGen(item, plan.t, plan.d); } catch (e) { console.warn('qm gen', plan.t, e); q = null; }
+            if (!q || !q.correct || !(q.wrongs || []).length) {
+                // Không sinh được → quay về dạng hỏi nghĩa cơ bản để không kẹt câu hỏi
+                const correct = vn;
+                const wrongs = shuffleArr(uniq(others.map(w => w.vietnamese || w.deep_meaning || '—')
+                    .filter(v => v && v !== correct))).slice(0, 3);
+                return { type: 'quiz', word: item, badge: 'Từ vựng',
+                    questionText: `Nghĩa của từ "${item.word}" là gì?`, correct,
+                    options: shuffleArr([correct, ...wrongs]), answered: false };
+            }
+            return {
+                type: 'quiz', tqKey: q.key, word: item,
+                badge: (typeof TQ_BADGE !== 'undefined' && TQ_BADGE[q.key]) || 'Trắc nghiệm',
+                questionText: q.label || '',
+                promptHtml: q.promptHtml || '',
+                reveal: q.reveal || '',
+                correct: q.correct,
+                options: shuffleArr([q.correct].concat((q.wrongs || []).slice(0, 3))),
+                optClass: q.optClass || '',
+                speak: q.speak || '',
+                answered: false
+            };
+        }
+
+        // Dựng trọn bộ câu hỏi cho 1 lượt quiz (mode: 'longtime' | 'general' | 'topic')
+        function qmBuildQuestions(picked, pool, mode) {
+            const W = mode === 'topic' ? QM_W_TOPIC : QM_W_MAZE;
+            const types = Object.keys(W).filter(t => W[t] > 0);
+            const seq = qmBuildTypeSeq(picked.length, W);
+            const out = picked.map((w, i) => qmMakeQuestion(w, pool, seq[i]));
+            // Dạng có thể bị đổi khi từ đó thiếu data (vd. không có Hán tự) nên vẫn có thể
+            // sinh ra 2 câu liền nhau cùng dạng — thử sinh lại tối đa 4 lần cho câu sau.
+            for (let i = 1; i < out.length; i++) {
+                let tries = 0;
+                while (out[i].badge === out[i - 1].badge && tries < 4) {
+                    const alt = shuffleArr(types.filter(t => t !== seq[i]))[0];
+                    const q = qmMakeQuestion(picked[i], pool, alt);
+                    if (!q) break;
+                    if (q.badge === out[i - 1].badge) { tries++; continue; }
+                    out[i] = q; break;
+                }
+            }
+            return out;
+        }
+
+        // Giữ 2 tên hàm cũ để các lời gọi khác (nếu có) không vỡ
+        function generateQuizMazeQuestion(word, pool) { return qmMakeQuestion(word, pool, 'word'); }
+        function generateTopicPracticeQuestion(word, pool) { return qmMakeQuestion(word, pool, 'word'); }
+
+        async function buildAndShowQuizMaze(picked, fullPool, mode) {
+            // Bộ sinh 12 dạng đọc cột Hán tự / nghĩa đen / giải thích trong thư viện,
+            // nên phải chắc chắn thư viện đã nạp trước khi dựng câu hỏi.
+            await ensureAllLibraryLoaded();
             if (typeof closeLibraryDetailPopup === 'function') closeLibraryDetailPopup();
             document.querySelectorAll('.view-group').forEach(v => v.classList.add('hidden'));
             const view = document.getElementById('view-quiz-maze');
             if (view) view.classList.remove('hidden');
             [document.getElementById('tab-home'), document.getElementById('tab-notebook'), document.getElementById('tab-full-topik'), document.getElementById('tab-fast-pace'), document.getElementById('tab-topic')].forEach(t => t && t.setAttribute('data-active', 'false'));
 
-            const genFn = mode === 'topic' ? generateTopicPracticeQuestion : generateQuizMazeQuestion;
-            const questions = picked.map(w => genFn(w, fullPool.length > 3 ? fullPool : picked));
+            const questions = qmBuildQuestions(picked, fullPool.length > 3 ? fullPool : picked, mode);
             quizMazeState = { questions, answeredCount: 0, mode };
             const titleEl = document.getElementById('quiz-maze-title');
             const subEl = document.getElementById('quiz-maze-subtitle');
             if (titleEl) titleEl.textContent = mode === 'topic' ? '🎯 Luyện tập theo chủ đề' : (mode === 'longtime' ? '🕰️ Lâu rồi không gặp' : '🔀 Ôn tập tổng hợp');
-            if (subEl) subEl.textContent = mode === 'topic' ? `${questions.length} câu · Trắc nghiệm · Viết từ · Nghe` : `${questions.length} câu hỏi · Trắc nghiệm & Nghe tìm nghĩa`;
+            if (subEl) subEl.textContent = mode === 'topic'
+                ? `${questions.length} câu · Trắc nghiệm nhiều dạng · Viết từ · Nghe`
+                : `${questions.length} câu · Trắc nghiệm nhiều dạng · Nghe`;
             renderQuizMaze();
         }
 
@@ -9327,9 +9627,11 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         // Thẻ đầu mỗi câu: icon + nhãn của dạng quiz (khớp icon ngoài Trang chủ) + số câu.
         function qmCardHeader(q, idx) {
             const meta = PRACTICE_FUNC_META[qmFuncKeyOf(q.type)] || { icon: '📝', label: 'Trắc nghiệm', color: '#6C63FF' };
+            // q.badge = tên dạng cụ thể (Điền từ / Hán tự → Từ / Chính tả…) của bộ 12 dạng
+            const label = q.badge || meta.label;
             return `
                 <div class="self-stretch flex items-center gap-2">
-                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[12px] font-bold" style="background:${meta.color}1f; color:${meta.color};">${meta.icon} ${meta.label}</span>
+                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[12px] font-bold" style="background:${meta.color}1f; color:${meta.color};">${meta.icon} ${label}</span>
                     <span class="text-[11px] font-mono text-gray-400 ml-auto">Câu ${idx + 1}</span>
                 </div>`;
         }
@@ -9351,18 +9653,25 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                     </div>
                 `;
             }
+            const optCls = q.optClass || (koreanOptions ? 'font-kr-serif' : '');
+            const speakWord = (q.speak || q.word.word || '').replace(/'/g, "\\'");
             return `
                 <div class="neo-raised p-5 flex flex-col items-center gap-4">
                     ${qmCardHeader(q, idx)}
                     ${hasSpeaker ? `
-                        <button class="w-16 h-16 rounded-full neo-raised flex items-center justify-center text-2xl text-point" onclick="speakKorean('${q.word.word.replace(/'/g, "\\'")}')">🔊</button>
+                        <button class="w-16 h-16 rounded-full neo-raised flex items-center justify-center text-2xl text-point" onclick="speakKorean('${speakWord}')">🔊</button>
                         <p class="text-sm font-semibold text-gray-500">${q.questionText}</p>
                     ` : `
-                        <p class="text-lg font-bold text-[color:var(--c-1e2a4a)] text-center">${q.questionText}</p>
+                        <div class="flex items-center gap-2 justify-center flex-wrap">
+                            <p class="text-lg font-bold text-[color:var(--c-1e2a4a)] text-center">${q.questionText}</p>
+                            ${q.speak ? `<button class="w-8 h-8 rounded-full neo-button flex items-center justify-center text-sm text-point shrink-0" title="Nghe câu" onclick="speakKorean('${speakWord}')">🔊</button>` : ''}
+                        </div>
                     `}
+                    ${q.promptHtml ? `<div class="w-full max-w-lg flex flex-col items-center gap-2">${q.promptHtml}</div>` : ''}
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full max-w-lg" id="qm-opts-${idx}">
-                        ${q.options.map((opt, i) => `<button class="neo-button py-3.5 px-4 text-base font-bold text-[color:var(--c-2d3a54)] ${koreanOptions ? 'font-kr-serif' : ''}" data-opt-i="${i}" onclick="handleQuizMazeAnswer(${idx}, this)">${opt}</button>`).join('')}
+                        ${q.options.map((opt, i) => `<button class="neo-button py-3.5 px-4 text-base font-bold text-[color:var(--c-2d3a54)] ${optCls}" data-opt-i="${i}" onclick="handleQuizMazeAnswer(${idx}, this)">${opt}</button>`).join('')}
                     </div>
+                    <div class="tq-reveal w-full max-w-lg hidden" id="qm-reveal-${idx}">${q.reveal || ''}</div>
                     <div class="text-xs font-semibold min-h-4 text-center" id="qm-feedback-${idx}"></div>
                 </div>
             `;
@@ -9459,6 +9768,9 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             fb.innerHTML = isCorrect
                 ? `<span class="text-[#2ec65e]">🎉 Chính xác! — <b class="font-kr-serif">${q.word.word}</b> : ${vnMean}</span>`
                 : `<span class="text-[#ef4444]">😢 Đáp án đúng: <b class="font-kr-serif">${q.word.word}</b> : ${vnMean}</span>`;
+
+            const rv = document.getElementById(`qm-reveal-${idx}`);
+            if (rv && q.reveal) rv.classList.remove('hidden');
 
             const funcKey = q.type === 'guess' ? 'guess' : (q.type === 'listen' ? 'listen' : 'quiz');
             recordQmResult(q, funcKey, isCorrect);
@@ -10562,32 +10874,6 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         // ============================================================
         let tpState = { activeTab: 'bulk', searchQuery: '', selectedWords: [], filters: { libs: [], levels: [], examTypes: [], wordTypes: [], topics: [] } };
         let tpOptions = { libs: [], levels: [], examTypes: [], wordTypes: [], topics: [] };
-
-        // Sinh câu hỏi TRỘN 5 mẫu (quiz-ko/quiz-vi/typing/listen/guess) cho mỗi từ
-        function generateTopicPracticeQuestion(word, pool) {
-            // Giảm bớt dạng "Nghe & chọn từ tiếng Hàn" (listen): các dạng khác lặp lại nhiều lần nên
-            // listen chỉ chiếm ~1/9 số câu, thay vì 1/5 như trước.
-            const templates = ['quiz-ko', 'quiz-ko', 'quiz-vi', 'quiz-vi', 'typing', 'typing', 'guess', 'guess', 'listen'];
-            const type = templates[Math.floor(Math.random() * templates.length)];
-            const others = pool.filter(w => w.id !== word.id);
-            const vn = word.vietnamese || word.deep_meaning || '—';
-            if (type === 'typing') {
-                return { type, word, questionText: `Viết từ tiếng Hàn mang nghĩa: "${vn}"`, correct: word.word, answered: false };
-            }
-            if (type === 'quiz-vi' || type === 'listen') {
-                const correct = word.word;
-                const wrongPool = others.map(w => w.word).filter(v => v && v !== correct);
-                const wrongs = shuffleArr(wrongPool).slice(0, Math.min(3, wrongPool.length));
-                const questionText = type === 'listen' ? 'Nghe rồi chọn từ tiếng Hàn đúng' : `Từ nào mang nghĩa: "${vn}"?`;
-                return { type, word, questionText, correct, options: shuffleArr([correct, ...wrongs]), answered: false };
-            }
-            // quiz-ko hoặc guess → chọn nghĩa tiếng Việt
-            const correct = vn;
-            const wrongPool = others.map(w => w.vietnamese || w.deep_meaning || '—').filter(v => v && v !== correct);
-            const wrongs = shuffleArr(wrongPool).slice(0, Math.min(3, wrongPool.length));
-            const questionText = type === 'guess' ? 'Nghe rồi chọn đúng nghĩa tiếng Việt' : `Nghĩa của từ "${word.word}" là gì?`;
-            return { type, word, questionText, correct, options: shuffleArr([correct, ...wrongs]), answered: false };
-        }
 
         // Phễu lọc theo chủ đề (dùng lại BULK_CASCADE_ORDER / BULK_FIELD_MAP toàn cục)
         function computeTpOptions() {
