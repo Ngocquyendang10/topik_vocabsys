@@ -7,7 +7,7 @@ Số liệu: 12 câu bài đọc | 14 từ vựng | 4 câu hỏi
 
 **Sức khỏe tinh thần của con người hiện đại và sự giao tiếp đích thực**
 
-Bài đọc phân tích những nguyên nhân gây căng thẳng tinh thần trong xã hội hiện đại và vai trò của sự giao tiếp chân thành trong việc xây dựng các mối quan hệ lành mạnh.
+Những nguyên nhân gây căng thẳng tinh thần trong xã hội hiện đại và vai trò của sự giao tiếp chân thành trong việc xây dựng các mối quan hệ lành mạnh.
 
 @audio tts
 
@@ -93,7 +93,7 @@ Bài đọc phân tích những nguyên nhân gây căng thẳng tinh thần tro
 & 깊이 이해하고 존중하는가가 = mức độ thấu hiểu sâu sắc và tôn trọng
 & 더 중요하다 = quan trọng hơn
 
-## II — Bản dịch đầy đủ
+## II — Bản tiếng Việt
 
 #### Sức khỏe tinh thần của con người hiện đại và sự giao tiếp đích thực
 
@@ -122,9 +122,9 @@ Giao tiếp không trực tiếp thuận tiện cho việc duy trì quan hệ, n
 정서적 지원 {정서적 지원을 받다} = sự hỗ trợ về cảm xúc
 존중하다 {서로를 이해하고 존중하다} = tôn trọng
 
-### Cụm từ thường đi kèm
+### Cụm biểu hiện
 
-| Cụm tiếng Hàn | Nghĩa tiếng Việt |
+| Tiếng Hàn | Nghĩa tiếng Việt |
 | --- | --- |
 | 정신 건강이 위협받다 | sức khỏe tinh thần bị đe dọa |
 | 극심한 스트레스를 경험하다 | trải qua căng thẳng nghiêm trọng |
@@ -135,7 +135,7 @@ Giao tiếp không trực tiếp thuận tiện cho việc duy trì quan hệ, n
 | 편견을 줄이다 | giảm định kiến |
 | 정서적 지원을 받다 | nhận được sự hỗ trợ về cảm xúc |
 
-## IV — Cụm dùng lại khi viết
+## IV — Mẫu câu diễn đạt thông dụng
 
 | Mẫu câu | Nghĩa tiếng Việt |
 | --- | --- |
@@ -148,7 +148,7 @@ Giao tiếp không trực tiếp thuận tiện cho việc duy trì quan hệ, n
 | ~기 위해서는 ~할 필요가 있다. | Để… thì cần phải… |
 | 결국 ~보다 ~가 더 중요하다. | Cuối cùng, điều… quan trọng hơn… |
 
-## V — Trắc nghiệm đọc hiểu
+## V — Trắc nghiệm 
 
 #### 1. 중심 내용 — Nội dung chính
 
@@ -177,7 +177,7 @@ Giao tiếp không trực tiếp thuận tiện cho việc duy trì quan hệ, n
 - ④ 정신 건강 문제는 개인이 혼자 해결해야 할 문제이다.
 ! Giải thích: Đáp án ③ đúng với đoạn nói rằng nét mặt, giọng điệu và các tín hiệu cảm xúc khó được truyền tải đầy đủ qua giao tiếp không trực tiếp. ① trái với luận điểm chính, ② đảo ngược nội dung bài, còn ④ bỏ qua vai trò của xã hội.
 
-#### 4. 글쓴이의 태도 — Suy luận ý người viết
+#### 4. 글쓴이의 태도 — Ý của người viết
 
 ? 이 글을 통해 알 수 있는 글쓴이의 생각으로 가장 알맞은 것을 고르십시오.
 - ① 인간관계를 건강하게 유지하려면 온라인 소통을 완전히 중단해야 한다.
@@ -198,7 +198,7 @@ Giao tiếp không trực tiếp thuận tiện cho việc duy trì quan hệ, n
 %dich 결국 건강한 소통을 위해서는 얼마나 많이 연결되는가보다 서로를 얼마나 깊이 이해하고 존중하는가가 더 중요하다. // Cuối cùng, để có được sự giao tiếp lành mạnh, điều quan trọng hơn số lượng kết nối là mức độ chúng ta thấu hiểu và tôn trọng lẫn nhau.
 ! Cấu trúc: `얼마나 A/V-는가보다 얼마나 A/V-는가가 더 중요하다` dùng để đối chiếu hai tiêu chí và nhấn mạnh tiêu chí quan trọng hơn.
 
-## VII — Nghe và chép chính tả
+## VII — Nghe và viết chính tả
 
 %chep 기술적 연결이 늘어났다고 해서 정신적 안정과 진정한 소통까지 보장되는 것은 아니다. // 기술적 연결이 __________ 정신적 안정과 진정한 소통까지 __________ 것은 아니다.
 
@@ -245,7 +245,5 @@ Giao tiếp không trực tiếp thuận tiện cho việc duy trì quan hệ, n
 %dien 정신적 안정을 위해서는 자신의 감정을 __________보는 시간이 필요하다. // 돌아
 
 %dien 사회는 정신 건강 상담에 대한 __________을 줄일 필요가 있다. // 편견
-
-! Câu chốt: 결국 건강한 소통을 위해서는 얼마나 많이 연결되는가보다 서로를 얼마나 깊이 이해하고 존중하는가가 더 중요하다.
 
 Từ khoá: 정신 건강 · 정서적 피로 · 진정한 소통 · 비대면 소통 · 비교 · 감정 신호 · 정서적 지원 · 존중
