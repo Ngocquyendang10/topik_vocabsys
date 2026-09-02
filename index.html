@@ -674,6 +674,9 @@
 .lib-detail-close:active { box-shadow:inset 3px 3px 7px var(--c-c4ccd9), inset -3px -3px 7px var(--c-ffffff); }
 .lib-detail-body { position:relative; z-index:1; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:0 12px 18px; }
 .lib-detail-body #right-detail-panel { position:static !important; display:block !important; }
+/* <aside> của view Kết quả tìm kiếm cũng được di chuyển vào sheet y như vậy —
+   nó vốn bị mục 46.4 ẩn khi còn nằm trong #view-search-results. */
+.lib-detail-body aside { position:static !important; display:block !important; width:100% !important; }
 @media (min-width:640px){
     .lib-detail-overlay { align-items:center; }
     .lib-detail-sheet { border-radius:26px; max-height:88vh; }
@@ -4164,6 +4167,90 @@ input.quiz-wrong,
 }
 .ui-ic svg{ display:block; width:100%; height:100%; }
 
+/* ══════════════════════════════════════════════════════════════════════
+   65. THẺ CHI TIẾT — KHUNG NGOÀI PHẢI TÁCH KHỎI NỀN
+   Lỗi cũ: mục 60 chỉ vẽ ranh giới cho khung TRONG (.modern-card-wrapper),
+   còn khung NGOÀI (.m-card-base của cột chi tiết) chỉ có --card-shadow
+   với lớp trắng 80% quá mờ → góc trên–trái tan hẳn vào nền, nhìn như
+   không có khung. Nay khung ngoài cũng có vòng trắng mảnh + lớp trắng
+   toả, đậm hơn khung trong một bậc để thứ tự lớp vẫn đọc được:
+   nền → khung ngoài → khung trong.
+   ══════════════════════════════════════════════════════════════════════ */
+:root:not([data-theme="dark"]) #right-detail-panel > .m-card-base,
+:root:not([data-theme="dark"]) #view-search-results aside > .m-card-base,
+:root:not([data-theme="dark"]) .lib-detail-body > .m-card-base,
+:root:not([data-theme="dark"]) .lib-detail-body aside > .m-card-base,
+:root:not([data-theme="dark"]) #pl-detail-card{
+  /* khung ngoài nằm TRÊN NỀN TRANG (cùng màu) nên vòng trắng vô hình — phải là
+     một sợi tím rất nhạt mới thấy ranh giới ở góc trên–trái. */
+  box-shadow: 0 0 0 1px rgba(139,127,196,.17),             /* sợi tím nhạt — ranh giới */
+              -7px -7px 16px rgba(255,255,255,1),          /* lớp trắng toả — giữ tông đất sét */
+              8px 8px 22px rgba(163,152,205,.55) !important;
+}
+:root[data-theme="dark"] #right-detail-panel > .m-card-base,
+:root[data-theme="dark"] #view-search-results aside > .m-card-base,
+:root[data-theme="dark"] .lib-detail-body > .m-card-base,
+:root[data-theme="dark"] .lib-detail-body aside > .m-card-base,
+:root[data-theme="dark"] #pl-detail-card{
+  box-shadow: 0 0 0 1.5px rgba(255,255,255,.13),
+              -7px -7px 16px rgba(255,255,255,.06),
+              8px 8px 22px rgba(0,0,0,.48) !important;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   66. MOBILE — TÌM KIẾM: BẢNG KẾT QUẢ PHẢI DÙNG ĐƯỢC NGAY
+   Ba lỗi cùng một chỗ:
+   a) Lớp phủ tối #m-search-overlay che nguyên màn nên thấy kết quả mà
+      bấm không được, phải bấm "Huỷ" mới chạm tới bảng. Nay khi ô nhập
+      đã có chữ (.has-q) thì lớp phủ trong suốt và cho chạm xuyên qua,
+      chỉ còn thanh nhập ở đáy là bắt sự kiện.
+   b) Bảng cuộn lồng (max-height 70vh + overflow-y) nằm trong trang cũng
+      cuộn dọc → giật. Mobile bỏ cuộn lồng, để cuộn theo trang.
+   c) 4 cột phụ ăn hết bề ngang, cột "Từ vựng" bị bóp thành sọc dọc và
+      bảng trôi trái–phải. Mobile chỉ giữ Từ vựng + Cấp độ, bỏ cuộn ngang.
+   ══════════════════════════════════════════════════════════════════════ */
+@media (max-width:767px){
+  /* (a) lớp phủ không chặn thao tác khi đã có kết quả */
+  #m-search-overlay{ pointer-events:none; }
+  .m-search-scrim, .m-search-dock{ pointer-events:auto; }
+  #m-search-overlay.has-q .m-search-scrim{
+    background:transparent; pointer-events:none;
+  }
+
+  /* (b) bảng cuộn theo trang, không cuộn lồng */
+  #view-search-results .sr-scroll{
+    max-height:none !important; overflow-y:visible !important;
+    overflow-x:hidden !important;
+    -webkit-overflow-scrolling:touch;
+  }
+  /* chừa chỗ cho thanh nhập nổi ở đáy để hàng cuối không bị che —
+     CHỈ khi thanh đó đang mở, không thì thừa ra một mảng trống vô cớ */
+  body:has(#m-search-overlay:not(.hidden)) #view-search-results{ padding-bottom:96px; }
+
+  /* (c) chỉ 2 cột, chia bề ngang cố định */
+  #search-results-table{ table-layout:fixed; width:100% !important; }
+  #view-search-results .sr-col-extra{ display:none !important; }
+  #view-search-results .sr-col-main{ width:auto; }
+  #view-search-results .sr-col-lv{ width:76px; text-align:right; }
+  #view-search-results th.sr-col-lv{ white-space:nowrap; letter-spacing:.06em; font-size:9px; }
+  #view-search-results td.sr-col-lv{ vertical-align:top; padding-top:15px; }
+  /* chữ trong cột chính được xuống dòng bình thường, không bị bóp */
+  #view-search-results td.sr-col-main .font-kr-serif{
+    white-space:normal; word-break:keep-all; line-height:1.35;
+  }
+  #view-search-results td.sr-col-main span.block{
+    white-space:normal; line-height:1.35;
+  }
+  #view-search-results th, #view-search-results td{ padding-left:12px; padding-right:10px; }
+}
+
+/* (d) 1024–1279px: mục 46.4 ép cột chứa bảng sang chiều DỌC, nhưng lớp Tailwind
+   `lg:flex-1 lg:basis-0` (từ 1024px) vẫn còn hiệu lực → basis 0 lúc này tính theo
+   CHIỀU CAO, bảng sập còn 0px và màn hình trống trơn. Trả kích thước về theo nội dung. */
+@media (max-width:1279px){
+  #view-search-results #search-results-box{ flex:0 0 auto !important; }
+}
+
     </style>
 </head>
 <body class="font-sans antialiased text-[color:var(--c-3d3d4e)] px-3 sm:px-5 lg:px-8 pb-3 sm:pb-5 lg:pb-8 pt-1 sm:pt-2 min-h-screen">
@@ -4632,9 +4719,9 @@ input.quiz-wrong,
 
                 <div class="flex flex-col lg:flex-row gap-5 lg:gap-6 items-stretch lg:items-start w-full">
                     <!-- CỘT TRÁI 50% — BẢNG KẾT QUẢ (mobile: hiện trên card chi tiết) -->
-                    <div class="w-full lg:flex-1 lg:basis-0 min-w-0 neo-raised !rounded-[28px] overflow-hidden">
-                        <div class="overflow-x-auto" style="max-height:70vh; overflow-y:auto;">
-                            <table class="w-full text-sm" style="border-collapse:collapse;">
+                    <div class="w-full lg:flex-1 lg:basis-0 min-w-0 neo-raised !rounded-[28px] overflow-hidden" id="search-results-box">
+                        <div class="sr-scroll" style="max-height:70vh; overflow-y:auto; overflow-x:auto;">
+                            <table class="w-full text-sm" id="search-results-table" style="border-collapse:collapse;">
                                 <thead id="search-results-thead" class="ui-thead"></thead>
                                 <tbody id="search-results-tbody"></tbody>
                             </table>
@@ -6192,7 +6279,10 @@ input.quiz-wrong,
         let libDetailFinishClose = null; // popup đang chạy animation đóng, cần chốt xong trước khi mở cái mới
 
         function isNarrowDetailLayout() {
-            return window.matchMedia('(max-width: 1023px)').matches;
+            // 1279 chứ không phải 1023: mục 46.4 của CSS ẩn <aside> chi tiết cho tới 1279px,
+            // nên trong khoảng 1024–1279px cũng phải mở bottom sheet, không thì bấm 1 từ
+            // sẽ như không có gì xảy ra.
+            return window.matchMedia('(max-width: 1279px)').matches;
         }
 
         function openLibraryDetailPopup() {
@@ -6654,6 +6744,7 @@ input.quiz-wrong,
         }
 
         function closeHeaderSearchView() {
+            if (document.getElementById('sr-detail-modal')) closeSearchDetailPopup();
             const view = document.getElementById('view-search-results');
             if (view) view.classList.add('hidden');
             const target = headerSearchPrevView || 'view-home-dashboard';
@@ -6689,12 +6780,12 @@ input.quiz-wrong,
 
             thead.innerHTML = `
                 <tr class="text-left">
-                    <th class="py-2.5 px-3 ui-cap">Từ vựng</th>
-                    <th class="py-2.5 px-3 ui-cap">Cấp độ</th>
-                    <th class="py-2.5 px-3 ui-cap">Chủ đề</th>
-                    <th class="py-2.5 px-3 ui-cap">Loại từ</th>
-                    <th class="py-2.5 px-3 ui-cap">Dạng câu</th>
-                    <th class="py-2.5 px-3 ui-cap">Thư viện</th>
+                    <th class="py-2.5 px-3 ui-cap sr-col-main">Từ vựng</th>
+                    <th class="py-2.5 px-3 ui-cap sr-col-lv">Cấp độ</th>
+                    <th class="py-2.5 px-3 ui-cap sr-col-extra">Chủ đề</th>
+                    <th class="py-2.5 px-3 ui-cap sr-col-extra">Loại từ</th>
+                    <th class="py-2.5 px-3 ui-cap sr-col-extra">Dạng câu</th>
+                    <th class="py-2.5 px-3 ui-cap sr-col-extra">Thư viện</th>
                 </tr>
             `;
 
@@ -6708,7 +6799,7 @@ input.quiz-wrong,
                 const libLabel = w.source === 'fast' ? 'FOCUS' : 'FULL MASTER';
                 return `
                     <tr class="border-b border-[color:var(--c-f2f4f9)] hover:bg-[rgba(108,99,255,0.03)] cursor-pointer transition-colors" onclick="selectSearchResult('${w.id}', this)">
-                        <td class="py-3 px-3">
+                        <td class="py-3 px-3 sr-col-main">
                             <div class="flex items-start gap-2.5">
                                 <div class="vr-strip" style="background: linear-gradient(180deg, ${c}, ${c}44); min-height:32px;"></div>
                                 <div>
@@ -6717,15 +6808,15 @@ input.quiz-wrong,
                                 </div>
                             </div>
                         </td>
-                        <td class="py-3 px-3">
+                        <td class="py-3 px-3 sr-col-lv">
                             <span class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold whitespace-nowrap" style="background:${c}22; color:${c};">
                                 <span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:${c};"></span>${w.level}급
                             </span>
                         </td>
-                        <td class="py-3 px-3 text-xs text-gray-500">${w.topic || '—'}</td>
-                        <td class="py-3 px-3 text-xs text-gray-500">${w.word_type || '—'}</td>
-                        <td class="py-3 px-3 text-xs text-gray-500">${w.exam_type || '—'}</td>
-                        <td class="py-3 px-3 text-xs font-bold" style="color:${w.source === 'fast' ? '#f59e0b' : '#6C63FF'};">${libLabel}</td>
+                        <td class="py-3 px-3 text-xs text-gray-500 sr-col-extra">${w.topic || '—'}</td>
+                        <td class="py-3 px-3 text-xs text-gray-500 sr-col-extra">${w.word_type || '—'}</td>
+                        <td class="py-3 px-3 text-xs text-gray-500 sr-col-extra">${w.exam_type || '—'}</td>
+                        <td class="py-3 px-3 text-xs font-bold sr-col-extra" style="color:${w.source === 'fast' ? '#f59e0b' : '#6C63FF'};">${libLabel}</td>
                     </tr>
                 `;
             }).join('');
@@ -6737,7 +6828,72 @@ input.quiz-wrong,
             document.querySelectorAll('#search-results-tbody tr').forEach(tr => tr.classList.remove('search-row-active'));
             if (rowEl) rowEl.classList.add('search-row-active');
             renderSearchResultDetailCard(w);
+            // Màn hình hẹp: <aside> chi tiết đang bị ẩn (mục 46.4) → đưa lên bottom sheet
+            if (isNarrowDetailLayout()) openSearchDetailPopup();
         }
+
+        // ---- Bottom sheet card chi tiết cho view Kết quả tìm kiếm (màn hình hẹp) ----
+        // Dùng lại đúng khung .lib-detail-* của Thư viện, và cũng DI CHUYỂN <aside> vào
+        // sheet (không clone) để giữ nguyên listener đã gắn khi dựng card.
+        let srDetailHost = null;
+        let srDetailFinishClose = null;
+
+        function openSearchDetailPopup() {
+            if (srDetailFinishClose) srDetailFinishClose();
+            const card = document.getElementById('search-detail-card');
+            const aside = card ? card.closest('aside') : null;
+            if (!aside || document.getElementById('sr-detail-modal')) return;
+            srDetailHost = { parent: aside.parentNode, next: aside.nextSibling };
+            const overlay = document.createElement('div');
+            overlay.id = 'sr-detail-modal';
+            overlay.className = 'lib-detail-overlay';
+            overlay.onclick = (e) => { if (e.target === overlay) closeSearchDetailPopup(); };
+            overlay.innerHTML = `
+                <div class="lib-detail-sheet">
+                    <div class="lib-detail-head">
+                        <span class="lib-detail-grab"></span>
+                        <button class="lib-detail-close" title="Đóng" onclick="closeSearchDetailPopup()">✕</button>
+                    </div>
+                    <div class="lib-detail-body" id="sr-detail-slot"></div>
+                </div>`;
+            document.body.appendChild(overlay);
+            document.getElementById('sr-detail-slot').appendChild(aside);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSearchDetailPopup() {
+            const overlay = document.getElementById('sr-detail-modal');
+            if (!overlay || overlay.classList.contains('is-closing')) return;
+            document.body.style.overflow = '';
+            overlay.removeAttribute('id');
+            overlay.classList.add('is-closing');
+            const finish = () => {
+                const aside = overlay.querySelector('aside');
+                if (aside && srDetailHost && srDetailHost.parent) {
+                    srDetailHost.parent.insertBefore(aside, srDetailHost.next);
+                }
+                srDetailHost = null;
+                overlay.remove();
+            };
+            let done = false;
+            const once = () => {
+                if (done) return;
+                done = true;
+                if (srDetailFinishClose === once) srDetailFinishClose = null;
+                finish();
+            };
+            srDetailFinishClose = once;
+            overlay.addEventListener('animationend', once);
+            setTimeout(once, 320);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && document.getElementById('sr-detail-modal')) closeSearchDetailPopup();
+        });
+        window.addEventListener('resize', () => {
+            // Đủ rộng để hiện cột phải rồi → trả <aside> về chỗ cũ, không để kẹt trong sheet
+            if (!isNarrowDetailLayout() && document.getElementById('sr-detail-modal')) closeSearchDetailPopup();
+        });
 
         // Lưu tham chiếu dữ liệu từ theo id để nút bookmark trong card chi tiết (search/list sổ tay) truy lại được
         const GENERIC_DETAIL_DATA_MAP = {};
@@ -9259,7 +9415,7 @@ input.quiz-wrong,
                 ${practicePanelHead(ic('doc', 20), 'Trắc nghiệm', 'Câu hỏi tự đổi dạng: nghĩa từ, nghĩa câu, điền từ, Hán tự, ghép cặp, sắp xếp câu…', tqBarHtml())}
                 <div class="flex flex-col items-center gap-5 w-full">
                     ${buildInlinePracticeProgressHtml('quiz')}
-                    <div class="flex flex-col items-center gap-2 w-full max-w-lg">
+                    <div class="flex flex-col items-center gap-2 w-full max-w-2xl">
                         ${tqBadgeHtml(badgeKey)}
                         <div class="flex items-center gap-2 justify-center">
                             <p class="text-base sm:text-lg font-bold text-[color:var(--c-1e2a4a)] text-center">${labelHtml}</p>
@@ -9267,9 +9423,9 @@ input.quiz-wrong,
                         </div>
                         ${promptHtml || ''}
                     </div>
-                    <div class="w-full max-w-lg" id="pq-body">${bodyHtml}</div>
+                    <div class="w-full max-w-2xl" id="pq-body">${bodyHtml}</div>
                     <div class="tq-reveal" id="pq-reveal" style="visibility:hidden;">${revealHtml || '&nbsp;'}</div>
-                    <div id="pq-feedback" class="text-sm font-semibold min-h-[20px] text-center"></div>
+                    <div id="pq-feedback" class="text-[15px] font-semibold min-h-[22px] text-center leading-snug"></div>
                     <div class="flex gap-3">
                         <button class="neo-button px-5 py-2.5 text-xs font-bold text-gray-400" id="pq-skip-btn" onclick="advancePracticeQueue('quiz', true)">Bỏ qua, làm lại sau</button>
                         <button class="neo-button px-6 py-3 text-sm font-bold text-point hidden" id="pq-next-btn" onclick="advancePracticeQueue('quiz', false)">Câu tiếp theo →</button>
@@ -9854,8 +10010,8 @@ input.quiz-wrong,
                 <div class="flex flex-col items-center gap-6 w-full">
                     ${buildInlinePracticeProgressHtml('listen')}
                     <button class="w-20 h-20 rounded-full neo-raised flex items-center justify-center text-3xl text-point" onclick="speakKorean('${item.word.replace(/'/g, "\\'")}')">${ic('speaker', 24)}</button>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-lg" id="pl-opts">
-                        ${options.map((opt, i) => `<button class="neo-button py-4 px-4 text-base font-kr-serif font-bold text-[color:var(--c-2d3a54)]" data-opt-i="${i}" onclick="handlePracticeListenAnswer(this)">${opt}</button>`).join('')}
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-2xl" id="pl-opts">
+                        ${options.map((opt, i) => `<button class="neo-button py-3 px-4 text-[15px] leading-snug font-kr-serif font-bold text-[color:var(--c-2d3a54)]" data-opt-i="${i}" onclick="handlePracticeListenAnswer(this)">${opt}</button>`).join('')}
                     </div>
                     <div id="pl-feedback" class="text-sm font-semibold h-5"></div>
                     <div class="flex gap-3">
@@ -9906,8 +10062,8 @@ input.quiz-wrong,
                 <div class="flex flex-col items-center gap-6 w-full">
                     ${buildInlinePracticeProgressHtml('guess')}
                     <button class="w-20 h-20 rounded-full neo-raised flex items-center justify-center text-3xl text-point" onclick="speakKorean('${item.word.replace(/'/g, "\\'")}')">${ic('speaker', 24)}</button>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-lg" id="pg-opts">
-                        ${options.map((opt, i) => `<button class="neo-button py-4 px-4 text-base font-bold text-[color:var(--c-2d3a54)]" data-opt-i="${i}" onclick="handlePracticeGuessAnswer(this)">${opt}</button>`).join('')}
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-2xl" id="pg-opts">
+                        ${options.map((opt, i) => `<button class="neo-button py-3 px-4 text-[15px] leading-snug font-bold text-[color:var(--c-2d3a54)]" data-opt-i="${i}" onclick="handlePracticeGuessAnswer(this)">${opt}</button>`).join('')}
                     </div>
                     <div id="pg-feedback" class="text-sm font-semibold h-5"></div>
                     <div class="flex gap-3">
@@ -11722,7 +11878,7 @@ input.quiz-wrong,
                             <input type="text" id="qm-typing-${idx}" class="w-full px-4 py-3 rounded-2xl outline-none border-none text-center text-lg font-kr-serif" style="background:var(--c-inputbg); box-shadow: var(--shadow-sunk);" placeholder="Nhập từ tiếng Hàn..." autocomplete="off" data-lpignore="true" onkeydown="if(event.key==='Enter'){event.preventDefault(); handleQuizMazeTyping(${idx});}">
                             <button class="neo-button py-3 text-sm font-bold text-white !rounded-2xl" style="background:#6C63FF;" id="qm-typing-btn-${idx}" onclick="handleQuizMazeTyping(${idx})">Kiểm tra</button>
                         </div>
-                        <div class="text-xs font-semibold min-h-4 text-center" id="qm-feedback-${idx}"></div>
+                        <div class="text-[15px] font-semibold min-h-5 text-center leading-snug" id="qm-feedback-${idx}"></div>
                     </div>
                 `;
             }
@@ -11740,12 +11896,12 @@ input.quiz-wrong,
                             ${q.speak ? `<button class="w-8 h-8 rounded-full neo-button flex items-center justify-center text-sm text-point shrink-0" title="Nghe câu" onclick="speakKorean('${speakWord}')">${ic('speaker', 24)}</button>` : ''}
                         </div>
                     `}
-                    ${q.promptHtml ? `<div class="w-full max-w-lg flex flex-col items-center gap-2">${q.promptHtml}</div>` : ''}
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full max-w-lg" id="qm-opts-${idx}">
-                        ${q.options.map((opt, i) => `<button class="neo-button py-3.5 px-4 text-base font-bold text-[color:var(--c-2d3a54)] ${optCls}" data-opt-i="${i}" onclick="handleQuizMazeAnswer(${idx}, this)">${opt}</button>`).join('')}
+                    ${q.promptHtml ? `<div class="w-full max-w-2xl flex flex-col items-center gap-2">${q.promptHtml}</div>` : ''}
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full max-w-2xl" id="qm-opts-${idx}">
+                        ${q.options.map((opt, i) => `<button class="neo-button py-2.5 px-4 text-[15px] leading-snug font-bold text-[color:var(--c-2d3a54)] ${optCls}" data-opt-i="${i}" onclick="handleQuizMazeAnswer(${idx}, this)">${opt}</button>`).join('')}
                     </div>
-                    <div class="tq-reveal w-full max-w-lg hidden" id="qm-reveal-${idx}">${q.reveal || ''}</div>
-                    <div class="text-xs font-semibold min-h-4 text-center" id="qm-feedback-${idx}"></div>
+                    <div class="tq-reveal w-full max-w-2xl hidden" id="qm-reveal-${idx}">${q.reveal || ''}</div>
+                    <div class="text-[15px] font-semibold min-h-5 text-center leading-snug" id="qm-feedback-${idx}"></div>
                 </div>
             `;
         }
@@ -14144,6 +14300,7 @@ input.quiz-wrong,
             document.getElementById('m-search-clear').classList.toggle('hidden', !input.value);
             ov.classList.remove('hidden');
             ov.setAttribute('aria-hidden', 'false');
+            syncMobileSearchScrim();
             if (window.visualViewport) {
                 window.visualViewport.addEventListener('resize', syncMobileSearchDock);
                 window.visualViewport.addEventListener('scroll', syncMobileSearchDock);
@@ -14158,6 +14315,7 @@ input.quiz-wrong,
             if (input) input.blur();
             ov.classList.add('hidden');
             ov.setAttribute('aria-hidden', 'true');
+            ov.classList.remove('has-q');
             if (window.visualViewport) {
                 window.visualViewport.removeEventListener('resize', syncMobileSearchDock);
                 window.visualViewport.removeEventListener('scroll', syncMobileSearchDock);
@@ -14171,13 +14329,24 @@ input.quiz-wrong,
             if (header) header.value = q;                  // giữ 2 ô đồng bộ
             const x = document.getElementById('m-search-clear');
             if (x) x.classList.toggle('hidden', !(q || '').trim());
+            syncMobileSearchScrim();
             handleHeaderSearchInput(q, immediate);
+        }
+
+        // Đã gõ chữ → bỏ lớp phủ tối, cho chạm/cuộn thẳng xuống bảng kết quả
+        // mà không phải bấm "Huỷ" trước (thanh nhập vẫn ở đáy để sửa từ khoá).
+        function syncMobileSearchScrim() {
+            const ov = document.getElementById('m-search-overlay');
+            const input = document.getElementById('m-search-input');
+            if (!ov || !input) return;
+            ov.classList.toggle('has-q', !!(input.value || '').trim());
         }
 
         function clearMobileSearch() {
             const input = document.getElementById('m-search-input');
             if (input) { input.value = ''; input.focus(); }
             document.getElementById('m-search-clear').classList.add('hidden');
+            syncMobileSearchScrim();
             clearHeaderSearch();
         }
 
