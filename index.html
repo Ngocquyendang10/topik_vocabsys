@@ -11075,17 +11075,19 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         // trên GitHub, không cần đụng file code này.
         // Cú pháp rút gọn: xem topics/HUONG-DAN.md
         // ============================================================
+        // Khoá viết KHÔNG DẤU (vì tên màu trong danh-muc.txt được bỏ dấu trước khi tra).
+        // Trong danh-muc.txt cô giáo vẫn ghi có dấu bình thường: tím, xanh lá, đỏ...
         const TOPIC_COLOR_PRESETS = {
-          'tím':       ['#A29BFF', '#6C63FF'],
-          'tím đậm':   ['#8178F2', '#554BC4'],
-          'xanh dương':['#85C4FF', '#5B8DEF'],
-          'xanh lá':   ['#78DFC4', '#3DB79A'],
-          'cam':       ['#FFBB8A', '#F27C6A'],
-          'đỏ':        ['#FF91A6', '#E85878'],
-          'hồng':      ['#F6A6D5', '#D96CB5'],
-          'nâu':       ['#DDAA96', '#B97868'],
-          'xám':       ['#B5BED5', '#7C89A7'],
-          'vàng':      ['#FFD978', '#F2B44F'],
+          'tim':        ['#A29BFF', '#6C63FF'],
+          'tim dam':    ['#8178F2', '#554BC4'],
+          'xanh duong': ['#85C4FF', '#5B8DEF'],
+          'xanh la':    ['#78DFC4', '#3DB79A'],
+          'cam':        ['#FFBB8A', '#F27C6A'],
+          'do':         ['#FF91A6', '#E85878'],
+          'hong':       ['#F6A6D5', '#D96CB5'],
+          'nau':        ['#DDAA96', '#B97868'],
+          'xam':        ['#B5BED5', '#7C89A7'],
+          'vang':       ['#FFD978', '#F2B44F'],
         };
 
         // Bỏ dấu tiếng Việt để so khớp tên khoá/tên màu cho dễ tính
@@ -11095,13 +11097,15 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         }
 
         function topicColorPair(value) {
-            const v = topicSlug(value);
-            if (!v) return TOPIC_COLOR_PRESETS['tim'];
-            if (v.startsWith('#')) {
-                const parts = v.split(/[\s,|]+/).filter(Boolean);
+            const fallback = TOPIC_COLOR_PRESETS['tim'] || ['#A29BFF', '#6C63FF'];
+            const raw = (value || '').toString().trim();
+            if (!raw) return fallback;
+            if (raw.startsWith('#')) {                       // mã màu tự nhập: #AABBCC #112233
+                const parts = raw.split(/[\s,|]+/).filter(Boolean);
                 return [parts[0], parts[1] || parts[0]];
             }
-            return TOPIC_COLOR_PRESETS[v] || TOPIC_COLOR_PRESETS['tim'];
+            const v = topicSlug(raw).replace(/\s+/g, ' ');
+            return TOPIC_COLOR_PRESETS[v] || fallback;
         }
 
         // ─── Đọc file danh mục topics/danh-muc.txt để dựng các thẻ ở trang tổng hợp ───
