@@ -2626,8 +2626,8 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 }
 /* Nút mũi tên nhỏ ở thẻ Quiz nhanh (nền thẻ trắng) */
 :root:not([data-theme="dark"]) .qn-card .rd-badge{
-  background: var(--clay-btn-face) !important;
-  box-shadow: var(--shadow-btn), 0 0 0 1px rgba(108,99,255,.18) !important;
+  background: var(--n-face) !important;
+  box-shadow: var(--n-shadow) !important;   /* không viền */
 }
 /* Vùng nền của dải tab/chip đậm hơn 1 bậc để nút không "chìm" vào thẻ trắng */
 :root:not([data-theme="dark"]) .neo-sunk{ background:#EEEBFA; }
@@ -3344,7 +3344,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
   background: var(--n-face) !important;
   color: var(--n-ink) !important;
   border: none;
-  box-shadow: var(--n-shadow), 0 0 0 1px var(--n-line) !important;
+  box-shadow: var(--n-shadow) !important;   /* ⚠️ KHÔNG thêm 0 0 0 1px — viền xám nhìn thô */
 }
 :root .tq-pill{ box-shadow:none !important; background:transparent !important; color:var(--n-ink) !important; }
 :root .tq-chip, :root .tq-w, :root .wrong-word-chip{ color: var(--clay-ink) !important; }
@@ -3597,7 +3597,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 .qm-rail-end{
   border:none; cursor:pointer; font-size:11px; font-weight:800; line-height:1.2;
   padding:7px 10px; border-radius:11px; width:100%;
-  background:var(--n-face); color:var(--n-ink); box-shadow:var(--n-shadow), 0 0 0 1px var(--n-line);
+  background:var(--n-face); color:var(--n-ink); box-shadow:var(--n-shadow);
 }
 :root[data-theme="dark"] .qm-rail-track{ background:#343A4A; }
 /* Khổ hẹp: cột dọc chuyển thành thanh ngang dính đầu trang */
@@ -3615,6 +3615,205 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 /* Dòng nhật ký phiên quiz (không bấm được) */
 .nbs-row-static{ cursor:default; }
 .nbs-row-static:hover{ background:transparent; }
+
+/* ══════════════════════════════════════════════════════════════════════
+   55. THƯ VIỆN — BƯNG NGUYÊN CÔNG THỨC NEUMORPHISM GỐC VỀ
+   Bản trước bị đắp thêm viền tóc `0 0 0 1px` + bóng xám đậm → nhìn thô.
+   Nay dùng ĐÚNG bộ công thức gốc (backup 2026-09-02), chỉ đổi 2 màu bóng
+   từ xanh xám #bec8e4 sang tím nhạt cho hợp nền mới. TUYỆT ĐỐI không viền.
+   ══════════════════════════════════════════════════════════════════════ */
+:root:not([data-theme="dark"]) #view-library-stage,
+:root:not([data-theme="dark"]) #view-search-results,
+:root:not([data-theme="dark"]) .lib-detail-sheet{
+  /* mặt khối = màu nền trang (điều kiện bắt buộc của neumorphism) */
+  --c-e6ebf3:  #EFECFA;
+  --c-e1e6ee:  #E9E5F6;
+  --c-e1e5ec:  #E9E5F6;
+  --c-f0f2f7:  #F3F0FC;
+  --c-f5f7fb:  #F5F2FD;
+  --c-f3f5fb:  #F5F2FD;
+  --c-f2f4f9:  #F3F0FC;
+  --c-eef1f7:  #F3F0FC;
+  --c-inputbg: #F5F2FD;
+  --c-ffffff:  #FFFFFF;
+  --c-bec8e4:  #CFC8E6;      /* ← thay #bec8e4, cùng độ đậm nhưng ngả tím */
+  --c-c4ccd9:  #CFC8E6;
+  --c-d0d4de:  #CFC8E6;
+  --c-d7dae4:  #D8D2EC;
+  --c-c0cad8:  #C6BEE0;
+  --c-d8e0ec:  #DED8F0;
+  --c-d1d9e4:  #DED8F0;
+  --c-d0d8e8:  #DED8F0;
+  --c-dde3ed:  #E4DFF3;
+  --c-d7dce6:  #E4DFF3;
+  --light-sh:  rgba(255,255,255,0.80);
+  --dark-sh:   rgba(163,152,205,0.50);   /* ← thay rgba(174,190,214,.55) */
+
+  /* Công thức GỐC, giữ nguyên từng con số */
+  --shadow-raised: 8px 8px 20px var(--c-bec8e4), -8px -8px 20px var(--c-ffffff);
+  --shadow-sunk:   inset 6px 6px 14px var(--c-bec8e4), inset -6px -6px 14px var(--c-ffffff);
+  --shadow-btn:    5px 5px 12px var(--c-bec8e4), -5px -5px 12px var(--c-ffffff);
+  --card-shadow:   -5px -5px 12px var(--light-sh), 6px 6px 18px var(--dark-sh);
+  --raised-hero:   -6px -6px 14px var(--light-sh), 7px 7px 20px rgba(163,152,205,0.62);
+  --raised-block:  -3px -3px 7px var(--light-sh), 3px 3px 9px var(--dark-sh);
+  --pressed-block: inset -3px -3px 7px var(--light-sh), inset 3px 3px 9px var(--dark-sh);
+  --pressed-btn:   inset -2px -2px 5px var(--light-sh), inset 2px 2px 6px var(--dark-sh);
+  --ui-hair:       rgba(120,108,180,0.16);
+}
+/* ⚠️ KHÔNG viền — mọi box-shadow ở đây phải sạch, không có `0 0 0 1px` */
+:root:not([data-theme="dark"]) #view-library-stage .neo-raised,
+:root:not([data-theme="dark"]) #view-search-results .neo-raised{
+  background:var(--c-e6ebf3) !important; border:none !important;
+  box-shadow: var(--shadow-raised) !important; border-radius:28px;
+}
+:root:not([data-theme="dark"]) #view-library-stage .neo-sunk,
+:root:not([data-theme="dark"]) #view-search-results .neo-sunk{
+  background:var(--c-e6ebf3) !important; border:none !important;
+  box-shadow: var(--shadow-sunk) !important;
+}
+:root:not([data-theme="dark"]) #right-detail-panel > .m-card-base,
+:root:not([data-theme="dark"]) #view-search-results aside > .m-card-base,
+:root:not([data-theme="dark"]) .lib-detail-body .m-card-base{
+  background:var(--c-e6ebf3) !important; border:none !important;
+  padding:20px !important; border-radius:26px !important;
+  box-shadow: var(--card-shadow) !important;
+}
+:root:not([data-theme="dark"]) #view-library-stage .modern-card-wrapper,
+:root:not([data-theme="dark"]) #view-search-results .modern-card-wrapper,
+:root:not([data-theme="dark"]) .lib-detail-sheet .modern-card-wrapper,
+:root:not([data-theme="dark"]) #right-detail-panel .modern-card-wrapper{
+  background:var(--c-f5f7fb) !important;
+  border:none !important;
+  border-radius:20px !important;
+  padding:20px 18px !important;
+  box-shadow: var(--raised-block) !important;
+}
+:root:not([data-theme="dark"]) #view-library-stage .m-pressed-block,
+:root:not([data-theme="dark"]) .lib-detail-sheet .m-pressed-block,
+:root:not([data-theme="dark"]) #right-detail-panel .m-pressed-block{
+  background:var(--c-e6ebf3) !important; border:none !important;
+  box-shadow: var(--pressed-block) !important;
+}
+:root:not([data-theme="dark"]) #view-library-stage .m-raised-block,
+:root:not([data-theme="dark"]) .lib-detail-sheet .m-raised-block,
+:root:not([data-theme="dark"]) #right-detail-panel .m-raised-block{
+  background:var(--c-e6ebf3) !important; border:none !important;
+  box-shadow: var(--raised-block) !important;
+}
+:root:not([data-theme="dark"]) #view-library-stage .m-zone-a,
+:root:not([data-theme="dark"]) .lib-detail-sheet .m-zone-a{
+  background:var(--c-e6ebf3) !important; border:none !important;
+  box-shadow: var(--raised-hero) !important;
+}
+/* Nút / chip trong thư viện: nổi mềm, KHÔNG viền, KHÔNG gradient trung tính */
+:root:not([data-theme="dark"]) #view-library-stage .neo-button,
+:root:not([data-theme="dark"]) #view-library-stage .gup-chip,
+:root:not([data-theme="dark"]) #view-library-stage .bulk-chip,
+:root:not([data-theme="dark"]) #view-library-stage .lrn-pill,
+:root:not([data-theme="dark"]) #view-library-stage .sel-btn,
+:root:not([data-theme="dark"]) #view-library-stage .pg-btn,
+:root:not([data-theme="dark"]) #view-library-stage .filter-dd-trigger,
+:root:not([data-theme="dark"]) #view-library-stage .vr-status-btn,
+:root:not([data-theme="dark"]) #view-library-stage .m-pressed-btn,
+:root:not([data-theme="dark"]) #view-library-stage .ex-mini-btn,
+:root:not([data-theme="dark"]) #view-library-stage .ex-audio-control,
+:root:not([data-theme="dark"]) #view-search-results .neo-button,
+:root:not([data-theme="dark"]) #view-search-results .m-pressed-btn,
+:root:not([data-theme="dark"]) .lib-detail-sheet .ex-mini-btn,
+:root:not([data-theme="dark"]) .lib-detail-sheet .ex-audio-control,
+:root:not([data-theme="dark"]) .lib-detail-sheet .m-pressed-btn,
+:root:not([data-theme="dark"]) .lib-detail-close{
+  background: var(--c-e6ebf3) !important;
+  color: #5E5A78 !important;
+  border: none !important;
+  background-image: none !important;
+  box-shadow: var(--shadow-btn) !important;
+}
+:root:not([data-theme="dark"]) #view-library-stage .neo-button:active,
+:root:not([data-theme="dark"]) #view-library-stage .m-pressed-btn:active,
+:root:not([data-theme="dark"]) #view-library-stage .vr-status-btn:active{
+  box-shadow: var(--shadow-sunk) !important; transform:none;
+}
+/* Trạng thái đang chọn trong thư viện = LÚN xuống (đúng chất neumorphism) */
+:root:not([data-theme="dark"]) #view-library-stage .gup-chip.gup-active,
+:root:not([data-theme="dark"]) #view-library-stage .lrn-pill.lrn-on,
+:root:not([data-theme="dark"]) #view-library-stage .bulk-chip.bulk-chip-active,
+:root:not([data-theme="dark"]) #view-library-stage .pg-btn.pg-active,
+:root:not([data-theme="dark"]) #view-library-stage .vr-status-btn.vr-active,
+:root:not([data-theme="dark"]) #view-library-stage .filter-dd-trigger.dd-open,
+:root:not([data-theme="dark"]) #view-library-stage .filter-dd-trigger.dd-has-selection{
+  background: var(--c-e6ebf3) !important;
+  background-image:none !important;
+  color:#3F3A66 !important;
+  box-shadow: var(--shadow-sunk) !important;
+}
+:root:not([data-theme="dark"]) #view-library-stage .filter-dd-panel,
+:root:not([data-theme="dark"]) #view-library-stage .bookmark-popup{
+  background:var(--c-e6ebf3) !important; border:none !important;
+  box-shadow: 8px 8px 20px var(--c-bec8e4), -6px -6px 16px var(--c-ffffff) !important;
+}
+:root:not([data-theme="dark"]) .lib-detail-sheet{
+  background:var(--c-e6ebf3) !important; border:none !important;
+  box-shadow: 0 -12px 40px rgba(120,108,180,.30) !important;
+}
+/* Dòng từ đang chọn: lõm mềm thay vì kẻ viền */
+:root:not([data-theme="dark"]) #view-library-stage .vocab-row.row-selected,
+:root:not([data-theme="dark"]) #view-search-results .vocab-row.row-selected{
+  background: var(--c-e6ebf3) !important;
+  box-shadow: var(--shadow-sunk) !important;
+}
+:root:not([data-theme="dark"]) #view-library-stage .vocab-row:hover{ background:rgba(120,108,180,.05); }
+:root:not([data-theme="dark"]) #view-library-stage .lib-check{
+  background:var(--c-e6ebf3); border:none; box-shadow:var(--pressed-btn);
+}
+
+/* ── 56. CHIP LỌC → FLAT DESIGN (không đất sét, không bóng) ────────── */
+:root:not([data-theme="dark"]) .bulk-chip{
+  background:#F3F3F8 !important;
+  background-image:none !important;
+  color:#55556A !important;
+  border:1px solid transparent !important;   /* phẳng nhưng KHÔNG kẻ viền xám */
+  box-shadow:none !important;
+  border-radius:999px;
+  padding:6px 13px;
+  font-size:11.5px;
+  font-weight:700;
+  transition:background .12s ease, border-color .12s ease, color .12s ease;
+}
+:root:not([data-theme="dark"]) .bulk-chip:hover:not(.bulk-chip-active){
+  background:#E8E8F0 !important;
+}
+:root:not([data-theme="dark"]) .bulk-chip.bulk-chip-active{
+  background:#34343F !important;
+  color:#FFFFFF !important;
+  border-color:#34343F !important;
+  box-shadow:none !important;
+}
+:root[data-theme="dark"] .bulk-chip{
+  background:#2C3140 !important; background-image:none !important;
+  color:#B9BFCE !important; border:1px solid transparent !important;
+  box-shadow:none !important;
+}
+:root[data-theme="dark"] .bulk-chip.bulk-chip-active{
+  background:#E6E9F2 !important; color:#23262F !important; border-color:#E6E9F2 !important;
+}
+/* Nhãn nhóm bộ lọc gọn lại */
+:root .nb-tag{ box-shadow:none !important; border:none !important; }
+
+/* ── 57. CỘT TIẾN ĐỘ: thanh phải ĂN MÀU thật ───────────────────────── */
+/* Lỗi cũ: .qm-rail-fill là flex-item ăn height:% trong khung cao "auto"
+   → % không giải được, ra 0. Nay dùng absolute để % bám vào khung. */
+.qm-rail-track{ position:relative; display:block; }
+.qm-rail-fill{
+  position:absolute; left:0; right:0; bottom:0;
+  border-radius:99px;
+  background:linear-gradient(180deg,#8C85FF,#5B4FCF);
+  transition:height .3s ease;
+}
+@media (max-width:900px){
+  .qm-rail-track{ height:9px; }
+  .qm-rail-fill{ top:0; bottom:0; right:auto; height:auto !important; width:var(--w,0); background:linear-gradient(90deg,#8C85FF,#5B4FCF); }
+}
 
     </style>
 </head>
@@ -6545,11 +6744,20 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         }
 
         function toggleBulkFilterVal(key, val) {
+            // Giữ nguyên vị trí cuộn để không bị nhảy về đầu danh sách bộ lọc
+            const box = document.getElementById('modal-tab-content');
+            const top = box ? box.scrollTop : 0;
             const arr = nbModalState.bulkFilters[key];
             const i = arr.indexOf(val);
             if (i > -1) arr.splice(i, 1); else arr.push(val);
             computeBulkOptionsCascaded();
             renderModalTabContent();
+            const put = () => {
+                const b2 = document.getElementById('modal-tab-content');
+                if (b2) b2.scrollTop = Math.max(0, Math.min(top, b2.scrollHeight - b2.clientHeight));
+            };
+            put();
+            setTimeout(put, 0);
         }
 
         function getBulkMatchesRaw(includeLearned) {
@@ -12029,6 +12237,28 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             }
         }
 
+        // Bấm 1 chip lọc là vẽ lại cả modal → mất vị trí cuộn, người dùng bị
+        // "nhảy" về đầu danh sách. 2 hàm này nhớ và trả lại đúng chỗ đang xem.
+        function tpSaveScroll() {
+            const box = document.querySelector('#topic-practice-modal .tp-filter-scroll');
+            const outer = document.querySelector('#topic-practice-modal .overflow-y-auto.pr-1.-mr-1');
+            return { inner: box ? box.scrollTop : 0, outer: outer ? outer.scrollTop : 0 };
+        }
+        function tpRestoreScroll(pos) {
+            if (!pos) return;
+            // Danh sách co/giãn sau khi lọc nên phải kẹp lại trong khoảng hợp lệ,
+            // và chờ qua 2 khung hình cho trình duyệt dựng xong bố cục mới.
+            const put = (el, v) => { if (el) el.scrollTop = Math.max(0, Math.min(v, el.scrollHeight - el.clientHeight)); };
+            const apply = () => {
+                put(document.querySelector('#topic-practice-modal .tp-filter-scroll'), pos.inner);
+                put(document.querySelector('#topic-practice-modal .overflow-y-auto.pr-1.-mr-1'), pos.outer);
+            };
+            // ⚠️ KHÔNG dùng requestAnimationFrame: tab ở chế độ nền/ẩn thì rAF không chạy,
+            // vị trí cuộn sẽ không được trả lại. Gán thẳng + 1 lần lặp cho chắc.
+            apply();
+            setTimeout(apply, 0);
+        }
+
         function tpResetFilters() {
             Object.keys(tpState.filters).forEach(k => { tpState.filters[k] = []; });
             computeTpOptions();
@@ -12043,11 +12273,13 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         function tpSwitchTab(tab) { tpState.activeTab = tab; renderTopicPracticeModal(); }
 
         function tpToggleFilter(key, val) {
+            const pos = tpSaveScroll();
             const arr = tpState.filters[key];
             const i = arr.indexOf(val);
             if (i > -1) arr.splice(i, 1); else arr.push(val);
             computeTpOptions();
             renderTopicPracticeModal();
+            tpRestoreScroll(pos);
         }
 
         function tpAddWordObj(w) {
