@@ -2693,6 +2693,663 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
   box-shadow: var(--raised-block), 0 0 0 1px rgba(84,78,120,.09);
 }
 
+/* ══════════════════════════════════════════════════════════════════════
+   40. CARD TỪ VỰNG CHI TIẾT — LẤY LẠI "TẦNG TẦNG LỚP LỚP"
+   Bản trước mọi khối con cùng một tông nên card phẳng lì. Nay chia
+   4 bậc rõ: mặt card (sáng nhất) > khối nổi > khối lõm > chữ.
+   ══════════════════════════════════════════════════════════════════════ */
+:root:not([data-theme="dark"]) #view-library-stage .m-card-base,
+:root:not([data-theme="dark"]) #view-search-results .m-card-base,
+:root:not([data-theme="dark"]) .lib-detail-sheet .m-card-base,
+:root:not([data-theme="dark"]) #right-detail-panel .m-card-base{
+  background:#FBFAFE;
+}
+/* Khối LÕM (ví dụ · ý nghĩa · gốc Hán) — tông đậm hơn mặt card + lõm thật */
+:root:not([data-theme="dark"]) #view-library-stage .m-pressed-block,
+:root:not([data-theme="dark"]) #view-search-results .m-pressed-block,
+:root:not([data-theme="dark"]) .lib-detail-sheet .m-pressed-block,
+:root:not([data-theme="dark"]) #right-detail-panel .m-pressed-block{
+  background:#EEEAF8;
+  box-shadow: inset 4px 4px 10px rgba(108,100,158,.28),
+              inset -3px -3px 8px rgba(255,255,255,.95);
+  border-radius:14px;
+}
+/* Khối NỔI (chip chủ đề, ô nhỏ) */
+:root:not([data-theme="dark"]) #view-library-stage .m-raised-block,
+:root:not([data-theme="dark"]) #view-search-results .m-raised-block,
+:root:not([data-theme="dark"]) .lib-detail-sheet .m-raised-block,
+:root:not([data-theme="dark"]) #right-detail-panel .m-raised-block{
+  background:#F6F4FD;
+  box-shadow: -3px -3px 7px rgba(255,255,255,.95),
+              4px 4px 10px rgba(108,100,158,.24),
+              0 0 0 1px rgba(84,78,120,.08);
+}
+/* Ô Hán tự: nổi bật hẳn, có chiều sâu */
+:root:not([data-theme="dark"]) .modern-card-wrapper .m-pressed-block.flex-initial{
+  background:#F2EFFB;
+  box-shadow: inset 3px 3px 9px rgba(108,100,158,.26),
+              inset -3px -3px 8px rgba(255,255,255,.95),
+              0 0 0 1px rgba(84,78,120,.07);
+}
+/* Nút loa / bookmark trên đầu card */
+:root:not([data-theme="dark"]) .modern-card-wrapper .m-pressed-btn{
+  background:#F1EEFA;
+  box-shadow: 4px 4px 10px rgba(108,100,158,.26), -4px -4px 10px #FFFFFF,
+              0 0 0 1px rgba(84,78,120,.08);
+}
+/* Nhãn mục (GIẢI THÍCH TỪ VỰNG · VÍ DỤ · TỪ LIÊN QUAN) rõ hơn */
+:root:not([data-theme="dark"]) .modern-card-wrapper .m-pressed-block .ex-audio-control,
+:root:not([data-theme="dark"]) .modern-card-wrapper .m-pressed-block .ex-mini-btn{
+  background:#FBFAFE;
+  box-shadow: 3px 3px 7px rgba(108,100,158,.22), -3px -3px 7px #FFFFFF;
+}
+/* Vạch phân cách giữa các mục trong card */
+:root:not([data-theme="dark"]) .modern-card-wrapper > div + div,
+:root:not([data-theme="dark"]) .modern-card-wrapper > div[class*="mt-2.5"]{ position:relative; }
+
+/* ── 41. BẢNG HOẠT ĐỘNG: thu 80% chiều cao, cuộn xem quá khứ ───────── */
+.nbs-rows{ max-height:236px; overflow-y:auto; overscroll-behavior:contain; }
+.nbs-rows::-webkit-scrollbar{ width:8px; }
+.nbs-rows::-webkit-scrollbar-thumb{ background:rgba(108,99,255,.24); border-radius:99px; }
+.nbs-rows::-webkit-scrollbar-track{ background:transparent; }
+@media (max-width:900px){ .nbs-rows{ max-height:300px; } }
+
+/* ── 42. LỊCH STREAK: nút chuyển tháng ────────────────────────────── */
+.dash-cal-nav{
+  width:26px; height:26px; flex:0 0 auto; border:none; cursor:pointer;
+  border-radius:9px; font-size:15px; font-weight:800; line-height:1;
+  color:var(--c-3730a3); background:rgba(255,255,255,.62);
+  border:1px solid rgba(255,255,255,.85);
+  transition:background .14s ease;
+}
+.dash-cal-nav:hover{ background:rgba(255,255,255,.9); }
+.dash-cal-nav.is-off{ opacity:.3; pointer-events:none; }
+.dash-cal-today{
+  align-self:flex-start; border:none; cursor:pointer;
+  font-size:11.5px; font-weight:800; color:var(--c-3730a3);
+  background:rgba(255,255,255,.6); border:1px solid rgba(255,255,255,.85);
+  border-radius:999px; padding:4px 12px; position:relative; z-index:1;
+}
+.dash-cal-today:hover{ background:rgba(255,255,255,.92); }
+
+/* ── 43. MODAL CÀI ĐẶT: rộng rãi hơn ở mọi nơi ────────────────────── */
+:root:not([data-theme="dark"]) #topic-practice-modal .bulk-chip,
+:root:not([data-theme="dark"]) #quiz-maze-setup-modal .bulk-chip{
+  font-size:11.5px; padding:5px 12px;
+}
+#topic-practice-modal .flex-wrap.gap-1{ gap:7px !important; }
+#topic-practice-modal p.text-\[11px\]{ font-size:11.5px !important; margin-bottom:8px !important; }
+
+/* ── 44. MODAL "TỪ CẦN LUYỆN THÊM": chữ to, chip thoáng ───────────── */
+.wrong-word-chip{ border-radius:999px !important; }
+:root:not([data-theme="dark"]) .wrong-word-ok{
+  background:var(--clay-p-mint); color:var(--clay-i-mint);
+  box-shadow: inset 0 0 0 1px rgba(14,146,112,.22);
+}
+:root:not([data-theme="dark"]) .wrong-word-ok:hover{ background:#BFEFDB; }
+
+/* ══════════════════════════════════════════════════════════════════════
+   45. NÚT — PHƯƠNG ÁN "ĐẤT SÉT PASTEL" (cô giáo chọn 2026-09-02)
+   Mặt nút = gradient tím nhạt chéo, bóng ngoài rõ + 2 inset (sáng
+   trên-trái, tím dưới-phải) → ra khối 3D thật, không bị chìm trên thẻ trắng.
+   ══════════════════════════════════════════════════════════════════════ */
+:root:not([data-theme="dark"]){
+  --clay-btn-face: linear-gradient(145deg,#F3F0FF,#DFD8F7);
+  --shadow-btn:
+      0 8px 16px rgba(70,52,150,.16),
+      inset 3px 3px 7px rgba(255,255,255,.95),
+      inset -3px -3px 8px rgba(91,79,207,.22);
+  --shadow-sunk:
+      inset 5px 5px 11px rgba(91,79,207,.20),
+      inset -4px -4px 9px rgba(255,255,255,.92);
+}
+:root:not([data-theme="dark"]) .neo-button,
+:root:not([data-theme="dark"]) .gup-chip,
+:root:not([data-theme="dark"]) .lrn-pill,
+:root:not([data-theme="dark"]) .bulk-chip,
+:root:not([data-theme="dark"]) .sel-btn,
+:root:not([data-theme="dark"]) .pg-btn,
+:root:not([data-theme="dark"]) .psub,
+:root:not([data-theme="dark"]) .tq-chip,
+:root:not([data-theme="dark"]) .tq-w,
+:root:not([data-theme="dark"]) .tq-obtn,
+:root:not([data-theme="dark"]) .tq-hard,
+:root:not([data-theme="dark"]) .nb-cta-sub,
+:root:not([data-theme="dark"]) .fc-btn,
+:root:not([data-theme="dark"]) .ui-ptile,
+:root:not([data-theme="dark"]) .rd-badge,
+:root:not([data-theme="dark"]) .m-pressed-btn,
+:root:not([data-theme="dark"]) .vr-status-btn,
+:root:not([data-theme="dark"]) .ex-mini-btn,
+:root:not([data-theme="dark"]) .ex-audio-control,
+:root:not([data-theme="dark"]) .filter-dd-trigger,
+:root:not([data-theme="dark"]) .qn-card .rd-badge,
+:root:not([data-theme="dark"]) .hm-qn-arrow,
+:root:not([data-theme="dark"]) .wrong-word-chip{
+  background: linear-gradient(145deg,#F3F0FF,#DFD8F7) !important;
+  color: var(--clay-i-indigo);
+  border: none;
+  box-shadow: 0 8px 16px rgba(70,52,150,.16),
+              inset 3px 3px 7px rgba(255,255,255,.95),
+              inset -3px -3px 8px rgba(91,79,207,.22) !important;
+}
+:root:not([data-theme="dark"]) .neo-button:active,
+:root:not([data-theme="dark"]) .fc-btn:active,
+:root:not([data-theme="dark"]) .m-pressed-btn:active,
+:root:not([data-theme="dark"]) .vr-status-btn:active{
+  box-shadow: inset 5px 5px 11px rgba(91,79,207,.22),
+              inset -4px -4px 9px rgba(255,255,255,.92) !important;
+  transform: scale(.98);
+}
+
+/* Nút CHÍNH: gradient tím đặc, chữ trắng */
+:root:not([data-theme="dark"]) .neo-button.text-white,
+:root:not([data-theme="dark"]) .neo-button.bg-point,
+:root:not([data-theme="dark"]) .btn-lc-primary,
+:root:not([data-theme="dark"]) .rd-btn-grad,
+:root:not([data-theme="dark"]) .nb-cta,
+:root:not([data-theme="dark"]) .sel-btn.sel-primary,
+:root:not([data-theme="dark"]) .login-submit-btn,
+:root:not([data-theme="dark"]) .nb-newbtn,
+:root:not([data-theme="dark"]) .hm-qn-go,
+:root:not([data-theme="dark"]) .sidebar-nav-item[data-active="true"],
+:root:not([data-theme="dark"]) .ptab.is-active,
+:root:not([data-theme="dark"]) .tq-pill.active,
+:root:not([data-theme="dark"]) .tq-chip.sel,
+:root:not([data-theme="dark"]) .tq-w.inslot,
+:root:not([data-theme="dark"]) .tq-obtn.primary{
+  background: linear-gradient(145deg,#8079FF,#5B4FCF) !important;
+  color: #FFFFFF !important;
+  border: none;
+  box-shadow: 0 8px 18px rgba(91,79,207,.36),
+              inset 3px 3px 8px rgba(255,255,255,.35),
+              inset -3px -3px 9px rgba(0,0,0,.22) !important;
+}
+
+/* Trạng thái ĐANG CHỌN của chip: pastel đậm + vòng viền, vẫn giữ khối */
+:root:not([data-theme="dark"]) .gup-chip.gup-active,
+:root:not([data-theme="dark"]) .lrn-pill.lrn-on,
+:root:not([data-theme="dark"]) .bulk-chip.bulk-chip-active,
+:root:not([data-theme="dark"]) .pg-btn.pg-active,
+:root:not([data-theme="dark"]) .psub.is-active,
+:root:not([data-theme="dark"]) .filter-dd-trigger.dd-open,
+:root:not([data-theme="dark"]) .filter-dd-trigger.dd-has-selection{
+  background: linear-gradient(145deg,#E2DBFF,#CFC5F5) !important;
+  color: var(--clay-i-indigo) !important;
+  box-shadow: inset 4px 4px 9px rgba(91,79,207,.26),
+              inset -3px -3px 8px rgba(255,255,255,.90),
+              0 0 0 1.5px rgba(108,99,255,.38) !important;
+}
+
+/* Nút ✓ "đã thuộc" giữ tông xanh nhưng cùng công thức khối */
+:root:not([data-theme="dark"]) .wrong-word-ok{
+  background: linear-gradient(145deg,#E4FAF0,#C6EFDD) !important;
+  color: var(--clay-i-mint) !important;
+  box-shadow: 0 6px 12px rgba(14,120,92,.16),
+              inset 3px 3px 6px rgba(255,255,255,.95),
+              inset -3px -3px 7px rgba(14,120,92,.20) !important;
+}
+:root:not([data-theme="dark"]) .wrong-word-chip{ color: var(--clay-ink) !important; }
+
+/* Thư viện (neumorphism) giữ công thức riêng — không để mục 45 đè lên */
+:root:not([data-theme="dark"]) #view-library-stage .neo-button,
+:root:not([data-theme="dark"]) #view-library-stage .gup-chip,
+:root:not([data-theme="dark"]) #view-library-stage .bulk-chip,
+:root:not([data-theme="dark"]) #view-library-stage .lrn-pill,
+:root:not([data-theme="dark"]) #view-library-stage .sel-btn,
+:root:not([data-theme="dark"]) #view-library-stage .pg-btn,
+:root:not([data-theme="dark"]) #view-library-stage .filter-dd-trigger,
+:root:not([data-theme="dark"]) #view-library-stage .vr-status-btn,
+:root:not([data-theme="dark"]) #view-library-stage .m-pressed-btn,
+:root:not([data-theme="dark"]) #view-library-stage .ex-mini-btn,
+:root:not([data-theme="dark"]) #view-library-stage .ex-audio-control,
+:root:not([data-theme="dark"]) #view-search-results .neo-button,
+:root:not([data-theme="dark"]) #view-search-results .m-pressed-btn,
+:root:not([data-theme="dark"]) .lib-detail-sheet .ex-mini-btn,
+:root:not([data-theme="dark"]) .lib-detail-sheet .ex-audio-control,
+:root:not([data-theme="dark"]) .lib-detail-sheet .m-pressed-btn{
+  background:#F1EEFA !important;
+  box-shadow: var(--shadow-btn), 0 0 0 1px rgba(84,78,120,.10) !important;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   46. MÁY TÍNH BẢNG (768–1279px) — SỬA GỐC LỖI "BỂ BỐ CỤC"
+   Nguyên nhân: Tailwind đổi sang bố cục desktop từ 1024px, NHƯNG sidebar
+   ăn mất 228px nên cột nội dung chỉ còn ~685px → mọi hàng ngang bị bóp.
+   Cách xử lý: (1) sidebar thu về thanh icon 64px, (2) MỌI khối xếp hàng
+   ngang chuyển sang bố cục DỌC cho tới 1280px.
+   ══════════════════════════════════════════════════════════════════════ */
+@media (min-width:768px) and (max-width:1279px){
+  /* --- 46.1 Sidebar thành thanh icon --- */
+  #app-sidebar{ width:66px !important; padding-left:9px !important; padding-right:9px !important; }
+  #app-sidebar .sidebar-nav-label,
+  #app-sidebar .sidebar-nav-chevron,
+  #app-sidebar .sidebar-brand-text{ display:none !important; }
+  #app-sidebar .sidebar-nav-item{ justify-content:center; padding:10px 0; gap:0; }
+  #sidebar-brand{ justify-content:center; padding-left:0 !important; padding-right:0 !important; }
+  #sidebar-toggle-btn{ display:none !important; }
+}
+
+@media (max-width:1279px){
+  /* --- 46.2 Trang chủ: hàng "Từ vựng hôm nay | Sổ từ vựng" xếp DỌC --- */
+  .hm-row{ grid-template-columns:1fr !important; gap:20px; }
+  .hm-flash-card{ aspect-ratio:auto !important; min-height:0 !important; }
+  .hm-nb-grid{ grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); }
+
+  /* --- 46.3 Quiz nhanh: 3 thẻ xếp DỌC, thẻ 01 bỏ dạng "feature" cao --- */
+  #view-home-dashboard .qn-feature{ width:100% !important; flex:1 1 auto !important; }
+  #view-home-dashboard .lg\:flex-row{ flex-direction:column !important; }
+  .qn-feature{ flex-direction:row !important; align-items:center !important; justify-content:flex-start !important; gap:14px !important; padding:14px 16px !important; }
+  .qn-feature > .lg\:mt-3{ margin-top:0 !important; }
+  .qn-feature .hidden.lg\:inline-flex{ display:none !important; }
+  .qn-feature .lg\:hidden{ display:inline-flex !important; }
+  .qn-feature .hidden.lg\:inline{ display:none !important; }
+  .qn-feature .hidden.lg\:block{ display:none !important; }   /* khỏi lặp "… từ cần ôn" 2 lần */
+  .qn-feature .lg\:w-14{ width:2.75rem !important; height:2.75rem !important; }
+  .qn-feature .lg\:text-lg{ font-size:.875rem !important; }
+  .qn-feature .rd-watermark{ font-size:52px !important; right:12px !important; top:auto !important; bottom:0 !important; }
+
+  /* --- 46.4 Thư viện + Kết quả tìm: 1 cột, card chi tiết mở dạng popup --- */
+  #view-library-stage #library-grid,
+  #view-search-results .grid{ grid-template-columns:minmax(0,1fr) !important; }
+  #right-detail-panel{ display:none !important; }
+  #view-library-stage .lg\:flex-row,
+  #view-search-results .lg\:flex-row{ flex-direction:column !important; }
+  #view-library-stage aside,
+  #view-search-results aside{ display:none !important; }
+  /* list hẹp → hiện đủ cột meta trở lại vì giờ chiếm trọn chiều ngang */
+  #view-library-stage .lib-col-meta,
+  #view-library-stage .lib-row-meta{ display:flex !important; }
+  #view-library-stage .lib-lv-inline{ display:none !important; }
+
+  /* --- 46.5 Bảng hoạt động: mỗi lượt là 1 KHỐI DỌC, không ép 6 cột --- */
+  .nbs-row{
+    grid-template-columns:1fr auto !important;
+    grid-auto-rows:auto; row-gap:7px; padding:13px 16px !important;
+  }
+  .nbs-time{ order:1; }
+  .nbs-chip{ order:2; justify-self:end; }
+  .nbs-nb{ order:3; grid-column:1/-1; font-size:13.5px; }
+  .nbs-score{ order:4; }
+  .nbs-pct{ order:5; }
+  .nbs-bar{ order:6; grid-column:1/-1; }
+  .nbs-rows{ max-height:340px; }
+
+  /* --- 46.6 Tìm nhanh từ vựng: mỗi kết quả 1 khối dọc --- */
+  .nbq-row{ grid-template-columns:1fr !important; gap:3px !important; }
+  .nbq-nb{ text-align:left !important; }
+
+  /* --- 46.7 Thẻ thống kê ở hộp chào: 2 cột, số nhỏ lại cho vừa --- */
+  .hm-stats{ grid-template-columns:repeat(2,1fr) !important; }
+  .hm-stat-card p.font-black{ font-size:clamp(24px,3.2vw,32px) !important; letter-spacing:-1.2px !important; }
+  .hm-stat-card .rd-stat-ico{ width:74px; height:74px; top:-14px; right:-2px; }
+  .hm-stat-foot{ flex-wrap:wrap; gap:4px; }
+
+  /* --- 46.8 Lưới sổ tay: 2 cột (3 cột chỉ từ 1280 trở lên) --- */
+  #my-lessons-grid{ grid-template-columns:repeat(2,minmax(0,1fr)) !important; }
+  #empty-lessons-state{ grid-column:1/-1 !important; }
+}
+
+/* Khổ hẹp hơn nữa (điện thoại ngang / tablet dọc nhỏ) → 1 cột hoàn toàn */
+@media (max-width:900px){
+  .hm-stats{ grid-template-columns:1fr !important; }
+  #my-lessons-grid{ grid-template-columns:minmax(0,1fr) !important; }
+  .hm-nb-grid{ grid-template-columns:minmax(0,1fr) !important; }
+}
+
+/* --- 46.9 Header: không để 1 hàng dài bị bóp --- */
+@media (max-width:1279px){
+  header .sm\:max-w-\[420px\]{ max-width:none !important; }
+}
+@media (max-width:820px){
+  header{ row-gap:10px !important; }
+  header h1{ font-size:1.05rem !important; }
+}
+
+/* --- 46.10 Popup / modal ở khổ hẹp: chừa mép, cuộn được --- */
+@media (max-width:1023px){
+  .fixed.inset-0.z-\[120\] > div{ max-height:88vh !important; }
+  #topic-practice-modal .flex.items-end.gap-3{ flex-direction:column; align-items:stretch; gap:10px; }
+  #topic-practice-modal .flex.items-end.gap-3 button{ width:100%; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   47. NỀN TỐI — HOÀN THIỆN
+   Mọi khối Clay + Flat mới đều được viết bản tối tương ứng.
+   ⚠️ Công thức đất sét trên nền tối KHÁC hẳn nền sáng: giảm mạnh inset
+   trắng (.09 thay vì .95), tăng inset đen (.38) và bóng ngoài (.35) —
+   nếu bê nguyên công thức sáng thì nút sẽ bệt trắng, mất khối.
+   ══════════════════════════════════════════════════════════════════════ */
+:root[data-theme="dark"]{
+  --clay-bg:        #262B3A;
+  --clay-surface:   #2F3547;
+  --clay-ink:       #E8EBF4;
+  --clay-body:      #AEB6C9;
+  --clay-tertiary:  #8A93A8;
+  --clay-line:      rgba(160,168,220,.16);
+
+  --clay-indigo:    #8B84FF;
+  --clay-mint:      #35C79A;
+  --clay-peach:     #FF8E85;
+  --clay-amber:     #FFBB55;
+  --clay-pink:      #FF93BE;
+  --clay-sky:       #6FBBF2;
+
+  /* Pastel bản tối — dùng làm nền nhấn, KHÔNG dùng pastel sáng */
+  --clay-p-indigo:  #363458;
+  --clay-p-mint:    #1E4A3D;
+  --clay-p-peach:   #4B302D;
+  --clay-p-pink:    #482C3E;
+  --clay-p-lemon:   #493D24;
+  --clay-p-sky:     #26384F;
+  --clay-p-lilac:   #3B3054;
+
+  /* Chữ đặt trên pastel tối */
+  --clay-i-indigo:  #BAB3FF;
+  --clay-i-mint:    #6BE0B8;
+  --clay-i-peach:   #FFA79E;
+  --clay-i-pink:    #FFA8CC;
+  --clay-i-lemon:   #F6D07A;
+  --clay-i-sky:     #93CDF6;
+
+  --clay-btn-face:  linear-gradient(145deg,#3B4256,#2A3040);
+  --ui-hair:        rgba(160,168,220,.15);
+  --ui-accent:      #8B84FF;
+
+  --shadow-btn:
+      0 8px 18px rgba(0,0,0,.38),
+      inset 3px 3px 8px rgba(255,255,255,.09),
+      inset -3px -3px 9px rgba(0,0,0,.40);
+  --shadow-sunk:
+      inset 5px 5px 12px rgba(0,0,0,.45),
+      inset -3px -3px 8px rgba(255,255,255,.06);
+  --shadow-raised: none;
+  --card-shadow:   none;
+  --raised-hero:   none;
+  --raised-block:  none;
+}
+
+/* ── 47.1 Thẻ PHẲNG ────────────────────────────────────────────────── */
+:root[data-theme="dark"] .rd-card,
+:root[data-theme="dark"] .rd-card-sm,
+:root[data-theme="dark"] .m-card-base,
+:root[data-theme="dark"] .neo-raised,
+:root[data-theme="dark"] .mini-card-3d,
+:root[data-theme="dark"] .topic-card,
+:root[data-theme="dark"] .nbs-panel,
+:root[data-theme="dark"] .nbq-wrap,
+:root[data-theme="dark"] .hm-nb,
+:root[data-theme="dark"] .hm-stat-card,
+:root[data-theme="dark"] .qn-card,
+:root[data-theme="dark"] .qn-feature,
+:root[data-theme="dark"] .lesson-card,
+:root[data-theme="dark"] .filter-dd-panel,
+:root[data-theme="dark"] .bookmark-popup{
+  background: var(--clay-surface) !important;
+  border: 1.5px solid var(--clay-line) !important;
+  box-shadow: none !important;
+}
+:root[data-theme="dark"] .lesson-card{ border-color: rgba(160,168,220,.24) !important; }
+:root[data-theme="dark"] .neo-sunk{ background:#242938; border:1px solid var(--clay-line); box-shadow:none; }
+:root[data-theme="dark"] .neo-sunk.text-point,
+:root[data-theme="dark"] .neo-sunk[class*="w-6"],
+:root[data-theme="dark"] .neo-sunk[class*="w-11"],
+:root[data-theme="dark"] .neo-sunk[class*="w-14"]{ background:var(--clay-p-indigo); border-color:transparent; color:var(--clay-i-indigo); }
+:root[data-theme="dark"] input.neo-sunk,
+:root[data-theme="dark"] textarea.neo-sunk,
+:root[data-theme="dark"] .typing-input.neo-sunk{ background:#1E2230 !important; border:1px solid var(--clay-line); color:var(--clay-ink); }
+
+/* ── 47.2 Nút đất sét (công thức nền tối) ──────────────────────────── */
+:root[data-theme="dark"] .neo-button,
+:root[data-theme="dark"] .gup-chip,
+:root[data-theme="dark"] .lrn-pill,
+:root[data-theme="dark"] .bulk-chip,
+:root[data-theme="dark"] .sel-btn,
+:root[data-theme="dark"] .pg-btn,
+:root[data-theme="dark"] .psub,
+:root[data-theme="dark"] .tq-chip,
+:root[data-theme="dark"] .tq-w,
+:root[data-theme="dark"] .tq-obtn,
+:root[data-theme="dark"] .tq-hard,
+:root[data-theme="dark"] .nb-cta-sub,
+:root[data-theme="dark"] .fc-btn,
+:root[data-theme="dark"] .ui-ptile,
+:root[data-theme="dark"] .rd-badge,
+:root[data-theme="dark"] .m-pressed-btn,
+:root[data-theme="dark"] .vr-status-btn,
+:root[data-theme="dark"] .ex-mini-btn,
+:root[data-theme="dark"] .ex-audio-control,
+:root[data-theme="dark"] .filter-dd-trigger,
+:root[data-theme="dark"] .hm-qn-arrow,
+:root[data-theme="dark"] .wrong-word-chip{
+  background: linear-gradient(145deg,#3B4256,#2A3040) !important;
+  color: var(--clay-i-indigo);
+  border: none;
+  box-shadow: 0 8px 18px rgba(0,0,0,.38),
+              inset 3px 3px 8px rgba(255,255,255,.09),
+              inset -3px -3px 9px rgba(0,0,0,.40) !important;
+}
+:root[data-theme="dark"] .tq-chip,
+:root[data-theme="dark"] .tq-w,
+:root[data-theme="dark"] .wrong-word-chip{ color: var(--clay-ink) !important; }
+:root[data-theme="dark"] .neo-button:active,
+:root[data-theme="dark"] .fc-btn:active,
+:root[data-theme="dark"] .m-pressed-btn:active{ box-shadow: var(--shadow-sunk) !important; transform:scale(.98); }
+
+/* Chip đang chọn */
+:root[data-theme="dark"] .gup-chip.gup-active,
+:root[data-theme="dark"] .lrn-pill.lrn-on,
+:root[data-theme="dark"] .bulk-chip.bulk-chip-active,
+:root[data-theme="dark"] .pg-btn.pg-active,
+:root[data-theme="dark"] .psub.is-active,
+:root[data-theme="dark"] .filter-dd-trigger.dd-open,
+:root[data-theme="dark"] .filter-dd-trigger.dd-has-selection{
+  background: linear-gradient(145deg,#413E6B,#312F52) !important;
+  color: var(--clay-i-indigo) !important;
+  box-shadow: inset 4px 4px 10px rgba(0,0,0,.42),
+              inset -3px -3px 8px rgba(255,255,255,.07),
+              0 0 0 1.5px rgba(139,132,255,.45) !important;
+}
+
+/* Nút CHÍNH giữ gradient tím, sáng hơn 1 bậc cho nổi trên nền tối */
+:root[data-theme="dark"] .neo-button.text-white,
+:root[data-theme="dark"] .neo-button.bg-point,
+:root[data-theme="dark"] .btn-lc-primary,
+:root[data-theme="dark"] .rd-btn-grad,
+:root[data-theme="dark"] .nb-cta,
+:root[data-theme="dark"] .sel-btn.sel-primary,
+:root[data-theme="dark"] .login-submit-btn,
+:root[data-theme="dark"] .nb-newbtn,
+:root[data-theme="dark"] .hm-qn-go,
+:root[data-theme="dark"] .sidebar-nav-item[data-active="true"],
+:root[data-theme="dark"] .ptab.is-active,
+:root[data-theme="dark"] .tq-pill.active,
+:root[data-theme="dark"] .tq-chip.sel,
+:root[data-theme="dark"] .tq-w.inslot,
+:root[data-theme="dark"] .tq-obtn.primary{
+  background: linear-gradient(145deg,#8C85FF,#6257DB) !important;
+  color:#FFFFFF !important; border:none;
+  box-shadow: 0 8px 20px rgba(0,0,0,.45),
+              inset 3px 3px 8px rgba(255,255,255,.22),
+              inset -3px -3px 9px rgba(0,0,0,.30) !important;
+}
+
+/* ── 47.3 Trang chủ ────────────────────────────────────────────────── */
+:root[data-theme="dark"] .hm-hero{
+  background: linear-gradient(135deg,#2E2B4A 0%, #2B3043 45%, #26334A 100%);
+  border:1.5px solid var(--clay-line);
+}
+:root[data-theme="dark"] .hm-hero .hm-hello-sub{
+  background: rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.09);
+  color: var(--clay-body);
+}
+:root[data-theme="dark"] .hm-hero-img{ filter: drop-shadow(0 22px 30px rgba(0,0,0,.5)); }
+:root[data-theme="dark"] .hm-stat-ico{ box-shadow:0 4px 14px rgba(0,0,0,.4); }
+:root[data-theme="dark"] .hm-stat-card .rd-stat-ico-fallback{ background:var(--clay-p-indigo); }
+:root[data-theme="dark"] .hm-qn-title{ color:var(--clay-ink); }
+:root[data-theme="dark"] .hm-qn-desc{ color:var(--clay-body); }
+:root[data-theme="dark"] .hm-qn-badge{ background:var(--clay-p-indigo); color:var(--clay-i-indigo); }
+:root[data-theme="dark"] .hm-qn-badge-solid{ background:var(--clay-indigo); color:#1B1E2A; }
+:root[data-theme="dark"] .hm-nb-name{ color:var(--clay-ink); }
+:root[data-theme="dark"] .hm-nb-meta{ color:var(--clay-body); }
+:root[data-theme="dark"] .hm-nb-bar{ background:#3A4054; }
+:root[data-theme="dark"] .hm-nb-new{
+  background:rgba(139,132,255,.09); border:1.5px dashed rgba(139,132,255,.42); color:var(--clay-i-indigo);
+}
+:root[data-theme="dark"] .hm-nb-new:hover{ background:rgba(139,132,255,.18); }
+:root[data-theme="dark"] .hm-nb-empty{ background:var(--clay-surface); border:1.5px solid var(--clay-line); }
+:root[data-theme="dark"] .hm-nb-empty-title{ color:var(--clay-ink); }
+:root[data-theme="dark"] .hm-nb-empty-sub{ color:var(--clay-body); }
+:root[data-theme="dark"] .rd-watermark{ color:rgba(160,152,255,.13); }
+:root[data-theme="dark"] .rd-inset{ background:#242938; border:1px solid var(--clay-line); box-shadow:none; }
+
+/* ── 47.4 Tab Sổ từ vựng ───────────────────────────────────────────── */
+:root[data-theme="dark"] .nbs-sum{ background:var(--clay-line); border-bottom-color:var(--clay-line); }
+:root[data-theme="dark"] .nbs-sum-item{ background:#2A3042; }
+:root[data-theme="dark"] .nbs-sum-v{ color:var(--clay-ink); }
+:root[data-theme="dark"] .nbs-sum-l{ color:var(--clay-body); }
+:root[data-theme="dark"] .nbs-row{ border-bottom-color:var(--clay-line); }
+:root[data-theme="dark"] .nbs-row:hover{ background:rgba(139,132,255,.08); }
+:root[data-theme="dark"] .nbs-nb{ color:var(--clay-ink); }
+:root[data-theme="dark"] .nbs-score{ color:var(--clay-body); }
+:root[data-theme="dark"] .nbs-time{ color:var(--clay-tertiary); }
+:root[data-theme="dark"] .nbs-bar{ background:#3A4054; }
+:root[data-theme="dark"] .nbs-fill{ background:var(--clay-indigo); }
+:root[data-theme="dark"] .nbs-pct{ color:var(--clay-i-indigo); }
+:root[data-theme="dark"] .nbs-empty{ color:var(--clay-body); }
+:root[data-theme="dark"] .nbq-bar{ background:#242938; border:1px solid var(--clay-line); color:var(--clay-tertiary); }
+:root[data-theme="dark"] .nbq-bar input{ color:var(--clay-ink); }
+:root[data-theme="dark"] .nbq-clear{ background:rgba(255,255,255,.09); color:var(--clay-body); }
+:root[data-theme="dark"] .nbq-hint{ color:var(--clay-body); }
+:root[data-theme="dark"] .nbq-hint b{ color:var(--clay-i-indigo); }
+:root[data-theme="dark"] .nbq-row:hover{ background:var(--clay-p-indigo); }
+:root[data-theme="dark"] .nbq-kr{ color:var(--clay-ink); }
+:root[data-theme="dark"] .nbq-vi{ color:var(--clay-body); }
+:root[data-theme="dark"] .nbq-nb{ color:var(--clay-tertiary); }
+:root[data-theme="dark"] .nbs-rows::-webkit-scrollbar-thumb{ background:rgba(139,132,255,.32); }
+
+/* ── 47.5 Tiêu đề mục / chú thích ──────────────────────────────────── */
+:root[data-theme="dark"] .home-sec-title{ color:var(--clay-ink); }
+:root[data-theme="dark"] .home-sec-title::before{ background:var(--clay-indigo); }
+:root[data-theme="dark"] .home-sec-title.hs-green::before{ background:var(--clay-mint); }
+:root[data-theme="dark"] .home-sec-title.hs-amber::before{ background:var(--clay-amber); }
+:root[data-theme="dark"] .home-sec-note{ background:var(--clay-p-indigo); color:var(--clay-i-indigo); }
+:root[data-theme="dark"] .view-group section h3.tracking-widest{ color:var(--clay-ink); }
+:root[data-theme="dark"] .view-group section h3.tracking-widest svg{ color:var(--clay-indigo); }
+
+/* ── 47.6 Flashcard "Từ vựng hôm nay" ──────────────────────────────── */
+:root[data-theme="dark"] .fc-word{ color:var(--clay-ink); }
+:root[data-theme="dark"] .fc-meaning{ color:var(--clay-body); }
+:root[data-theme="dark"] .fc-hint{ color:var(--clay-tertiary); }
+:root[data-theme="dark"] .fc-answer{ border-left-color:var(--clay-line); }
+:root[data-theme="dark"] .fc-answer.is-open{ border-left-color:var(--clay-indigo); }
+:root[data-theme="dark"] .fc-btn-primary{ color:var(--clay-i-indigo); }
+:root[data-theme="dark"] .fc-btn-primary.is-on{ background:var(--clay-p-indigo) !important; box-shadow: var(--shadow-sunk) !important; }
+:root[data-theme="dark"] .fc-empty-title{ color:var(--clay-ink); }
+:root[data-theme="dark"] .fc-empty-sub{ color:var(--clay-body); }
+
+/* ── 47.7 Modal / popup ────────────────────────────────────────────── */
+:root[data-theme="dark"] .wrong-word-ok{
+  background: linear-gradient(145deg,#245546,#183A31) !important;
+  color: var(--clay-i-mint) !important;
+  box-shadow: 0 6px 12px rgba(0,0,0,.4),
+              inset 3px 3px 7px rgba(255,255,255,.08),
+              inset -3px -3px 7px rgba(0,0,0,.42) !important;
+}
+:root[data-theme="dark"] .dash-cal-nav,
+:root[data-theme="dark"] .dash-cal-today{
+  background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); color:#C9C3FF;
+}
+:root[data-theme="dark"] .dash-cal-nav:hover,
+:root[data-theme="dark"] .dash-cal-today:hover{ background:rgba(255,255,255,.16); }
+
+/* ── 47.8 Thư viện: neumorphism bản tối ────────────────────────────── */
+:root[data-theme="dark"] #view-library-stage,
+:root[data-theme="dark"] #view-search-results,
+:root[data-theme="dark"] .lib-detail-sheet{
+  --c-e6ebf3:#2C3243; --c-f5f7fb:#333A4E; --c-f0f2f7:#2A3040;
+  --shadow-raised: 9px 9px 22px #191D28, -7px -7px 18px rgba(255,255,255,.045);
+  --shadow-btn:    5px 5px 12px #191D28, -4px -4px 10px rgba(255,255,255,.05);
+  --shadow-sunk:   inset 6px 6px 14px #191D28, inset -5px -5px 12px rgba(255,255,255,.05);
+  --card-shadow:   -5px -5px 12px rgba(255,255,255,.045), 6px 6px 18px #171B25;
+  --raised-block:  -3px -3px 7px rgba(255,255,255,.05), 3px 3px 9px #191D28;
+}
+:root[data-theme="dark"] #view-library-stage .neo-raised,
+:root[data-theme="dark"] #view-search-results .neo-raised{
+  background:#2C3243 !important; border:none !important;
+  box-shadow: var(--shadow-raised), 0 0 0 1px rgba(255,255,255,.055) !important;
+}
+:root[data-theme="dark"] #view-library-stage .m-card-base,
+:root[data-theme="dark"] #view-search-results .m-card-base,
+:root[data-theme="dark"] .lib-detail-sheet .m-card-base{
+  background:#333A4E !important; border:none !important;
+  box-shadow: var(--card-shadow), 0 0 0 1px rgba(255,255,255,.06) !important;
+}
+:root[data-theme="dark"] #view-library-stage .m-pressed-block,
+:root[data-theme="dark"] .lib-detail-sheet .m-pressed-block,
+:root[data-theme="dark"] #right-detail-panel .m-pressed-block{
+  background:#272D3C !important;
+  box-shadow: inset 4px 4px 10px #171B25, inset -3px -3px 8px rgba(255,255,255,.05) !important;
+}
+:root[data-theme="dark"] #view-library-stage .m-raised-block,
+:root[data-theme="dark"] .lib-detail-sheet .m-raised-block,
+:root[data-theme="dark"] #right-detail-panel .m-raised-block{
+  background:#333A4E !important;
+  box-shadow: -3px -3px 7px rgba(255,255,255,.05), 4px 4px 10px #191D28, 0 0 0 1px rgba(255,255,255,.05) !important;
+}
+:root[data-theme="dark"] #view-library-stage .neo-button,
+:root[data-theme="dark"] #view-library-stage .gup-chip,
+:root[data-theme="dark"] #view-library-stage .bulk-chip,
+:root[data-theme="dark"] #view-library-stage .lrn-pill,
+:root[data-theme="dark"] #view-library-stage .sel-btn,
+:root[data-theme="dark"] #view-library-stage .pg-btn,
+:root[data-theme="dark"] #view-library-stage .filter-dd-trigger,
+:root[data-theme="dark"] #view-library-stage .vr-status-btn,
+:root[data-theme="dark"] #view-library-stage .m-pressed-btn,
+:root[data-theme="dark"] #view-library-stage .ex-mini-btn,
+:root[data-theme="dark"] #view-library-stage .ex-audio-control,
+:root[data-theme="dark"] #view-search-results .neo-button,
+:root[data-theme="dark"] .lib-detail-sheet .ex-mini-btn,
+:root[data-theme="dark"] .lib-detail-sheet .ex-audio-control,
+:root[data-theme="dark"] .lib-detail-sheet .m-pressed-btn{
+  background:#333A4E !important; color:#B6BED2 !important;
+  box-shadow: var(--shadow-btn), 0 0 0 1px rgba(255,255,255,.05) !important;
+}
+:root[data-theme="dark"] .lib-detail-sheet{ background:#2C3243; box-shadow:0 -12px 40px rgba(0,0,0,.55); }
+
+/* ── 47.9 Đăng nhập ────────────────────────────────────────────────── */
+:root[data-theme="dark"] #login-screen{ background:var(--clay-bg) !important; }
+:root[data-theme="dark"] .login-card-shell{ background:var(--clay-surface); border:1.5px solid var(--clay-line); box-shadow:none; }
+:root[data-theme="dark"] .login-left-panel{ background:linear-gradient(135deg,#2F2C4E,#26334A); }
+:root[data-theme="dark"] .login-left-title,
+:root[data-theme="dark"] .login-right-title{ color:var(--clay-ink); }
+:root[data-theme="dark"] .login-left-sub,
+:root[data-theme="dark"] .login-right-info,
+:root[data-theme="dark"] .login-remember-row{ color:var(--clay-body); }
+:root[data-theme="dark"] .login-field-group label{ color:var(--clay-tertiary); }
+:root[data-theme="dark"] .login-input{ background:#242938; border:1px solid var(--clay-line); color:var(--clay-ink); }
+
+/* ── 47.10 Chủ đề · ticker · linh tinh ─────────────────────────────── */
+:root[data-theme="dark"] .topic-chip{ background:var(--clay-p-indigo); color:var(--clay-i-indigo); border:none; }
+:root[data-theme="dark"] .topic-card-title{ color:var(--clay-ink); }
+:root[data-theme="dark"] .topic-card-sub,
+:root[data-theme="dark"] .topic-card-desc{ color:var(--clay-body); }
+:root[data-theme="dark"] .nb-block{ background:#242938; border:1px solid var(--clay-line); box-shadow:none; }
+:root[data-theme="dark"] .nb-block-title{ color:var(--clay-ink); }
+:root[data-theme="dark"] .nb-selword{ background:var(--clay-p-indigo); color:var(--clay-i-indigo); box-shadow:none; }
+:root[data-theme="dark"] .tq-pills{ background:#242938; border:1px solid var(--clay-line); box-shadow:none; }
+:root[data-theme="dark"] .tq-reveal,
+:root[data-theme="dark"] .tq-slot{ background:#242938; border:1px solid var(--clay-line); box-shadow:none; }
+:root[data-theme="dark"] .sel-bar{ background:rgba(139,132,255,.10); border-top:1px solid var(--clay-line); }
+:root[data-theme="dark"] .lib-check{ background:#242938; border:2px solid rgba(160,168,220,.35); }
+:root[data-theme="dark"] .ptab{ color:var(--clay-body); }
+:root[data-theme="dark"] .ptab:hover:not(.is-active){ background:var(--clay-p-indigo); color:var(--clay-i-indigo); }
+
+/* ── 48. Modal "Luyện theo chủ đề": khổ hẹp chỉ cuộn 1 lớp cho đỡ rối ── */
+.tp-filter-scroll{ max-height:34vh; }
+@media (max-width:1023px){ .tp-filter-scroll{ max-height:none; overflow:visible; } }
+
     </style>
 </head>
 <body class="font-sans antialiased text-[color:var(--c-3d3d4e)] px-3 sm:px-5 lg:px-8 pb-3 sm:pb-5 lg:pb-8 pt-1 sm:pt-2 min-h-screen">
@@ -2970,9 +3627,9 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                         </button>
                     </div>
 
-                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-5" id="my-lessons-grid">
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5" id="my-lessons-grid">
                         <!-- Trạng thái trống — hiện khi chưa có sổ tay nào; JS sẽ ẩn/tự xoá khi có sổ tay đầu tiên -->
-                        <div class="neo-raised p-10 flex flex-col items-center justify-center text-center gap-3 xl:col-span-2" id="empty-lessons-state">
+                        <div class="neo-raised p-10 flex flex-col items-center justify-center text-center gap-3 md:col-span-2 xl:col-span-3" id="empty-lessons-state">
                             <div class="w-14 h-14 rounded-2xl neo-sunk flex items-center justify-center text-point">
                                 <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
                             </div>
@@ -9234,20 +9891,20 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             if (!overlay) return;
             const wrongWords = collectWrongWords();
             overlay.innerHTML = `
-                <div class="neo-raised p-6 sm:p-7 w-full max-w-[600px] max-h-[80vh] overflow-y-auto flex flex-col gap-4 !rounded-[28px] relative" onclick="event.stopPropagation()">
+                <div class="neo-raised p-6 sm:p-8 w-full max-w-[860px] max-h-[85vh] overflow-y-auto flex flex-col gap-4 !rounded-[28px] relative" onclick="event.stopPropagation()">
                     <button class="absolute top-5 right-5 w-9 h-9 rounded-full neo-button flex items-center justify-center text-gray-400" onclick="document.getElementById('need-practice-modal').remove()">✕</button>
                     <h3 class="text-lg font-extrabold text-[color:var(--c-1a1a24)] flex items-center gap-2">${themeIcon('warning', 'brand', 18)} Từ cần luyện thêm</h3>
                     ${wrongWords.length ? `
-                        <p class="text-xs text-gray-400">Bấm vào từ để xem chi tiết, hoặc bấm ✓ nếu bạn đã thuộc để bỏ khỏi danh sách này.</p>
+                        <p class="text-[13.5px] text-gray-500">Bấm vào từ để xem chi tiết, hoặc bấm ✓ nếu bạn đã thuộc để bỏ khỏi danh sách này.</p>
                         <div class="flex flex-wrap gap-2">
                             ${wrongWords.map(w => `
-                                <div class="neo-button px-1.5 py-1 text-xs font-bold text-[color:var(--c-2d3a54)] flex items-center gap-1">
-                                    <button class="px-2 py-1 flex items-center gap-1.5" onclick="openWrongWordDetailModal('${w.id}')">
-                                        <span class="font-kr-serif">${w.word}</span>
-                                        <span class="text-gray-400 font-normal">· ${w.vietnamese || ''}</span>
+                                <div class="neo-button wrong-word-chip px-2 py-1.5 text-[14px] font-bold text-[color:var(--c-2d3a54)] flex items-center gap-1.5">
+                                    <button class="px-2.5 py-1 flex items-center gap-2" onclick="openWrongWordDetailModal('${w.id}')">
+                                        <span class="font-kr-serif text-[15px]">${w.word}</span>
+                                        <span class="text-gray-500 font-medium text-[13px]">· ${w.vietnamese || ''}</span>
                                     </button>
-                                    <button class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0" style="background:var(--c-dff5e8);" title="Đã thuộc từ này, bỏ khỏi danh sách" onclick="markWrongWordAsKnown('${w.id}')">
-                                        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#1a8a45" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    <button class="wrong-word-ok w-7 h-7 rounded-lg flex items-center justify-center shrink-0" title="Đã thuộc từ này, bỏ khỏi danh sách" onclick="markWrongWordAsKnown('${w.id}')">
+                                        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
                                     </button>
                                 </div>
                             `).join('')}
@@ -9343,7 +10000,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 ? 'Ưu tiên những từ đã lâu bạn chưa ôn lại (hoặc chưa từng làm) trong sổ đã chọn.'
                 : 'Lấy ngẫu nhiên bất kỳ từ nào trong các sổ đã chọn để ôn tập.';
             overlay.innerHTML = `
-                <div class="neo-raised p-6 sm:p-7 w-full max-w-[480px] max-h-[85vh] overflow-y-auto flex flex-col gap-4 !rounded-[28px] relative" onclick="event.stopPropagation()">
+                <div class="neo-raised p-6 sm:p-7 w-full max-w-[600px] max-h-[88vh] overflow-y-auto flex flex-col gap-4 !rounded-[28px] relative" onclick="event.stopPropagation()">
                     <button class="absolute top-5 right-5 w-9 h-9 rounded-full neo-button flex items-center justify-center text-gray-400" onclick="document.getElementById('quiz-maze-setup-modal').remove()">✕</button>
                     <div>
                         <h3 class="text-lg font-extrabold text-[color:var(--c-1a1a24)]">${title}</h3>
@@ -10923,74 +11580,142 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             if (m) m.remove();
         }
 
+        // Modal "Luyện tập theo chủ đề" — dùng CHUNG ngôn ngữ 3 bước của modal Tạo sổ:
+        //   ① khoanh vùng từ vựng (bộ lọc)  →  ② chọn bao nhiêu từ  →  ③ xem lại giỏ từ
         function renderTopicPracticeModal() {
             const overlay = document.getElementById('topic-practice-modal');
             if (!overlay) return;
             const matches = tpGetMatches();
+            const nSel = tpState.selectedWords.length;
+            const f = tpState.filters;
+            const activeFilters = f.libs.length + f.levels.length + f.examTypes.length + f.wordTypes.length + f.topics.length;
+
             const chip = (key, val, label) => {
                 const active = tpState.filters[key].includes(val);
                 return `<button class="bulk-chip ${active ? 'bulk-chip-active' : ''}" onclick="tpToggleFilter('${key}','${String(val).replace(/'/g, "\\'")}')">${label}</button>`;
             };
-            const section = (icon, title, key, opts, labelFn) => `
+            const section = (icon, title, key, opts, labelFn) => {
+                const n = tpState.filters[key].length;
+                return `
                 <div>
-                    <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">${icon} ${title}</p>
-                    <div class="flex flex-wrap gap-1">${opts.length ? opts.map(v => chip(key, v, labelFn ? labelFn(v) : v)).join('') : '<span class="text-[12px] text-gray-400">Không có dữ liệu</span>'}</div>
+                    <p class="text-[11px] font-bold uppercase tracking-wider mb-1.5 flex items-center gap-1.5" style="color:${n ? 'var(--clay-i-indigo)' : 'var(--c-9aa4b8)'};">
+                        ${icon} ${title}${n ? `<span class="nb-tag" style="background:rgba(108,99,255,.14); color:var(--clay-i-indigo);">${n}</span>` : ''}
+                    </p>
+                    <div class="flex flex-wrap gap-1.5">${opts.length ? opts.map(v => chip(key, v, labelFn ? labelFn(v) : v)).join('') : '<span class="text-[12px] text-gray-400">Không có dữ liệu</span>'}</div>
                 </div>`;
-            const bulkTab = `
-                <div class="neo-sunk p-3 !rounded-2xl flex flex-col gap-2.5 sticky -top-0.5 z-10" style="background:var(--c-e6ebf3);">
-                    <div class="flex items-center justify-between gap-2 flex-wrap">
-                        <span class="text-xs font-semibold text-gray-500">${matches.length} từ phù hợp bộ lọc</span>
-                        <button class="neo-button px-4 py-2 text-xs font-bold text-point !rounded-xl shrink-0" onclick="tpAddAll()">+ Thêm tất cả</button>
+            };
+
+            // ── BƯỚC 1 ────────────────────────────────────────────────
+            const step1 = tpState.activeTab === 'add' ? `
+                <div class="relative">
+                    <div class="neo-sunk flex items-center px-4 py-2.5 !rounded-2xl">
+                        <span class="text-gray-400 mr-2 text-xs">🔍</span>
+                        <input id="tp-search-input" type="text" placeholder="Gõ tiếng Hàn hoặc tiếng Việt để tìm..." class="w-full bg-transparent border-none outline-none text-sm text-[color:var(--c-2d2d3a)]" autocomplete="off" oninput="tpState.searchQuery=this.value; tpRenderSuggestions();">
                     </div>
-                    <div class="flex items-center gap-2">
-                        <input type="number" min="1" max="${matches.length}" id="tp-bulk-qty" placeholder="Số lượng" class="w-24 px-2.5 py-2 text-xs rounded-xl outline-none border-none" style="background:var(--c-inputbg); box-shadow: var(--shadow-sunk);">
-                        <button class="neo-button px-3.5 py-2 text-xs font-bold text-point !rounded-xl shrink-0" onclick="tpAddRandom()">🎲 Thêm ngẫu nhiên</button>
-                    </div>
+                    <div id="tp-suggestions-box" class="flex flex-col gap-1 mt-2"></div>
+                </div>` : `
+                <div class="flex items-center justify-between gap-2 flex-wrap">
+                    <span class="text-xs font-bold" style="color:var(--clay-i-indigo);">${matches.length} từ phù hợp bộ lọc</span>
+                    ${activeFilters ? `<button class="text-[10.5px] font-black text-[color:var(--c-8290aa)]" onclick="tpResetFilters()">✕ Bỏ ${activeFilters} bộ lọc</button>` : `<span class="text-[10.5px] font-semibold text-gray-400">Chưa lọc — đang lấy toàn bộ thư viện</span>`}
                 </div>
-                ${section('📚', 'Thư viện', 'libs', tpOptions.libs, v => BULK_LIB_LABELS[v] || v)}
-                ${section('📊', 'Cấp độ', 'levels', tpOptions.levels, v => `Cấp ${v}`)}
-                ${section('📝', 'Dạng đề', 'examTypes', tpOptions.examTypes)}
-                ${section('🧩', 'Loại từ', 'wordTypes', tpOptions.wordTypes)}
-                ${section('📁', 'Chủ đề', 'topics', tpOptions.topics)}
-            `;
-            const addTab = `
-                <div class="neo-sunk flex items-center px-4 py-2.5 !rounded-2xl">
-                    <span class="text-gray-400 mr-2 text-xs">🔍</span>
-                    <input id="tp-search-input" type="text" placeholder="Tìm từ vựng trong hệ thống..." class="w-full bg-transparent border-none outline-none text-sm text-[color:var(--c-2d2d3a)]" autocomplete="off" oninput="tpState.searchQuery=this.value; tpRenderSuggestions();">
-                </div>
-                <div id="tp-suggestions-box" class="flex flex-col gap-1 mt-2"></div>
-            `;
+                <div class="tp-filter-scroll flex flex-col gap-3 overflow-y-auto pr-1">
+                    ${section('📚', 'Thư viện', 'libs', tpOptions.libs, v => BULK_LIB_LABELS[v] || v)}
+                    ${section('📊', 'Cấp độ', 'levels', tpOptions.levels, v => `Cấp ${v}`)}
+                    ${section('📝', 'Dạng đề', 'examTypes', tpOptions.examTypes)}
+                    ${section('🧩', 'Loại từ', 'wordTypes', tpOptions.wordTypes)}
+                    ${section('📁', 'Chủ đề', 'topics', tpOptions.topics)}
+                </div>`;
+
+            // ── BƯỚC 2 ────────────────────────────────────────────────
+            const step2 = tpState.activeTab === 'add'
+                ? `<p class="text-[12px] font-semibold" style="color:var(--c-9aa4b8);">Đang ở chế độ nhặt từng từ — bấm vào gợi ý ở bước ① là từ rơi thẳng xuống giỏ.</p>`
+                : `
+                <button class="nb-cta" onclick="tpAddAll()" ${matches.length ? '' : 'disabled'}>+ Thêm tất cả ${matches.length} từ vào giỏ</button>
+                <div class="nb-or">hoặc</div>
+                <div class="flex items-center gap-2">
+                    <input type="number" min="1" max="${matches.length}" id="tp-bulk-qty" placeholder="Số lượng" class="flex-1 px-3.5 py-2.5 text-sm rounded-xl outline-none border-none" style="background:var(--c-inputbg); box-shadow: var(--shadow-sunk);">
+                    <button class="nb-cta-sub" onclick="tpAddRandom()" ${matches.length ? '' : 'disabled'}>🎲 Lấy ngẫu nhiên</button>
+                </div>`;
+
+            // ── BƯỚC 3 ────────────────────────────────────────────────
+            const step3 = nSel ? `
+                <div class="flex flex-wrap gap-1.5" style="max-height:118px; overflow-y:auto;">
+                    ${tpState.selectedWords.map(w => `
+                        <span class="nb-selword" title="${String(w.vietnamese || '').replace(/"/g, '&quot;')}">
+                            <b>${w.word}</b>
+                            <button class="x" onclick="tpRemoveWord('${w.id}')" title="Bỏ từ này">✕</button>
+                        </span>`).join('')}
+                </div>` : `<p class="text-[11.5px] font-bold text-center" style="color:var(--c-b0bad0);">Giỏ từ đang trống — chọn ở bước ② rồi từ sẽ rơi xuống đây</p>`;
+
             overlay.innerHTML = `
-                <div class="neo-raised p-6 sm:p-7 w-full max-w-[520px] max-h-[88vh] flex flex-col gap-3.5 !rounded-[28px] relative" onclick="event.stopPropagation()">
+                <div class="neo-raised p-6 sm:p-7 w-full max-w-[720px] max-h-[90vh] flex flex-col gap-3.5 !rounded-[28px] relative" onclick="event.stopPropagation()">
                     <button class="absolute top-5 right-5 w-9 h-9 rounded-full neo-button flex items-center justify-center text-gray-400" onclick="closeTopicPracticeModal()">✕</button>
-                    <div>
+                    <div class="pr-10">
                         <h3 class="text-lg font-extrabold text-[color:var(--c-1a1a24)] flex items-center gap-2"><span class="w-9 h-9 flex items-center justify-center shrink-0"><img src="assets/icon-3d-topic.png" alt="" class="w-full h-full object-contain" onerror="quizIconFallback(this,&quot;folder&quot;)"></span> Luyện tập theo chủ đề</h3>
-                        <p class="text-xs text-gray-500 mt-1">Chọn khối từ vựng bạn muốn luyện, rồi chọn số câu. Quiz sẽ trộn 📝 Trắc nghiệm · ✍️ Viết từ · 🎧 Nghe &amp; chọn từ · 🧠 Nghe &amp; tìm nghĩa.</p>
+                        <p class="text-xs text-gray-500 mt-1">Khoanh vùng từ vựng → chọn số lượng → xem lại giỏ từ. Quiz sẽ trộn nhiều dạng trắc nghiệm · ✍️ Viết từ · 🎧 Nghe.</p>
                     </div>
-                    <p class="text-xs font-bold text-point" id="tp-selected-count">${tpState.selectedWords.length} từ đã chọn</p>
-                    <div class="neo-sunk p-1 flex gap-1 !rounded-2xl">
-                        <button class="flex-1 py-2 text-xs font-bold !rounded-xl transition-all ${tpState.activeTab === 'bulk' ? 'text-point' : 'text-gray-400'}" style="${tpState.activeTab === 'bulk' ? 'background:var(--c-e6ebf3); box-shadow: var(--shadow-btn);' : ''}" onclick="tpSwitchTab('bulk')">Lọc theo chủ đề</button>
-                        <button class="flex-1 py-2 text-xs font-bold !rounded-xl transition-all ${tpState.activeTab === 'add' ? 'text-point' : 'text-gray-400'}" style="${tpState.activeTab === 'add' ? 'background:var(--c-e6ebf3); box-shadow: var(--shadow-btn);' : ''}" onclick="tpSwitchTab('add')">Tìm từng từ</button>
+
+                    <div class="flex flex-col gap-3 overflow-y-auto pr-1 -mr-1">
+                        <!-- ① KHOANH VÙNG -->
+                        <div class="nb-block">
+                            <div class="nb-block-head">
+                                <span class="nb-num">1</span>
+                                <span class="nb-block-title">Khoanh vùng từ vựng</span>
+                                <div class="flex-1"></div>
+                                <div class="neo-sunk p-1 flex gap-1 !rounded-xl">
+                                    <button class="px-3 py-1 text-[11px] font-bold !rounded-lg ${tpState.activeTab === 'bulk' ? 'text-point' : 'text-gray-400'}" style="${tpState.activeTab === 'bulk' ? 'background:var(--c-e6ebf3); box-shadow: var(--shadow-btn);' : ''}" onclick="tpSwitchTab('bulk')">Lọc</button>
+                                    <button class="px-3 py-1 text-[11px] font-bold !rounded-lg ${tpState.activeTab === 'add' ? 'text-point' : 'text-gray-400'}" style="${tpState.activeTab === 'add' ? 'background:var(--c-e6ebf3); box-shadow: var(--shadow-btn);' : ''}" onclick="tpSwitchTab('add')">Tìm từng từ</button>
+                                </div>
+                            </div>
+                            ${step1}
+                        </div>
+
+                        <!-- ② CHỌN BAO NHIÊU TỪ -->
+                        <div class="nb-block">
+                            <div class="nb-block-head">
+                                <span class="nb-num">2</span>
+                                <span class="nb-block-title">Chọn bao nhiêu từ</span>
+                            </div>
+                            ${step2}
+                        </div>
+
+                        <!-- ③ XEM LẠI GIỎ TỪ -->
+                        <div class="nb-block">
+                            <div class="nb-block-head">
+                                <span class="nb-num" style="background:linear-gradient(135deg,#2ec65e,#22a34a);">✓</span>
+                                <span class="nb-block-title">Giỏ từ · ${nSel} từ</span>
+                                <div class="flex-1"></div>
+                                ${nSel ? `<button class="text-[10.5px] font-black text-[color:var(--c-8290aa)]" onclick="tpClearAll()">✕ Xoá hết</button>` : ''}
+                            </div>
+                            <div id="tp-selected-list-wrap">${step3}</div>
+                        </div>
                     </div>
-                    <div class="flex flex-col gap-3 overflow-y-auto pr-1" style="max-height:38vh;">
-                        ${tpState.activeTab === 'bulk' ? bulkTab : addTab}
-                    </div>
-                    <div id="tp-selected-list-wrap"></div>
+
                     <div class="flex items-end gap-3 pt-1 border-t border-[color:var(--c-d8e0ec)]">
                         <div class="flex-1">
                             <label class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1 block">Số câu muốn làm</label>
-                            <input type="number" min="1" id="tp-qty-input" placeholder="Mặc định: tất cả từ đã chọn" class="w-full px-4 py-2.5 rounded-xl outline-none border-none text-sm" style="background:var(--c-e6ebf3); box-shadow: var(--shadow-sunk);">
+                            <input type="number" min="1" id="tp-qty-input" placeholder="Mặc định: tất cả ${nSel || ''} từ đã chọn" class="w-full px-4 py-2.5 rounded-xl outline-none border-none text-sm" style="background:var(--c-e6ebf3); box-shadow: var(--shadow-sunk);">
                         </div>
                         <button class="neo-button px-6 py-3 text-sm font-bold text-white !rounded-2xl shrink-0" style="background:#6C63FF;" onclick="startTopicPractice()">Bắt đầu ➔</button>
                     </div>
                 </div>
             `;
-            tpRenderSelectedList();
             if (tpState.activeTab === 'add') {
                 const inp = document.getElementById('tp-search-input');
-                if (inp) { inp.value = tpState.searchQuery; }
+                if (inp) inp.value = tpState.searchQuery;
                 tpRenderSuggestions();
             }
+        }
+
+        function tpResetFilters() {
+            Object.keys(tpState.filters).forEach(k => { tpState.filters[k] = []; });
+            computeTpOptions();
+            renderTopicPracticeModal();
+        }
+
+        function tpClearAll() {
+            tpState.selectedWords = [];
+            renderTopicPracticeModal();
         }
 
         function tpSwitchTab(tab) { tpState.activeTab = tab; renderTopicPracticeModal(); }
@@ -11046,37 +11771,17 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             const w = (allLibraryCache || []).find(x => x.id === id);
             if (!w) return;
             tpAddWordObj(w);
-            tpRenderSelectedList();
-            tpRenderSuggestions();
-            const countEl = document.getElementById('tp-selected-count');
-            if (countEl) countEl.textContent = `${tpState.selectedWords.length} từ đã chọn`;
+            renderTopicPracticeModal();
         }
 
         function tpRemoveWord(id) {
             tpState.selectedWords = tpState.selectedWords.filter(w => w.id !== id);
-            tpRenderSelectedList();
-            const countEl = document.getElementById('tp-selected-count');
-            if (countEl) countEl.textContent = `${tpState.selectedWords.length} từ đã chọn`;
-            if (tpState.activeTab === 'add') tpRenderSuggestions();
+            renderTopicPracticeModal();
         }
 
-        function tpRenderSelectedList() {
-            const wrap = document.getElementById('tp-selected-list-wrap');
-            if (!wrap) return;
-            if (!tpState.selectedWords.length) { wrap.innerHTML = ''; return; }
-            wrap.innerHTML = `
-                <div class="neo-sunk p-3 !rounded-2xl flex flex-col gap-1.5" style="max-height:110px; overflow-y:auto;">
-                    <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Đã chọn (${tpState.selectedWords.length})</p>
-                    ${tpState.selectedWords.map(w => `
-                        <div class="flex items-center gap-2 text-xs">
-                            <span class="font-bold font-kr-serif shrink-0">${w.word}</span>
-                            <span class="text-gray-400 truncate flex-1">${w.vietnamese}</span>
-                            <button class="text-gray-400 hover:text-red-400 font-bold shrink-0" onclick="tpRemoveWord('${w.id}')">✕</button>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-        }
+        // Giỏ từ nằm trong bước ③ nên cập nhật = vẽ lại cả modal (giữ nguyên tên hàm
+        // để các lời gọi cũ không vỡ).
+        function tpRenderSelectedList() { renderTopicPracticeModal(); }
 
         function startTopicPractice() {
             const words = tpState.selectedWords;
@@ -11124,7 +11829,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             const list = document.getElementById('recent-activity-list');
             const note = document.getElementById('nb-activity-note');
             if (!section || !list) return;
-            const items = collectRecentActivity(6);
+            const items = collectRecentActivity(24); // bảng cuộn được nên lấy nhiều lượt hơn
 
             if (!items.length) {
                 if (note) note.textContent = 'Chưa có';
@@ -11144,7 +11849,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             });
             const totalTries = allCorrect + allWrong;
             const acc = totalTries ? Math.round(allCorrect / totalTries * 100) : 0;
-            if (note) note.textContent = `${items.length} lượt gần nhất`;
+            if (note) note.textContent = `${items.length} lượt · cuộn để xem thêm`;
 
             const tones = { flashcard: 'indigo', quiz: 'lemon', typing: 'mint', listen: 'sky', guess: 'pink' };
 
@@ -11180,6 +11885,15 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         // DASHBOARD "HOẠT ĐỘNG CỦA BẠN"
         // ============================================================
         let dashboardPrevView = null;
+        // Lịch streak xem được tháng cũ: 0 = tháng này, -1 = tháng trước…
+        let dashCalOffset = 0;
+        function shiftDashCalendar(step) {
+            const next = dashCalOffset + step;
+            if (next > 0) return;                 // không xem tương lai
+            if (next < -120) return;              // giới hạn 10 năm cho an toàn
+            dashCalOffset = next;
+            renderActivityDashboardContent();
+        }
 
         async function openActivityDashboard() {
             const currentVisible = [...document.querySelectorAll('.view-group')].find(v => !v.classList.contains('hidden'));
@@ -11320,9 +12034,11 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 { icon: '⚡', value: `${accuracyPct}%`, label: 'Phản xạ chính xác', grad: 'linear-gradient(135deg,#fbbf24,#f59e0b)', click: "document.getElementById('dash-weak-section')?.scrollIntoView({behavior:'smooth',block:'center'})" },
             ];
 
-            // ---- Streak calendar (tháng hiện tại) ----
+            // ---- Streak calendar (xem được cả tháng cũ qua dashCalOffset) ----
             const now = new Date();
-            const year = now.getFullYear(), month = now.getMonth();
+            const calBase = new Date(now.getFullYear(), now.getMonth() + dashCalOffset, 1);
+            const year = calBase.getFullYear(), month = calBase.getMonth();
+            const isThisMonth = dashCalOffset === 0;
             const firstDow = new Date(year, month, 1).getDay();
             const daysInMonth = new Date(year, month + 1, 0).getDate();
             const monthNames = ['Tháng 1','Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6','Tháng 7','Tháng 8','Tháng 9','Tháng 10','Tháng 11','Tháng 12'];
@@ -11331,7 +12047,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             for (let i = 0; i < firstDow; i++) calendarCellsHtml += `<div></div>`;
             for (let d = 1; d <= daysInMonth; d++) {
                 const cellDate = new Date(year, month, d);
-                const isToday = d === now.getDate();
+                const isToday = isThisMonth && d === now.getDate();
                 const hasActivity = (dailyActivityLog[dateKeyOf(cellDate)] || 0) > 0 && !isToday;
                 const glow = isToday
                     ? `position:absolute; width:32px; height:32px; border-radius:50%; background:rgba(245,158,11,0.55); filter:blur(9px); top:-4px; left:50%; transform:translateX(-50%); z-index:0;`
@@ -11420,7 +12136,12 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                                 ${journeyIconHtml('icon-streak.png', '🔥')}
                                 <span class="text-[16px] font-extrabold" style="color:var(--c-374151);">Streak · ${streak} ngày</span>
                             </div>
-                            <div class="text-[13.5px] font-bold relative" style="color:var(--c-9ca3af); z-index:1;">${calendarLabel}</div>
+                            <div class="flex items-center justify-between gap-2 relative" style="z-index:1;">
+                                <button class="dash-cal-nav" title="Tháng trước" onclick="shiftDashCalendar(-1)">‹</button>
+                                <div class="text-[13.5px] font-bold text-center flex-1" style="color:var(--c-374151);">${calendarLabel}</div>
+                                <button class="dash-cal-nav ${dashCalOffset >= 0 ? 'is-off' : ''}" title="Tháng sau" onclick="shiftDashCalendar(1)">›</button>
+                            </div>
+                            ${dashCalOffset !== 0 ? `<button class="dash-cal-today" onclick="dashCalOffset=0; renderActivityDashboardContent();">↺ Về tháng này</button>` : ''}
                             <div class="grid gap-2 relative" style="grid-template-columns:repeat(7,1fr); z-index:1;">
                                 ${dayAbbrev.map(d => `<span class="text-[12px] font-extrabold text-center" style="color:var(--c-9ca3af);">${d}</span>`).join('')}
                             </div>

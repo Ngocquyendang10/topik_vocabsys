@@ -12,7 +12,7 @@
 
 === tu-vung-han-han.md
 Tên: Từ vựng Hán Hàn
-Mô tả ngắn: Gốc Hán tự thường gặp trong đề TOPIK II
+Mô tả ngắn: Gốc Hán tự [Thường gặp trong đề TOPIK II]
 Chữ trên thẻ: Hán - Hàn
 Nhãn: Từ nguyên
 Màu: tím
@@ -21,11 +21,11 @@ Số liệu: 152 gốc Hán tự | 482 từ phái sinh | 5 phần chủ đề
 
 === topik-pho-tu.md
 Tên: 토픽 합격 레시피 — Phó từ
-Mô tả ngắn: Phó từ và dấu hiệu hô ứng thường gặp trong câu 13, 19 TOPIK II
+Mô tả ngắn: Phó từ [TOPIK II Kỹ năng Đọc]
 Chữ trên thẻ: Phó từ
 Nhãn: TOPIK II
 Màu: vàng
-Giới thiệu: Hệ thống 36 phó từ và cặp từ theo nhóm ngữ nghĩa, kèm cấu trúc hô ứng, sắc thái sử dụng và dấu hiệu nhận diện nhanh trong đoạn văn. Giúp học viên xử lý hiệu quả dạng đọc câu 13 và 19 TOPIK II.
+Giới thiệu: Tổng hợp 36 phó từ và cặp từ theo nhóm ngữ nghĩa, kèm cấu trúc hô ứng, sắc thái sử dụng và dấu hiệu nhận diện nhanh trong đoạn văn. Giúp xử lý hiệu quả dạng Đọc như câu 13 và 19 TOPIK II.
 Số liệu: 36 phó từ và cặp từ | 10 nhóm ngữ nghĩa | 35 dấu hiệu hô ứng
 
 === bai-doc-bao-ve-moi-truong.md
