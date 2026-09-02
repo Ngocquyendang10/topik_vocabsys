@@ -2803,36 +2803,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
       inset 5px 5px 11px rgba(91,79,207,.20),
       inset -4px -4px 9px rgba(255,255,255,.92);
 }
-:root:not([data-theme="dark"]) .neo-button,
-:root:not([data-theme="dark"]) .gup-chip,
-:root:not([data-theme="dark"]) .lrn-pill,
-:root:not([data-theme="dark"]) .bulk-chip,
-:root:not([data-theme="dark"]) .sel-btn,
-:root:not([data-theme="dark"]) .pg-btn,
-:root:not([data-theme="dark"]) .psub,
-:root:not([data-theme="dark"]) .tq-chip,
-:root:not([data-theme="dark"]) .tq-w,
-:root:not([data-theme="dark"]) .tq-obtn,
-:root:not([data-theme="dark"]) .tq-hard,
-:root:not([data-theme="dark"]) .nb-cta-sub,
-:root:not([data-theme="dark"]) .fc-btn,
-:root:not([data-theme="dark"]) .ui-ptile,
-:root:not([data-theme="dark"]) .rd-badge,
-:root:not([data-theme="dark"]) .m-pressed-btn,
-:root:not([data-theme="dark"]) .vr-status-btn,
-:root:not([data-theme="dark"]) .ex-mini-btn,
-:root:not([data-theme="dark"]) .ex-audio-control,
-:root:not([data-theme="dark"]) .filter-dd-trigger,
-:root:not([data-theme="dark"]) .qn-card .rd-badge,
-:root:not([data-theme="dark"]) .hm-qn-arrow,
-:root:not([data-theme="dark"]) .wrong-word-chip{
-  background: linear-gradient(145deg,#F3F0FF,#DFD8F7) !important;
-  color: var(--clay-i-indigo);
-  border: none;
-  box-shadow: 0 8px 16px rgba(70,52,150,.16),
-              inset 3px 3px 7px rgba(255,255,255,.95),
-              inset -3px -3px 8px rgba(91,79,207,.22) !important;
-}
+/* (đã gỡ nút phụ tô tím — thay bằng hệ trung tính ở mục 49) */
 :root:not([data-theme="dark"]) .neo-button:active,
 :root:not([data-theme="dark"]) .fc-btn:active,
 :root:not([data-theme="dark"]) .m-pressed-btn:active,
@@ -2853,10 +2824,6 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 :root:not([data-theme="dark"]) .nb-newbtn,
 :root:not([data-theme="dark"]) .hm-qn-go,
 :root:not([data-theme="dark"]) .sidebar-nav-item[data-active="true"],
-:root:not([data-theme="dark"]) .ptab.is-active,
-:root:not([data-theme="dark"]) .tq-pill.active,
-:root:not([data-theme="dark"]) .tq-chip.sel,
-:root:not([data-theme="dark"]) .tq-w.inslot,
 :root:not([data-theme="dark"]) .tq-obtn.primary{
   background: linear-gradient(145deg,#8079FF,#5B4FCF) !important;
   color: #FFFFFF !important;
@@ -2866,20 +2833,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
               inset -3px -3px 9px rgba(0,0,0,.22) !important;
 }
 
-/* Trạng thái ĐANG CHỌN của chip: pastel đậm + vòng viền, vẫn giữ khối */
-:root:not([data-theme="dark"]) .gup-chip.gup-active,
-:root:not([data-theme="dark"]) .lrn-pill.lrn-on,
-:root:not([data-theme="dark"]) .bulk-chip.bulk-chip-active,
-:root:not([data-theme="dark"]) .pg-btn.pg-active,
-:root:not([data-theme="dark"]) .psub.is-active,
-:root:not([data-theme="dark"]) .filter-dd-trigger.dd-open,
-:root:not([data-theme="dark"]) .filter-dd-trigger.dd-has-selection{
-  background: linear-gradient(145deg,#E2DBFF,#CFC5F5) !important;
-  color: var(--clay-i-indigo) !important;
-  box-shadow: inset 4px 4px 9px rgba(91,79,207,.26),
-              inset -3px -3px 8px rgba(255,255,255,.90),
-              0 0 0 1.5px rgba(108,99,255,.38) !important;
-}
+/* (đã gỡ chip đang chọn tô tím — thay bằng hệ trung tính ở mục 49) */
 
 /* Nút ✓ "đã thuộc" giữ tông xanh nhưng cùng công thức khối */
 :root:not([data-theme="dark"]) .wrong-word-ok{
@@ -3162,10 +3116,6 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 :root[data-theme="dark"] .nb-newbtn,
 :root[data-theme="dark"] .hm-qn-go,
 :root[data-theme="dark"] .sidebar-nav-item[data-active="true"],
-:root[data-theme="dark"] .ptab.is-active,
-:root[data-theme="dark"] .tq-pill.active,
-:root[data-theme="dark"] .tq-chip.sel,
-:root[data-theme="dark"] .tq-w.inslot,
 :root[data-theme="dark"] .tq-obtn.primary{
   background: linear-gradient(145deg,#8C85FF,#6257DB) !important;
   color:#FFFFFF !important; border:none;
@@ -3349,6 +3299,322 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 /* ── 48. Modal "Luyện theo chủ đề": khổ hẹp chỉ cuộn 1 lớp cho đỡ rối ── */
 .tp-filter-scroll{ max-height:34vh; }
 @media (max-width:1023px){ .tp-filter-scroll{ max-height:none; overflow:visible; } }
+
+/* ══════════════════════════════════════════════════════════════════════
+   49. GIẢM MẬT ĐỘ MÀU TÍM — HỆ 3 BẬC TRUNG TÍNH
+   Trước: chip/tab/nút gì cũng tím → nhức mắt, chưa bấm đã thấy "đang chọn",
+   bấm rồi cũng không nổi hơn bao nhiêu.
+   Nay:  ① mặc định = TRUNG TÍNH (trắng/xám)
+         ② đang chọn = MỰC ĐẬM đặc, chữ trắng  → tương phản mạnh, thấy ngay
+         ③ TÍM chỉ dành cho nút hành động chính (CTA) + thương hiệu sidebar
+   ⚠️ Mọi selector ở đây PHẢI có tiền tố :root[...] — các rule tím ở mục 45
+   dùng tiền tố đó nên có độ ưu tiên (0,3,0); viết trần (0,1,0) sẽ thua.
+   ══════════════════════════════════════════════════════════════════════ */
+:root:not([data-theme="dark"]){
+  --n-face:   linear-gradient(145deg,#FCFCFE,#ECECF2);
+  --n-ink:    #4E4E5F;
+  --n-line:   rgba(40,40,64,.13);
+  --n-shadow: 0 6px 14px rgba(40,40,64,.11),
+              inset 3px 3px 7px rgba(255,255,255,.95),
+              inset -3px -3px 8px rgba(40,40,64,.13);
+  --n-sel-bg: #34343F;
+  --n-sel-fg: #FFFFFF;
+  --n-soft:   #F1F1F5;
+}
+:root[data-theme="dark"]{
+  --n-face:   linear-gradient(145deg,#3B404E,#2A2E3A);
+  --n-ink:    #C2C7D4;
+  --n-line:   rgba(255,255,255,.13);
+  --n-shadow: 0 8px 16px rgba(0,0,0,.36),
+              inset 3px 3px 8px rgba(255,255,255,.08),
+              inset -3px -3px 9px rgba(0,0,0,.38);
+  --n-sel-bg: #E6E9F2;
+  --n-sel-fg: #23262F;
+  --n-soft:   #2B303C;
+}
+
+/* ── ① MẶC ĐỊNH: trung tính ───────────────────────────────────────── */
+:root .neo-button,
+:root .gup-chip, :root .lrn-pill, :root .bulk-chip, :root .sel-btn,
+:root .pg-btn, :root .psub, :root .tq-chip, :root .tq-w, :root .tq-obtn,
+:root .tq-hard, :root .nb-cta-sub, :root .fc-btn, :root .ui-ptile,
+:root .rd-badge, :root .m-pressed-btn, :root .vr-status-btn,
+:root .ex-mini-btn, :root .ex-audio-control, :root .filter-dd-trigger,
+:root .hm-qn-arrow, :root .wrong-word-chip, :root .qn-card .rd-badge{
+  background: var(--n-face) !important;
+  color: var(--n-ink) !important;
+  border: none;
+  box-shadow: var(--n-shadow), 0 0 0 1px var(--n-line) !important;
+}
+:root .tq-pill{ box-shadow:none !important; background:transparent !important; color:var(--n-ink) !important; }
+:root .tq-chip, :root .tq-w, :root .wrong-word-chip{ color: var(--clay-ink) !important; }
+:root .neo-button:active, :root .fc-btn:active,
+:root .m-pressed-btn:active, :root .vr-status-btn:active{ transform:scale(.97); }
+
+/* ── ② ĐANG CHỌN: mực đậm đặc, chữ trắng ──────────────────────────── */
+:root .gup-chip.gup-active,
+:root .lrn-pill.lrn-on,
+:root .bulk-chip.bulk-chip-active,
+:root .pg-btn.pg-active,
+:root .psub.is-active,
+:root .tq-pill.active,
+:root .tq-hard.on,
+:root .filter-dd-trigger.dd-open,
+:root .filter-dd-trigger.dd-has-selection,
+:root .ptab.is-active,
+:root .tq-chip.sel,
+:root .tq-w.inslot{
+  background: var(--n-sel-bg) !important;
+  color: var(--n-sel-fg) !important;
+  border-color: transparent !important;
+  box-shadow: 0 5px 14px rgba(30,30,50,.26) !important;
+}
+:root .psub.is-active .psub-ico, :root .ptab.is-active .ptab-ico{ filter:none; opacity:1; }
+:root .tq-hard.on .tq-hard-box{ background:var(--n-sel-fg); color:var(--n-sel-bg); box-shadow:none; }
+
+/* ── ③ TÍM chỉ cho nút hành động chính (giữ nguyên mục 45) ────────── */
+
+/* ── Nhãn / badge phụ: xám trung tính ─────────────────────────────── */
+:root .home-sec-note,
+:root .hm-qn-badge,
+:root .nb-tag,
+:root .tq-badge,
+:root .topic-chip{
+  background: var(--n-soft) !important;
+  color: var(--n-ink) !important;
+}
+:root .tq-badge.hard{ background:var(--clay-amber) !important; color:#3B2A05 !important; }
+:root .hm-qn-badge-solid{ background: var(--n-sel-bg) !important; color: var(--n-sel-fg) !important; }
+:root:not([data-theme="dark"]) .home-sec-title::before{ opacity:.85; }
+
+/* ── PHẢN HỒI ĐÚNG / SAI: đổi HẲN trạng thái ──────────────────────── */
+:root .quiz-correct,
+:root #pq-opts .neo-button.quiz-correct,
+:root [id^="qm-opts-"] .neo-button.quiz-correct,
+:root .tq-chip.done{
+  background: linear-gradient(145deg,#2FB47A,#199862) !important;
+  color: #FFFFFF !important;
+  opacity:1 !important;
+  box-shadow: 0 8px 18px rgba(20,140,90,.34),
+              inset 3px 3px 8px rgba(255,255,255,.28),
+              inset -3px -3px 9px rgba(0,0,0,.20) !important;
+}
+:root .quiz-wrong,
+:root #pq-opts .neo-button.quiz-wrong,
+:root [id^="qm-opts-"] .neo-button.quiz-wrong,
+:root .tq-chip.bad{
+  background: linear-gradient(145deg,#EE6A6A,#D14343) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 8px 18px rgba(190,60,60,.32),
+              inset 3px 3px 8px rgba(255,255,255,.26),
+              inset -3px -3px 9px rgba(0,0,0,.20) !important;
+}
+:root .typing-input.typing-row-correct{ border-color:#199862 !important; background:rgba(47,180,122,.14) !important; color:#12704A !important; }
+:root .typing-input.typing-row-wrong{ border-color:#D14343 !important; background:rgba(238,106,106,.12) !important; }
+:root[data-theme="dark"] .typing-input.typing-row-correct{ color:#5FDCA8 !important; }
+
+/* ── Ô đáp án chi tiết / gợi ý: trung tính ─────────────────────────── */
+:root:not([data-theme="dark"]) .tq-reveal{ background:#F6F6FA; border:1px solid var(--n-line); box-shadow:none; color:var(--clay-body); }
+:root:not([data-theme="dark"]) .tq-cloze .tq-blank{ color:var(--clay-ink); }
+:root:not([data-theme="dark"]) .tq-hint{ background:#FFF7E6; color:#7A5A12; border:1px dashed rgba(180,130,20,.42); }
+
+/* ── Dòng từ vựng đang chọn: xám thay vì tím ──────────────────────── */
+:root:not([data-theme="dark"]) .vocab-row:hover{ background:rgba(40,40,64,.035); }
+:root:not([data-theme="dark"]) .vocab-row.row-selected,
+:root:not([data-theme="dark"]) #view-library-stage .vocab-row.row-selected{
+  background:rgba(40,40,64,.06) !important;
+  box-shadow: inset 0 0 0 1.5px rgba(40,40,64,.16) !important;
+}
+:root:not([data-theme="dark"]) .search-row-active{ background:rgba(40,40,64,.06) !important; }
+:root:not([data-theme="dark"]) .nbq-row:hover{ background:rgba(40,40,64,.05); }
+:root:not([data-theme="dark"]) .sel-bar{ background:#F3F3F7; border-top:1px solid var(--n-line); }
+
+/* ── Vùng nền dải tab: xám nhạt trung tính ────────────────────────── */
+:root:not([data-theme="dark"]) .neo-sunk{ background:#F2F2F6; border-color:var(--n-line); }
+:root:not([data-theme="dark"]) .tq-pills{ background:#F2F2F6; border:1px solid var(--n-line); }
+:root:not([data-theme="dark"]) .rd-inset{ background:#F4F4F8; border-color:var(--n-line); }
+:root[data-theme="dark"] .neo-sunk{ background:#242938; }
+:root[data-theme="dark"] .tq-pills{ background:#242938; }
+:root:not([data-theme="dark"]) .neo-sunk.text-point,
+:root:not([data-theme="dark"]) .neo-sunk[class*="w-11"],
+:root:not([data-theme="dark"]) .neo-sunk[class*="w-14"],
+:root:not([data-theme="dark"]) .neo-sunk[class*="w-6"]{ background:#EFEFF4; color:var(--n-ink); border-color:transparent; }
+
+/* Thư viện giữ neumorphism riêng — không để mục 49 đè lên */
+:root:not([data-theme="dark"]) #view-library-stage .neo-button,
+:root:not([data-theme="dark"]) #view-library-stage .gup-chip,
+:root:not([data-theme="dark"]) #view-library-stage .bulk-chip,
+:root:not([data-theme="dark"]) #view-library-stage .lrn-pill,
+:root:not([data-theme="dark"]) #view-library-stage .sel-btn,
+:root:not([data-theme="dark"]) #view-library-stage .pg-btn,
+:root:not([data-theme="dark"]) #view-library-stage .filter-dd-trigger,
+:root:not([data-theme="dark"]) #view-library-stage .vr-status-btn,
+:root:not([data-theme="dark"]) #view-library-stage .m-pressed-btn,
+:root:not([data-theme="dark"]) #view-library-stage .ex-mini-btn,
+:root:not([data-theme="dark"]) #view-library-stage .ex-audio-control,
+:root:not([data-theme="dark"]) #view-search-results .neo-button,
+:root:not([data-theme="dark"]) .lib-detail-sheet .ex-mini-btn,
+:root:not([data-theme="dark"]) .lib-detail-sheet .ex-audio-control,
+:root:not([data-theme="dark"]) .lib-detail-sheet .m-pressed-btn{
+  background:#FAF9FD !important; color:#54546A !important;
+  box-shadow: var(--shadow-btn), 0 0 0 1px rgba(120,114,160,.16) !important;
+}
+
+
+/* ── 50. LỜI CHÀO: căn giữa khoảng trống giữa header và thẻ ────────── */
+.hm-greet{ display:flex; align-items:center; min-height:104px; margin-top:6px; }
+@media (max-width:1279px){ .hm-greet{ min-height:88px; } }
+@media (max-width:860px){ .hm-greet{ min-height:0; margin-top:2px; } }
+
+/* ══════════════════════════════════════════════════════════════════════
+   51. CARD TỪ VỰNG — 2 LỚP KHUNG NHƯ BẢN GỐC
+   Bóng cũ chỉ đổ 1 phía dưới-phải, lại xám và đậm. Bản mới: bóng NHẸ và
+   ĐỀU 4 phía (tím rất nhạt) + viền tóc, để thấy rõ khung ngoài (panel)
+   bọc khung trong (card) — đúng cảm giác "2 tầng" của bản neumorphism cũ.
+   ══════════════════════════════════════════════════════════════════════ */
+:root:not([data-theme="dark"]) #view-library-stage,
+:root:not([data-theme="dark"]) #view-search-results,
+:root:not([data-theme="dark"]) .lib-detail-sheet{
+  --soft-d: rgba(120,114,160,.22);   /* bóng tối — nhạt, ngả tím rất nhẹ  */
+  --soft-l: rgba(255,255,255,.95);
+  --shadow-raised: 0 2px 4px var(--soft-d),
+                   8px 8px 20px var(--soft-d),
+                   -8px -8px 20px var(--soft-l);
+  --card-shadow:   0 1px 3px rgba(120,114,160,.16),
+                   6px 6px 16px var(--soft-d),
+                   -6px -6px 16px var(--soft-l);
+  --shadow-btn:    3px 3px 8px rgba(120,114,160,.20),
+                   -3px -3px 8px var(--soft-l);
+  --shadow-sunk:   inset 4px 4px 10px rgba(120,114,160,.24),
+                   inset -4px -4px 10px var(--soft-l);
+  --raised-block:  -3px -3px 7px var(--soft-l), 3px 3px 8px rgba(120,114,160,.20);
+}
+/* KHUNG NGOÀI (panel bọc) */
+:root:not([data-theme="dark"]) #right-detail-panel > .m-card-base,
+:root:not([data-theme="dark"]) #view-search-results aside > .m-card-base,
+:root:not([data-theme="dark"]) .lib-detail-body .m-card-base{
+  background:#F7F6FC !important;
+  padding:14px !important;
+  border-radius:26px !important;
+  box-shadow: 0 2px 5px rgba(120,114,160,.14),
+              9px 9px 22px rgba(120,114,160,.22),
+              -9px -9px 22px rgba(255,255,255,.95) !important;
+}
+/* KHUNG TRONG (card nội dung) — sáng hơn, bo nhỏ hơn, bóng nhẹ đều 4 phía */
+:root:not([data-theme="dark"]) .modern-card-wrapper{
+  background:#FDFCFF;
+  border-radius:20px;
+  padding:20px 18px;
+  box-shadow: 0 1px 3px rgba(120,114,160,.12),
+              5px 5px 14px rgba(120,114,160,.17),
+              -5px -5px 14px rgba(255,255,255,.95);
+}
+/* Khối con trong card: lõm nhẹ, KHÔNG xám đậm */
+:root:not([data-theme="dark"]) #view-library-stage .m-pressed-block,
+:root:not([data-theme="dark"]) .lib-detail-sheet .m-pressed-block,
+:root:not([data-theme="dark"]) #right-detail-panel .m-pressed-block{
+  background:#F3F1FA !important;
+  box-shadow: inset 3px 3px 8px rgba(120,114,160,.22),
+              inset -3px -3px 8px rgba(255,255,255,.95) !important;
+}
+:root:not([data-theme="dark"]) #view-library-stage .m-raised-block,
+:root:not([data-theme="dark"]) .lib-detail-sheet .m-raised-block,
+:root:not([data-theme="dark"]) #right-detail-panel .m-raised-block{
+  background:#FAF9FE !important;
+  box-shadow: -3px -3px 7px rgba(255,255,255,.95),
+              3px 3px 8px rgba(120,114,160,.20) !important;
+}
+:root:not([data-theme="dark"]) #view-library-stage .neo-raised,
+:root:not([data-theme="dark"]) #view-search-results .neo-raised{
+  box-shadow: var(--shadow-raised), 0 0 0 1px rgba(120,114,160,.14) !important;
+}
+/* Nền tối: cùng nguyên tắc 2 lớp */
+:root[data-theme="dark"] #right-detail-panel > .m-card-base,
+:root[data-theme="dark"] .lib-detail-body .m-card-base{
+  background:#2A3040 !important; padding:14px !important; border-radius:26px !important;
+  box-shadow: 8px 8px 22px #171B25, -7px -7px 18px rgba(255,255,255,.045) !important;
+}
+:root[data-theme="dark"] .modern-card-wrapper{
+  background:#343B4F; border-radius:20px; padding:20px 18px;
+  box-shadow: 5px 5px 14px #1A1E29, -4px -4px 12px rgba(255,255,255,.05);
+}
+
+/* ── 52. CỠ CHỮ QUIZ: to lên cho dễ đọc ở 100% ─────────────────────── */
+:root .tq-cloze{ font-size:18px; line-height:1.7; }
+:root .tq-sub{ font-size:14.5px; }
+:root .tq-reveal{ font-size:14.5px; line-height:1.65; }
+:root .tq-chip{ font-size:15px; min-height:52px; }
+:root .tq-chip.ko{ font-size:16.5px; }
+:root .tq-w{ font-size:16.5px; padding:10px 17px; }
+:root .tq-w.vi{ font-size:15.5px; }
+:root .tq-obtn{ font-size:13.5px; padding:10px 20px; }
+:root .tq-pill{ font-size:12.5px; padding:7px 15px; }
+:root .tq-hard{ font-size:12.5px; }
+:root .tq-badge{ font-size:10.5px; padding:4px 12px; }
+:root .tq-mhd{ font-size:11px; }
+#pq-opts .neo-button,
+[id^="qm-opts-"] .neo-button{ font-size:16px !important; line-height:1.5; padding-top:15px; padding-bottom:15px; }
+#pq-body .text-base, #pq-body .text-lg{ font-size:17px !important; }
+.qm-question-text{ font-size:17px !important; }
+[id^="qm-feedback-"]{ font-size:13.5px !important; }
+@media (max-width:640px){
+  :root .tq-cloze{ font-size:16px; }
+  :root .tq-chip{ font-size:13.5px; min-height:46px; }
+  #pq-opts .neo-button, [id^="qm-opts-"] .neo-button{ font-size:14.5px !important; }
+}
+
+/* ── 53. TỰA BÀI CHỦ ĐỀ: font hỗ trợ CẢ tiếng Hàn lẫn tiếng Việt ───── */
+.topic-card-badge{
+  font-family:'Nunito','Noto Serif KR',sans-serif !important;
+  font-weight:800 !important;
+  letter-spacing:-.5px;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   54. QUIZ MAZE — CỘT TIẾN ĐỘ DỌC DÍNH BÊN TRÁI
+   ══════════════════════════════════════════════════════════════════════ */
+.qm-shell{ display:flex; align-items:flex-start; gap:16px; }
+.qm-list{ flex:1; min-width:0; display:flex; flex-direction:column; gap:16px; }
+.qm-rail{ flex:0 0 auto; width:82px; position:sticky; top:82px; align-self:flex-start; }
+.qm-rail-inner{
+  display:flex; flex-direction:column; align-items:center; gap:9px;
+  background:var(--clay-surface); border:1.5px solid var(--clay-line);
+  border-radius:20px; padding:16px 10px;
+}
+.qm-rail-num{ font-family:'Nunito',sans-serif; line-height:1; color:var(--clay-ink); }
+.qm-rail-num b{ font-size:24px; font-weight:900; }
+.qm-rail-num i{ font-size:13px; font-weight:800; font-style:normal; color:var(--clay-tertiary); }
+.qm-rail-cap{ font-size:10px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--clay-tertiary); margin-top:-4px; }
+.qm-rail-track{
+  width:8px; flex:1 1 auto; min-height:150px; max-height:44vh;
+  border-radius:99px; background:#E9E9F0; overflow:hidden;
+  display:flex; flex-direction:column; justify-content:flex-end;
+}
+.qm-rail-fill{ display:block; width:100%; border-radius:99px; background:linear-gradient(180deg,#8C85FF,#5B4FCF); transition:height .3s ease; }
+.qm-rail-score{ display:flex; gap:8px; font-size:12px; font-weight:900; }
+.qm-rail-score .ok{ color:#199862; }
+.qm-rail-score .bad{ color:#D14343; }
+.qm-rail-end{
+  border:none; cursor:pointer; font-size:11px; font-weight:800; line-height:1.2;
+  padding:7px 10px; border-radius:11px; width:100%;
+  background:var(--n-face); color:var(--n-ink); box-shadow:var(--n-shadow), 0 0 0 1px var(--n-line);
+}
+:root[data-theme="dark"] .qm-rail-track{ background:#343A4A; }
+/* Khổ hẹp: cột dọc chuyển thành thanh ngang dính đầu trang */
+@media (max-width:900px){
+  .qm-shell{ flex-direction:column; gap:12px; }
+  .qm-rail{ width:100%; position:sticky; top:6px; z-index:20; }
+  .qm-rail-inner{ flex-direction:row; align-items:center; gap:12px; padding:10px 14px; border-radius:16px; }
+  .qm-rail-num{ display:flex; align-items:baseline; gap:2px; }
+  .qm-rail-num b{ font-size:19px; }
+  .qm-rail-cap{ margin-top:0; }
+  .qm-rail-track{ width:auto; height:8px; flex:1 1 auto; min-height:0; max-height:none; flex-direction:row; justify-content:flex-start; }
+  .qm-rail-fill{ height:100% !important; width:var(--w,0); }
+  .qm-rail-end{ width:auto; flex:0 0 auto; }
+}
+/* Dòng nhật ký phiên quiz (không bấm được) */
+.nbs-row-static{ cursor:default; }
+.nbs-row-static:hover{ background:transparent; }
 
     </style>
 </head>
@@ -4094,7 +4360,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 joinedAt: currentUser.joinedAt,
                 totalActiveMs: currentUser.totalActiveMs || 0,
             } : null;
-            return { notebooks: notebooksList, deletedNotebooks: deletedNotebooksList, learnedWords: learnedWordsMap, userProfile, dailyActivityLog, dailyLearnedLog, dailyActiveMsLog, homePractice: homePracticeNotebook };
+            return { notebooks: notebooksList, deletedNotebooks: deletedNotebooksList, learnedWords: learnedWordsMap, userProfile, dailyActivityLog, dailyLearnedLog, dailyActiveMsLog, homePractice: homePracticeNotebook, quizSessions: quizSessionLog };
         }
 
         // Khoá cache cục bộ theo từng tài khoản (không lẫn dữ liệu giữa các user trên cùng máy).
@@ -4146,6 +4412,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 loaded = loaded || {};
                 notebooksList = Array.isArray(loaded.notebooks) ? loaded.notebooks : [];
                 homePracticeNotebook = (loaded.homePractice && typeof loaded.homePractice === 'object' && !Array.isArray(loaded.homePractice)) ? loaded.homePractice : null;
+                quizSessionLog = Array.isArray(loaded.quizSessions) ? loaded.quizSessions : [];
                 deletedNotebooksList = Array.isArray(loaded.deletedNotebooks) ? loaded.deletedNotebooks : [];
                 learnedWordsMap = (loaded.learnedWords && typeof loaded.learnedWords === 'object') ? loaded.learnedWords : {};
                 dailyActivityLog = (loaded.dailyActivityLog && typeof loaded.dailyActivityLog === 'object') ? loaded.dailyActivityLog : {};
@@ -9982,6 +10249,36 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         // ============================================================
         let quizMazeState = null;
 
+        // ── NHẬT KÝ PHIÊN QUIZ Ở TRANG CHỦ ─────────────────────────────
+        // Quiz ngoài Trang chủ không thuộc sổ nào nên trước đây không hiện ở
+        // "Hoạt động gần đây". Nay mỗi lượt được ghi lại thành 1 dòng:
+        // thời điểm · loại quiz · số câu · đúng/sai · thời lượng.
+        let quizSessionLog = [];
+        const QM_MODE_META = {
+            longtime: { label: 'Ôn lại từ cũ',    icon: '🕰️', tone: 'indigo' },
+            general:  { label: 'Ôn tập tổng hợp', icon: '🔀', tone: 'sky' },
+            topic:    { label: 'Luyện theo chủ đề', icon: '🎯', tone: 'lemon' }
+        };
+        function logQuizSession() {
+            if (!quizMazeState || !quizMazeState.answeredCount) return;
+            const qs = quizMazeState.questions;
+            const correct = qs.filter(q => q.wasCorrect === true).length;
+            const wrong = qs.filter(q => q.answered && q.wasCorrect === false).length;
+            const types = [...new Set(qs.filter(q => q.answered).map(q => q.badge).filter(Boolean))];
+            quizSessionLog.unshift({
+                ts: Date.now(),
+                mode: quizMazeState.mode || 'general',
+                total: qs.length,
+                answered: quizMazeState.answeredCount,
+                correct, wrong,
+                durationMs: Math.max(0, Date.now() - (quizMazeState.startedAt || Date.now())),
+                types: types.slice(0, 6)
+            });
+            if (quizSessionLog.length > 60) quizSessionLog.length = 60;
+            quizMazeState.logged = true;
+            saveNotebooksToServer();
+        }
+
         function openQuizMazeSetupModal(mode) {
             const overlay = document.createElement('div');
             overlay.id = 'quiz-maze-setup-modal';
@@ -10249,7 +10546,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             [document.getElementById('tab-home'), document.getElementById('tab-notebook'), document.getElementById('tab-full-topik'), document.getElementById('tab-fast-pace'), document.getElementById('tab-topic')].forEach(t => t && t.setAttribute('data-active', 'false'));
 
             const questions = qmBuildQuestions(picked, fullPool.length > 3 ? fullPool : picked, mode);
-            quizMazeState = { questions, answeredCount: 0, mode };
+            quizMazeState = { questions, answeredCount: 0, mode, startedAt: Date.now(), logged: false };
             const titleEl = document.getElementById('quiz-maze-title');
             const subEl = document.getElementById('quiz-maze-subtitle');
             if (titleEl) titleEl.textContent = mode === 'topic' ? '🎯 Luyện tập theo chủ đề' : (mode === 'longtime' ? '🕰️ Lâu rồi không gặp' : '🔀 Ôn tập tổng hợp');
@@ -10263,15 +10560,40 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             const el = document.getElementById('quiz-maze-content');
             if (!el || !quizMazeState) return;
             const total = quizMazeState.questions.length;
+            // Thanh tiến độ nay là 1 CỘT DỌC dính bên trái, theo suốt bài —
+            // học viên không phải cuộn ngược lên đầu để xem còn bao nhiêu câu.
             el.innerHTML = `
-                <div class="neo-sunk px-4 py-2.5 !rounded-2xl flex items-center justify-between mb-4 sticky top-0 z-10" style="background:var(--c-e6ebf3);">
-                    <span class="text-xs font-bold text-gray-500">Đã làm <span id="qm-answered-count">${quizMazeState.answeredCount}</span>/${total} câu</span>
-                    <button class="neo-button px-4 py-1.5 text-xs font-bold text-gray-400" onclick="closeQuizMaze()">Kết thúc</button>
-                </div>
-                <div class="flex flex-col gap-4">
-                    ${quizMazeState.questions.map((q, i) => renderQuizMazeQuestionCard(q, i)).join('')}
+                <div class="qm-shell">
+                    <aside class="qm-rail">
+                        <div class="qm-rail-inner">
+                            <span class="qm-rail-num"><b id="qm-answered-count">${quizMazeState.answeredCount}</b><i>/${total}</i></span>
+                            <span class="qm-rail-cap">câu</span>
+                            <span class="qm-rail-track"><span class="qm-rail-fill" id="qm-rail-fill" style="height:${total ? Math.round(quizMazeState.answeredCount / total * 100) : 0}%;"></span></span>
+                            <span class="qm-rail-score"><b class="ok" id="qm-rail-ok">0</b><b class="bad" id="qm-rail-bad">0</b></span>
+                            <button class="qm-rail-end" onclick="closeQuizMaze()" title="Kết thúc bài">Kết thúc</button>
+                        </div>
+                    </aside>
+                    <div class="qm-list">
+                        ${quizMazeState.questions.map((q, i) => renderQuizMazeQuestionCard(q, i)).join('')}
+                    </div>
                 </div>
             `;
+            updateQuizMazeRail();
+        }
+
+        // Cập nhật cột tiến độ dọc sau mỗi câu
+        function updateQuizMazeRail() {
+            if (!quizMazeState) return;
+            const total = quizMazeState.questions.length;
+            const done = quizMazeState.answeredCount;
+            const ok = quizMazeState.questions.filter(q => q.wasCorrect === true).length;
+            const bad = quizMazeState.questions.filter(q => q.answered && q.wasCorrect === false).length;
+            const set = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
+            set('qm-answered-count', done); set('qm-rail-ok', ok); set('qm-rail-bad', bad);
+            const pct = (total ? Math.round(done / total * 100) : 0) + '%';
+            const fill = document.getElementById('qm-rail-fill');
+            // Khổ rộng: cột dọc dùng height. Khổ hẹp: thanh ngang dùng biến --w.
+            if (fill) { fill.style.height = pct; fill.style.setProperty('--w', pct); }
         }
 
         // Ánh xạ dạng câu trong quiz trộn → đúng chức năng ở Trang chủ (để dùng chung icon/nhãn/màu).
@@ -10357,8 +10679,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 : `<span class="text-[#ef4444]">😢 Đáp án: <b class="font-kr-serif">${q.correct}</b> : ${vnMean}</span>`;
             recordQmResult(q, 'typing', isCorrect);
             quizMazeState.answeredCount++;
-            const counterEl = document.getElementById('qm-answered-count');
-            if (counterEl) counterEl.textContent = quizMazeState.answeredCount;
+            updateQuizMazeRail();
             if (quizMazeState.answeredCount === quizMazeState.questions.length) {
                 setTimeout(() => showQuizMazeCompletionPopup(), 400);
             }
@@ -10433,8 +10754,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             recordQmResult(q, funcKey, isCorrect);
 
             quizMazeState.answeredCount++;
-            const counterEl = document.getElementById('qm-answered-count');
-            if (counterEl) counterEl.textContent = quizMazeState.answeredCount;
+            updateQuizMazeRail();
 
             if (quizMazeState.answeredCount === quizMazeState.questions.length) {
                 setTimeout(() => showQuizMazeCompletionPopup(), 400);
@@ -10443,6 +10763,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 
         function showQuizMazeCompletionPopup() {
             if (!quizMazeState) return;
+            if (!quizMazeState.logged) logQuizSession();
             const total = quizMazeState.questions.length;
             const correctCount = quizMazeState.questions.filter(q => q.wasCorrect).length;
             const overlay = document.createElement('div');
@@ -10460,6 +10781,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         }
 
         function closeQuizMaze() {
+            if (quizMazeState && !quizMazeState.logged) logQuizSession();
             quizMazeState = null;
             const view = document.getElementById('view-quiz-maze');
             if (view) view.classList.add('hidden');
@@ -11823,23 +12145,27 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         }
 
         // Thống kê gọn các hoạt động đã làm: thời gian · nội dung quiz · điểm số.
-        // Nằm ở đầu tab "Sổ từ vựng" (mục 1), thay cho dải thẻ dọc cũ.
+        // Gộp 2 nguồn: (1) tiến độ luyện tập trong từng sổ, (2) nhật ký phiên quiz
+        // làm ở Trang chủ (Ôn lại từ cũ / Ôn tập tổng hợp / Luyện theo chủ đề).
         function renderRecentActivitySection() {
             const section = document.getElementById('recent-activity-section');
             const list = document.getElementById('recent-activity-list');
             const note = document.getElementById('nb-activity-note');
             if (!section || !list) return;
-            const items = collectRecentActivity(24); // bảng cuộn được nên lấy nhiều lượt hơn
+
+            const nbItems = collectRecentActivity(24).map(it => ({ kind: 'nb', ts: it.ts, it }));
+            const sesItems = (quizSessionLog || []).slice(0, 24).map(s => ({ kind: 'session', ts: s.ts, s }));
+            const items = nbItems.concat(sesItems).sort((a, b) => b.ts - a.ts).slice(0, 30);
 
             if (!items.length) {
                 if (note) note.textContent = 'Chưa có';
-                list.innerHTML = `<p class="nbs-empty">Chưa có lượt luyện tập nào. Mở một sổ bên dưới và bắt đầu nhé!</p>`;
+                list.innerHTML = `<p class="nbs-empty">Chưa có lượt luyện tập nào. Mở một sổ bên dưới hoặc làm quiz ở Trang chủ nhé!</p>`;
                 return;
             }
 
-            // Tổng quan nhanh trên đầu bảng
+            // Tổng quan nhanh: gộp cả điểm trong sổ lẫn điểm quiz Trang chủ
             let allCorrect = 0, allWrong = 0;
-            notebooksList.forEach(nb => {
+            notebooksForStats().forEach(nb => {
                 ['quiz', 'typing', 'listen', 'guess'].forEach(k => {
                     const p = nb.progress && nb.progress[k];
                     if (!p) return;
@@ -11852,6 +12178,45 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             if (note) note.textContent = `${items.length} lượt · cuộn để xem thêm`;
 
             const tones = { flashcard: 'indigo', quiz: 'lemon', typing: 'mint', listen: 'sky', guess: 'pink' };
+            const fmtDur = ms => {
+                const m = Math.round(ms / 60000);
+                if (m < 1) return 'dưới 1 phút';
+                return m < 60 ? `${m} phút` : `${Math.floor(m / 60)}g ${m % 60}p`;
+            };
+
+            const rowHtml = (row) => {
+                if (row.kind === 'session') {
+                    const s = row.s;
+                    const meta = QM_MODE_META[s.mode] || QM_MODE_META.general;
+                    const pct = s.answered ? Math.round(s.correct / s.answered * 100) : 0;
+                    const typeTxt = (s.types && s.types.length) ? ` · ${s.types.slice(0, 3).join(' · ')}${s.types.length > 3 ? '…' : ''}` : '';
+                    return `
+                    <div class="nbs-row nbs-row-static">
+                        <span class="nbs-time">${relativeTimeVN(s.ts)}</span>
+                        <span class="nbs-chip nbs-chip-${meta.tone}">${meta.icon} ${meta.label}</span>
+                        <span class="nbs-nb">Quiz ở Trang chủ · ${s.answered}/${s.total} câu · ${fmtDur(s.durationMs)}${typeTxt}</span>
+                        <span class="nbs-score"><b class="nbs-ok">✓${s.correct}</b> <b class="nbs-bad">✕${s.wrong}</b></span>
+                        <span class="nbs-bar"><span class="nbs-fill" style="width:${pct}%;"></span></span>
+                        <span class="nbs-pct">${pct}%</span>
+                    </div>`;
+                }
+                const item = row.it;
+                const meta = PRACTICE_FUNC_META[item.funcKey];
+                const nb = notebooksList.find(n => n.id === item.nbId);
+                const prog = nb ? computeFuncProgress(nb, item.funcKey) : { pct: 0, correctCount: null, wrongCount: 0, doneCount: 0, total: 0 };
+                const score = prog.correctCount === null
+                    ? `${prog.doneCount}/${prog.total} thẻ`
+                    : `<b class="nbs-ok">✓${prog.correctCount}</b> <b class="nbs-bad">✕${prog.wrongCount}</b>`;
+                return `
+                <button type="button" class="nbs-row" onclick="openPracticeView('${item.nbId}', '${item.funcKey}')">
+                    <span class="nbs-time">${relativeTimeVN(item.ts)}</span>
+                    <span class="nbs-chip nbs-chip-${tones[item.funcKey] || 'indigo'}">${meta.icon} ${meta.label}</span>
+                    <span class="nbs-nb">${escapeHtmlDash(item.nbName)}</span>
+                    <span class="nbs-score">${score}</span>
+                    <span class="nbs-bar"><span class="nbs-fill" style="width:${prog.pct}%;"></span></span>
+                    <span class="nbs-pct">${prog.pct}%</span>
+                </button>`;
+            };
 
             list.innerHTML = `
                 <div class="nbs-sum">
@@ -11860,25 +12225,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                     <div class="nbs-sum-item"><span class="nbs-sum-v nbs-bad">${allWrong}</span><span class="nbs-sum-l">Câu sai</span></div>
                     <div class="nbs-sum-item"><span class="nbs-sum-v">${acc}%</span><span class="nbs-sum-l">Chính xác</span></div>
                 </div>
-                <div class="nbs-rows">
-                    ${items.map(item => {
-                        const meta = PRACTICE_FUNC_META[item.funcKey];
-                        const nb = notebooksList.find(n => n.id === item.nbId);
-                        const prog = nb ? computeFuncProgress(nb, item.funcKey) : { pct: 0, correctCount: null, wrongCount: 0, doneCount: 0, total: 0 };
-                        const score = prog.correctCount === null
-                            ? `${prog.doneCount}/${prog.total} thẻ`
-                            : `<b class="nbs-ok">✓${prog.correctCount}</b> <b class="nbs-bad">✕${prog.wrongCount}</b>`;
-                        return `
-                        <button type="button" class="nbs-row" onclick="openPracticeView('${item.nbId}', '${item.funcKey}')">
-                            <span class="nbs-time">${relativeTimeVN(item.ts)}</span>
-                            <span class="nbs-chip nbs-chip-${tones[item.funcKey] || 'indigo'}">${meta.icon} ${meta.label}</span>
-                            <span class="nbs-nb">${escapeHtmlDash(item.nbName)}</span>
-                            <span class="nbs-score">${score}</span>
-                            <span class="nbs-bar"><span class="nbs-fill" style="width:${prog.pct}%;"></span></span>
-                            <span class="nbs-pct">${prog.pct}%</span>
-                        </button>`;
-                    }).join('')}
-                </div>`;
+                <div class="nbs-rows">${items.map(rowHtml).join('')}</div>`;
         }
 
         // ============================================================
