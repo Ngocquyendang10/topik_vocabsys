@@ -1346,7 +1346,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 
 /* ─── 1. TOKEN MÀU ───────────────────────────────────────────────────── */
 :root{
-  --clay-bg:        #F4F2FC;
+  --clay-bg:        #F9F7FF;
   --clay-surface:   #FFFFFF;
   --clay-ink:       #201D3B;
   --clay-body:      #55536F;
@@ -1536,7 +1536,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 
 /* Vùng "lõm" (ô tìm kiếm, thanh nền) → phẳng, nền pastel nhạt */
 :root:not([data-theme="dark"]) .rd-inset{
-  background: #F4F2FC; box-shadow: none; border: 1px solid var(--clay-line);
+  background: #F9F7FF; box-shadow: none; border: 1px solid var(--clay-line);
 }
 :root:not([data-theme="dark"]) .m-pressed-block,
 :root:not([data-theme="dark"]) .tq-slot,
@@ -1708,7 +1708,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 :root:not([data-theme="dark"]) .ptab:hover:not(.is-active){ background: var(--clay-p-indigo); color: var(--clay-i-indigo); }
 
 /* Trắc nghiệm nâng cao */
-:root:not([data-theme="dark"]) .tq-pills{ background:#F4F2FC; box-shadow:none; border:1px solid var(--clay-line); }
+:root:not([data-theme="dark"]) .tq-pills{ background:#F9F7FF; box-shadow:none; border:1px solid var(--clay-line); }
 :root:not([data-theme="dark"]) .tq-pill{ color: var(--clay-body); }
 :root:not([data-theme="dark"]) .tq-chip.done{ background:var(--clay-p-mint); color:var(--clay-i-mint); box-shadow:none; border:1px solid rgba(14,146,112,.20); }
 :root:not([data-theme="dark"]) .tq-chip.bad{ background:var(--clay-p-peach); color:var(--clay-i-peach); box-shadow:none; }
@@ -3693,7 +3693,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 :root:not([data-theme="dark"]) #view-search-results,
 :root:not([data-theme="dark"]) .lib-detail-sheet{
   /* mặt khối = màu nền trang (điều kiện bắt buộc của neumorphism) */
-  --c-e6ebf3:  #F4F2FC;
+  --c-e6ebf3:  #F9F7FF;
   --c-e1e6ee:  #E9E5F6;
   --c-e1e5ec:  #E9E5F6;
   --c-f0f2f7:  #F3F0FC;
@@ -3941,27 +3941,30 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 }
 
 /* ══════════════════════════════════════════════════════════════════════
-   60. THẺ TỪ VỰNG CHI TIẾT — tách rõ khung trong khỏi khung ngoài
-   Lỗi cũ: vệt sáng trắng ở góc trên–trái quá mờ nên hai lớp khung dính
-   vào nhau. Nay tăng lực vệt sáng + thêm viền tóc rất nhạt.
+   60. THẺ TỪ VỰNG CHI TIẾT — tách khung trong khỏi khung ngoài (kiểu J)
+   Lỗi cũ: vệt sáng trắng ở góc trên–trái quá mờ (3px, trắng 80%) nên mép
+   khung trong nhoè vào nền, hai lớp dính làm một.
+   Cách xử lý: KHÔNG đổi màu nền, KHÔNG dùng bóng tối (bóng tối phá tông
+   đất sét của web) và GIỮ NGUYÊN góc phải–dưới. Chỉ thêm ở góc trên–trái
+   một vòng trắng mảnh 1.5px không nhoè để có ranh giới dứt khoát, cộng
+   một lớp trắng toả nhẹ phía ngoài để vẫn mềm.
    ══════════════════════════════════════════════════════════════════════ */
 :root:not([data-theme="dark"]) #view-library-stage .modern-card-wrapper,
 :root:not([data-theme="dark"]) #view-search-results .modern-card-wrapper,
 :root:not([data-theme="dark"]) .lib-detail-sheet .modern-card-wrapper,
 :root:not([data-theme="dark"]) #right-detail-panel .modern-card-wrapper{
-  background:#FDFCFF !important;
-  box-shadow: -8px -8px 18px rgba(255,255,255,1),
-              -2px -2px 4px rgba(255,255,255,.95),
-              8px 8px 20px rgba(120,114,160,.20),
-              0 0 0 1px rgba(120,114,160,.09) !important;
+  box-shadow: 0 0 0 1.5px rgba(255,255,255,1),          /* vòng trắng mảnh — ranh giới */
+              -4px -4px 10px rgba(255,255,255,.95),      /* lớp trắng toả — giữ độ mềm */
+              3px 3px 9px rgba(163,152,205,.50) !important;  /* góc phải–dưới: y như cũ */
 }
+/* Nền tối: cùng nguyên tắc, nhưng vòng sáng phải hạ xuống mức rất nhạt */
 :root[data-theme="dark"] #view-library-stage .modern-card-wrapper,
 :root[data-theme="dark"] #view-search-results .modern-card-wrapper,
 :root[data-theme="dark"] .lib-detail-sheet .modern-card-wrapper,
 :root[data-theme="dark"] #right-detail-panel .modern-card-wrapper{
-  box-shadow: -6px -6px 16px rgba(255,255,255,.075),
-              7px 7px 20px rgba(0,0,0,.42),
-              0 0 0 1px rgba(255,255,255,.06) !important;
+  box-shadow: 0 0 0 1.5px rgba(255,255,255,.11),
+              -4px -4px 10px rgba(255,255,255,.05),
+              3px 3px 9px rgba(0,0,0,.42) !important;
 }
 
 /* ══════════════════════════════════════════════════════════════════════
@@ -4099,6 +4102,68 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
   .step-flash{ animation-duration:.01s; }
 }
 
+/* ══════════════════════════════════════════════════════════════════════
+   63. NỀN TỐI — ĐÁP ÁN ĐÚNG / SAI PHẢI ĐỔI MÀU
+   Lỗi cũ: quy tắc nền tối của .neo-button (0,3,0) đè lên ".quiz-correct"
+   (0,2,0), nên ở 2 dạng Nghe (#pl-opts) và Đoán (#pg-opts) — vốn không
+   nằm trong danh sách ngoại lệ — nút vẫn xám xịt sau khi trả lời.
+   Nay bắt theo .neo-button.quiz-* nên thắng ở MỌI khung câu hỏi.
+   ══════════════════════════════════════════════════════════════════════ */
+.quiz-correct,
+.neo-button.quiz-correct,
+input.quiz-correct,
+.tq-chip.done,
+:root[data-theme="dark"] .quiz-correct,
+:root[data-theme="dark"] .neo-button.quiz-correct,
+:root[data-theme="dark"] input.quiz-correct,
+:root[data-theme="dark"] .tq-chip.done{
+  background: linear-gradient(145deg,#2FB47A,#199862) !important;
+  color: #FFFFFF !important;
+  opacity: 1 !important;
+  border-color: transparent !important;
+  box-shadow: 0 8px 18px rgba(20,140,90,.34),
+              inset 3px 3px 8px rgba(255,255,255,.28),
+              inset -3px -3px 9px rgba(0,0,0,.20) !important;
+}
+.quiz-wrong,
+.neo-button.quiz-wrong,
+input.quiz-wrong,
+.tq-chip.bad,
+:root[data-theme="dark"] .quiz-wrong,
+:root[data-theme="dark"] .neo-button.quiz-wrong,
+:root[data-theme="dark"] input.quiz-wrong,
+:root[data-theme="dark"] .tq-chip.bad{
+  background: linear-gradient(145deg,#EE6A6A,#D14343) !important;
+  color: #FFFFFF !important;
+  opacity: 1 !important;
+  border-color: transparent !important;
+  box-shadow: 0 8px 18px rgba(190,60,60,.32),
+              inset 3px 3px 8px rgba(255,255,255,.26),
+              inset -3px -3px 9px rgba(0,0,0,.20) !important;
+}
+/* Chữ Hàn/Việt bên trong nút đáp án cũng phải trắng theo */
+.quiz-correct *, .quiz-wrong *{ color: inherit !important; }
+
+/* ══════════════════════════════════════════════════════════════════════
+   64. ICON — thay toàn bộ emoji hệ thống bằng SVG flat 2 tông
+   Emoji hiển thị khác nhau trên từng máy (Windows/Android/iOS) và không
+   ăn theo tông màu của web. Nay mọi icon đều là SVG vẽ sẵn trong file,
+   màu lấy từ 2 biến dưới đây nên tự đổi đúng ở nền sáng lẫn nền tối.
+   ══════════════════════════════════════════════════════════════════════ */
+:root{
+  --ic-brand-l:#C4BBFA;  --ic-brand-d:#5B4FCF;
+  --ic-neutral-l:#BFC8DA; --ic-neutral-d:#5A6478;
+}
+:root[data-theme="dark"]{
+  --ic-brand-l:rgba(179,174,255,.34);  --ic-brand-d:#B3AEFF;
+  --ic-neutral-l:rgba(198,208,228,.26); --ic-neutral-d:#C0C8D6;
+}
+.ui-ic{
+  display:inline-flex; align-items:center; justify-content:center;
+  flex:0 0 auto; vertical-align:-0.19em;
+}
+.ui-ic svg{ display:block; width:100%; height:100%; }
+
     </style>
 </head>
 <body class="font-sans antialiased text-[color:var(--c-3d3d4e)] px-3 sm:px-5 lg:px-8 pb-3 sm:pb-5 lg:pb-8 pt-1 sm:pt-2 min-h-screen">
@@ -4116,7 +4181,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 <p class="login-left-sub">Nền tảng ôn luyện từ vựng &amp; ngữ pháp</p>
             </div>
             <form class="login-right-panel" id="login-form">
-                <h2 class="login-right-title">Xin chào các bạn học viên 👋</h2>
+                <h2 class="login-right-title">Xin chào các bạn học viên <span data-ui-icon="wave" data-ui-size="22"></span></h2>
                 <p class="login-right-info">Vui lòng đăng nhập tài khoản lớp học để tiếp tục bài ôn tập.</p>
                 <div class="login-field-group">
                     <label>Tên đăng nhập / Mã học sinh</label>
@@ -4144,7 +4209,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
     <div class="fixed inset-0 z-[110] hidden items-center justify-center p-4" id="policy-modal" style="background:rgba(26,32,44,0.4);">
         <div class="neo-raised p-5 sm:p-8 w-full max-w-[520px] max-h-[80vh] overflow-y-auto relative !rounded-[28px]">
             <button class="absolute top-5 right-5 w-9 h-9 rounded-full neo-button flex items-center justify-center text-gray-400" onclick="closePolicyModal()">✕</button>
-            <h3 class="text-lg font-bold text-[color:var(--c-1a1a24)] mb-1">📜 Chính sách sử dụng lớp học</h3>
+            <h3 class="text-lg font-bold text-[color:var(--c-1a1a24)] mb-1" flex items-center gap-2"><span data-ui-icon="scroll" data-ui-size="20"></span> Chính sách sử dụng lớp học</h3>
             <p class="text-xs text-gray-400 italic mb-4">Ngoc Quyen's Classroom — áp dụng cho toàn bộ học viên</p>
             <div class="flex flex-col gap-3 text-sm text-[color:var(--c-3d3d4e)] leading-relaxed">
                 <p>Chào mừng các bạn đã đến với Ngoc Quyen's Classroom! Đây là không gian ôn luyện ngữ pháp được xây dựng riêng cho lớp học TOPIK.</p>
@@ -4275,11 +4340,11 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                     <!-- Lời chào tách RIÊNG khỏi thẻ để hình 3D có chỗ lơ lửng, không bị header che.
                          Dòng phụ nằm TRONG thẻ, dạng dải sáng ở đầu thẻ. -->
                     <div class="hm-greet">
-                        <p class="hm-hello" id="home-hello-name">Chào bạn! 👋</p>
+                        <p class="hm-hello" id="home-hello-name">Chào bạn! <span data-ui-icon="wave" data-ui-size="30"></span></p>
                     </div>
                     <div class="hm-hero">
                         <img src="assets/dashboard-hero.png" alt="" class="hm-hero-img" onerror="this.style.display='none'">
-                        <p class="hm-hello-sub" id="home-hello-sub">Hôm nay bạn đã tiến xa hơn một chút rồi đó! ✨</p>
+                        <p class="hm-hello-sub" id="home-hello-sub">Hôm nay bạn đã tiến xa hơn một chút rồi đó! <span data-ui-icon="sparkle" data-ui-size="15"></span></p>
                         <div class="hm-stats" id="home-status-cards"></div>
                     </div>
                 </section>
@@ -4450,7 +4515,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                     </div>
                     <div class="w-full sm:w-[280px]">
                         <div class="neo-sunk flex items-center px-4 py-2 w-full !rounded-2xl">
-                            <span class="text-gray-400 mr-2.5 text-xs">🔍</span>
+                            <span class="mr-2.5" data-ui-icon="search" data-ui-size="15" data-ui-tone="neutralAuto"></span>
                             <input type="text" id="vocab-search-input" placeholder="Tìm từ vựng..." class="w-full bg-transparent border-none outline-none text-xs text-[color:var(--c-3d3d4e)]">
                         </div>
                     </div>
@@ -4713,7 +4778,199 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 <rect x="6" y="9.5" width="36" height="5" rx="2.3" fill="${c.dark}"/>
                 <rect x="18.5" y="3" width="11" height="5" rx="2" fill="${c.dark}"/>
             `,
+
+            /* ── Bộ icon bổ sung: thay cho toàn bộ emoji hệ thống trong giao diện.
+                  Cùng ngôn ngữ vẽ với nhóm trên: một mảng nền c.light + chi tiết c.dark. ── */
+            search: (c) => `
+                <circle cx="20.5" cy="20.5" r="12.5" fill="${c.light}"/>
+                <path d="M20.5 5.5a15 15 0 1 0 9.1 26.9l8.3 8.3a2.9 2.9 0 0 0 4.1-4.1l-8.3-8.3a15 15 0 0 0-13.2-22.8zm0 5a10 10 0 1 1 0 20 10 10 0 0 1 0-20z" fill="${c.dark}"/>
+            `,
+            books: (c) => `
+                <rect x="5" y="14" width="11" height="28" rx="2.6" fill="${c.light}"/>
+                <rect x="5" y="14" width="11" height="6" rx="2.6" fill="${c.dark}" opacity=".55"/>
+                <rect x="18" y="7" width="11" height="35" rx="2.6" fill="${c.dark}"/>
+                <rect x="18" y="18" width="11" height="4.5" fill="${c.light}" opacity=".9"/>
+                <rect x="31.5" y="16" width="11" height="26" rx="2.6" fill="${c.light}"/>
+                <rect x="31.5" y="16" width="11" height="6" rx="2.6" fill="${c.dark}" opacity=".55"/>
+            `,
+            chart: (c) => `
+                <rect x="5" y="5" width="38" height="38" rx="10" fill="${c.light}"/>
+                <rect x="12.5" y="26" width="6" height="11" rx="2" fill="${c.dark}" opacity=".65"/>
+                <rect x="21" y="17" width="6" height="20" rx="2" fill="${c.dark}"/>
+                <rect x="29.5" y="22" width="6" height="15" rx="2" fill="${c.dark}" opacity=".8"/>
+            `,
+            doc: (c) => `
+                <path d="M11 5.5h16.5L38 16v26.5a2.5 2.5 0 0 1-2.5 2.5h-24A2.5 2.5 0 0 1 9 42.5V8a2.5 2.5 0 0 1 2-2.5z" fill="${c.light}"/>
+                <path d="M27.5 5.5 38 16H30a2.5 2.5 0 0 1-2.5-2.5z" fill="${c.dark}" opacity=".5"/>
+                <rect x="15" y="22" width="17" height="3.4" rx="1.7" fill="${c.dark}"/>
+                <rect x="15" y="29.5" width="11" height="3.4" rx="1.7" fill="${c.dark}" opacity=".65"/>
+            `,
+            puzzle: (c) => `
+                <path d="M8 8h13.5a3.6 3.6 0 1 1 7.2 0H40v13.4a3.6 3.6 0 1 0 0 7.2V40H8z" fill="${c.light}"/>
+                <path d="M8 40V26.6a3.6 3.6 0 1 0 0-7.2V8h13.5a3.6 3.6 0 1 1 7.2 0H40" fill="none" stroke="${c.dark}" stroke-width="3.4" stroke-linejoin="round"/>
+                <path d="M26 26h14v14H26z" fill="${c.dark}" opacity=".85"/>
+            `,
+            bolt: (c) => `
+                <circle cx="24" cy="24" r="19" fill="${c.light}"/>
+                <path d="M26.5 7.5 12 27.5h9l-2.5 13 15-19.5h-9.5z" fill="${c.dark}"/>
+            `,
+            dice: (c) => `
+                <rect x="6" y="6" width="36" height="36" rx="10" fill="${c.light}"/>
+                <path d="M16 6h26a6 6 0 0 1 6 6v-6zM6 12a6 6 0 0 1 6-6h30a6 6 0 0 1 6 6v24a6 6 0 0 1-6 6H12a6 6 0 0 1-6-6z" fill="none"/>
+                <rect x="6" y="6" width="36" height="36" rx="10" fill="none" stroke="${c.dark}" stroke-width="3.4"/>
+                <circle cx="16.5" cy="16.5" r="3.4" fill="${c.dark}"/>
+                <circle cx="31.5" cy="16.5" r="3.4" fill="${c.dark}"/>
+                <circle cx="24" cy="24" r="3.4" fill="${c.dark}"/>
+                <circle cx="16.5" cy="31.5" r="3.4" fill="${c.dark}"/>
+                <circle cx="31.5" cy="31.5" r="3.4" fill="${c.dark}"/>
+            `,
+            write: (c) => `
+                <path d="M10.5 30.5 30 11l6.5 6.5L17 37l-8.5 2.5z" fill="${c.light}"/>
+                <path d="M30 11a3.2 3.2 0 0 1 4.5 0l2 2a3.2 3.2 0 0 1 0 4.5l-2.5 2.5-6.5-6.5z" fill="${c.dark}"/>
+                <path d="M8.5 39.5 10.5 32l5.5 5.5z" fill="${c.dark}" opacity=".8"/>
+            `,
+            headphone: (c) => `
+                <path d="M24 6c-9.9 0-18 8.1-18 18v7h5.5v-7c0-6.9 5.6-12.5 12.5-12.5S36.5 17.1 36.5 24v7H42v-7c0-9.9-8.1-18-18-18z" fill="${c.dark}" opacity=".85"/>
+                <rect x="4.5" y="27" width="10" height="15" rx="5" fill="${c.light}"/>
+                <rect x="33.5" y="27" width="10" height="15" rx="5" fill="${c.light}"/>
+            `,
+            brain: (c) => `
+                <path d="M22 7.5c-4.6 0-8.3 3.2-8.3 7.2 0 .6.1 1.2.3 1.8-3 1.1-5 3.7-5 6.7 0 2.5 1.4 4.7 3.6 6-.3.7-.4 1.5-.4 2.3 0 3.9 3.6 7 8 7h1.8z" fill="${c.light}"/>
+                <path d="M26 7.5c4.6 0 8.3 3.2 8.3 7.2 0 .6-.1 1.2-.3 1.8 3 1.1 5 3.7 5 6.7 0 2.5-1.4 4.7-3.6 6 .3.7.4 1.5.4 2.3 0 3.9-3.6 7-8 7H26z" fill="${c.dark}" opacity=".8"/>
+                <rect x="22" y="6" width="4" height="35" rx="2" fill="${c.dark}" opacity=".35"/>
+            `,
+            speaker: (c) => `
+                <path d="M6.5 18.5h8.5L26 9.5v29l-11-9H6.5z" fill="${c.light}"/>
+                <path d="M31 17.6a2.4 2.4 0 0 1 3.4.2 9.6 9.6 0 0 1 0 12.4 2.4 2.4 0 1 1-3.6-3.2 4.8 4.8 0 0 0 0-6 2.4 2.4 0 0 1 .2-3.4z" fill="${c.dark}"/>
+                <path d="M37.4 11.6a2.4 2.4 0 0 1 3.4.3 18.4 18.4 0 0 1 0 24.2 2.4 2.4 0 1 1-3.6-3.1 13.6 13.6 0 0 0 0-18 2.4 2.4 0 0 1 .2-3.4z" fill="${c.dark}" opacity=".55"/>
+            `,
+            target: (c) => `
+                <circle cx="24" cy="24" r="18.5" fill="${c.light}"/>
+                <circle cx="24" cy="24" r="11" fill="${c.dark}" opacity=".28"/>
+                <circle cx="24" cy="24" r="4.6" fill="${c.dark}"/>
+            `,
+            shuffle: (c) => `
+                <rect x="5" y="5" width="38" height="38" rx="11" fill="${c.light}"/>
+                <path d="M13 17h5.4c1 0 1.9.5 2.5 1.3l7.2 11c.6.8 1.5 1.3 2.5 1.3H36" stroke="${c.dark}" stroke-width="3.4" stroke-linecap="round" fill="none"/>
+                <path d="M13 30.6h5.4c1 0 1.9-.5 2.5-1.3l1.9-2.9M27.6 19.6l1-1.3c.6-.8 1.5-1.3 2.5-1.3H36" stroke="${c.dark}" stroke-width="3.4" stroke-linecap="round" fill="none" opacity=".7"/>
+                <path d="M32.6 12.6 37.6 17l-5 4.4zM32.6 26.2l5 4.4-5 4.4z" fill="${c.dark}"/>
+            `,
+            flashcard: (c) => `
+                <rect x="9" y="13" width="30" height="22" rx="5" fill="${c.light}" transform="rotate(-7 24 24)"/>
+                <rect x="10" y="16" width="30" height="22" rx="5" fill="${c.dark}" opacity=".85"/>
+                <rect x="16" y="23" width="18" height="3.2" rx="1.6" fill="${c.light}" opacity=".9"/>
+                <rect x="16" y="29" width="11" height="3.2" rx="1.6" fill="${c.light}" opacity=".6"/>
+            `,
+            trophy: (c) => `
+                <path d="M14 7h20v13c0 5.5-4.5 10-10 10S14 25.5 14 20z" fill="${c.light}"/>
+                <path d="M14 10H9.5a2.5 2.5 0 0 0-2.5 2.5c0 5 3.6 8.6 8.4 9.2zM34 10h4.5a2.5 2.5 0 0 1 2.5 2.5c0 5-3.6 8.6-8.4 9.2z" fill="${c.dark}" opacity=".55"/>
+                <rect x="21" y="29" width="6" height="7" rx="2" fill="${c.dark}"/>
+                <rect x="13.5" y="35.5" width="21" height="5.5" rx="2.6" fill="${c.dark}"/>
+            `,
+            bulb: (c) => `
+                <path d="M24 5c-7.7 0-14 6.1-14 13.6 0 4.6 2.4 8.7 6 11.2v3.7h16v-3.7c3.6-2.5 6-6.6 6-11.2C38 11.1 31.7 5 24 5z" fill="${c.light}"/>
+                <rect x="17" y="35.5" width="14" height="4.2" rx="2.1" fill="${c.dark}"/>
+                <rect x="19.5" y="41" width="9" height="4" rx="2" fill="${c.dark}" opacity=".7"/>
+            `,
+            star: (c) => `
+                <path d="M24 5.5l5.6 11.6 12.7 1.8-9.2 9 2.2 12.7L24 34.6 12.7 40.6l2.2-12.7-9.2-9 12.7-1.8z" fill="${c.light}"/>
+                <path d="M24 5.5l5.6 11.6 12.7 1.8-9.2 9 2.2 12.7L24 34.6z" fill="${c.dark}" opacity=".55"/>
+            `,
+            eyeOff: (c) => `
+                <path d="M24 11c9.5 0 17.4 5.6 20.5 13-3.1 7.4-11 13-20.5 13S6.6 31.4 3.5 24C6.6 16.6 14.5 11 24 11z" fill="${c.light}"/>
+                <path d="M24 11c9.5 0 17.4 5.6 20.5 13-3.1 7.4-11 13-20.5 13S6.6 31.4 3.5 24C6.6 16.6 14.5 11 24 11z" fill="none" stroke="${c.dark}" stroke-width="3.2"/>
+                <circle cx="24" cy="24" r="5.5" fill="${c.dark}"/>
+                <rect x="6" y="21.6" width="36" height="4.8" rx="2.4" transform="rotate(-38 24 24)" fill="${c.dark}"/>
+                <rect x="6" y="21.6" width="36" height="4.8" rx="2.4" transform="rotate(-38 24 24)" fill="none" stroke="${c.light}" stroke-width="2"/>
+            `,
+            list: (c) => `
+                <rect x="9" y="6" width="30" height="38" rx="6" fill="${c.light}"/>
+                <rect x="9" y="6" width="30" height="38" rx="6" fill="none" stroke="${c.dark}" stroke-width="3"/>
+                <rect x="15.5" y="17" width="17" height="3.6" rx="1.8" fill="${c.dark}"/>
+                <rect x="15.5" y="25" width="17" height="3.6" rx="1.8" fill="${c.dark}"/>
+                <rect x="15.5" y="33" width="10" height="3.6" rx="1.8" fill="${c.dark}"/>
+                <rect x="17" y="2.5" width="14" height="6.5" rx="3.2" fill="${c.dark}"/>
+            `,
+            link: (c) => `
+                <rect x="4" y="18" width="24" height="12" rx="6" fill="${c.light}" transform="rotate(-30 16 24)"/>
+                <rect x="20" y="18" width="24" height="12" rx="6" fill="${c.dark}" opacity=".8" transform="rotate(-30 32 24)"/>
+                <rect x="17" y="21.4" width="14" height="5.2" rx="2.6" fill="${c.dark}"/>
+            `,
+            flame: (c) => `
+                <path d="M24 3.5c2.5 6.5-1.5 9.8-5.5 13.6C13.8 21.6 9.5 26 9.5 31.5 9.5 38.4 16 44 24 44s14.5-5.6 14.5-12.5c0-5.3-3.2-8.8-6.3-12.4-1.2 1.6-2.7 2.7-4.2 2.4 1.6-3.6.7-7.2-4-18z" fill="${c.light}"/>
+                <path d="M24 24c1.6 3.6-.6 5.3-2.4 7.2-1.6 1.7-3.1 3.4-3.1 5.6 0 3.2 2.5 5.6 5.5 5.6s5.5-2.4 5.5-5.6c0-2.6-1.8-4.4-3.4-6.3-1.1-1.3-2-2.7-2.1-6.5z" fill="${c.dark}"/>
+            `,
+            bookOpen: (c) => `
+                <path d="M24 12c-4-3.4-9-5-15.5-5A2.5 2.5 0 0 0 6 9.5v25A2.5 2.5 0 0 0 8.5 37c6.5 0 11.5 1.6 15.5 5z" fill="${c.light}"/>
+                <path d="M24 12c4-3.4 9-5 15.5-5A2.5 2.5 0 0 1 42 9.5v25a2.5 2.5 0 0 1-2.5 2.5C33 37 28 38.6 24 42z" fill="${c.dark}" opacity=".8"/>
+            `,
+            trendUp: (c) => `
+                <rect x="5" y="5" width="38" height="38" rx="10" fill="${c.light}"/>
+                <path d="M13 30.5 20.5 23l5.5 5.5L35 19" stroke="${c.dark}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                <path d="M27.5 17.5H37V27" stroke="${c.dark}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity=".7"/>
+            `,
+            inbox: (c) => `
+                <path d="M8 22h8l3 6h10l3-6h8v13a4 4 0 0 1-4 4H12a4 4 0 0 1-4-4z" fill="${c.light}"/>
+                <path d="M13.5 8.5h21a3 3 0 0 1 2.8 2L40 22h-8l-3 6H19l-3-6H8l2.7-11.5a3 3 0 0 1 2.8-2z" fill="${c.dark}" opacity=".55"/>
+            `,
+            question: (c) => `
+                <circle cx="24" cy="24" r="19" fill="${c.light}"/>
+                <path d="M24 11.5c-4.7 0-8.3 3-8.7 7.2a2.7 2.7 0 0 0 5.4.5c.2-1.5 1.5-2.4 3.3-2.4 2 0 3.4 1.1 3.4 2.7 0 1.3-.7 2-2.6 3.2-2.3 1.4-3.8 2.9-3.8 5.9a2.7 2.7 0 0 0 5.4 0c0-1 .4-1.4 1.9-2.3 2.5-1.5 4.5-3.4 4.5-6.8 0-4.6-3.8-8-8.8-8z" fill="${c.dark}"/>
+                <circle cx="24" cy="34.5" r="3" fill="${c.dark}"/>
+            `,
+            check: (c) => `
+                <circle cx="24" cy="24" r="19" fill="${c.light}"/>
+                <path d="M15 24.5 21.5 31 34 18" stroke="${c.dark}" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            `,
+            close: (c) => `
+                <circle cx="24" cy="24" r="19" fill="${c.light}"/>
+                <path d="M17 17l14 14M31 17 17 31" stroke="${c.dark}" stroke-width="4.6" stroke-linecap="round" fill="none"/>
+            `,
+            wave: (c) => `
+                <path d="M12 24.5V13.5a3.2 3.2 0 1 1 6.4 0v8h1.3V9.5a3.2 3.2 0 1 1 6.4 0v12h1.3V11.5a3.2 3.2 0 1 1 6.4 0v10h1.3v-5a3.2 3.2 0 1 1 6.4 0v11.8C41.5 37 35 43.5 26.6 43.5c-5 0-8.6-1.8-11.6-5.3l-6.4-7.5a3.4 3.4 0 0 1 4.6-4.9z" fill="${c.light}"/>
+                <path d="M12 24.5V13.5a3.2 3.2 0 1 1 6.4 0v8h1.3V9.5a3.2 3.2 0 1 1 6.4 0v12h1.3V11.5a3.2 3.2 0 1 1 6.4 0v10h1.3v-5a3.2 3.2 0 1 1 6.4 0v11.8C41.5 37 35 43.5 26.6 43.5c-5 0-8.6-1.8-11.6-5.3l-6.4-7.5a3.4 3.4 0 0 1 4.6-4.9z" fill="none" stroke="${c.dark}" stroke-width="3.2" stroke-linejoin="round"/>
+                <path d="M5.5 8.5 8 4M15 5.5 15.5 1M2 17l-4.2-.6" fill="none" stroke="${c.dark}" stroke-width="0"/>
+            `,
+            sparkle: (c) => `
+                <path d="M20 5.5 24 17l11.5 4-11.5 4-4 11.5-4-11.5L4.5 21 16 17z" fill="${c.light}"/>
+                <path d="M36 26.5 38 32l5.5 2-5.5 2-2 5.5-2-5.5-5.5-2 5.5-2z" fill="${c.dark}" opacity=".8"/>
+            `,
+            scroll: (c) => `
+                <path d="M12 6h22a4 4 0 0 1 4 4v28a4 4 0 0 1-4 4H12z" fill="${c.light}"/>
+                <path d="M12 6a4 4 0 0 0-4 4v3.5h8V10a4 4 0 0 0-4-4zM12 42a4 4 0 0 0 4-4v-3.5H8V38a4 4 0 0 0 4 4z" fill="${c.dark}" opacity=".55"/>
+                <rect x="17" y="16" width="16" height="3.2" rx="1.6" fill="${c.dark}"/>
+                <rect x="17" y="23" width="16" height="3.2" rx="1.6" fill="${c.dark}" opacity=".7"/>
+                <rect x="17" y="30" width="10" height="3.2" rx="1.6" fill="${c.dark}" opacity=".45"/>
+            `,
+            lightning: (c) => `
+                <path d="M27.5 3.5 9 28h11l-2.5 16.5L39 19H25.5z" fill="${c.light}"/>
+                <path d="M27.5 3.5 9 28h6.5l14-24.5z" fill="${c.dark}" opacity=".75"/>
+            `,
         };
+
+        /* ── Bảng màu icon: tự đổi theo nền sáng/tối nhờ biến CSS ───────── */
+        ICON_TONES.brandAuto   = { light: 'var(--ic-brand-l)',   dark: 'var(--ic-brand-d)' };
+        ICON_TONES.neutralAuto = { light: 'var(--ic-neutral-l)', dark: 'var(--ic-neutral-d)' };
+
+        // Icon nội tuyến trong chữ — thay chỗ trước đây gõ emoji.
+        //   ic('search')            → tông tím thương hiệu
+        //   ic('list', 16, 'neutralAuto') → tông xám trung tính
+        function ic(name, size, tone) {
+            size = size || 17;
+            const svg = themeIcon(name, tone || 'brandAuto', size);
+            if (!svg) return '';
+            return `<span class="ui-ic" style="width:${size}px;height:${size}px;">${svg}</span>`;
+        }
+
+        // Icon theo màu tự chọn (dùng cho các hệ có nhiều cấp: 5 dạng luyện tập,
+        // thẻ thống kê…) — nền pastel 30% + nét đậm cùng tông.
+        function icHex(name, hex, size) {
+            size = size || 17;
+            const pathsFn = THEME_ICON_PATHS[name];
+            if (!pathsFn) return '';
+            const svg = `<svg viewBox="0 0 48 48" width="${size}" height="${size}" fill="none">${pathsFn({ light: hex + '4D', dark: hex })}</svg>`;
+            return `<span class="ui-ic" style="width:${size}px;height:${size}px;">${svg}</span>`;
+        }
 
         function themeIcon(name, tone, size) {
             tone = tone || 'brand';
@@ -4727,6 +4984,14 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         // Bơm icon vẽ tay vào các chỗ đánh dấu sẵn bằng data-theme-icon trong HTML tĩnh
         // (2 biến thể mono/light cùng lúc — CSS sẽ tự chuyển đổi hiển thị theo trạng thái active)
         function initThemeIcons() {
+            // Icon nội tuyến trong HTML tĩnh: <span data-ui-icon="search" data-ui-size="15"></span>
+            document.querySelectorAll('[data-ui-icon]').forEach(el => {
+                if (el.dataset.uiIconInjected) return;
+                el.innerHTML = ic(el.getAttribute('data-ui-icon'),
+                                  parseInt(el.getAttribute('data-ui-size'), 10) || 16,
+                                  el.getAttribute('data-ui-tone') || 'brandAuto');
+                el.dataset.uiIconInjected = 'true';
+            });
             document.querySelectorAll('[data-theme-icon]').forEach(el => {
                 const name = el.getAttribute('data-theme-icon');
                 if (el.dataset.iconInjected) return;
@@ -4749,7 +5014,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         let homePracticeNotebook = null;
         function ensureHomePracticeNotebook() {
             if (!homePracticeNotebook || typeof homePracticeNotebook !== 'object') {
-                homePracticeNotebook = { id: '__home_practice__', name: '🎯 Luyện tập ở Trang chủ', words: [], progress: {} };
+                homePracticeNotebook = { id: '__home_practice__', name: 'Luyện tập ở Trang chủ', words: [], progress: {} };
             }
             if (!Array.isArray(homePracticeNotebook.words)) homePracticeNotebook.words = [];
             ensureNotebookProgress(homePracticeNotebook);
@@ -6115,7 +6380,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 addList(freeWords);
                 if (learnedWords.length) {
                     showConfirmModal({
-                        title: '⚠️ Có từ đã học thuộc',
+                        title: 'Có từ đã học thuộc',
                         message: `${learnedWords.length} từ bạn chọn đã được đánh dấu "Đã học thuộc" rồi. Bạn vẫn muốn thêm vào sổ "${nb.name}" chứ?`,
                         confirmText: `Vẫn thêm ${learnedWords.length} từ này`,
                         cancelText: 'Bỏ qua từ đã học',
@@ -6276,7 +6541,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             closeBookmarkPopup();
             if (data.learned) {
                 showConfirmModal({
-                    title: '⚠️ Từ này đã học thuộc',
+                    title: 'Từ này đã học thuộc',
                     message: `"${data.word}" bạn đã đánh dấu học thuộc rồi. Vẫn muốn thêm vào sổ${nb ? ` "${nb.name}"` : ''} chứ?`,
                     confirmText: 'Vẫn thêm vào sổ',
                     cancelText: 'Thôi khỏi',
@@ -6515,7 +6780,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 if (related.length) {
                     relatedHtml = `
                         <div class="flex flex-col gap-2 text-left mt-4">
-                            <div style="font-size:10px; font-weight:700; color:var(--c-9ca3af); letter-spacing:0.14em; text-transform:uppercase; font-family:'IBM Plex Mono',monospace;">🔗 Từ liên quan · ${related.length} từ</div>
+                            <div style="font-size:10px; font-weight:700; color:var(--c-9ca3af); letter-spacing:0.14em; text-transform:uppercase; font-family:'IBM Plex Mono',monospace;">${ic('link', 12, 'neutralAuto')} Từ liên quan · ${related.length} từ</div>
                             <div class="flex flex-wrap gap-1.5">
                                 ${related.map(rw => `<button class="gup-chip" onclick="navigateDetailCard('${containerId}','${rw.id}')">${rw.word}</button>`).join('')}
                             </div>
@@ -6673,7 +6938,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             closeBookmarkPopup();
             if (data.learned) {
                 showConfirmModal({
-                    title: '⚠️ Từ này đã học thuộc',
+                    title: 'Từ này đã học thuộc',
                     message: `"${data.word}" bạn đã đánh dấu học thuộc rồi. Vẫn muốn thêm vào sổ${nb ? ` "${nb.name}"` : ''} chứ?`,
                     confirmText: 'Vẫn thêm vào sổ',
                     cancelText: 'Thôi khỏi',
@@ -6737,7 +7002,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 
         function renderModalStep1() {
             document.getElementById('step-1-container').innerHTML = `
-                <h3 class="text-xl font-bold text-[color:var(--c-2d2d3a)]">📔 Tạo sổ mới</h3>
+                <h3 class="text-xl font-bold text-[color:var(--c-2d2d3a)] flex items-center gap-2">${ic('notebook', 21)} Tạo sổ mới</h3>
                 <p class="text-xs text-gray-400 -mt-2.5">Đặt tên và ghi chú cho sổ từ vựng của bạn</p>
                 <div class="flex items-center gap-2 text-xs font-bold mt-1">
                     <span class="w-6 h-6 rounded-full flex items-center justify-center text-white" style="background:#6C63FF;">1</span>
@@ -6793,7 +7058,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             const nSel = nbModalState.selectedWords.length;
             container.innerHTML = `
                 <div>
-                    <h3 class="text-xl font-bold text-[color:var(--c-2d2d3a)]">${isEditing ? `📚 Thêm từ vào "${nbModalState.name}"` : '📚 Chọn từ vựng cho sổ'}</h3>
+                    <h3 class="text-xl font-bold text-[color:var(--c-2d2d3a)]">${ic('books', 21)} ${isEditing ? `Thêm từ vào "${nbModalState.name}"` : 'Chọn từ vựng cho sổ'}</h3>
                     <p class="text-xs text-gray-400 mt-1">Nhặt từng từ, hoặc lọc theo tiêu chí rồi thêm hàng loạt.</p>
                 </div>
                 ${isEditing ? '' : `
@@ -6807,11 +7072,11 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 <!-- 2 CÁCH THÊM TỪ — nói rõ mỗi tab làm gì để khỏi phải đoán -->
                 <div class="neo-sunk p-1 flex gap-1 !rounded-2xl">
                     <button class="flex-1 py-2 px-2 !rounded-xl transition-all ${nbModalState.activeTab === 'add' ? 'text-point' : 'text-gray-400'}" style="${nbModalState.activeTab === 'add' ? 'background:var(--c-e6ebf3); box-shadow: var(--shadow-btn);' : ''}" onclick="switchModalTab('add')">
-                        <span class="block text-xs font-bold">🔍 Nhặt từng từ</span>
+                        <span class="block text-xs font-bold">${ic('search', 14)} Nhặt từng từ</span>
                         <span class="block text-[9.5px] font-semibold opacity-70 mt-0.5">Tìm hoặc tự nhập</span>
                     </button>
                     <button class="flex-1 py-2 px-2 !rounded-xl transition-all ${nbModalState.activeTab === 'bulk' ? 'text-point' : 'text-gray-400'}" style="${nbModalState.activeTab === 'bulk' ? 'background:var(--c-e6ebf3); box-shadow: var(--shadow-btn);' : ''}" onclick="switchModalTab('bulk')">
-                        <span class="block text-xs font-bold">⚡ Lọc hàng loạt</span>
+                        <span class="block text-xs font-bold">${ic('lightning', 14)} Lọc hàng loạt</span>
                         <span class="block text-[9.5px] font-semibold opacity-70 mt-0.5">Thêm nhiều từ 1 lần</span>
                     </button>
                 </div>
@@ -6842,7 +7107,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 el.innerHTML = `
                     <div class="relative">
                         <div class="neo-sunk flex items-center px-4 py-2.5 !rounded-2xl">
-                            <span class="text-gray-400 mr-2 text-xs">🔍</span>
+                            <span class="mr-2">${ic('search', 15, 'neutralAuto')}</span>
                             <input id="nb-search-input" type="text" placeholder="Gõ tiếng Hàn hoặc tiếng Việt để tìm..." class="w-full bg-transparent border-none outline-none text-sm text-[color:var(--c-2d2d3a)]" autocomplete="off">
                         </div>
                         <div id="nb-suggestions-box" class="flex flex-col gap-1 mt-2"></div>
@@ -6898,11 +7163,11 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                                 : `<span class="text-[10px] font-bold text-[color:var(--c-b0bad0)]">Không chọn gì = cả thư viện</span>`}
                         </div>
                         <div class="flex flex-col gap-2.5">
-                            ${section('📚', 'Thư viện', 'libs', bulkOptions.libs, v => BULK_LIB_LABELS[v] || v)}
-                            ${section('📊', 'Cấp độ', 'levels', bulkOptions.levels, v => `Cấp ${v}`)}
-                            ${section('📝', 'Dạng đề', 'examTypes', bulkOptions.examTypes)}
-                            ${section('🧩', 'Loại từ', 'wordTypes', bulkOptions.wordTypes)}
-                            ${section('📁', 'Chủ đề', 'topics', bulkOptions.topics)}
+                            ${section(ic('books', 14), 'Thư viện', 'libs', bulkOptions.libs, v => BULK_LIB_LABELS[v] || v)}
+                            ${section(ic('chart', 14), 'Cấp độ', 'levels', bulkOptions.levels, v => `Cấp ${v}`)}
+                            ${section(ic('doc', 14), 'Dạng đề', 'examTypes', bulkOptions.examTypes)}
+                            ${section(ic('puzzle', 14), 'Loại từ', 'wordTypes', bulkOptions.wordTypes)}
+                            ${section(ic('folder', 14), 'Chủ đề', 'topics', bulkOptions.topics)}
                         </div>
                     </div>
                 `;
@@ -6932,7 +7197,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                         <div class="nb-or">hoặc chỉ lấy một phần</div>
                         <div class="flex items-center gap-2">
                             <input type="number" min="1" max="${matches.length}" id="bulk-qty-input" value="${nbModalState.bulkQty}" placeholder="VD: 20 từ" class="flex-1 min-w-0 px-3 py-2.5 text-xs font-bold rounded-xl outline-none border-none" style="background:var(--c-inputbg); box-shadow: var(--shadow-sunk); color:var(--c-3d3d4e);" oninput="nbModalState.bulkQty = this.value" onkeydown="if(event.key==='Enter'){event.preventDefault(); addRandomBulkMatches();}">
-                            <button class="nb-cta-sub" onclick="addRandomBulkMatches()" ${matches.length ? '' : 'disabled'}>🎲 Lấy ngẫu nhiên</button>
+                            <button class="nb-cta-sub" onclick="addRandomBulkMatches()" ${matches.length ? '' : 'disabled'}>${ic('dice', 14)} Lấy ngẫu nhiên</button>
                         </div>
                     </div>
                 `;
@@ -6992,7 +7257,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             };
             if (w.learned) {
                 showConfirmModal({
-                    title: '⚠️ Từ này đã học thuộc',
+                    title: 'Từ này đã học thuộc',
                     message: `"${w.word}" bạn đã đánh dấu học thuộc rồi. Vẫn muốn thêm vào sổ này chứ?`,
                     confirmText: 'Vẫn thêm vào sổ',
                     cancelText: 'Không thêm',
@@ -7250,7 +7515,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                             </div>
                             <div class="min-w-0">
                                 <h4 class="text-base font-extrabold text-[color:var(--c-2d2d3a)] truncate">${nb.name}</h4>
-                                <p class="text-[13px] text-gray-400 font-mono mt-0.5 truncate"><span class="lesson-date">🕒 Tạo: ${dateStr}</span><span class="lesson-note-sep" style="${nb.note ? '' : 'display:none;'}">  ·  </span><span class="lesson-note">${nb.note || ''}</span></p>
+                                <p class="text-[13px] text-gray-400 font-mono mt-0.5 truncate"><span class="lesson-date">${ic('clock', 12, 'neutralAuto')} Tạo: ${dateStr}</span><span class="lesson-note-sep" style="${nb.note ? '' : 'display:none;'}">  ·  </span><span class="lesson-note">${nb.note || ''}</span></p>
                             </div>
                         </div>
                         <div class="mt-4 flex flex-col gap-1">
@@ -7289,10 +7554,10 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             popup._targetCard = cardEl;
             popup._anchorRect = rect;
             popup.innerHTML = `
-                <button class="bookmark-popup-item" onclick="openLessonEditPopup('name')">✏️ <span>Đổi tên</span></button>
-                <button class="bookmark-popup-item" onclick="openLessonEditPopup('note')">📝 <span>Ghi chú</span></button>
+                <button class="bookmark-popup-item" onclick="openLessonEditPopup('name')">${ic('edit', 17)}<span>Đổi tên</span></button>
+                <button class="bookmark-popup-item" onclick="openLessonEditPopup('note')">${ic('doc', 17)}<span>Ghi chú</span></button>
                 <div class="w-full h-[1.5px] my-1.5" style="background:linear-gradient(90deg,transparent,var(--c-d8e0ec),transparent);"></div>
-                <button class="bookmark-popup-item" style="color:#ef4444;" onclick="deleteLessonCard(this)">🗑️ <span>Xoá</span></button>
+                <button class="bookmark-popup-item" style="color:#ef4444;" onclick="deleteLessonCard(this)">${ic('trash', 17)}<span>Xoá</span></button>
             `;
             document.body.appendChild(popup);
             setTimeout(() => document.addEventListener('click', closeLessonMenu), 0);
@@ -7381,7 +7646,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
             overlay.innerHTML = `
                 <div class="neo-raised p-7 w-full max-w-[380px] max-h-[85vh] overflow-y-auto flex flex-col items-center text-center gap-3 !rounded-[26px]">
-                    <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl" style="background:${danger ? 'var(--c-ffeaea)' : 'var(--c-e6ebf3)'};">${danger ? '⚠️' : '❓'}</div>
+                    <div class="w-12 h-12 rounded-2xl flex items-center justify-center " style="background:${danger ? 'var(--c-ffeaea)' : 'var(--c-e6ebf3)'};">${danger ? icHex('warning', '#d9534f', 26) : ic('question', 26)}</div>
                     <h3 class="text-base font-extrabold text-[color:var(--c-1a1a24)]">${title || 'Xác nhận'}</h3>
                     <p class="text-xs text-gray-500">${message || ''}</p>
                     <div class="flex gap-3 w-full mt-2">
@@ -7446,16 +7711,16 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         // 4 dạng luyện có chấm điểm được gom chung vào tab "Quiz"; 'quiz' vừa là khoá của
         // tab cha, vừa là khoá của dạng con đầu tiên (Trắc nghiệm) — mặc định khi mở tab cha.
         const QUIZ_SUB_TABS = [
-            { key: 'quiz', label: 'Trắc nghiệm', icon: '📝' },
-            { key: 'typing', label: 'Viết từ', icon: '✍️' },
-            { key: 'listen', label: 'Nghe & Chọn từ', icon: '🎧' },
-            { key: 'guess', label: 'Nghe & Tìm nghĩa', icon: '🧠' },
+            { key: 'quiz', label: 'Trắc nghiệm', icon: 'doc' },
+            { key: 'typing', label: 'Viết từ', icon: 'write' },
+            { key: 'listen', label: 'Nghe & Chọn từ', icon: 'headphone' },
+            { key: 'guess', label: 'Nghe & Tìm nghĩa', icon: 'brain' },
         ];
         const QUIZ_SUB_KEYS = QUIZ_SUB_TABS.map(t => t.key);
         const PRACTICE_TABS = [
-            { key: 'list', label: 'List từ vựng', icon: '📋' },
-            { key: 'flashcard', label: 'Flashcard', icon: '🔄' },
-            { key: 'quiz', label: 'Quiz', icon: '🎯', group: true },
+            { key: 'list', label: 'List từ vựng', icon: 'list' },
+            { key: 'flashcard', label: 'Flashcard', icon: 'flashcard' },
+            { key: 'quiz', label: 'Quiz', icon: 'target', group: true },
         ];
 
         let practiceState = {
@@ -7477,11 +7742,11 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         // và số câu đúng/sai. Lưu trực tiếp trong nb.progress (đồng bộ theo tài khoản).
         // ============================================================
         const PRACTICE_FUNC_META = {
-            flashcard: { label: 'Flashcard', color: '#6C63FF', icon: '🔄', gradientClass: 'gradient-act-1' },
-            quiz: { label: 'Trắc nghiệm', color: '#FF9F43', icon: '📝', gradientClass: 'gradient-act-2' },
-            typing: { label: 'Viết từ', color: '#55E6C1', icon: '✍️', gradientClass: 'gradient-act-3' },
-            listen: { label: 'Nghe & Chọn từ', color: '#FF7675', icon: '🎧', gradientClass: 'gradient-act-4' },
-            guess: { label: 'Nghe & Tìm nghĩa', color: '#A29BFE', icon: '🧠', gradientClass: 'gradient-act-5' },
+            flashcard: { label: 'Flashcard', color: '#6C63FF', icon: 'flashcard', gradientClass: 'gradient-act-1' },
+            quiz: { label: 'Trắc nghiệm', color: '#FF9F43', icon: 'doc', gradientClass: 'gradient-act-2' },
+            typing: { label: 'Viết từ', color: '#55E6C1', icon: 'write', gradientClass: 'gradient-act-3' },
+            listen: { label: 'Nghe & Chọn từ', color: '#FF7675', icon: 'headphone', gradientClass: 'gradient-act-4' },
+            guess: { label: 'Nghe & Tìm nghĩa', color: '#A29BFE', icon: 'brain', gradientClass: 'gradient-act-5' },
         };
 
         function ensureNotebookProgress(nb) {
@@ -7511,7 +7776,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         function confirmIfNotebookHasProgress(nb, onProceed) {
             if (!notebookHasAnyProgress(nb)) { onProceed(); return; }
             showConfirmModal({
-                title: '⚠️ Sổ này đã bắt đầu luyện tập',
+                title: 'Sổ này đã bắt đầu luyện tập',
                 message: `Sổ "${nb.name}" đã có kết quả luyện tập trước đó. Thêm từ mới vẫn được, nhưng từ mới sẽ chưa nằm trong các lượt luyện tập cũ. Bạn có chắc muốn thêm không?`,
                 confirmText: 'Vẫn thêm vào sổ',
                 cancelText: 'Thôi khỏi',
@@ -7620,7 +7885,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             if (!total) {
                 return `
                     <div class="flex flex-col items-center justify-center gap-1.5 p-4 neo-sunk rounded-[24px] mt-4 text-center nb-progress-box" style="min-height:88px;">
-                        <span class="text-xs font-semibold text-gray-400">📭 Chưa có bài kiểm tra nào</span>
+                        <span class="text-xs font-semibold text-gray-400">${ic('inbox', 14, 'neutralAuto')} Chưa có bài kiểm tra nào</span>
                         <span class="text-[11px] text-gray-400">Bạn có thể thêm từ ngay cả khi chưa ôn tập</span>
                         <button class="neo-button px-4 py-1.5 text-[12px] font-bold text-point mt-0.5" onclick="event.stopPropagation(); openAddWordsToNotebookModal('${nb.id}')">+ Thêm từ</button>
                     </div>
@@ -7642,7 +7907,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                             <div class="flex flex-col items-center gap-1" title="${r.meta.label}: ${r.pct}%">
                                 <div class="relative w-full rounded-xl flex items-center justify-center shadow-sm" style="aspect-ratio:1/1; background:${bg};">
                                     ${isFull ? `<span class="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-[10px] text-white shrink-0" style="background:#1a8a45; box-shadow:0 0 0 2px var(--c-e6ebf3);">✓</span>` : ''}
-                                    <span class="text-base leading-none">${r.meta.icon}</span>
+                                    <span class="text-base leading-none">${icHex(r.meta.icon, r.meta.color, 20)}</span>
                                 </div>
                                 <span class="text-[10px] font-bold text-gray-500 font-mono leading-none whitespace-nowrap">${scoreLabel}</span>
                             </div>
@@ -7732,7 +7997,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 // Bấm tab cha "Quiz" thì quay lại đúng dạng con đang làm dở, không nhảy về Trắc nghiệm
                 const target = t.group ? (practiceState.lastQuizSub || 'quiz') : t.key;
                 return `<button class="ptab shrink-0 sm:flex-1 min-w-[112px]${active ? ' is-active' : ''}"
-                    onclick="switchPracticeTab('${target}')"><span class="ptab-ico">${t.icon}</span>${t.label}</button>`;
+                    onclick="switchPracticeTab('${target}')"><span class="ptab-ico">${ic(t.icon, 17)}</span>${t.label}</button>`;
             }).join('');
 
             const sub = document.getElementById('practice-subtabs');
@@ -7742,7 +8007,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             sub.innerHTML = `<div class="psub-lead">Dạng luyện</div>
                 <div class="psub-row">${QUIZ_SUB_TABS.map(t =>
                     `<button class="psub${practiceState.activeTab === t.key ? ' is-active' : ''}"
-                        onclick="switchPracticeTab('${t.key}')"><span class="psub-ico">${t.icon}</span>${t.label}</button>`).join('')}</div>`;
+                        onclick="switchPracticeTab('${t.key}')"><span class="psub-ico">${ic(t.icon, 15)}</span>${t.label}</button>`).join('')}</div>`;
         }
 
         const PRACTICE_RENDERERS = {
@@ -7785,7 +8050,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             el.className = 'w-full';
             el.innerHTML = `
                 <div class="hidden lg:block mb-5">
-                    ${practicePanelHead('📋', 'List từ vựng', 'Toàn bộ từ trong sổ. Bấm "Xem chi tiết" ở một từ để đọc Hán tự, ví dụ và ghi chú.', '')}
+                    ${practicePanelHead(ic('list', 20), 'List từ vựng', 'Toàn bộ từ trong sổ. Bấm "Xem chi tiết" ở một từ để đọc Hán tự, ví dụ và ghi chú.', '')}
                 </div>
                 <div class="flex flex-col lg:flex-row gap-5 lg:gap-6 items-stretch lg:items-start w-full">
                     <!-- List: mobile sticky ~1/3 màn hình, đẩy lên trước card chi tiết; desktop quay lại vị trí phải 68% -->
@@ -7825,13 +8090,13 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             toolbarEl.innerHTML = `
                 <div class="flex items-center gap-2 p-2.5 lg:p-4 border-b border-[color:var(--c-eef1f7)] overflow-x-auto lg:flex-wrap lg:justify-between lg:gap-3 lg:overflow-visible">
                     <div class="flex items-center gap-1.5 lg:gap-2 shrink-0 lg:flex-wrap">
-                        ${chip(pls.blurKo, `🙈 Hàn: ${pls.blurKo ? 'Ẩn' : 'Hiện'}`, `togglePracticeListOpt('blurKo')`)}
-                        ${chip(pls.blurVi, `🙈 Việt: ${pls.blurVi ? 'Ẩn' : 'Hiện'}`, `togglePracticeListOpt('blurVi')`)}
-                        ${chip(!pls.hideEx, `📝 Ví dụ: ${pls.hideEx ? 'Ẩn' : 'Hiện'}`, `togglePracticeListOpt('hideEx')`)}
-                        ${chip(pls.starOnly, `⭐ Từ khó nhớ (${pls.starOnly ? 'Đã đánh dấu' : 'Tất cả'})`, `togglePracticeListOpt('starOnly')`, '#f59e0b')}
+                        ${chip(pls.blurKo, `${ic('eyeOff', 14)} Hàn: ${pls.blurKo ? 'Ẩn' : 'Hiện'}`, `togglePracticeListOpt('blurKo')`)}
+                        ${chip(pls.blurVi, `${ic('eyeOff', 14)} Việt: ${pls.blurVi ? 'Ẩn' : 'Hiện'}`, `togglePracticeListOpt('blurVi')`)}
+                        ${chip(!pls.hideEx, `${ic('doc', 14)} Ví dụ: ${pls.hideEx ? 'Ẩn' : 'Hiện'}`, `togglePracticeListOpt('hideEx')`)}
+                        ${chip(pls.starOnly, `${ic('star', 14)} Từ khó nhớ (${pls.starOnly ? 'Đã đánh dấu' : 'Tất cả'})`, `togglePracticeListOpt('starOnly')`, '#f59e0b')}
                     </div>
                     <div class="neo-sunk flex items-center px-3 py-2 !rounded-2xl shrink-0 w-[150px] lg:w-[220px]">
-                        <span class="text-gray-400 mr-2 text-xs">🔍</span>
+                        <span class="mr-2">${ic('search', 15, 'neutralAuto')}</span>
                         <input type="text" id="pl-search-input" value="${(pls.search || '').replace(/"/g, '&quot;')}" placeholder="Tìm từ vựng nhanh..." class="w-full bg-transparent border-none outline-none text-xs" oninput="practiceListState.search = this.value; renderPracticeListRowsOnly();">
                     </div>
                 </div>
@@ -8054,15 +8319,15 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 </label>`;
             el.innerHTML = `
                 <div class="w-full flex flex-col gap-5">
-                    ${practicePanelHead('🔄', 'Flashcard', 'Bấm vào thẻ để lật xem nghĩa, dùng nút bên dưới để chuyển từ.', fcRight)}
+                    ${practicePanelHead(ic('flashcard', 20), 'Flashcard', 'Bấm vào thẻ để lật xem nghĩa, dùng nút bên dưới để chuyển từ.', fcRight)}
                     ${buildInlineFlashcardProgressHtml()}
                     <div class="w-full neo-raised rounded-[28px] cursor-pointer" style="perspective:1200px; min-height:300px;" onclick="flipPracticeFlashcard()">
                         <div class="relative w-full transition-transform duration-500" style="min-height:300px; transform-style:preserve-3d; ${st.flipped ? 'transform:rotateY(180deg);' : ''}">
                             <div class="absolute inset-0 flex flex-col items-center justify-center gap-4 px-6" style="backface-visibility:hidden;">
                                 <span class="font-kr-serif font-black text-4xl text-[color:var(--c-1e2a4a)] text-center break-words">${item.word}</span>
                                 <div class="flex items-center gap-2.5">
-                                    <button class="neo-button px-3.5 py-2 text-xs font-bold text-point" onclick="event.stopPropagation(); speakKorean('${kr}', 'male')">🔊 남</button>
-                                    <button class="neo-button px-3.5 py-2 text-xs font-bold text-point" onclick="event.stopPropagation(); speakKorean('${kr}', 'female')">🔊 여</button>
+                                    <button class="neo-button px-3.5 py-2 text-xs font-bold text-point" onclick="event.stopPropagation(); speakKorean('${kr}', 'male')">${ic('speaker', 13)} 남</button>
+                                    <button class="neo-button px-3.5 py-2 text-xs font-bold text-point" onclick="event.stopPropagation(); speakKorean('${kr}', 'female')">${ic('speaker', 13)} 여</button>
                                 </div>
                                 <span class="text-[11px] text-gray-400 uppercase tracking-widest mt-2">Bấm vào thẻ để xem nghĩa</span>
                             </div>
@@ -8076,7 +8341,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                         <div class="flex items-center gap-3">
                             <span class="text-xs font-mono font-bold text-gray-400">${st.current + 1} / ${st.indices.length}</span>
                             <button class="neo-button px-4 py-2.5 text-xs font-bold text-gray-500" onclick="movePracticeCard(-1)">← Trước đó</button>
-                            <button class="neo-button px-4 py-2.5 text-xs font-bold text-gray-500" onclick="shufflePracticeFlashcardOnce()">🔀 Trộn bài</button>
+                            <button class="neo-button px-4 py-2.5 text-xs font-bold text-gray-500" onclick="shufflePracticeFlashcardOnce()">${ic('shuffle', 14)} Trộn bài</button>
                         </div>
                         <button class="neo-button px-6 py-2.5 text-xs font-bold text-white" style="background:#6C63FF;" onclick="movePracticeCard(1)">Tiếp theo →</button>
                     </div>
@@ -8162,7 +8427,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             return `
                 <div class="flex flex-col items-center gap-3 w-full pt-4 pb-6">
                     ${buildInlinePracticeProgressHtml(funcKey)}
-                    <div class="w-16 h-16 rounded-full flex items-center justify-center text-3xl mt-4 ${meta.gradientClass}">🎉</div>
+                    <div class="w-16 h-16 rounded-full flex items-center justify-center text-3xl mt-4 ${meta.gradientClass}">${ic('trophy', 34, 'light')}</div>
                     <p class="text-lg font-bold text-[color:var(--c-1e2a4a)] text-center">Bạn đã hoàn thành ${meta.label}!</p>
                     <p class="text-xs text-gray-400 text-center">Tất cả từ trong sổ đã được luyện qua chức năng này.</p>
                 </div>
@@ -8179,7 +8444,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             overlay.style.background = 'rgba(26,32,44,0.45)';
             overlay.innerHTML = `
                 <div class="neo-raised p-8 w-full max-w-[420px] max-h-[85vh] overflow-y-auto flex flex-col items-center text-center gap-3 !rounded-[28px]">
-                    <div class="w-16 h-16 rounded-full flex items-center justify-center text-3xl ${meta.gradientClass}">🎉</div>
+                    <div class="w-16 h-16 rounded-full flex items-center justify-center text-3xl ${meta.gradientClass}">${ic('trophy', 34, 'light')}</div>
                     <h3 class="text-lg font-bold text-[color:var(--c-1a1a24)]">Chúc mừng bạn đã hoàn thành hoạt động ôn tập "${meta.label}" cho list "${nbName}"!</h3>
                     <button class="neo-button px-6 py-3 text-sm font-bold text-white mt-2" style="background:#6C63FF;" onclick="this.closest('.fixed').remove()">Tuyệt vời!</button>
                 </div>
@@ -8991,7 +9256,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         function tqShell(badgeKey, labelHtml, promptHtml, bodyHtml, revealHtml, hasSpeak) {
             return `
                 <div class="w-full flex flex-col gap-5">
-                ${practicePanelHead('📝', 'Trắc nghiệm', 'Câu hỏi tự đổi dạng: nghĩa từ, nghĩa câu, điền từ, Hán tự, ghép cặp, sắp xếp câu…', tqBarHtml())}
+                ${practicePanelHead(ic('doc', 20), 'Trắc nghiệm', 'Câu hỏi tự đổi dạng: nghĩa từ, nghĩa câu, điền từ, Hán tự, ghép cặp, sắp xếp câu…', tqBarHtml())}
                 <div class="flex flex-col items-center gap-5 w-full">
                     ${buildInlinePracticeProgressHtml('quiz')}
                     <div class="flex flex-col items-center gap-2 w-full max-w-lg">
@@ -9060,8 +9325,8 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             if (rv) rv.style.visibility = 'visible';
             const fb = document.getElementById('pq-feedback');
             if (fb) fb.innerHTML = isCorrect
-                ? '<span class="text-[#2ec65e]">🎉 Chính xác!</span>'
-                : `<span class="text-[#ef4444]">😢 ${wrongHtml || 'Chưa đúng rồi, đáp án đúng là ô được tô xanh.'}</span>`;
+                ? `<span class="text-[#2ec65e]">${ic('trophy', 15)} Chính xác!</span>`
+                : `<span class="text-[#ef4444]">${icHex('close', '#ef4444', 15)} ${wrongHtml || 'Chưa đúng rồi, đáp án đúng là ô được tô xanh.'}</span>`;
             const nx = document.getElementById('pq-next-btn'), sk = document.getElementById('pq-skip-btn');
             if (nx) nx.classList.remove('hidden');
             if (sk) sk.classList.add('hidden');
@@ -9163,12 +9428,12 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             if (d === 'vi' && tokens.length) tokens[0] = tokens[0].charAt(0).toLowerCase() + tokens[0].slice(1);
             st._order = { tokens: tokens, pool: shuffleArr(tokens.slice()), placed: [], d: d, pair: p, item: item, hint: false };
 
-            const prompt = (d === 'vi') ? `<div class="tq-cloze ${TQ_KO_CLS}">${p.kr}</div>` : `<div class="tq-sub">Gợi ý nghĩa sẽ hiện khi bạn bấm 💡</div>`;
+            const prompt = (d === 'vi') ? `<div class="tq-cloze ${TQ_KO_CLS}">${p.kr}</div>` : `<div class="tq-sub">Gợi ý nghĩa sẽ hiện khi bạn bấm ${ic('bulb', 14)}</div>`;
             const body = `<div class="flex flex-col gap-3 w-full">
                 <div class="tq-slot empty" id="tq-slot"></div>
                 <div class="tq-pool" id="tq-pool"></div>
                 <div class="tq-oact">
-                    <button type="button" class="tq-obtn" id="tq-hint-btn" onclick="tqToggleOrderHint()">💡 Gợi ý</button>
+                    <button type="button" class="tq-obtn" id="tq-hint-btn" onclick="tqToggleOrderHint()">${ic('bulb', 14)} Gợi ý</button>
                     <button type="button" class="tq-obtn" onclick="tqResetOrder()">↺ Xoá hết</button>
                     <button type="button" class="tq-obtn primary" id="tq-check" onclick="tqCheckOrder()" disabled>Kiểm tra</button>
                 </div>
@@ -9338,7 +9603,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 <div class="w-full flex flex-col gap-5">
                     <div class="ui-phead">
                         <div class="ui-phead-l">
-                            <div class="ui-ptile">✍️</div>
+                            <div class="ui-ptile">${ic('write', 20)}</div>
                             <div class="min-w-0">
                                 <h3 class="ui-h3">Viết từ</h3>
                                 <p class="ui-sub">Hãy nhập ${st.direction === 'vi-to-ko' ? 'tiếng Hàn' : 'tiếng Việt'} tương ứng với từ vựng bên dưới, xong nhấn Enter.</p>
@@ -9555,7 +9820,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             overlay.style.background = 'rgba(26,32,44,0.45)';
             overlay.innerHTML = `
                 <div class="neo-raised p-8 w-full max-w-[420px] flex flex-col items-center text-center gap-3 !rounded-[28px]">
-                    <div class="w-16 h-16 rounded-full flex items-center justify-center text-3xl gradient-act-3">🎉</div>
+                    <div class="w-16 h-16 rounded-full flex items-center justify-center text-3xl gradient-act-3">${ic('trophy', 34, 'light')}</div>
                     <h3 class="text-lg font-bold text-[color:var(--c-1a1a24)]">Chúc mừng hoàn thành!</h3>
                     <div class="flex items-center gap-4 text-sm font-bold mt-1">
                         <span style="color:#2ec65e;">✓ ${total}</span>
@@ -9585,10 +9850,10 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             const options = shuffleArr([item.word, ...wrongs]);
             el.innerHTML = `
                 <div class="w-full flex flex-col gap-5">
-                ${practicePanelHead('🎧', 'Nghe & Chọn từ', 'Bấm loa để nghe, rồi chọn đúng từ tiếng Hàn vừa nghe được.', '')}
+                ${practicePanelHead(ic('headphone', 20), 'Nghe & Chọn từ', 'Bấm loa để nghe, rồi chọn đúng từ tiếng Hàn vừa nghe được.', '')}
                 <div class="flex flex-col items-center gap-6 w-full">
                     ${buildInlinePracticeProgressHtml('listen')}
-                    <button class="w-20 h-20 rounded-full neo-raised flex items-center justify-center text-3xl text-point" onclick="speakKorean('${item.word.replace(/'/g, "\\'")}')">🔊</button>
+                    <button class="w-20 h-20 rounded-full neo-raised flex items-center justify-center text-3xl text-point" onclick="speakKorean('${item.word.replace(/'/g, "\\'")}')">${ic('speaker', 24)}</button>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-lg" id="pl-opts">
                         ${options.map((opt, i) => `<button class="neo-button py-4 px-4 text-base font-kr-serif font-bold text-[color:var(--c-2d3a54)]" data-opt-i="${i}" onclick="handlePracticeListenAnswer(this)">${opt}</button>`).join('')}
                     </div>
@@ -9615,7 +9880,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             });
             const isCorrect = options[selectedIdx] === correct;
             const fb = document.getElementById('pl-feedback');
-            fb.innerHTML = isCorrect ? '<span class="text-[#2ec65e]">🎉 Nghe chuẩn rồi!</span>' : '<span class="text-[#ef4444]">😢 Chưa đúng, thử nghe lại nhé.</span>';
+            fb.innerHTML = isCorrect ? `<span class="text-[#2ec65e]">${ic('trophy', 15)} Nghe chuẩn rồi!</span>` : `<span class="text-[#ef4444]">${icHex('close', '#ef4444', 15)} Chưa đúng, thử nghe lại nhé.</span>`;
             document.getElementById('pl-next-btn').classList.remove('hidden');
             document.getElementById('pl-skip-btn').classList.add('hidden');
             const item = practiceState.words[st.queue[0]];
@@ -9637,10 +9902,10 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             const options = shuffleArr([correctAnswer, ...wrongs]);
             el.innerHTML = `
                 <div class="w-full flex flex-col gap-5">
-                ${practicePanelHead('🧠', 'Nghe & Tìm nghĩa', 'Bấm loa để nghe, rồi chọn đúng nghĩa tiếng Việt của từ vừa nghe.', '')}
+                ${practicePanelHead(ic('brain', 20), 'Nghe & Tìm nghĩa', 'Bấm loa để nghe, rồi chọn đúng nghĩa tiếng Việt của từ vừa nghe.', '')}
                 <div class="flex flex-col items-center gap-6 w-full">
                     ${buildInlinePracticeProgressHtml('guess')}
-                    <button class="w-20 h-20 rounded-full neo-raised flex items-center justify-center text-3xl text-point" onclick="speakKorean('${item.word.replace(/'/g, "\\'")}')">🔊</button>
+                    <button class="w-20 h-20 rounded-full neo-raised flex items-center justify-center text-3xl text-point" onclick="speakKorean('${item.word.replace(/'/g, "\\'")}')">${ic('speaker', 24)}</button>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-lg" id="pg-opts">
                         ${options.map((opt, i) => `<button class="neo-button py-4 px-4 text-base font-bold text-[color:var(--c-2d3a54)]" data-opt-i="${i}" onclick="handlePracticeGuessAnswer(this)">${opt}</button>`).join('')}
                     </div>
@@ -9667,7 +9932,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             });
             const isCorrect = options[selectedIdx] === correct;
             const fb = document.getElementById('pg-feedback');
-            fb.innerHTML = isCorrect ? '<span class="text-[#2ec65e]">🎉 Xuất sắc!</span>' : '<span class="text-[#ef4444]">😢 Chưa đúng.</span>';
+            fb.innerHTML = isCorrect ? `<span class="text-[#2ec65e]">${ic('trophy', 15)} Xuất sắc!</span>` : `<span class="text-[#ef4444]">${icHex('close', '#ef4444', 15)} Chưa đúng.</span>`;
             document.getElementById('pg-next-btn').classList.remove('hidden');
             document.getElementById('pg-skip-btn').classList.add('hidden');
             const item = practiceState.words[st.queue[0]];
@@ -9772,7 +10037,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                         .slice(0, 15);
                     const relatedHtml = relatedWords.length ? `
                         <div class="flex flex-col gap-2 text-left mt-4">
-                            <div style="font-size:10px; font-weight:700; color:var(--c-9ca3af); letter-spacing:0.14em; text-transform:uppercase; font-family:'IBM Plex Mono',monospace;">🔗 Từ liên quan · ${relatedWords.length} từ</div>
+                            <div style="font-size:10px; font-weight:700; color:var(--c-9ca3af); letter-spacing:0.14em; text-transform:uppercase; font-family:'IBM Plex Mono',monospace;">${ic('link', 12, 'neutralAuto')} Từ liên quan · ${relatedWords.length} từ</div>
                             <div class="flex flex-wrap gap-1.5">
                                 ${relatedWords.map(rw => `<button class="gup-chip" onclick="handleLibraryRelatedWordClick('${rw.id}')">${rw.word}</button>`).join('')}
                             </div>
@@ -10379,8 +10644,8 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             const nameEl = document.getElementById('home-hello-name');
             const subEl = document.getElementById('home-hello-sub');
             const displayName = currentUser.displayName || currentUser.username || 'bạn';
-            if (nameEl) nameEl.innerHTML = `Chào ${escapeHtmlDash(displayName)}! 👋`;
-            if (subEl) subEl.innerHTML = `Hôm nay bạn đã tiến xa hơn một chút rồi đó! ✨ · ⏱ ${formatDurationVN(currentUser.totalActiveMs)} học tập`;
+            if (nameEl) nameEl.innerHTML = `Chào ${escapeHtmlDash(displayName)}! ${ic('wave', 30)}`;
+            if (subEl) subEl.innerHTML = `Hôm nay bạn đã tiến xa hơn một chút rồi đó! ${ic('sparkle', 15)} · ${ic('clock', 14, 'neutralAuto')} ${formatDurationVN(currentUser.totalActiveMs)} học tập`;
 
             // ---- 3 thẻ thống kê nằm TRONG hộp chào hỏi ----
             // Giữ nguyên bố cục cũ (thanh màu + nhãn nhỏ · số lớn Nunito · dải chân thẻ
@@ -10721,7 +10986,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                                 </div>
                             `).join('')}
                         </div>
-                    ` : `<p class="text-sm text-gray-400 text-center py-8">Không có từ nào cần luyện thêm 🎉</p>`}
+                    ` : `<p class="text-sm text-gray-400 text-center py-8">Không có từ nào cần luyện thêm ${ic('trophy', 15)}</p>`}
                 </div>
             `;
         }
@@ -10800,9 +11065,9 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         // thời điểm · loại quiz · số câu · đúng/sai · thời lượng.
         let quizSessionLog = [];
         const QM_MODE_META = {
-            longtime: { label: 'Ôn lại từ cũ',    icon: '🕰️', tone: 'indigo' },
-            general:  { label: 'Ôn tập tổng hợp', icon: '🔀', tone: 'sky' },
-            topic:    { label: 'Luyện theo chủ đề', icon: '🎯', tone: 'lemon' }
+            longtime: { label: 'Ôn lại từ cũ',    icon: 'clock',   tone: 'indigo' },
+            general:  { label: 'Ôn tập tổng hợp', icon: 'shuffle', tone: 'sky' },
+            topic:    { label: 'Luyện theo chủ đề', icon: 'target', tone: 'lemon' }
         };
         function logQuizSession() {
             if (!quizMazeState || !quizMazeState.answeredCount) return;
@@ -11008,7 +11273,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         function renderQuizMazeSetupModal(mode) {
             const overlay = document.getElementById('quiz-maze-setup-modal');
             if (!overlay || !qmSetup) return;
-            const title = mode === 'longtime' ? '🕰️ Lâu rồi không gặp' : '🔀 Ôn tập tổng hợp';
+            const title = mode === 'longtime' ? `${ic('clock', 19)} Lâu rồi không gặp` : `${ic('shuffle', 19)} Ôn tập tổng hợp`;
             const desc = mode === 'longtime'
                 ? 'Ưu tiên những từ đã lâu bạn chưa ôn lại (hoặc chưa từng làm).'
                 : 'Lấy ngẫu nhiên từ vựng bạn đã học để ôn lại.';
@@ -11071,11 +11336,11 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                                   : `<span class="text-[10.5px] font-semibold text-gray-400">Chưa lọc — đang lấy toàn bộ thư viện</span>`}
                     </div>
                     <div class="flex flex-col gap-3 overflow-y-auto pr-1" style="max-height:210px;">
-                        ${section('📚', 'Thư viện', 'libs', qmSetup.options.libs, v => BULK_LIB_LABELS[v] || v)}
-                        ${section('📊', 'Cấp độ', 'levels', qmSetup.options.levels, v => `Cấp ${v}`)}
-                        ${section('📝', 'Dạng đề', 'examTypes', qmSetup.options.examTypes)}
-                        ${section('🧩', 'Loại từ', 'wordTypes', qmSetup.options.wordTypes)}
-                        ${section('📁', 'Chủ đề', 'topics', qmSetup.options.topics)}
+                        ${section(ic('books', 14), 'Thư viện', 'libs', qmSetup.options.libs, v => BULK_LIB_LABELS[v] || v)}
+                        ${section(ic('chart', 14), 'Cấp độ', 'levels', qmSetup.options.levels, v => `Cấp ${v}`)}
+                        ${section(ic('doc', 14), 'Dạng đề', 'examTypes', qmSetup.options.examTypes)}
+                        ${section(ic('puzzle', 14), 'Loại từ', 'wordTypes', qmSetup.options.wordTypes)}
+                        ${section(ic('folder', 14), 'Chủ đề', 'topics', qmSetup.options.topics)}
                     </div>
                     <div class="nb-block" id="qm-harvest-block" style="box-shadow:var(--shadow-raised);">
                         <div class="flex items-center gap-2 flex-wrap">
@@ -11091,7 +11356,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                         <div class="nb-or">hoặc chỉ lấy một phần</div>
                         <div class="flex items-center gap-2">
                             <input type="number" min="1" max="${nNew}" id="qm-harvest-qty" placeholder="VD: 20 từ" class="flex-1 min-w-0 px-3 py-2.5 text-xs font-bold rounded-xl outline-none border-none" style="background:var(--c-inputbg); box-shadow: var(--shadow-sunk); color:var(--c-3d3d4e);" onkeydown="if(event.key==='Enter'){event.preventDefault(); qmAddRandomMatches();}">
-                            <button class="nb-cta-sub" onclick="qmAddRandomMatches()" ${nNew ? '' : 'disabled'}>🎲 Lấy ngẫu nhiên</button>
+                            <button class="nb-cta-sub" onclick="qmAddRandomMatches()" ${nNew ? '' : 'disabled'}>${ic('dice', 14)} Lấy ngẫu nhiên</button>
                         </div>
                     </div>`;
             }
@@ -11378,7 +11643,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             quizMazeState = { questions, answeredCount: 0, mode, startedAt: Date.now(), logged: false };
             const titleEl = document.getElementById('quiz-maze-title');
             const subEl = document.getElementById('quiz-maze-subtitle');
-            if (titleEl) titleEl.textContent = mode === 'topic' ? '🎯 Luyện tập theo chủ đề' : (mode === 'longtime' ? '🕰️ Lâu rồi không gặp' : '🔀 Ôn tập tổng hợp');
+            if (titleEl) titleEl.textContent = mode === 'topic' ? 'Luyện tập theo chủ đề' : (mode === 'longtime' ? 'Lâu rồi không gặp' : 'Ôn tập tổng hợp');
             if (subEl) subEl.textContent = mode === 'topic'
                 ? `${questions.length} câu · Trắc nghiệm nhiều dạng · Viết từ · Nghe`
                 : `${questions.length} câu · Trắc nghiệm nhiều dạng · Nghe`;
@@ -11434,12 +11699,12 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         }
         // Thẻ đầu mỗi câu: icon + nhãn của dạng quiz (khớp icon ngoài Trang chủ) + số câu.
         function qmCardHeader(q, idx) {
-            const meta = PRACTICE_FUNC_META[qmFuncKeyOf(q.type)] || { icon: '📝', label: 'Trắc nghiệm', color: '#6C63FF' };
+            const meta = PRACTICE_FUNC_META[qmFuncKeyOf(q.type)] || { icon: 'doc', label: 'Trắc nghiệm', color: '#6C63FF' };
             // q.badge = tên dạng cụ thể (Điền từ / Hán tự → Từ / Chính tả…) của bộ 12 dạng
             const label = q.badge || meta.label;
             return `
                 <div class="self-stretch flex items-center gap-2">
-                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[12px] font-bold" style="background:${meta.color}1f; color:${meta.color};">${meta.icon} ${label}</span>
+                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[12px] font-bold" style="background:${meta.color}1f; color:${meta.color};">${icHex(meta.icon, meta.color, 14)} ${label}</span>
                     <span class="text-[11px] font-mono text-gray-400 ml-auto">Câu ${idx + 1}</span>
                 </div>`;
         }
@@ -11467,12 +11732,12 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 <div class="neo-raised p-5 flex flex-col items-center gap-4" id="qm-card-${idx}">
                     ${qmCardHeader(q, idx)}
                     ${hasSpeaker ? `
-                        <button class="w-16 h-16 rounded-full neo-raised flex items-center justify-center text-2xl text-point" onclick="speakKorean('${speakWord}')">🔊</button>
+                        <button class="w-16 h-16 rounded-full neo-raised flex items-center justify-center text-2xl text-point" onclick="speakKorean('${speakWord}')">${ic('speaker', 24)}</button>
                         <p class="text-sm font-semibold text-gray-500">${q.questionText}</p>
                     ` : `
                         <div class="flex items-center gap-2 justify-center flex-wrap">
                             <p class="text-lg font-bold text-[color:var(--c-1e2a4a)] text-center">${q.questionText}</p>
-                            ${q.speak ? `<button class="w-8 h-8 rounded-full neo-button flex items-center justify-center text-sm text-point shrink-0" title="Nghe câu" onclick="speakKorean('${speakWord}')">🔊</button>` : ''}
+                            ${q.speak ? `<button class="w-8 h-8 rounded-full neo-button flex items-center justify-center text-sm text-point shrink-0" title="Nghe câu" onclick="speakKorean('${speakWord}')">${ic('speaker', 24)}</button>` : ''}
                         </div>
                     `}
                     ${q.promptHtml ? `<div class="w-full max-w-lg flex flex-col items-center gap-2">${q.promptHtml}</div>` : ''}
@@ -11504,8 +11769,8 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             const fb = document.getElementById(`qm-feedback-${idx}`);
             const vnMean = q.word.vietnamese || q.word.deep_meaning || '—';
             if (fb) fb.innerHTML = isCorrect
-                ? `<span class="text-[#2ec65e]">🎉 Chính xác! — <b class="font-kr-serif">${q.correct}</b> : ${vnMean}</span>`
-                : `<span class="text-[#ef4444]">😢 Đáp án: <b class="font-kr-serif">${q.correct}</b> : ${vnMean}</span>`;
+                ? `<span class="text-[#2ec65e]">${ic('trophy', 15)} Chính xác! — <b class="font-kr-serif">${q.correct}</b> : ${vnMean}</span>`
+                : `<span class="text-[#ef4444]">${icHex('close', '#ef4444', 15)} Đáp án: <b class="font-kr-serif">${q.correct}</b> : ${vnMean}</span>`;
             recordQmResult(q, 'typing', isCorrect);
             quizMazeState.answeredCount++;
             updateQuizMazeRail();
@@ -11575,8 +11840,8 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             // Luôn trả đáp án đầy đủ (từ tiếng Hàn : nghĩa tiếng Việt) — cả khi đúng lẫn khi sai.
             const vnMean = q.word.vietnamese || q.word.deep_meaning || '—';
             fb.innerHTML = isCorrect
-                ? `<span class="text-[#2ec65e]">🎉 Chính xác! — <b class="font-kr-serif">${q.word.word}</b> : ${vnMean}</span>`
-                : `<span class="text-[#ef4444]">😢 Đáp án đúng: <b class="font-kr-serif">${q.word.word}</b> : ${vnMean}</span>`;
+                ? `<span class="text-[#2ec65e]">${ic('trophy', 15)} Chính xác! — <b class="font-kr-serif">${q.word.word}</b> : ${vnMean}</span>`
+                : `<span class="text-[#ef4444]">${icHex('close', '#ef4444', 15)} Đáp án đúng: <b class="font-kr-serif">${q.word.word}</b> : ${vnMean}</span>`;
 
             const rv = document.getElementById(`qm-reveal-${idx}`);
             if (rv && q.reveal) rv.classList.remove('hidden');
@@ -11616,7 +11881,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             overlay.style.background = 'rgba(26,32,44,0.45)';
             overlay.innerHTML = `
                 <div class="neo-raised p-8 w-full max-w-[420px] max-h-[85vh] overflow-y-auto flex flex-col items-center text-center gap-3 !rounded-[28px]">
-                    <div class="w-16 h-16 rounded-full flex items-center justify-center text-3xl gradient-act-2">🎉</div>
+                    <div class="w-16 h-16 rounded-full flex items-center justify-center text-3xl gradient-act-2">${ic('trophy', 34, 'light')}</div>
                     <h3 class="text-lg font-bold text-[color:var(--c-1a1a24)]">Hoàn thành Quiz Maze!</h3>
                     <p class="text-sm text-gray-500">Bạn đã trả lời đúng ${correctCount}/${total} câu.</p>
                     <button class="neo-button px-6 py-3 text-sm font-bold text-white mt-2" style="background:#6C63FF;" onclick="this.closest('.fixed').remove(); closeQuizMaze();">Xong</button>
@@ -11874,7 +12139,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 box.innerHTML = `
                     <div class="rl-player" data-mode="${isTts ? 'tts' : 'file'}">
                         <div class="rl-player-head">
-                            <span class="rl-player-label">${isTts ? '🔊 Nghe bài đọc · giọng máy' : '🎧 Nghe bài đọc'}</span>
+                            <span class="rl-player-label">${isTts ? `${ic('speaker', 14)} Nghe bài đọc · giọng máy` : `${ic('headphone', 14)} Nghe bài đọc`}</span>
                             <span class="rl-player-time" data-rl-time>${isTts ? 'Câu 0/0' : '0:00 / 0:00'}</span>
                         </div>
                         <div class="rl-player-row">
@@ -12286,14 +12551,14 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                     const main = p[0].trim(), second = p.slice(1).join('//').trim();
                     if (mTask[1] === 'dich') {
                         out.push('<div class="rl-task" data-ko="' + esc(main) + '">' +
-                            '<div class="rl-task-head">✍️ Luyện dịch ' + playBtn('rl-task-play" data-rl-dictation-play="1') + '</div>' +
+                            '<div class="rl-task-head">' + ic('write', 15) + ' Luyện dịch ' + playBtn('rl-task-play" data-rl-dictation-play="1') + '</div>' +
                             '<p class="rl-task-ko">' + inline(main) + '</p>' +
                             '<textarea class="rl-task-input" rows="2" placeholder="Nhập bản dịch tiếng Việt của bạn…"></textarea>' +
                             '<div class="rl-task-actions"><button class="rl-ctrl-btn" data-rl-reveal="1">Xem bản dịch mẫu</button></div>' +
                             '<p class="rl-answer rl-hidden">' + inline(second) + '</p></div>');
                     } else if (mTask[1] === 'chep') {
                         out.push('<div class="rl-task" data-ko="' + esc(main) + '">' +
-                            '<div class="rl-task-head">🎧 Nghe &amp; chép chính tả ' + playBtn('rl-task-play" data-rl-dictation-play="1') + '</div>' +
+                            '<div class="rl-task-head">' + ic('headphone', 15) + ' Nghe &amp; chép chính tả ' + playBtn('rl-task-play" data-rl-dictation-play="1') + '</div>' +
                             (second ? '<p class="rl-task-hint">' + inline(second) + '</p>' : '') +
                             '<textarea class="rl-task-input" rows="2" placeholder="Nghe rồi gõ lại câu tiếng Hàn…"></textarea>' +
                             '<div class="rl-task-actions"><button class="rl-ctrl-btn" data-rl-check="1">Kiểm tra</button>' +
@@ -12672,7 +12937,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             });
             root.dataset.linked = '1';
             if (badge) {
-                badge.textContent = n ? `🔗 ${n} từ có trong thư viện` : '';
+                badge.innerHTML = n ? `${ic('link', 13, 'neutralAuto')} ${n} từ có trong thư viện` : '';
                 badge.classList.toggle('hidden', !n);
             }
         }
@@ -12788,7 +13053,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             const step1 = tpState.activeTab === 'add' ? `
                 <div class="relative">
                     <div class="neo-sunk flex items-center px-4 py-2.5 !rounded-2xl">
-                        <span class="text-gray-400 mr-2 text-xs">🔍</span>
+                        <span class="mr-2">${ic('search', 15, 'neutralAuto')}</span>
                         <input id="tp-search-input" type="text" placeholder="Gõ tiếng Hàn hoặc tiếng Việt để tìm..." class="w-full bg-transparent border-none outline-none text-sm text-[color:var(--c-2d2d3a)]" autocomplete="off" oninput="tpState.searchQuery=this.value; tpRenderSuggestions();">
                     </div>
                     <div id="tp-suggestions-box" class="flex flex-col gap-1 mt-2"></div>
@@ -12798,11 +13063,11 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                     ${activeFilters ? `<button class="text-[10.5px] font-black text-[color:var(--c-8290aa)]" onclick="tpResetFilters()">✕ Bỏ ${activeFilters} bộ lọc</button>` : `<span class="text-[10.5px] font-semibold text-gray-400">Chưa lọc — đang lấy toàn bộ thư viện</span>`}
                 </div>
                 <div class="tp-filter-scroll flex flex-col gap-3 overflow-y-auto pr-1">
-                    ${section('📚', 'Thư viện', 'libs', tpOptions.libs, v => BULK_LIB_LABELS[v] || v)}
-                    ${section('📊', 'Cấp độ', 'levels', tpOptions.levels, v => `Cấp ${v}`)}
-                    ${section('📝', 'Dạng đề', 'examTypes', tpOptions.examTypes)}
-                    ${section('🧩', 'Loại từ', 'wordTypes', tpOptions.wordTypes)}
-                    ${section('📁', 'Chủ đề', 'topics', tpOptions.topics)}
+                    ${section(ic('books', 14), 'Thư viện', 'libs', tpOptions.libs, v => BULK_LIB_LABELS[v] || v)}
+                    ${section(ic('chart', 14), 'Cấp độ', 'levels', tpOptions.levels, v => `Cấp ${v}`)}
+                    ${section(ic('doc', 14), 'Dạng đề', 'examTypes', tpOptions.examTypes)}
+                    ${section(ic('puzzle', 14), 'Loại từ', 'wordTypes', tpOptions.wordTypes)}
+                    ${section(ic('folder', 14), 'Chủ đề', 'topics', tpOptions.topics)}
                 </div>`;
 
             // ── BƯỚC 2 ────────────────────────────────────────────────
@@ -12813,7 +13078,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 <div class="nb-or">hoặc</div>
                 <div class="flex items-center gap-2">
                     <input type="number" min="1" max="${matches.length}" id="tp-bulk-qty" placeholder="Số lượng" class="flex-1 px-3.5 py-2.5 text-sm rounded-xl outline-none border-none" style="background:var(--c-inputbg); box-shadow: var(--shadow-sunk);">
-                    <button class="nb-cta-sub" onclick="tpAddRandom()" ${matches.length ? '' : 'disabled'}>🎲 Lấy ngẫu nhiên</button>
+                    <button class="nb-cta-sub" onclick="tpAddRandom()" ${matches.length ? '' : 'disabled'}>${ic('dice', 14)} Lấy ngẫu nhiên</button>
                 </div>`;
 
             // ── BƯỚC 3 ────────────────────────────────────────────────
@@ -12831,7 +13096,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                     <button class="absolute top-5 right-5 w-9 h-9 rounded-full neo-button flex items-center justify-center text-gray-400" onclick="closeTopicPracticeModal()">✕</button>
                     <div class="pr-10">
                         <h3 class="text-lg font-extrabold text-[color:var(--c-1a1a24)] flex items-center gap-2"><span class="w-9 h-9 flex items-center justify-center shrink-0"><img src="assets/icon-3d-topic.png" alt="" class="w-full h-full object-contain" onerror="quizIconFallback(this,&quot;folder&quot;)"></span> Luyện tập theo chủ đề</h3>
-                        <p class="text-xs text-gray-500 mt-1">Khoanh vùng từ vựng → chọn số lượng → xem lại giỏ từ. Quiz sẽ trộn nhiều dạng trắc nghiệm · ✍️ Viết từ · 🎧 Nghe.</p>
+                        <p class="text-xs text-gray-500 mt-1">Khoanh vùng từ vựng → chọn số lượng → xem lại giỏ từ. Quiz sẽ trộn nhiều dạng trắc nghiệm · ${ic('write', 13)} Viết từ · ${ic('headphone', 13)} Nghe.</p>
                     </div>
 
                     <div class="flex flex-col gap-3 overflow-y-auto pr-1 -mr-1">
@@ -13088,7 +13353,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                     return `
                     <div class="nbs-row nbs-row-static">
                         <span class="nbs-time">${relativeTimeVN(s.ts)}</span>
-                        <span class="nbs-chip nbs-chip-${meta.tone}">${meta.icon} ${meta.label}</span>
+                        <span class="nbs-chip nbs-chip-${meta.tone}">${ic(meta.icon, 14)} ${meta.label}</span>
                         <span class="nbs-nb">Quiz ở Trang chủ · ${s.answered}/${s.total} câu · ${fmtDur(s.durationMs)}${typeTxt}</span>
                         <span class="nbs-score"><b class="nbs-ok">✓${s.correct}</b> <b class="nbs-bad">✕${s.wrong}</b></span>
                         <span class="nbs-bar"><span class="nbs-fill" style="width:${pct}%;"></span></span>
@@ -13105,7 +13370,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 return `
                 <button type="button" class="nbs-row" onclick="openPracticeView('${item.nbId}', '${item.funcKey}')">
                     <span class="nbs-time">${relativeTimeVN(item.ts)}</span>
-                    <span class="nbs-chip nbs-chip-${tones[item.funcKey] || 'indigo'}">${meta.icon} ${meta.label}</span>
+                    <span class="nbs-chip nbs-chip-${tones[item.funcKey] || 'indigo'}">${ic(meta.icon, 14)} ${meta.label}</span>
                     <span class="nbs-nb">${escapeHtmlDash(item.nbName)}</span>
                     <span class="nbs-score">${score}</span>
                     <span class="nbs-bar"><span class="nbs-fill" style="width:${prog.pct}%;"></span></span>
@@ -13271,9 +13536,9 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             const daysCompanion = Math.max(1, Math.floor((Date.now() - joinDate.getTime()) / 86400000) + 1);
 
             const journeyStats = [
-                { icon: '🔥', value: String(daysCompanion), label: 'Ngày đồng hành', grad: 'linear-gradient(135deg,#f472b6,#a78bfa)', click: '' },
-                { icon: '🎯', value: `${totalLearned}/${totalAll}`, label: 'Từ vựng đã thuộc', grad: 'linear-gradient(135deg,#8b7bff,#6C63FF)', click: 'openLearnedWordsModal()' },
-                { icon: '⚡', value: `${accuracyPct}%`, label: 'Phản xạ chính xác', grad: 'linear-gradient(135deg,#fbbf24,#f59e0b)', click: "document.getElementById('dash-weak-section')?.scrollIntoView({behavior:'smooth',block:'center'})" },
+                { icon: icHex('flame', '#ec4899', 22), value: String(daysCompanion), label: 'Ngày đồng hành', grad: 'linear-gradient(135deg,#f472b6,#a78bfa)', click: '' },
+                { icon: icHex('target', '#6C63FF', 22), value: `${totalLearned}/${totalAll}`, label: 'Từ vựng đã thuộc', grad: 'linear-gradient(135deg,#8b7bff,#6C63FF)', click: 'openLearnedWordsModal()' },
+                { icon: icHex('lightning', '#f59e0b', 22), value: `${accuracyPct}%`, label: 'Phản xạ chính xác', grad: 'linear-gradient(135deg,#fbbf24,#f59e0b)', click: "document.getElementById('dash-weak-section')?.scrollIntoView({behavior:'smooth',block:'center'})" },
             ];
 
             // ---- Streak calendar (xem được cả tháng cũ qua dashCalOffset) ----
@@ -13355,8 +13620,8 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                         <div class="flex-1 journey-flexcol journey-hero-wrap" style="min-width:320px; position:relative;">
                             <div class="glass-card" style="padding:24px 28px; height:100%;">
                                 <div class="journey-hero-textblock" style="margin-bottom:110px;">
-                                    <div class="font-kr-serif" style="font-size:30px; font-weight:900; color:var(--c-1e1b4b); letter-spacing:-0.5px;">Chào ${escapeHtmlDash(displayName)}! 👋</div>
-                                    <div class="text-[13.5px] font-semibold" style="color:var(--c-3730a3); line-height:1.7; margin-top:12px;">Hôm nay bạn đã tiến xa hơn một chút rồi đó! ✨ · ⏱ ${formatDurationVN(currentUser.totalActiveMs)} học tập</div>
+                                    <div class="font-kr-serif" style="font-size:30px; font-weight:900; color:var(--c-1e1b4b); letter-spacing:-0.5px;">Chào ${escapeHtmlDash(displayName)}! ${ic('wave', 28)}</div>
+                                    <div class="text-[13.5px] font-semibold" style="color:var(--c-3730a3); line-height:1.7; margin-top:12px;">Hôm nay bạn đã tiến xa hơn một chút rồi đó! ${ic('sparkle', 15)} · ${ic('clock', 14, 'neutralAuto')} ${formatDurationVN(currentUser.totalActiveMs)} học tập</div>
                                 </div>
                                 <div class="grid gap-3.5 journey-stats-grid" style="grid-template-columns:repeat(3,1fr);">
                                     ${journeyStats.map(st => `
@@ -13375,7 +13640,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                         <!-- SECTION 3: Streak -->
                         <div class="glass-card journey-flexcol" style="flex:0 0 32%; min-width:340px; padding:24px; display:flex; flex-direction:column; justify-content:center; gap:16px;">
                             <div class="flex items-center gap-2.5 relative" style="z-index:1;">
-                                ${journeyIconHtml('icon-streak.png', '🔥')}
+                                ${journeyIconHtml('icon-streak.png', ic('flame', 22))}
                                 <span class="text-[16px] font-extrabold" style="color:var(--c-374151);">Streak · ${streak} ngày</span>
                             </div>
                             <div class="flex items-center justify-between gap-2 relative" style="z-index:1;">
@@ -13397,7 +13662,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                             <div>
                                 <div class="flex items-center justify-between gap-2 mb-3 flex-wrap" style="padding-left:6px;">
                                     <div class="flex items-center gap-2">
-                                        ${journeyIconHtml('icon-notebook-progress.png', '📖')}
+                                        ${journeyIconHtml('icon-notebook-progress.png', ic('bookOpen', 22))}
                                         <span class="text-[13px] font-extrabold" style="color:var(--c-3730a3);">Tiến độ Sổ từ vựng</span>
                                     </div>
                                     <button class="text-[12px] font-bold text-gray-400 hover:text-point flex items-center gap-1.5" onclick="openTrashedNotebooksModal()">${themeIcon('trash', 'mono', 13)} Sổ đã xoá ${deletedNotebooksList.length ? `(${deletedNotebooksList.length})` : ''}</button>
@@ -13409,7 +13674,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                             <div class="glass-card" style="padding:24px 28px;">
                                 <div class="flex items-center justify-between mb-4 flex-wrap gap-2 relative" style="z-index:1;">
                                     <div class="flex items-center gap-2">
-                                        ${journeyIconHtml('icon-daily-chart.png', '📈')}
+                                        ${journeyIconHtml('icon-daily-chart.png', ic('trendUp', 22))}
                                         <span class="text-[14px] font-extrabold" style="color:var(--c-1e1b4b);">Từ vựng đã học theo ngày</span>
                                     </div>
                                     <div class="flex items-center gap-1.5 flex-wrap">
@@ -13439,7 +13704,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                             <div class="glass-card" id="dash-weak-section" style="padding:24px 28px;">
                                 <div class="flex items-center justify-between mb-2 relative" style="z-index:1;">
                                     <div class="flex items-center gap-2">
-                                        ${journeyIconHtml('icon-weak-items.png', '⚠️')}
+                                        ${journeyIconHtml('icon-weak-items.png', ic('warning', 22))}
                                         <span class="text-[14px] font-extrabold" style="color:var(--c-1e1b4b);">Cần chú ý thêm</span>
                                     </div>
                                     ${hasMoreWeak ? `<button class="period-pill" onclick="toggleWeakExpandedDash()">${weakExpandedDash ? 'Thu gọn' : 'Xem tất cả'}</button>` : ''}
@@ -13460,7 +13725,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                         <div class="journey-flexcol" style="flex:0 0 32%; min-width:340px;">
                             <div class="donut-card" style="height:100%; display:flex; flex-direction:column; justify-content:center;">
                                 <div class="flex items-center gap-2.5 mb-7">
-                                    ${journeyIconHtml('icon-overview.png', '📊')}
+                                    ${journeyIconHtml('icon-overview.png', ic('chart', 22))}
                                     <span class="text-[16px] font-extrabold" style="color:var(--c-1e1b4b);">Tổng quan từ vựng</span>
                                 </div>
                                 <div class="flex items-center gap-6 donut-body">
@@ -13639,10 +13904,10 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                         <p class="text-xs text-gray-400 mt-1">${filtered.length}/${allLearned.length} từ — lọc theo thư viện, level, chủ đề, loại từ bên dưới</p>
                     </div>
                     <div class="flex flex-wrap gap-4">
-                        ${section('📚', 'Thư viện', 'libs', opts.libs, v => v === 'fast' ? 'FOCUS' : 'FULL MASTER')}
+                        ${section(ic('books', 14), 'Thư viện', 'libs', opts.libs, v => v === 'fast' ? 'FOCUS' : 'FULL MASTER')}
                         ${section('급', 'Level', 'levels', opts.levels, v => `${v}급`)}
-                        ${section('🧩', 'Loại từ', 'wordTypes', opts.wordTypes)}
-                        ${section('📁', 'Chủ đề', 'topics', opts.topics)}
+                        ${section(ic('puzzle', 14), 'Loại từ', 'wordTypes', opts.wordTypes)}
+                        ${section(ic('folder', 14), 'Chủ đề', 'topics', opts.topics)}
                     </div>
                     <div class="overflow-x-auto neo-sunk !rounded-2xl" style="max-height:44vh; overflow-y:auto;">
                         <table class="w-full text-sm" style="border-collapse:collapse;">
@@ -13775,18 +14040,45 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             setTimeout(() => { if (!done) put(end); }, dur + 140);
         }
 
+        // Chiều cao phần bị header (và dải tab ở mobile) che mất ở đỉnh màn hình
+        function stickyTopInset() {
+            let inset = 0;
+            const head = document.getElementById('app-header');
+            if (head) {
+                const cs = getComputedStyle(head);
+                if (cs.position === 'fixed' || cs.position === 'sticky') {
+                    const r = head.getBoundingClientRect();
+                    if (r.top <= 130 && r.bottom > 0) inset = Math.max(inset, r.bottom);
+                }
+            }
+            const tabs = document.getElementById('app-sidebar');
+            if (tabs && isMobileLayout() && !tabs.classList.contains('m-tabs-hidden')) {
+                const r = tabs.getBoundingClientRect();
+                if (r.top <= 180 && r.bottom > 0) inset = Math.max(inset, r.bottom);
+            }
+            return Math.round(inset);
+        }
+
         function scrollStepIntoView(el) {
             if (!el) return;
             const sc = findScrollParent(el);
             const r = el.getBoundingClientRect();
             // Vùng đang nhìn thấy: trong khung cuộn, hoặc cả màn hình (trừ header cố định)
-            const top = sc ? sc.getBoundingClientRect().top : (isMobileLayout() ? 118 : 0);
+            const top = sc ? sc.getBoundingClientRect().top : stickyTopInset();
             const bottom = sc ? sc.getBoundingClientRect().bottom : window.innerHeight;
-            // Đã nằm gọn trong tầm mắt thì thôi, khỏi giật màn hình
-            if (r.top >= top - 2 && r.bottom <= bottom + 2) return;
-            // Khối cao hơn cả vùng nhìn thì chỉ cần đưa mép trên lên
-            if (sc) animateScrollTo(sc, sc.scrollTop + (r.top - top) - 14);
-            else animateScrollTo(null, window.scrollY + r.top - top - 12);
+            // Chừa một khoảng thở phía trên để khối không dán sát mép/không bị header liếm mất.
+            // Khối thấp thì đẩy xuống gần giữa màn hình cho dễ nhìn; khối cao thì chỉ chừa ít thôi.
+            const viewH = Math.max(120, bottom - top);
+            const breathe = Math.round(Math.min(
+                Math.max(0, (viewH - r.height) / 2),   // đủ chỗ thì canh giữa
+                viewH * 0.22,                          // nhưng không quá 22% chiều cao vùng nhìn
+                150
+            ));
+            // Đã nằm gọn trong tầm mắt (và không bị header che) thì thôi, khỏi giật màn hình
+            if (r.top >= top + 6 && r.bottom <= bottom + 2) return;
+            const target = top + Math.max(14, breathe);
+            if (sc) animateScrollTo(sc, sc.scrollTop + (r.top - target));
+            else animateScrollTo(null, window.scrollY + r.top - target);
         }
 
         // el: phần việc kế tiếp · opts.delay: chờ bao lâu rồi mới chạy (ms)
