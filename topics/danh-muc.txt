@@ -20,7 +20,7 @@ Giới thiệu: Tổng hợp các gốc chữ Hán xuất hiện phổ biến tr
 Số liệu: 152 gốc Hán tự | 482 từ phái sinh | 5 phần chủ đề
 
 === topik-pho-tu.md
-Tên: 토픽 합격 레시피 — Phó từ
+Tên: Phó từ
 Mô tả ngắn: Phó từ [TOPIK II Kỹ năng Đọc]
 Chữ trên thẻ: Phó từ
 Nhãn: TOPIK II

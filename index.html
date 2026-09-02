@@ -1034,9 +1034,16 @@
 }
 
 .topic-doc h3.group-title{
-  font-size:1rem;font-weight:700;color:var(--ink);
-  margin:1.9rem 0 .2rem;padding-bottom:.3rem;
-  border-bottom:1px dotted var(--line);
+  position:relative;
+  font-size:1.06rem;font-weight:700;color:var(--indigo);
+  margin:2.2rem 0 .6rem;padding:0 0 .4rem .85rem;
+  border-bottom:2px solid var(--seal);
+  box-shadow:0 3px 0 -1px var(--line);      /* gạch đôi: đậm trên, mảnh dưới */
+}
+.topic-doc h3.group-title::before{
+  content:'';position:absolute;left:0;top:.15em;
+  width:4px;height:1.05em;border-radius:2px;
+  background:linear-gradient(180deg,var(--seal),var(--seal-2));
 }
 
 .topic-doc .entry{display:flex;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--line);}
@@ -1145,7 +1152,20 @@ html[data-theme="dark"] .topic-doc header.top{background:rgba(23,26,33,.94);}
 html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 
 /* ─── Các thẻ Markdown thông dụng dùng cho bài dạng bài đọc / bài phân tích ─── */
-.topic-doc h4.md-h4{font-size:.98rem;font-weight:700;color:var(--indigo);margin:1.4rem 0 .3rem;}
+.topic-doc h4.md-h4{
+  display:flex;align-items:center;gap:.45rem;
+  font-family:ui-monospace,Menlo,Consolas,monospace;
+  font-size:.76rem;font-weight:700;color:var(--seal);
+  text-transform:uppercase;letter-spacing:.09em;
+  margin:1.5rem 0 .45rem;
+}
+.topic-doc h4.md-h4::before{
+  content:'';width:6px;height:6px;border-radius:50%;
+  background:var(--seal);flex-shrink:0;
+}
+.topic-doc h4.md-h4::after{
+  content:'';flex:1;height:1px;background:var(--line);
+}
 .topic-doc p.md-p{margin:.55rem 0;color:var(--ink);font-size:.95rem;line-height:1.75;}
 .topic-doc ul.md-list{margin:.5rem 0 .8rem;padding-left:1.3rem;color:var(--ink);font-size:.95rem;line-height:1.75;list-style:disc outside;}
 .topic-doc ul.md-list li::marker{color:var(--seal);}
@@ -1154,10 +1174,57 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 .topic-doc hr.md-hr{border:none;border-top:1px solid var(--line);margin:2rem 0;}
 .topic-doc code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.85em;background:var(--paper-2);padding:.08em .35em;border-radius:3px;}
 .topic-doc a{color:var(--violet);}
-.topic-doc .md-table-wrap{overflow-x:auto;margin:.8rem 0;}
-.topic-doc table.md-table{border-collapse:collapse;width:100%;font-size:.9rem;}
-.topic-doc table.md-table th,.topic-doc table.md-table td{border:1px solid var(--line);padding:.45rem .6rem;text-align:left;vertical-align:top;}
-.topic-doc table.md-table th{background:var(--paper-2);color:var(--indigo);font-weight:700;}
+.topic-doc .md-table-wrap{overflow-x:auto;margin:1rem 0 1.3rem;border:1px solid var(--line);border-radius:10px;}
+.topic-doc table.md-table{border-collapse:collapse;width:100%;font-size:.9rem;line-height:1.55;word-break:keep-all;}
+.topic-doc table.md-table th,.topic-doc table.md-table td{border-bottom:1px solid var(--line);border-right:1px solid var(--line);padding:.6rem .75rem;text-align:left;vertical-align:top;}
+.topic-doc table.md-table th:last-child,.topic-doc table.md-table td:last-child{border-right:none;}
+.topic-doc table.md-table tbody tr:last-child td{border-bottom:none;}
+.topic-doc table.md-table th{
+  background:var(--paper-2);color:var(--indigo);font-weight:700;
+  font-size:.74rem;text-transform:uppercase;letter-spacing:.07em;
+  border-bottom:2px solid var(--seal);white-space:nowrap;
+}
+.topic-doc table.md-table tbody tr:nth-child(even){background:color-mix(in srgb,var(--paper-2) 55%,transparent);}
+.topic-doc table.md-table tbody tr:hover{background:var(--violet-bg);}
+.topic-doc table.md-table td strong{color:var(--indigo);}
+
+/* Cột đầu (từ khoá / phó từ / số thứ tự) của bảng từ 3 cột trở lên:
+   giữ hẹp và tô nền nhạt để mắt bám được hàng đang đọc */
+.topic-doc table.md-table:not([data-cols="2"]) th:first-child,
+.topic-doc table.md-table:not([data-cols="2"]) td:first-child{width:1%;min-width:8.5em;}
+.topic-doc table.md-table:not([data-cols="2"]) td[data-col="pho tu"],
+.topic-doc table.md-table:not([data-cols="2"]) td[data-col="tu khoa"],
+.topic-doc table.md-table:not([data-cols="2"]) td[data-col="mau"]{
+  background:color-mix(in srgb,var(--seal) 7%,transparent);
+  font-weight:700;color:var(--indigo);
+  font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+}
+/* Cột cấu trúc: rộng rãi, mỗi cấu trúc một dòng */
+.topic-doc table.md-table [data-col="cau truc ho ung"],
+.topic-doc table.md-table [data-col="cau truc"]{min-width:230px;}
+.topic-doc table.md-table td[data-col="cau truc ho ung"] strong,
+.topic-doc table.md-table td[data-col="cau truc"] strong{
+  display:inline-block;
+  font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  font-weight:600;color:var(--violet);
+  background:var(--violet-bg);border:1px solid color-mix(in srgb,var(--violet) 35%,transparent);
+  border-radius:6px;padding:.13rem .5rem;margin:.1rem 0;white-space:nowrap;
+}
+.topic-doc table.md-table .md-cell-line{display:block;}
+.topic-doc table.md-table td em{color:var(--ink-soft);font-size:.9em;line-height:1.5;}
+.topic-doc table.md-table .md-cell-line + .md-cell-line{margin-top:.3rem;}
+@media (max-width:560px){
+  .topic-doc table.md-table{font-size:.84rem;}
+  .topic-doc table.md-table [data-col="cau truc ho ung"],
+  .topic-doc table.md-table [data-col="cau truc"]{min-width:180px;}
+}
+
+/* Chữ được đánh dấu nổi bật:  ==nội dung==  */
+.topic-doc mark.md-mark{
+  background:color-mix(in srgb,var(--seal) 16%,transparent);
+  color:var(--indigo);font-weight:600;
+  border-radius:4px;padding:.02em .28em;
+}
 .topic-doc img{max-width:100%;height:auto;border-radius:6px;}
 
 
@@ -3815,6 +3882,223 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
   .qm-rail-fill{ top:0; bottom:0; right:auto; height:auto !important; width:var(--w,0); background:linear-gradient(90deg,#8C85FF,#5B4FCF); }
 }
 
+/* ══════════════════════════════════════════════════════════════════════
+   58. HỘP CHÀO TRANG CHỦ — cân lại khoảng trống
+   Lỗi cũ: lời chào dính sát header, còn thẻ "Hôm nay bạn đã…" và hình 3D
+   thì rơi quá thấp. Nay đẩy lời chào xuống, kéo thẻ + hình lên.
+   ══════════════════════════════════════════════════════════════════════ */
+.hm-greet{ padding-top:26px; padding-bottom:2px; }
+.hm-hero{ margin-top:78px; }
+.hm-hero-img{ top:-150px; }
+
+@media (max-width:1240px){
+  .hm-greet{ padding-top:22px; }
+  .hm-hero{ margin-top:70px; padding-top:26px; }
+  .hm-hero-img{ width:210px; top:-132px; }
+}
+@media (max-width:1023px){
+  .hm-greet{ padding-top:18px; }
+  .hm-hero{ margin-top:58px; }
+  .hm-hero-img{ width:180px; top:-112px; }
+}
+@media (max-width:860px){
+  .hm-greet{ padding-top:2px; }
+  .hm-hero{ margin-top:14px; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   59. TRẮC NGHIỆM — tách phần "mấu chốt" ra khỏi lời dẫn
+   Từ/câu cần trả lời được bọc trong ô bạc hà nhạt, chữ đậm hơn, để mắt
+   phân biệt ngay đâu là đề bài đâu là dữ kiện phải xử lý.
+   ══════════════════════════════════════════════════════════════════════ */
+.tq-cloze{
+  display:inline-block; align-self:center;
+  max-width:100%;
+  padding:10px 18px; border-radius:14px;
+  font-weight:800 !important;
+  background:rgba(58,196,164,.07);
+  box-shadow: inset 0 0 0 1.5px rgba(58,196,164,.24);
+}
+/* Cụm mấu chốt nằm ngay trong câu dẫn (VD: Cách viết nào ĐÚNG cho nghĩa: …) */
+.tq-key{
+  display:inline-block;
+  padding:1px 9px; margin:0 1px; border-radius:9px;
+  font-weight:800; color:var(--c-1e2a4a);
+  background:rgba(58,196,164,.10);
+  box-shadow: inset 0 0 0 1.5px rgba(58,196,164,.26);
+}
+:root[data-theme="dark"] .tq-cloze{
+  background:rgba(72,214,180,.09);
+  box-shadow: inset 0 0 0 1.5px rgba(72,214,180,.28);
+}
+:root[data-theme="dark"] .tq-key{
+  color:#E6E8EE;
+  background:rgba(72,214,180,.12);
+  box-shadow: inset 0 0 0 1.5px rgba(72,214,180,.30);
+}
+@media (max-width:640px){
+  .tq-cloze{ padding:9px 14px; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   60. THẺ TỪ VỰNG CHI TIẾT — tách rõ khung trong khỏi khung ngoài
+   Lỗi cũ: vệt sáng trắng ở góc trên–trái quá mờ nên hai lớp khung dính
+   vào nhau. Nay tăng lực vệt sáng + thêm viền tóc rất nhạt.
+   ══════════════════════════════════════════════════════════════════════ */
+:root:not([data-theme="dark"]) #view-library-stage .modern-card-wrapper,
+:root:not([data-theme="dark"]) #view-search-results .modern-card-wrapper,
+:root:not([data-theme="dark"]) .lib-detail-sheet .modern-card-wrapper,
+:root:not([data-theme="dark"]) #right-detail-panel .modern-card-wrapper{
+  background:#FDFCFF !important;
+  box-shadow: -8px -8px 18px rgba(255,255,255,1),
+              -2px -2px 4px rgba(255,255,255,.95),
+              8px 8px 20px rgba(120,114,160,.20),
+              0 0 0 1px rgba(120,114,160,.09) !important;
+}
+:root[data-theme="dark"] #view-library-stage .modern-card-wrapper,
+:root[data-theme="dark"] #view-search-results .modern-card-wrapper,
+:root[data-theme="dark"] .lib-detail-sheet .modern-card-wrapper,
+:root[data-theme="dark"] #right-detail-panel .modern-card-wrapper{
+  box-shadow: -6px -6px 16px rgba(255,255,255,.075),
+              7px 7px 20px rgba(0,0,0,.42),
+              0 0 0 1px rgba(255,255,255,.06) !important;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   61. MOBILE — 1 HEADER CỐ ĐỊNH + 1 DẢI TAB TỰ ẨN
+   Lỗi cũ: trên điện thoại có tới 3 dải ngang xếp chồng (thương hiệu,
+   dải tab, header) chiếm gần nửa màn hình, còn nút 3 gạch thì bấm
+   không làm gì. Nay:
+     · Header cố định: logo · tên trang · tìm kiếm · thêm sổ · avatar
+     · Dải tab nằm ngay dưới header, cuộn xuống thì ẩn, cuộn lên hiện lại
+     · Chế độ sáng/tối chuyển vào panel avatar
+   ══════════════════════════════════════════════════════════════════════ */
+.m-only-logo{ display:none; }
+.m-only-btn{ display:none; }
+
+@media (max-width:767px){
+  :root{ --m-header-h:56px; --m-tabs-h:50px; }
+
+  body{ padding-top:calc(var(--m-header-h) + var(--m-tabs-h) + 10px) !important; }
+
+  /* --- Header cố định --- */
+  #app-header{
+    position:fixed !important; top:0; left:0; right:0; z-index:45;
+    height:var(--m-header-h);
+    border-radius:0 !important;
+    padding:0 12px !important;
+    flex-wrap:nowrap !important;
+    gap:8px !important;
+    background:var(--c-e6ebf3);
+    box-shadow:0 2px 12px rgba(120,114,160,.16);
+  }
+  :root[data-theme="dark"] #app-header{
+    background:#1F232C; box-shadow:0 2px 12px rgba(0,0,0,.45);
+  }
+  #sidebar-toggle-btn{ display:none !important; }
+  #theme-toggle-btn{ display:none !important; }        /* chuyển vào panel avatar */
+  #m-header-logo{ display:flex; align-items:center; width:32px; height:32px; }
+  #m-header-logo img{ width:100%; height:100%; object-fit:contain; }
+  #m-search-btn{ display:flex !important; }
+  #app-header-title{ font-size:16px !important; flex:1 1 auto; }
+  /* ô tìm kiếm dạng thanh dài: ẩn ở mobile, thay bằng nút kính lúp */
+  #app-header > div.order-3{ display:none !important; }
+  #app-header > div.order-2{ gap:8px !important; }
+  #quick-add-btn{ padding:9px !important; }
+
+  /* --- Dải tab dưới header --- */
+  #app-sidebar{
+    position:fixed !important; top:var(--m-header-h); left:0; right:0; z-index:44;
+    width:auto !important;
+    border-radius:0 !important;
+    padding:5px 10px !important;
+    background:var(--c-e6ebf3);
+    box-shadow:0 4px 10px rgba(120,114,160,.13);
+    transition:transform .26s cubic-bezier(.4,0,.2,1);
+  }
+  :root[data-theme="dark"] #app-sidebar{ background:#1F232C; box-shadow:0 4px 10px rgba(0,0,0,.4); }
+  #app-sidebar.m-tabs-hidden{ transform:translateY(-104%); }
+  #sidebar-brand{ display:none !important; }           /* logo đã nằm trên header */
+  #app-sidebar nav{
+    gap:6px !important;
+    overflow-x:auto; scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+  #app-sidebar nav::-webkit-scrollbar{ display:none; }
+  #app-sidebar .sidebar-nav-item{
+    flex:0 0 auto; padding:8px 13px !important;
+    font-size:13px; white-space:nowrap; border-radius:13px;
+  }
+
+  /* --- Thanh tìm kiếm nổi trên bàn phím --- */
+  #m-search-overlay{ position:fixed; inset:0; z-index:90; }
+  #m-search-overlay.hidden{ display:none; }
+  .m-search-scrim{ position:absolute; inset:0; background:rgba(20,18,45,.28); }
+  .m-search-dock{
+    position:absolute; left:0; right:0; bottom:0;
+    display:flex; align-items:center; gap:8px;
+    padding:10px 12px calc(10px + env(safe-area-inset-bottom));
+    background:var(--c-e6ebf3);
+    box-shadow:0 -6px 20px rgba(60,50,110,.22);
+    will-change:transform;
+  }
+  :root[data-theme="dark"] .m-search-dock{ background:#1F232C; }
+  .m-search-field{
+    flex:1 1 auto; min-width:0;
+    display:flex; align-items:center; gap:9px;
+    padding:11px 14px; border-radius:14px;
+    background:var(--c-f5f7fb);
+    box-shadow: inset 3px 3px 8px rgba(120,114,160,.20),
+                inset -3px -3px 8px rgba(255,255,255,.92);
+  }
+  :root[data-theme="dark"] .m-search-field{
+    background:#171A21;
+    box-shadow: inset 3px 3px 8px rgba(0,0,0,.5), inset -2px -2px 6px rgba(255,255,255,.05);
+  }
+  #m-search-input{
+    flex:1 1 auto; min-width:0;
+    background:transparent; border:none; outline:none;
+    font-size:16px; color:var(--c-1e293b);
+  }
+  :root[data-theme="dark"] #m-search-input{ color:#E6E8EE; }
+  .m-search-x{ color:var(--c-94a3b8); flex-shrink:0; }
+  .m-search-x.hidden{ display:none; }
+  .m-search-cancel{
+    flex-shrink:0; font-size:14px; font-weight:700;
+    color:var(--c-6c63ff, #6C63FF); padding:6px 4px;
+  }
+}
+@media (min-width:768px){
+  #m-search-overlay{ display:none !important; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   62. "VIỆC TIẾP THEO" — tự kéo tới + loé sáng 1 giây
+   Màn hình thấp thì làm xong bước 1 là bước 2 nằm khuất dưới mép, người
+   dùng đứng hình không biết làm gì tiếp. Nay mỗi khi một bước hoàn tất,
+   phần việc kế tiếp được cuộn vào tầm mắt và loé sáng rồi tắt.
+   ══════════════════════════════════════════════════════════════════════ */
+.step-flash{
+  animation: stepFlash 1s cubic-bezier(.3,.9,.4,1) 1;
+  position:relative; z-index:1;
+}
+@keyframes stepFlash{
+  0%   { box-shadow:0 0 0 0 rgba(108,99,255,0);   filter:none; }
+  14%  { box-shadow:0 0 0 3px rgba(108,99,255,.42), 0 0 24px 6px rgba(108,99,255,.30); filter:brightness(1.055); }
+  46%  { box-shadow:0 0 0 3px rgba(108,99,255,.30), 0 0 20px 5px rgba(108,99,255,.20); filter:brightness(1.03); }
+  100% { box-shadow:0 0 0 0 rgba(108,99,255,0);   filter:none; }
+}
+:root[data-theme="dark"] .step-flash{ animation-name: stepFlashDark; }
+@keyframes stepFlashDark{
+  0%   { box-shadow:0 0 0 0 rgba(150,141,255,0);   filter:none; }
+  14%  { box-shadow:0 0 0 3px rgba(150,141,255,.50), 0 0 26px 7px rgba(150,141,255,.34); filter:brightness(1.12); }
+  46%  { box-shadow:0 0 0 3px rgba(150,141,255,.34), 0 0 20px 5px rgba(150,141,255,.22); filter:brightness(1.06); }
+  100% { box-shadow:0 0 0 0 rgba(150,141,255,0);   filter:none; }
+}
+@media (prefers-reduced-motion: reduce){
+  .step-flash{ animation-duration:.01s; }
+}
+
     </style>
 </head>
 <body class="font-sans antialiased text-[color:var(--c-3d3d4e)] px-3 sm:px-5 lg:px-8 pb-3 sm:pb-5 lg:pb-8 pt-1 sm:pt-2 min-h-screen">
@@ -3921,10 +4205,14 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         <div class="flex-1 min-w-0 flex flex-col gap-4 md:gap-5">
 
             <!-- HEADER (neumorphism sáng) -->
-            <header class="w-full neo-raised !rounded-[22px] px-3 sm:px-4 py-2.5 flex flex-wrap items-center gap-2.5 md:sticky md:top-2 z-30">
+            <header class="w-full neo-raised !rounded-[22px] px-3 sm:px-4 py-2.5 flex flex-wrap items-center gap-2.5 md:sticky md:top-2 z-30" id="app-header">
                 <button class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 neo-button" style="color:var(--c-475569);" id="sidebar-toggle-btn" onclick="toggleSidebarCollapse()" title="Đóng/mở menu">
                     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
                 </button>
+                <!-- Logo — chỉ hiện ở mobile, thay cho nút 3 gạch (nút đó mobile không dùng tới) -->
+                <span class="m-only-logo shrink-0" id="m-header-logo">
+                    <img src="assets/logo-web.png" alt="Logo" onerror="brandLogoFallback(this)">
+                </span>
                 <h1 class="text-lg sm:text-xl font-black min-w-0 truncate" style="color:var(--c-1e293b); letter-spacing:-0.4px;" id="app-header-title">Trang chủ</h1>
                 <div class="order-3 sm:order-2 w-full sm:w-auto sm:flex-1 sm:max-w-[420px] sm:mx-4 relative">
                     <div class="flex items-center px-4 py-2.5 w-full rounded-xl rd-inset">
@@ -3938,6 +4226,10 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                     </div>
                 </div>
                 <div class="order-2 sm:order-3 flex items-center gap-2.5 ml-auto">
+                    <!-- Nút mở thanh tìm kiếm — chỉ hiện ở mobile (bàn phím + ô tìm nổi lên trên) -->
+                    <button class="w-9 h-9 rounded-xl items-center justify-center shrink-0 neo-button m-only-btn" style="color:var(--c-475569);" id="m-search-btn" onclick="openMobileSearch()" title="Tìm kiếm từ vựng">
+                        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+                    </button>
                     <button class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 neo-button" style="color:var(--c-475569);" id="theme-toggle-btn" onclick="toggleTheme()" title="Chế độ sáng / tối">
                         <span id="theme-toggle-icon"></span>
                     </button>
@@ -3951,6 +4243,25 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                     </button>
                 </div>
             </header>
+
+            <!-- THANH TÌM KIẾM MOBILE: ô nhập nằm sát mép trên bàn phím -->
+            <div id="m-search-overlay" class="hidden" aria-hidden="true">
+                <div class="m-search-scrim" onclick="closeMobileSearch()"></div>
+                <div class="m-search-dock" id="m-search-dock">
+                    <div class="m-search-field">
+                        <span class="shrink-0" style="color:var(--c-64748b);">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+                        </span>
+                        <input type="text" id="m-search-input" placeholder="Tìm kiếm từ vựng..." autocomplete="off"
+                               oninput="handleMobileSearchInput(this.value)"
+                               onkeydown="if(event.key==='Enter'){event.preventDefault(); handleMobileSearchInput(this.value, true); this.blur();}">
+                        <button class="m-search-x hidden" id="m-search-clear" onclick="clearMobileSearch()" title="Xoá">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        </button>
+                    </div>
+                    <button class="m-search-cancel" onclick="closeMobileSearch()">Huỷ</button>
+                </div>
+            </div>
 
             <!-- KHU VỰC NỘI DUNG CHÍNH BIẾN ĐỔI ĐỘNG -->
             <!-- KHÔNG cap ở đây — giới hạn width áp RIÊNG cho từng view (home 1250, thư viện 1400) để header vẫn trải rộng -->
@@ -6417,6 +6728,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             await ensureAllLibraryLoaded();
             computeBulkOptionsCascaded();
             renderModalStep2();
+            flashNextStep(step2, { delay: 60, noScroll: true });
         }
 
         function closeCreateNotebookModal() {
@@ -6463,6 +6775,10 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             await ensureAllLibraryLoaded();
             computeBulkOptionsCascaded();
             renderModalStep2();
+            // Sang bước 2: đưa về đầu khung rồi loé sáng để biết đang ở bước mới
+            const panel = step2.parentElement;
+            if (panel) panel.scrollTop = 0;
+            flashNextStep(step2, { delay: 60, noScroll: true });
         }
 
         function backToModalStep1() {
@@ -6712,6 +7028,11 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 ? `Thêm ${n ? n + ' từ ' : ''}vào sổ`
                 : `Tạo sổ${n ? ` (${n} từ)` : ''}`;
             renderSelectedWordsList();
+            // Giỏ từ vừa có từ đầu tiên → kéo xuống cho thấy giỏ + nút tạo sổ
+            if (n && !nbModalState._flashedBasket) {
+                nbModalState._flashedBasket = true;
+                flashNextStepById('modal-selected-list-wrap', { delay: 150 });
+            }
         }
 
         function renderSelectedWordsList() {
@@ -6758,6 +7079,12 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             };
             put();
             setTimeout(put, 0);
+            // Vừa đặt bộ lọc đầu tiên → chỉ cho thấy khối bước ② nằm ngay dưới
+            const nFilters = Object.values(nbModalState.bulkFilters).reduce((a, x) => a + x.length, 0);
+            if (nFilters && !nbModalState._flashedBulkAction) {
+                nbModalState._flashedBulkAction = true;
+                flashNextStepById('modal-bulk-action', { delay: 120 });
+            }
         }
 
         function getBulkMatchesRaw(includeLearned) {
@@ -7873,7 +8200,9 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             st.answered = false;
             const justFinished = !st.queue.length;
             (PRACTICE_RENDERERS[funcKey] || (() => {}))();
-            if (justFinished) showPracticeCompletionPopup(funcKey);
+            if (justFinished) { showPracticeCompletionPopup(funcKey); return; }
+            // Câu mới vừa dựng xong → kéo lên đầu tầm mắt cho khỏi phải tự cuộn
+            flashNextStepById('practice-content', { delay: 60 });
         }
 
         // ============================================================
@@ -8362,7 +8691,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                 };
             }
             return {
-                key: 'word', label: `Từ nào mang nghĩa: "${tqViShort(tqVi(item))}"?`,
+                key: 'word', label: `Từ nào mang nghĩa sau: <span class="tq-key">${tqViShort(tqVi(item))}</span>`,
                 promptHtml: '', correct: item.word, optClass: TQ_KO_CLS,
                 wrongs: tqKoDistractors(item, '', 3), reveal: reveal
             };
@@ -8430,7 +8759,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             const wrongs = shuffleArr(tqMisspellings(item.word)).slice(0, 3);
             if (wrongs.length < 3) return null;
             return {
-                key: 'spell', label: `Cách viết nào ĐÚNG cho nghĩa: "${tqViShort(tqVi(item))}"?`,
+                key: 'spell', label: `Cách viết nào ĐÚNG cho nghĩa sau: <span class="tq-key">${tqViShort(tqVi(item))}</span>`,
                 promptHtml: '', correct: item.word, wrongs: wrongs, optClass: TQ_KO_CLS,
                 reveal: `<b class="${TQ_KO_CLS}">${item.word}</b><br>${tqVi(item)}`
             };
@@ -8491,7 +8820,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             const ch = tqHanja(correctItem);
             return {
                 key: 'hanjaRoot',
-                label: `Từ nào dưới đây cũng chứa gốc Hán <b>${cn}</b> (${root.vi})?`,
+                label: `Từ nào dưới đây cũng chứa gốc Hán <span class="tq-key">${cn}</span> (${root.vi})?`,
                 promptHtml: `<div class="tq-cloze"><span class="${TQ_KO_CLS}">${item.word}</span> = <b>${root.kr}</b> 【${cn}】 ${root.vi}</div><div class="tq-sub">(${tqViShort(tqVi(item))})</div>`,
                 correct: correctItem.word, wrongs: wrongs, optClass: TQ_KO_CLS,
                 reveal: `<b class="${TQ_KO_CLS}">${correctItem.word}</b>${ch && ch.cn ? ' 【' + ch.cn + '】' : ''} — ${tqViShort(tqVi(correctItem))}`
@@ -8736,6 +9065,8 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             const nx = document.getElementById('pq-next-btn'), sk = document.getElementById('pq-skip-btn');
             if (nx) nx.classList.remove('hidden');
             if (sk) sk.classList.add('hidden');
+            // Đáp án + giải thích vừa hiện ra → chỉ tiếp nút "Câu tiếp theo"
+            flashNextStep(nx, { delay: 550 });
             const item = practiceState.words[st.queue[0]];
             if (item) recordPracticeResult('quiz', item.id, isCorrect);
         }
@@ -9790,6 +10121,12 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                     </div>
                     <div class="w-full h-[1.5px] my-1.5" style="background:linear-gradient(90deg,transparent,var(--c-d8e0ec),transparent);"></div>
                     <button class="bookmark-popup-item" onclick="closeProfilePopup(); openActivityDashboard();">${themeIcon('activity', 'brand', 18)}<span>Hoạt động của bạn</span></button>
+                    <button class="bookmark-popup-item" onclick="toggleTheme(); renderProfilePopupContent();">
+                        <span style="display:flex;width:18px;height:18px;align-items:center;justify-content:center;">${currentTheme() === 'dark'
+                            ? '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>'
+                            : '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>'}</span>
+                        <span>${currentTheme() === 'dark' ? 'Chuyển sang nền sáng' : 'Chuyển sang nền tối'}</span>
+                    </button>
                     <button class="bookmark-popup-item" onclick="profilePopupSettingsMode = true; renderProfilePopupContent();">
                         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                         <span>Cài đặt</span>
@@ -10487,7 +10824,36 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             saveNotebooksToServer();
         }
 
+        // ============================================================
+        // MODAL CHUẨN BỊ QUIZ NGOÀI TRANG CHỦ (Ôn lại từ cũ / Ôn tập tổng hợp)
+        //
+        // Có 2 NGUỒN từ vựng:
+        //   ① Theo sổ từ vựng — chọn 1 hay nhiều sổ (cách cũ)
+        //   ② Theo bộ lọc thư viện — lọc theo Thư viện/Cấp độ/Dạng đề/Loại từ/
+        //      Chủ đề rồi lấy những từ học sinh ĐÃ ĐỤNG TỚI trong vùng đó:
+        //      từ đã tick ✓ "đã học", từ trả lời đúng trong quiz, và từ đã bỏ
+        //      vào bất kỳ sổ nào. Ví dụ: dạng đề 읽기 12 có 56 từ, đã tick 40 từ
+        //      và 3 từ khác nằm trong sổ A → gom được 43 từ, còn 13 từ chưa
+        //      đụng tới (muốn lấy luôn thì bật công tắc riêng).
+        //   Từ gom được rơi vào "kho" để xem lại, xoá lẻ hoặc xoá hết trước khi
+        //   chọn số câu và bắt đầu.
+        // ============================================================
+        let qmSetup = null;
+
+        function freshQmSetup(mode) {
+            return {
+                mode: mode, source: 'nb',
+                pickedNb: new Set(), includeLearned: false,
+                filters: { libs: [], levels: [], examTypes: [], wordTypes: [], topics: [] },
+                options: { libs: [], levels: [], examTypes: [], wordTypes: [], topics: [] },
+                basket: [], includeUntouched: false,
+                libLoading: false, libReady: !!allLibraryCache,
+                flashedCount: false, flashedBasket: false, flashedHarvest: false, qty: '',
+            };
+        }
+
         function openQuizMazeSetupModal(mode) {
+            qmSetup = freshQmSetup(mode);
             const overlay = document.createElement('div');
             overlay.id = 'quiz-maze-setup-modal';
             overlay.className = 'fixed inset-0 z-[120] flex items-center justify-center p-4';
@@ -10497,71 +10863,326 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             renderQuizMazeSetupModal(mode);
         }
 
+        // ── Dữ liệu cho nguồn ② ────────────────────────────────────────
+        // Các từ học sinh ĐÃ ĐỤNG TỚI: đã học (tick ✓ hoặc trả lời đúng) + đã có trong sổ nào đó
+        function qmTouchedIdSet() {
+            const ids = getLearnedIdSet();
+            (notebooksList || []).forEach(nb => (nb.words || []).forEach(w => ids.add(w.id)));
+            return ids;
+        }
+
+        function qmComputeOptions() {
+            let data = allLibraryCache || [];
+            const opts = {};
+            BULK_CASCADE_ORDER.forEach(key => {
+                const field = BULK_FIELD_MAP[key];
+                const set = new Set();
+                data.forEach(w => { if (w[field]) set.add(w[field]); });
+                opts[key] = [...set].sort();
+                qmSetup.filters[key] = qmSetup.filters[key].filter(v => opts[key].includes(v));
+                if (qmSetup.filters[key].length) data = data.filter(w => qmSetup.filters[key].includes(w[field]));
+            });
+            qmSetup.options = opts;
+        }
+
+        function qmFilterMatches() {
+            const f = qmSetup.filters;
+            return (allLibraryCache || []).filter(w => {
+                if (f.libs.length && !f.libs.includes(w.source)) return false;
+                if (f.levels.length && !f.levels.includes(w.level)) return false;
+                if (f.examTypes.length && !f.examTypes.includes(w.exam_type)) return false;
+                if (f.wordTypes.length && !f.wordTypes.includes(w.word_type)) return false;
+                if (f.topics.length && !f.topics.includes(w.topic)) return false;
+                return true;
+            });
+        }
+
+        // Nhóm từ sẽ được gom: mặc định chỉ lấy từ đã đụng tới, bật công tắc thì lấy cả vùng lọc
+        function qmHarvestPool() {
+            const matches = qmFilterMatches();
+            if (qmSetup.includeUntouched) return matches;
+            const touched = qmTouchedIdSet();
+            return matches.filter(w => touched.has(w.id));
+        }
+
+        function qmAddToBasket(list) {
+            const own = getWordOwnershipMap();
+            const have = new Set(qmSetup.basket.map(w => w.id));
+            list.forEach(w => {
+                if (have.has(w.id)) return;
+                have.add(w.id);
+                const o = own.get(w.id);
+                // Giữ nguyên object từ thư viện (đủ ví dụ/gốc Hán/giải thích để sinh 12 dạng câu hỏi),
+                // gắn thêm _nbId để kết quả ghi vào đúng sổ nếu từ đó đang nằm trong một sổ, và
+                // lastSeenAt của bản trong sổ để chế độ "Lâu rồi không gặp" xếp đúng thứ tự.
+                if (!o) { qmSetup.basket.push(Object.assign({}, w)); return; }
+                const nb = (notebooksList || []).find(n => n.id === o.nbId);
+                const inNb = nb && (nb.words || []).find(x => x.id === w.id);
+                qmSetup.basket.push(Object.assign({}, w, {
+                    _nbId: o.nbId,
+                    lastSeenAt: (inNb && inNb.lastSeenAt) || w.lastSeenAt || 0,
+                }));
+            });
+        }
+
+        function qmSwitchSource(src) {
+            qmSetup.source = src;
+            renderQuizMazeSetupModal(qmSetup.mode);
+            if (src === 'filter' && !allLibraryCache && !qmSetup.libLoading) {
+                qmSetup.libLoading = true;
+                ensureAllLibraryLoaded().then(() => {
+                    if (!document.getElementById('quiz-maze-setup-modal') || !qmSetup) return;
+                    qmSetup.libLoading = false; qmSetup.libReady = true;
+                    qmComputeOptions();
+                    renderQuizMazeSetupModal(qmSetup.mode);
+                });
+            } else if (src === 'filter') {
+                qmComputeOptions();
+                renderQuizMazeSetupModal(qmSetup.mode);
+            }
+        }
+
+        function qmToggleNb(nbId) {
+            if (qmSetup.pickedNb.has(nbId)) qmSetup.pickedNb.delete(nbId); else qmSetup.pickedNb.add(nbId);
+            renderQuizMazeSetupModal(qmSetup.mode);
+            if (qmSetup.pickedNb.size && !qmSetup.flashedCount) {
+                qmSetup.flashedCount = true;
+                flashNextStepById('qm-count-block', { delay: 130 });
+            }
+        }
+
+        function qmToggleIncludeLearned(v) { qmSetup.includeLearned = !!v; renderQuizMazeSetupModal(qmSetup.mode); }
+        function qmToggleIncludeUntouched(v) { qmSetup.includeUntouched = !!v; renderQuizMazeSetupModal(qmSetup.mode); }
+
+        function qmToggleFilter(key, val) {
+            const arr = qmSetup.filters[key];
+            const i = arr.indexOf(val);
+            if (i > -1) arr.splice(i, 1); else arr.push(val);
+            qmComputeOptions();
+            renderQuizMazeSetupModal(qmSetup.mode);
+            const nF = Object.values(qmSetup.filters).reduce((a, x) => a + x.length, 0);
+            if (nF && !qmSetup.flashedHarvest) {
+                qmSetup.flashedHarvest = true;
+                flashNextStepById('qm-harvest-block', { delay: 140 });
+            }
+        }
+
+        function qmResetFilters() {
+            qmSetup.filters = { libs: [], levels: [], examTypes: [], wordTypes: [], topics: [] };
+            qmComputeOptions();
+            renderQuizMazeSetupModal(qmSetup.mode);
+        }
+
+        function qmFlashBasket() {
+            if (!qmSetup.basket.length || qmSetup.flashedBasket) return;
+            qmSetup.flashedBasket = true;
+            flashNextStepById('qm-basket-block', { delay: 150 });
+        }
+
+        function qmAddAllMatches() {
+            qmAddToBasket(qmHarvestPool());
+            renderQuizMazeSetupModal(qmSetup.mode);
+            qmFlashBasket();
+        }
+
+        function qmAddRandomMatches() {
+            const input = document.getElementById('qm-harvest-qty');
+            const qty = parseInt(input && input.value, 10);
+            if (!qty || qty < 1) { if (input) input.focus(); return; }
+            const have = new Set(qmSetup.basket.map(w => w.id));
+            qmAddToBasket(shuffleArr(qmHarvestPool().filter(w => !have.has(w.id))).slice(0, qty));
+            renderQuizMazeSetupModal(qmSetup.mode);
+            qmFlashBasket();
+        }
+
+        function qmRemoveFromBasket(id) {
+            qmSetup.basket = qmSetup.basket.filter(w => w.id !== id);
+            renderQuizMazeSetupModal(qmSetup.mode);
+        }
+        function qmClearBasket() {
+            qmSetup.basket = [];
+            renderQuizMazeSetupModal(qmSetup.mode);
+        }
+
+        // ── Vẽ modal ───────────────────────────────────────────────────
         function renderQuizMazeSetupModal(mode) {
             const overlay = document.getElementById('quiz-maze-setup-modal');
-            if (!overlay) return;
+            if (!overlay || !qmSetup) return;
             const title = mode === 'longtime' ? '🕰️ Lâu rồi không gặp' : '🔀 Ôn tập tổng hợp';
             const desc = mode === 'longtime'
-                ? 'Ưu tiên những từ đã lâu bạn chưa ôn lại (hoặc chưa từng làm) trong sổ đã chọn.'
-                : 'Lấy ngẫu nhiên bất kỳ từ nào trong các sổ đã chọn để ôn tập.';
-            overlay.innerHTML = `
-                <div class="neo-raised p-6 sm:p-7 w-full max-w-[600px] max-h-[88vh] overflow-y-auto flex flex-col gap-4 !rounded-[28px] relative" onclick="event.stopPropagation()">
-                    <button class="absolute top-5 right-5 w-9 h-9 rounded-full neo-button flex items-center justify-center text-gray-400" onclick="document.getElementById('quiz-maze-setup-modal').remove()">✕</button>
-                    <div>
-                        <h3 class="text-lg font-extrabold text-[color:var(--c-1a1a24)]">${title}</h3>
-                        <p class="text-xs text-gray-400 mt-1">${desc}</p>
+                ? 'Ưu tiên những từ đã lâu bạn chưa ôn lại (hoặc chưa từng làm).'
+                : 'Lấy ngẫu nhiên từ vựng bạn đã học để ôn lại.';
+            const isNb = qmSetup.source === 'nb';
+            const nBasket = qmSetup.basket.length;
+
+            const tabBtn = (key, label) => `
+                <button class="px-3.5 py-1.5 text-[11.5px] font-bold !rounded-lg ${qmSetup.source === key ? 'text-point' : 'text-gray-400'}"
+                    style="${qmSetup.source === key ? 'background:var(--c-e6ebf3); box-shadow: var(--shadow-btn);' : ''}"
+                    onclick="qmSwitchSource('${key}')">${label}</button>`;
+
+            // ① NGUỒN: theo sổ từ vựng
+            const nbBody = `
+                <div class="flex flex-col gap-2 max-h-[190px] overflow-y-auto pr-1">
+                    ${notebooksList.length ? notebooksList.map(nb => `
+                        <label class="flex items-center gap-3 p-2.5 rounded-xl neo-sunk cursor-pointer">
+                            <input type="checkbox" class="neo-checkbox" ${qmSetup.pickedNb.has(nb.id) ? 'checked' : ''} onchange="qmToggleNb('${nb.id}')">
+                            <span class="flex-1 text-sm font-bold text-[color:var(--c-2d2d3a)] truncate">${nb.name}</span>
+                            <span class="text-[12px] text-gray-400">${(nb.words || []).length} từ</span>
+                        </label>
+                    `).join('') : `<p class="text-xs text-gray-400 text-center py-4">Bạn chưa có sổ từ vựng nào.</p>`}
+                </div>
+                <label class="flex items-center gap-2.5 px-1 cursor-pointer">
+                    <input type="checkbox" class="neo-checkbox" ${qmSetup.includeLearned ? 'checked' : ''} onchange="qmToggleIncludeLearned(this.checked)">
+                    <span class="text-[11.5px] font-bold text-[color:var(--c-6b7a99)]">Bao gồm cả từ đã học thuộc</span>
+                </label>`;
+
+            // ① NGUỒN: theo bộ lọc thư viện
+            const chip = (key, val, label) => {
+                const active = qmSetup.filters[key].includes(val);
+                return `<button class="bulk-chip ${active ? 'bulk-chip-active' : ''}" onclick="qmToggleFilter('${key}','${String(val).replace(/'/g, "\\'")}')">${label}</button>`;
+            };
+            const section = (icon, titleTxt, key, opts, labelFn) => {
+                const n = qmSetup.filters[key].length;
+                return `
+                <div>
+                    <p class="text-[11px] font-bold uppercase tracking-wider mb-1.5 flex items-center gap-1.5" style="color:${n ? 'var(--clay-i-indigo)' : 'var(--c-9aa4b8)'};">
+                        ${icon} ${titleTxt}${n ? `<span class="nb-tag" style="background:rgba(108,99,255,.14); color:var(--clay-i-indigo);">${n}</span>` : ''}
+                    </p>
+                    <div class="flex flex-wrap gap-1.5">${opts.length ? opts.map(v => chip(key, v, labelFn ? labelFn(v) : v)).join('') : '<span class="text-[12px] text-gray-400">Không có dữ liệu</span>'}</div>
+                </div>`;
+            };
+
+            let filterBody;
+            if (!allLibraryCache) {
+                filterBody = `<p class="text-sm text-gray-400 py-8 text-center">Đang tải thư viện từ vựng...</p>`;
+            } else {
+                const matches = qmFilterMatches();
+                const touched = qmTouchedIdSet();
+                const nTouched = matches.filter(w => touched.has(w.id)).length;
+                const nFresh = matches.length - nTouched;
+                const nActive = Object.values(qmSetup.filters).reduce((a, x) => a + x.length, 0);
+                const harvest = qmHarvestPool();
+                const already = new Set(qmSetup.basket.map(w => w.id));
+                const nNew = harvest.filter(w => !already.has(w.id)).length;
+                filterBody = `
+                    <div class="flex items-center justify-between gap-2 flex-wrap">
+                        <span class="text-xs font-bold" style="color:var(--clay-i-indigo);">${matches.length} từ khớp bộ lọc</span>
+                        ${nActive ? `<button class="text-[10.5px] font-black text-[color:var(--c-8290aa)]" onclick="qmResetFilters()">✕ Bỏ ${nActive} bộ lọc</button>`
+                                  : `<span class="text-[10.5px] font-semibold text-gray-400">Chưa lọc — đang lấy toàn bộ thư viện</span>`}
                     </div>
-                    <div>
-                        <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Chọn sổ từ vựng (có thể chọn nhiều)</p>
-                        <div class="flex flex-col gap-2 max-h-[220px] overflow-y-auto pr-1">
-                            ${notebooksList.length ? notebooksList.map(nb => `
-                                <label class="flex items-center gap-3 p-3 rounded-xl neo-sunk cursor-pointer">
-                                    <input type="checkbox" class="qm-nb-checkbox neo-checkbox" value="${nb.id}">
-                                    <span class="flex-1 text-sm font-bold text-[color:var(--c-2d2d3a)] truncate">${nb.name}</span>
-                                    <span class="text-[12px] text-gray-400">${(nb.words || []).length} từ</span>
-                                </label>
-                            `).join('') : `<p class="text-xs text-gray-400 text-center py-4">Bạn chưa có sổ từ vựng nào.</p>`}
+                    <div class="flex flex-col gap-3 overflow-y-auto pr-1" style="max-height:210px;">
+                        ${section('📚', 'Thư viện', 'libs', qmSetup.options.libs, v => BULK_LIB_LABELS[v] || v)}
+                        ${section('📊', 'Cấp độ', 'levels', qmSetup.options.levels, v => `Cấp ${v}`)}
+                        ${section('📝', 'Dạng đề', 'examTypes', qmSetup.options.examTypes)}
+                        ${section('🧩', 'Loại từ', 'wordTypes', qmSetup.options.wordTypes)}
+                        ${section('📁', 'Chủ đề', 'topics', qmSetup.options.topics)}
+                    </div>
+                    <div class="nb-block" id="qm-harvest-block" style="box-shadow:var(--shadow-raised);">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="text-[22px] font-black leading-none" style="color:#5b4fcf;">${nTouched}</span>
+                            <span class="text-[11.5px] font-bold text-[color:var(--c-6b7a99)]">từ đã học / đã có trong sổ</span>
+                            <span class="nb-tag ml-auto" style="background:rgba(120,130,160,.14); color:var(--c-6b7a99);">${nFresh} từ chưa đụng tới</span>
                         </div>
+                        <label class="flex items-center gap-2.5 cursor-pointer -mt-0.5">
+                            <input type="checkbox" class="neo-checkbox" ${qmSetup.includeUntouched ? 'checked' : ''} onchange="qmToggleIncludeUntouched(this.checked)">
+                            <span class="text-[11px] font-bold text-[color:var(--c-6b7a99)]">Lấy cả từ chưa đụng tới (${matches.length} từ)</span>
+                        </label>
+                        <button class="nb-cta" onclick="qmAddAllMatches()" ${nNew ? '' : 'disabled'}>+ Thêm ${nNew} từ vào kho</button>
+                        <div class="nb-or">hoặc chỉ lấy một phần</div>
+                        <div class="flex items-center gap-2">
+                            <input type="number" min="1" max="${nNew}" id="qm-harvest-qty" placeholder="VD: 20 từ" class="flex-1 min-w-0 px-3 py-2.5 text-xs font-bold rounded-xl outline-none border-none" style="background:var(--c-inputbg); box-shadow: var(--shadow-sunk); color:var(--c-3d3d4e);" onkeydown="if(event.key==='Enter'){event.preventDefault(); qmAddRandomMatches();}">
+                            <button class="nb-cta-sub" onclick="qmAddRandomMatches()" ${nNew ? '' : 'disabled'}>🎲 Lấy ngẫu nhiên</button>
+                        </div>
+                    </div>`;
+            }
+
+            // ② KHO TỪ (chỉ dùng cho nguồn theo bộ lọc)
+            const basketBlock = isNb ? '' : `
+                <div class="nb-block" id="qm-basket-block">
+                    <div class="nb-block-head">
+                        <span class="nb-num" style="background:linear-gradient(135deg,#2ec65e,#22a34a);">✓</span>
+                        <span class="nb-block-title">Kho từ · ${nBasket} từ</span>
+                        <div class="flex-1"></div>
+                        ${nBasket ? `<button class="text-[10.5px] font-black text-[color:var(--c-8290aa)]" onclick="qmClearBasket()">✕ Xoá hết</button>` : ''}
                     </div>
-                    <label class="flex items-center gap-3 p-3 rounded-xl neo-sunk cursor-pointer">
-                        <input type="checkbox" class="neo-checkbox" id="qm-include-learned">
-                        <span class="flex-1 text-xs font-bold text-[color:var(--c-2d2d3a)]">Bao gồm cả từ đã học thuộc</span>
-                    </label>
-                    <div>
+                    ${nBasket ? `
+                    <div class="flex flex-wrap gap-1.5" style="max-height:118px; overflow-y:auto;">
+                        ${qmSetup.basket.map(w => `
+                            <span class="nb-selword" title="${String(w.vietnamese || w.deep_meaning || '').replace(/"/g, '&quot;')}">
+                                <b>${w.word}</b>
+                                <button class="x" onclick="qmRemoveFromBasket('${w.id}')" title="Bỏ từ này">✕</button>
+                            </span>`).join('')}
+                    </div>` : `<p class="text-[11.5px] font-bold text-center" style="color:var(--c-b0bad0);">Kho đang trống — lọc ở trên rồi bấm "Thêm … từ vào kho"</p>`}
+                </div>`;
+
+            overlay.innerHTML = `
+                <div class="neo-raised p-6 sm:p-7 w-full max-w-[640px] max-h-[90vh] flex flex-col gap-3.5 !rounded-[28px] relative" onclick="event.stopPropagation()">
+                    <button class="absolute top-5 right-5 w-9 h-9 rounded-full neo-button flex items-center justify-center text-gray-400" onclick="document.getElementById('quiz-maze-setup-modal').remove()">✕</button>
+                    <div class="pr-10">
+                        <h3 class="text-lg font-extrabold text-[color:var(--c-1a1a24)]">${title}</h3>
+                        <p class="text-xs text-gray-500 mt-1">${desc}</p>
+                    </div>
+
+                    <div class="flex flex-col gap-3 overflow-y-auto pr-1 -mr-1">
+                        <div class="nb-block">
+                            <div class="nb-block-head">
+                                <span class="nb-num">1</span>
+                                <span class="nb-block-title">Lấy từ ở đâu</span>
+                                <div class="flex-1"></div>
+                                <div class="neo-sunk p-1 flex gap-1 !rounded-xl">
+                                    ${tabBtn('nb', 'Sổ từ vựng')}
+                                    ${tabBtn('filter', 'Lọc thư viện')}
+                                </div>
+                            </div>
+                            ${isNb ? nbBody : filterBody}
+                        </div>
+                        ${basketBlock}
+                    </div>
+
+                    <div id="qm-count-block" class="rounded-xl">
                         <label class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1.5 block">Số câu muốn làm</label>
-                        <input type="number" min="1" id="qm-question-count" placeholder="VD: 10" class="w-full px-4 py-2.5 rounded-xl outline-none border-none text-sm" style="background:var(--c-e6ebf3); box-shadow: var(--shadow-sunk);">
+                        <input type="number" min="1" id="qm-question-count" value="${qmSetup.qty || ''}" placeholder="${isNb ? 'VD: 10' : `Mặc định: cả ${nBasket} từ trong kho`}" class="w-full px-4 py-2.5 rounded-xl outline-none border-none text-sm" style="background:var(--c-e6ebf3); box-shadow: var(--shadow-sunk);" oninput="qmSetup.qty = this.value">
                     </div>
-                    <button class="neo-button w-full py-3.5 text-sm font-bold text-white !rounded-2xl" style="background:#6C63FF;" onclick="startQuizMaze('${mode}')">Bắt đầu</button>
+                    <button class="neo-button w-full py-3.5 text-sm font-bold text-white !rounded-2xl" style="background:#6C63FF;" onclick="startQuizMaze('${mode}')">Bắt đầu →</button>
                 </div>
             `;
         }
 
         function startQuizMaze(mode) {
             const overlay = document.getElementById('quiz-maze-setup-modal');
-            if (!overlay) return;
-            const checked = [...overlay.querySelectorAll('.qm-nb-checkbox:checked')].map(cb => cb.value);
-            if (!checked.length) { alert('Bạn chưa chọn sổ từ vựng nào.'); return; }
+            if (!overlay || !qmSetup) return;
             const qtyInput = document.getElementById('qm-question-count');
-            const qty = parseInt(qtyInput.value, 10);
-            if (!qty || qty < 1) { qtyInput.focus(); return; }
-            const includeLearned = !!document.getElementById('qm-include-learned')?.checked;
+            const qtyRaw = parseInt(qtyInput && qtyInput.value, 10);
+            let pool = [];
 
-            // Gom từ vựng từ các sổ đã chọn (kèm _nbId để biết ghi nhận kết quả vào đúng sổ), loại trùng theo id
-            const poolMap = new Map();
-            checked.forEach(nbId => {
-                const nb = notebooksList.find(n => n.id === nbId);
-                if (!nb) return;
-                (nb.words || []).forEach(w => {
-                    // Mặc định không đưa từ đã "Đã học thuộc" vào bài quiz, trừ khi bấm chọn "Bao gồm cả từ đã học thuộc"
-                    if (!includeLearned && learnedWordsMap[w.id]) return;
-                    if (!poolMap.has(w.id)) poolMap.set(w.id, { ...w, _nbId: nbId });
+            if (qmSetup.source === 'nb') {
+                if (!qmSetup.pickedNb.size) { alert('Bạn chưa chọn sổ từ vựng nào.'); return; }
+                if (!qtyRaw || qtyRaw < 1) { if (qtyInput) qtyInput.focus(); return; }
+                // Gom từ vựng từ các sổ đã chọn (kèm _nbId để ghi nhận kết quả vào đúng sổ), loại trùng theo id
+                const poolMap = new Map();
+                qmSetup.pickedNb.forEach(nbId => {
+                    const nb = notebooksList.find(n => n.id === nbId);
+                    if (!nb) return;
+                    (nb.words || []).forEach(w => {
+                        // Mặc định không đưa từ đã "Đã học thuộc" vào bài quiz, trừ khi bấm chọn "Bao gồm cả từ đã học thuộc"
+                        if (!qmSetup.includeLearned && learnedWordsMap[w.id]) return;
+                        if (!poolMap.has(w.id)) poolMap.set(w.id, { ...w, _nbId: nbId });
+                    });
                 });
-            });
-            let pool = [...poolMap.values()];
-            if (!pool.length) {
-                alert(includeLearned ? 'Các sổ đã chọn chưa có từ vựng nào.' : 'Các từ trong sổ đã chọn đều đã được đánh dấu học thuộc — bấm "Bao gồm cả từ đã học thuộc" nếu bạn vẫn muốn ôn lại.');
-                return;
+                pool = [...poolMap.values()];
+                if (!pool.length) {
+                    alert(qmSetup.includeLearned
+                        ? 'Các sổ đã chọn chưa có từ vựng nào.'
+                        : 'Các từ trong sổ đã chọn đều đã được đánh dấu học thuộc — bấm "Bao gồm cả từ đã học thuộc" nếu bạn vẫn muốn ôn lại.');
+                    return;
+                }
+            } else {
+                if (!qmSetup.basket.length) { alert('Kho từ đang trống — lọc rồi bấm "Thêm … từ vào kho" trước nhé.'); return; }
+                pool = qmSetup.basket.slice();
             }
+
+            // Bỏ trống ô số câu ở nguồn "Lọc thư viện" = làm hết cả kho
+            const qty = (qtyRaw && qtyRaw > 0) ? qtyRaw : pool.length;
 
             if (mode === 'longtime') {
                 // Từ mới đánh dấu "Đã học" được coi như vừa "gặp lại" (dùng learnedAt làm mốc thời gian
@@ -10829,7 +11450,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             // Dạng "Viết từ" — ô nhập chữ + nút kiểm tra (giống bài Viết từ)
             if (q.type === 'typing') {
                 return `
-                    <div class="neo-raised p-5 flex flex-col items-center gap-4">
+                    <div class="neo-raised p-5 flex flex-col items-center gap-4" id="qm-card-${idx}">
                         ${qmCardHeader(q, idx)}
                         <p class="text-base font-bold text-[color:var(--c-1e2a4a)] text-center">${q.questionText}</p>
                         <div class="w-full max-w-md flex flex-col gap-2.5">
@@ -10843,7 +11464,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             const optCls = q.optClass || (koreanOptions ? 'font-kr-serif' : '');
             const speakWord = (q.speak || q.word.word || '').replace(/'/g, "\\'");
             return `
-                <div class="neo-raised p-5 flex flex-col items-center gap-4">
+                <div class="neo-raised p-5 flex flex-col items-center gap-4" id="qm-card-${idx}">
                     ${qmCardHeader(q, idx)}
                     ${hasSpeaker ? `
                         <button class="w-16 h-16 rounded-full neo-raised flex items-center justify-center text-2xl text-point" onclick="speakKorean('${speakWord}')">🔊</button>
@@ -10890,6 +11511,8 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             updateQuizMazeRail();
             if (quizMazeState.answeredCount === quizMazeState.questions.length) {
                 setTimeout(() => showQuizMazeCompletionPopup(), 400);
+            } else {
+                qmGoToNextQuestion(idx);
             }
         }
 
@@ -10966,7 +11589,21 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
 
             if (quizMazeState.answeredCount === quizMazeState.questions.length) {
                 setTimeout(() => showQuizMazeCompletionPopup(), 400);
+            } else {
+                qmGoToNextQuestion(idx);
             }
+        }
+
+        // Trả lời xong 1 câu → chờ user đọc đáp án rồi tự đưa câu kế tiếp
+        // (câu gần nhất chưa trả lời) lên đầu màn hình, loé sáng 1 giây.
+        function qmGoToNextQuestion(idx) {
+            if (!quizMazeState) return;
+            const qs = quizMazeState.questions;
+            let next = -1;
+            for (let i = idx + 1; i < qs.length; i++) { if (!qs[i].answered) { next = i; break; } }
+            if (next < 0) for (let i = 0; i < idx; i++) { if (!qs[i].answered) { next = i; break; } }
+            if (next < 0) return;                       // hết câu → để popup tổng kết chạy
+            flashNextStepById('qm-card-' + next, { delay: 1100 });
         }
 
         function showQuizMazeCompletionPopup() {
@@ -11575,17 +12212,25 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             const openTag = (cls, name) => { out.push('<div class="' + cls + '">'); openTags.push({ name: name || cls, tag: 'div' }); };
             const hasOpen = (name) => openTags.some(t => t.name === name);
 
+            // Nội dung 1 ô: dấu  //  ngăn cách các dòng trong cùng một ô
+            const cellHTML = (c) => (c || '').split(/\s*\/\/\s*/).filter(x => x !== '')
+                .map(part => '<span class="md-cell-line">' + inline(part) + '</span>').join('') || '';
+
             const renderTable = (rows) => {
                 const head = rows[0], body = rows.slice(1).filter(r => !/^[-\s|:]+$/.test(r.join('')));
-                return '<div class="md-table-wrap"><table class="md-table"><thead><tr>' +
-                    head.map(c => '<th>' + inline(c) + '</th>').join('') + '</tr></thead><tbody>' +
-                    body.map(r => '<tr>' + r.map(c => '<td>' + inline(c) + '</td>').join('') + '</tr>').join('') +
+                // Nhãn cột (bỏ dấu) để CSS canh độ rộng: cấu trúc hô ứng thì rộng, từ khoá thì hẹp
+                const cols = head.map(h => topicSlug(h.replace(/\*/g, '')));
+                const at = (k) => cols[k] ? ' data-col="' + esc(cols[k]) + '"' : '';
+                return '<div class="md-table-wrap"><table class="md-table" data-cols="' + head.length + '"><thead><tr>' +
+                    head.map((c, k) => '<th' + at(k) + '>' + inline(c) + '</th>').join('') + '</tr></thead><tbody>' +
+                    body.map(r => '<tr>' + r.map((c, k) => '<td' + at(k) + '>' + cellHTML(c) + '</td>').join('') + '</tr>').join('') +
                     '</tbody></table></div>';
             };
 
             const esc = (t) => (t || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
             const inline = (t) => esc(t)
                 .replace(/`([^`]+)`/g, '<code>$1</code>')
+                .replace(/==([^=]+)==/g, '<mark class="md-mark">$1</mark>')
                 .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
                 .replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>')
                 .replace(/\[([^\]]+)\]\((https?:[^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
@@ -12205,7 +12850,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                         </div>
 
                         <!-- ② CHỌN BAO NHIÊU TỪ -->
-                        <div class="nb-block">
+                        <div class="nb-block" id="tp-block-2">
                             <div class="nb-block-head">
                                 <span class="nb-num">2</span>
                                 <span class="nb-block-title">Chọn bao nhiêu từ</span>
@@ -12214,7 +12859,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
                         </div>
 
                         <!-- ③ XEM LẠI GIỎ TỪ -->
-                        <div class="nb-block">
+                        <div class="nb-block" id="tp-block-3">
                             <div class="nb-block-head">
                                 <span class="nb-num" style="background:linear-gradient(135deg,#2ec65e,#22a34a);">✓</span>
                                 <span class="nb-block-title">Giỏ từ · ${nSel} từ</span>
@@ -12284,6 +12929,11 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             computeTpOptions();
             renderTopicPracticeModal();
             tpRestoreScroll(pos);
+            const nF = Object.values(tpState.filters).reduce((a, x) => a + x.length, 0);
+            if (nF && !tpState._flashedStep2) {
+                tpState._flashedStep2 = true;
+                flashNextStepById('tp-block-2', { delay: 140 });
+            }
         }
 
         function tpAddWordObj(w) {
@@ -12294,6 +12944,14 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         function tpAddAll() {
             tpGetMatches().forEach(tpAddWordObj);
             renderTopicPracticeModal();
+            tpFlashBasket();
+        }
+
+        // Giỏ vừa có từ đầu tiên → kéo xuống bước ③ cho thấy giỏ + nút bắt đầu
+        function tpFlashBasket() {
+            if (!tpState.selectedWords.length || tpState._flashedBasket) return;
+            tpState._flashedBasket = true;
+            flashNextStepById('tp-block-3', { delay: 150 });
         }
 
         function tpAddRandom() {
@@ -12303,6 +12961,7 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             const pool = tpGetMatches().filter(w => !tpState.selectedWords.some(s => s.id === w.id));
             shuffleArr(pool).slice(0, qty).forEach(tpAddWordObj);
             renderTopicPracticeModal();
+            tpFlashBasket();
         }
 
         function tpRenderSuggestions() {
@@ -13071,6 +13730,165 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
         }
         function toggleTheme() { applyTheme(currentTheme() === 'dark' ? 'light' : 'dark'); }
 
+        // ============================================================
+        // MOBILE: dải tab tự ẩn khi cuộn xuống + thanh tìm kiếm nổi
+        // trên bàn phím. Chỉ chạy ở khổ máy ≤767px.
+        // ============================================================
+        const isMobileLayout = () => window.matchMedia('(max-width:767px)').matches;
+
+        // ============================================================
+        // "VIỆC TIẾP THEO": cuộn phần việc kế tiếp vào tầm mắt rồi loé
+        // sáng 1 giây. Dùng chung cho modal nhiều bước và cho quiz.
+        // ============================================================
+        function findScrollParent(el) {
+            let n = el && el.parentElement;
+            while (n && n !== document.body) {
+                const cs = getComputedStyle(n);
+                if (/(auto|scroll)/.test(cs.overflowY) && n.scrollHeight > n.clientHeight + 4) return n;
+                n = n.parentElement;
+            }
+            return null;
+        }
+
+        // Tự chạy animation thay cho behavior:'smooth' — một số webview bỏ qua
+        // 'smooth' nên cuộn đứng im, làm hiệu ứng chỉ dẫn mất tác dụng.
+        function animateScrollTo(box, top) {
+            const isWin = !box;
+            const start = isWin ? window.scrollY : box.scrollTop;
+            const max = isWin
+                ? Math.max(0, document.documentElement.scrollHeight - window.innerHeight)
+                : Math.max(0, box.scrollHeight - box.clientHeight);
+            const end = Math.max(0, Math.min(top, max));
+            const dist = end - start;
+            if (Math.abs(dist) < 2) return;
+            const put = v => { if (isWin) window.scrollTo(0, v); else box.scrollTop = v; };
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { put(end); return; }
+            const t0 = performance.now(), dur = 380;
+            let done = false;
+            const step = now => {
+                const p = Math.min(1, (now - t0) / dur);
+                put(start + dist * (1 - Math.pow(1 - p, 3)));   // ease-out
+                if (p < 1) requestAnimationFrame(step); else done = true;
+            };
+            requestAnimationFrame(step);
+            // Tab đang ẩn thì requestAnimationFrame không chạy — nhảy thẳng tới đích
+            setTimeout(() => { if (!done) put(end); }, dur + 140);
+        }
+
+        function scrollStepIntoView(el) {
+            if (!el) return;
+            const sc = findScrollParent(el);
+            const r = el.getBoundingClientRect();
+            // Vùng đang nhìn thấy: trong khung cuộn, hoặc cả màn hình (trừ header cố định)
+            const top = sc ? sc.getBoundingClientRect().top : (isMobileLayout() ? 118 : 0);
+            const bottom = sc ? sc.getBoundingClientRect().bottom : window.innerHeight;
+            // Đã nằm gọn trong tầm mắt thì thôi, khỏi giật màn hình
+            if (r.top >= top - 2 && r.bottom <= bottom + 2) return;
+            // Khối cao hơn cả vùng nhìn thì chỉ cần đưa mép trên lên
+            if (sc) animateScrollTo(sc, sc.scrollTop + (r.top - top) - 14);
+            else animateScrollTo(null, window.scrollY + r.top - top - 12);
+        }
+
+        // el: phần việc kế tiếp · opts.delay: chờ bao lâu rồi mới chạy (ms)
+        //     opts.noScroll: chỉ loé sáng, không cuộn
+        function flashNextStep(el, opts) {
+            const o = opts || {};
+            if (!el) return;
+            setTimeout(() => {
+                if (!el.isConnected) return;
+                if (!o.noScroll) scrollStepIntoView(el);
+                el.classList.remove('step-flash');
+                void el.offsetWidth;                 // ép trình duyệt chạy lại animation
+                el.classList.add('step-flash');
+                setTimeout(() => el.classList.remove('step-flash'), 1150);
+            }, o.delay || 0);
+        }
+        function flashNextStepById(id, opts) { flashNextStep(document.getElementById(id), opts); }
+
+        function initMobileChrome() {
+            const tabs = document.getElementById('app-sidebar');
+            if (!tabs) return;
+            let lastY = window.scrollY, ticking = false;
+
+            const onScroll = () => {
+                if (ticking) return;
+                ticking = true;
+                requestAnimationFrame(() => {
+                    ticking = false;
+                    const y = Math.max(0, window.scrollY);
+                    if (!isMobileLayout()) { tabs.classList.remove('m-tabs-hidden'); lastY = y; return; }
+                    const dy = y - lastY;
+                    if (Math.abs(dy) < 5) return;                 // bỏ qua rung lắc nhỏ
+                    if (dy > 0 && y > 70) tabs.classList.add('m-tabs-hidden');   // cuộn xuống → ẩn
+                    else if (dy < 0) tabs.classList.remove('m-tabs-hidden');     // cuộn lên → hiện
+                    lastY = y;
+                });
+            };
+            window.addEventListener('scroll', onScroll, { passive: true });
+            window.addEventListener('resize', () => { if (!isMobileLayout()) tabs.classList.remove('m-tabs-hidden'); });
+
+            // Bấm tab nào thì luôn cho dải tab hiện lại
+            tabs.querySelectorAll('.sidebar-nav-item').forEach(a => {
+                a.addEventListener('click', () => tabs.classList.remove('m-tabs-hidden'));
+            });
+        }
+
+        // Ô nhập bám sát mép trên bàn phím: dùng visualViewport để biết
+        // bàn phím đang chiếm bao nhiêu chiều cao.
+        function syncMobileSearchDock() {
+            const dock = document.getElementById('m-search-dock');
+            const vv = window.visualViewport;
+            if (!dock || !vv) return;
+            const inset = Math.max(0, window.innerHeight - (vv.height + vv.offsetTop));
+            dock.style.transform = 'translateY(-' + inset + 'px)';
+        }
+
+        function openMobileSearch() {
+            const ov = document.getElementById('m-search-overlay');
+            const input = document.getElementById('m-search-input');
+            if (!ov || !input) return;
+            const header = document.getElementById('header-search-input');
+            input.value = header ? header.value : '';
+            document.getElementById('m-search-clear').classList.toggle('hidden', !input.value);
+            ov.classList.remove('hidden');
+            ov.setAttribute('aria-hidden', 'false');
+            if (window.visualViewport) {
+                window.visualViewport.addEventListener('resize', syncMobileSearchDock);
+                window.visualViewport.addEventListener('scroll', syncMobileSearchDock);
+            }
+            setTimeout(() => { input.focus(); syncMobileSearchDock(); }, 30);
+        }
+
+        function closeMobileSearch() {
+            const ov = document.getElementById('m-search-overlay');
+            const input = document.getElementById('m-search-input');
+            if (!ov) return;
+            if (input) input.blur();
+            ov.classList.add('hidden');
+            ov.setAttribute('aria-hidden', 'true');
+            if (window.visualViewport) {
+                window.visualViewport.removeEventListener('resize', syncMobileSearchDock);
+                window.visualViewport.removeEventListener('scroll', syncMobileSearchDock);
+            }
+            const dock = document.getElementById('m-search-dock');
+            if (dock) dock.style.transform = '';
+        }
+
+        function handleMobileSearchInput(q, immediate) {
+            const header = document.getElementById('header-search-input');
+            if (header) header.value = q;                  // giữ 2 ô đồng bộ
+            const x = document.getElementById('m-search-clear');
+            if (x) x.classList.toggle('hidden', !(q || '').trim());
+            handleHeaderSearchInput(q, immediate);
+        }
+
+        function clearMobileSearch() {
+            const input = document.getElementById('m-search-input');
+            if (input) { input.value = ''; input.focus(); }
+            document.getElementById('m-search-clear').classList.add('hidden');
+            clearHeaderSearch();
+        }
+
         // Logo thương hiệu thiếu → icon SVG trên nền gradient (không dùng emoji).
         // Nền gradient CHỈ áp khi fallback; khi có logo PNG thật thì để nền trong suốt
         // (tránh logo bị ám tím).
@@ -13181,6 +13999,8 @@ html[data-theme="dark"] .topic-doc img{filter:brightness(.92);}
             if (avatarBtn) {
                 avatarBtn.addEventListener('click', () => openProfilePopup(avatarBtn));
             }
+
+            initMobileChrome();
 
             // Nút "Thêm sổ tay" ở header → mở modal tạo sổ tay mới
             const quickAddBtn = document.getElementById('quick-add-btn');

@@ -32,21 +32,21 @@ Tổng hợp phó từ theo chức năng trong đoạn văn, giúp nhận diện
 
 #### Từ khóa
 
-반드시 {xác quyết} = Nhất định, bắt buộc
-꼭 {xác quyết} = Nhất định, bắt buộc
-물론 {xác quyết} = Đương nhiên, tất nhiên
-당연히 {xác quyết} = Đương nhiên, tất nhiên
-바로 {xác quyết} = Chính là
-역시 {xác quyết} = Quả nhiên, đúng như dự đoán
+반드시 {xác định} = Nhất định, bắt buộc
+꼭 {xác định} = Nhất định, bắt buộc
+물론 {xác định} = Đương nhiên, tất nhiên
+당연히 {xác định} = Đương nhiên, tất nhiên
+바로 {xác định} = Chính là
+역시 {xác định} = Quả nhiên, đúng như dự đoán
 
 #### Phân biệt nhanh
 
 | Phó từ | Cấu trúc hô ứng | Sắc thái | Dấu hiệu nhận diện |
 | --- | --- | --- | --- |
-| **반드시 · 꼭** | **-아/어야 한다 -지 않으면 안 된다** | Yêu cầu chuẩn mực, giải pháp bắt buộc phải thực hiện. | Đứng đầu câu kết luận, đề xuất phương án của bài viết. |
-| **물론 · 당연히** | **-지만 -아/어도** | Thừa nhận thực tế hiển nhiên để chuẩn bị lật lại vấn đề. | Sau câu này thường xuất hiện liên từ đổi hướng như 그러나/하지만. |
-| **바로** | **-(이)다 -(으)로 인한 것이다** | Nhấn mạnh trực diện danh tính, nguyên nhân cốt lõi. | Nằm trước danh từ đóng vai trò chìa khóa mở nút thắt của đoạn. |
-| **역시** | **-(으)ㄴ/는 법이다 -았/었다** | Xác nhận hiện tượng xảy ra khớp đúng với quy luật/danh tiếng. | Thường xuất hiện sau một dẫn chứng hoặc thí nghiệm kiểm chứng. |
+| **반드시 · 꼭** | **-아/어야 한다** // **-지 않으면 안 된다** | Yêu cầu chuẩn mực, giải pháp bắt buộc phải thực hiện. | Đứng đầu câu kết luận, đề xuất phương án của bài viết. |
+| **물론 · 당연히** | **-지만** // **-아/어도** | Thừa nhận thực tế hiển nhiên để chuẩn bị lật lại vấn đề. | Sau câu này thường xuất hiện liên từ đổi hướng như 그러나/하지만. |
+| **바로** | **-(이)다** // **-(으)로 인한 것이다** | Nhấn mạnh trực diện danh tính, nguyên nhân cốt lõi. | Nằm trước danh từ đóng vai trò chìa khóa mở nút thắt của đoạn. |
+| **역시** | **-(으)ㄴ/는 법이다** // **-았/었다** | Xác nhận hiện tượng xảy ra khớp đúng với quy luật/danh tiếng. | Thường xuất hiện sau một dẫn chứng hoặc thí nghiệm kiểm chứng. |
 
 ### Bác bỏ & Giới hạn
 
@@ -63,10 +63,10 @@ Tổng hợp phó từ theo chức năng trong đoạn văn, giúp nhận diện
 
 | Phó từ | Cấu trúc hô ứng | Sắc thái | Dấu hiệu nhận diện |
 | --- | --- | --- | --- |
-| **결코** | **-지 않다 -(으)ㄹ 수 없다** | Phủ định tuyệt đối, ranh giới không thể thỏa hiệp. | Nhìn thấy đuôi câu phủ định dứt khoát thì chọn ngay. |
-| **차마** | **-(으)ㄹ 수 없다 -지 못하다** | Rào cản đạo đức/tâm lý khiến chủ thể không nỡ thực hiện. | Đoạn văn mang tính nhân văn, tâm lý, hoàn cảnh éo le. |
-| **그리 · 그다지** | **-지 않다 -지 못하다** | Giảm sắc thái, phủ định mức độ (không tệ/không tốt như thế). | Dùng để làm dịu đi một nhận định tiêu cực hoặc quá đà. |
-| **단지 · 다만** | **-(으)ㄹ 뿐이다 -(으)ㄹ 따름이다** | Khoanh vùng phạm vi hạn hẹp, mang nghĩa "chẳng qua là". | Cuối câu bắt buộc phải có các dạng biểu hiện "duy nhất/chỉ là". |
+| **결코** | **-지 않다** // **-(으)ㄹ 수 없다** | Phủ định tuyệt đối, ranh giới không thể thỏa hiệp. | Nhìn thấy đuôi câu phủ định dứt khoát thì chọn ngay. |
+| **차마** | **-(으)ㄹ 수 없다** // **-지 못하다** | Rào cản đạo đức/tâm lý khiến chủ thể không nỡ thực hiện. | Đoạn văn mang tính nhân văn, tâm lý, hoàn cảnh éo le. |
+| **그리 · 그다지** | **-지 않다** // **-지 못하다** | Giảm sắc thái, phủ định mức độ (không tệ/không tốt như thế). | Dùng để làm dịu đi một nhận định tiêu cực hoặc quá đà. |
+| **단지 · 다만** | **-(으)ㄹ 뿐이다** // **-(으)ㄹ 따름이다** | Khoanh vùng phạm vi hạn hẹp, mang nghĩa "chẳng qua là". | Cuối câu bắt buộc phải có các dạng biểu hiện "duy nhất/chỉ là". |
 
 ### So sánh & Trực quan
 
@@ -80,9 +80,9 @@ Tổng hợp phó từ theo chức năng trong đoạn văn, giúp nhận diện
 
 | Phó từ | Cấu trúc hô ứng | Sắc thái | Dấu hiệu nhận diện |
 | --- | --- | --- | --- |
-| **마치** | **-처럼 / -듯이 -(으)ㄴ/는 것 같다** | Ẩn dụ, ví von hiện tượng trừu tượng với hình ảnh cụ thể. | Sau 마치 bắt buộc phải là một hình ảnh được so sánh ví von. |
-| **차라리** | **-(으)ㄴ/는 편이 낫다 -는 게 낫다** | Cân nhắc 2 giải pháp bất lợi để chọn hướng đỡ tệ hơn. | Đoạn văn đặt ra sự lựa chọn mang tính đánh đổi. |
-| **또는** | **-(이)나 -거나** | Đặt ra các phương án thay thế ngang hàng. | Liệt kê các giải pháp, đối tượng có thể thay thế cho nhau. |
+| **마치** | **-처럼** // **-듯이** // **-(으)ㄴ/는 것 같다** | Ẩn dụ, ví von hiện tượng trừu tượng với hình ảnh cụ thể. | Sau 마치 bắt buộc phải là một hình ảnh được so sánh ví von. |
+| **차라리** | **-(으)ㄴ/는 편이 낫다** // **-는 게 낫다** | Cân nhắc 2 giải pháp bất lợi để chọn hướng đỡ tệ hơn. | Đoạn văn đặt ra sự lựa chọn mang tính đánh đổi. |
+| **또는** | **-(이)나** // **-거나** | Đặt ra các phương án thay thế ngang hàng. | Liệt kê các giải pháp, đối tượng có thể thay thế cho nhau. |
 
 ### Thời điểm & Tình huống
 
@@ -98,9 +98,9 @@ Tổng hợp phó từ theo chức năng trong đoạn văn, giúp nhận diện
 
 | Phó từ | Cấu trúc hô ứng | Sắc thái | Dấu hiệu nhận diện |
 | --- | --- | --- | --- |
-| **하필 · 하필이면** | **-았/었는지 / 왜 하필(이면)** | Sự trớ trêu, xui xẻo xảy ra vào thời khắc bất lợi nhất. | Đoạn văn tường thuật biến cố, tai nạn bất ngờ. |
-| **마침** | **-(으)려던 참이다 -(으)ㄴ 때에** | Sự trùng hợp thời gian ngẫu nhiên và thuận lợi. | Ngay lúc chủ thể định làm gì thì có yếu tố thuận lợi ập đến. |
-| **문득 · 불현듯** | **-생각이 들다 -떠오르다** | Dòng suy nghĩ, sáng kiến bất giác xuất hiện không chủ ý. | Mô tả tâm lý, quá trình tìm ra phát minh hoặc cảm xúc chợt đến. |
+| **하필 · 하필이면** | **-았/었는지** // **왜 하필(이면)** | Sự trớ trêu, xui xẻo xảy ra vào thời khắc bất lợi nhất. | Đoạn văn tường thuật biến cố, tai nạn bất ngờ. |
+| **마침** | **-(으)려던 참이다** // **-(으)ㄴ 때에** | Sự trùng hợp thời gian ngẫu nhiên và thuận lợi. | Ngay lúc chủ thể định làm gì thì có yếu tố thuận lợi ập đến. |
+| **문득 · 불현듯** | **-생각이 들다** // **-떠오르다** | Dòng suy nghĩ, sáng kiến bất giác xuất hiện không chủ ý. | Mô tả tâm lý, quá trình tìm ra phát minh hoặc cảm xúc chợt đến. |
 
 ### Tiến trình & Kết cục
 
@@ -114,8 +114,8 @@ Tổng hợp phó từ theo chức năng trong đoạn văn, giúp nhận diện
 
 | Phó từ | Cấu trúc hô ứng | Sắc thái | Dấu hiệu nhận diện |
 | --- | --- | --- | --- |
-| **드디어 · 마침내** | **-게 되었다 -았/었다** | Kết quả tích cực đạt được sau một chuỗi nỗ lực dài. | Đứng ở đoạn cuối của câu chuyện vượt khó, nghiên cứu khoa học. |
-| **결국** | **-고 말았다 -게 되었다** | Hậu quả hoặc cái kết chung cuộc không mong muốn. | Đứng trước câu nêu hậu quả của một hành vi sai lầm. |
+| **드디어 · 마침내** | **-게 되었다** // **-았/었다** | Kết quả tích cực đạt được sau một chuỗi nỗ lực dài. | Đứng ở đoạn cuối của câu chuyện vượt khó, nghiên cứu khoa học. |
+| **결국** | **-고 말았다** // **-게 되었다** | Hậu quả hoặc cái kết chung cuộc không mong muốn. | Đứng trước câu nêu hậu quả của một hành vi sai lầm. |
 
 ### Phỏng đoán & Giả định
 
@@ -135,13 +135,13 @@ Tổng hợp phó từ theo chức năng trong đoạn văn, giúp nhận diện
 
 | Phó từ | Cấu trúc hô ứng | Sắc thái | Dấu hiệu nhận diện |
 | --- | --- | --- | --- |
-| **아마** | **-(으)ㄹ 것이다 -(으)ㄹ 것 같다** | Dự phóng có căn cứ của tác giả về tương lai/xu hướng. | Bài viết phân tích số liệu và đưa ra dự báo tương lai. |
-| **어쩌면 · 혹시** | **-(으)ㄹ지도 모른다 -(으)ㄹ까 봐** | Dự cảm dè dặt về một rủi ro hoặc khả năng bất ngờ. | Đoạn văn cảnh báo về các nguy cơ tiềm ẩn chưa chắc chắn. |
-| **과연** | **-(으)ㄹ까? -(으)ㄴ/는가?** | Đặt nghi vấn tu từ, khơi gợi suy ngẫm cho người đọc. | Câu hỏi mở đầu đoạn hoặc câu chốt mang tính chất phản biện. |
-| **만약 · 만일** | **-(으)면 -다면** | Thiết lập kịch bản giả định để phân tích tác động. | Bắt đầu câu giả thuyết phục vụ cho việc suy luận. |
-| **그러면** | **-(으)ㄹ 것이다 -(으)세요** | Dẫn hướng hệ quả nếu giả thuyết trước đó thành hiện thực. | Nối trực tiếp từ câu giả định liền trước. |
-| **비록** | **-지만 -(으)ㄹ지라도** | Thừa nhận mặt hạn chế nhưng không làm đổi chiều kết luận. | Bắt buộc tìm các liên từ/đuôi nhượng bộ ở giữa câu. |
-| **아무리** | **-아/어도 -(으)ㄹ지라도** | Đẩy cường độ lên cực điểm nhưng kết quả vẫn giữ nguyên. | Thường đi với các động từ chỉ sự nỗ lực cao độ. |
+| **아마** | **-(으)ㄹ 것이다** // **-(으)ㄹ 것 같다** | Dự phóng có căn cứ của tác giả về tương lai/xu hướng. | Bài viết phân tích số liệu và đưa ra dự báo tương lai. |
+| **어쩌면 · 혹시** | **-(으)ㄹ지도 모른다** // **-(으)ㄹ까 봐** | Dự cảm dè dặt về một rủi ro hoặc khả năng bất ngờ. | Đoạn văn cảnh báo về các nguy cơ tiềm ẩn chưa chắc chắn. |
+| **과연** | **-(으)ㄹ까?** // **-(으)ㄴ/는가?** | Đặt nghi vấn tu từ, khơi gợi suy ngẫm cho người đọc. | Câu hỏi mở đầu đoạn hoặc câu chốt mang tính chất phản biện. |
+| **만약 · 만일** | **-(으)면** // **-다면** | Thiết lập kịch bản giả định để phân tích tác động. | Bắt đầu câu giả thuyết phục vụ cho việc suy luận. |
+| **그러면** | **-(으)ㄹ 것이다** // **-(으)세요** | Dẫn hướng hệ quả nếu giả thuyết trước đó thành hiện thực. | Nối trực tiếp từ câu giả định liền trước. |
+| **비록** | **-지만** // **-(으)ㄹ지라도** | Thừa nhận mặt hạn chế nhưng không làm đổi chiều kết luận. | Bắt buộc tìm các liên từ/đuôi nhượng bộ ở giữa câu. |
+| **아무리** | **-아/어도** // **-(으)ㄹ지라도** | Đẩy cường độ lên cực điểm nhưng kết quả vẫn giữ nguyên. | Thường đi với các động từ chỉ sự nỗ lực cao độ. |
 
 ### Phát triển ý & Tóm tắt
 
@@ -164,12 +164,12 @@ Tổng hợp phó từ theo chức năng trong đoạn văn, giúp nhận diện
 
 | Phó từ | Cấu trúc hô ứng | Sắc thái | Dấu hiệu nhận diện |
 | --- | --- | --- | --- |
-| **게다가 · 더욱이** | **-ㄹ 뿐만 아니라 -는 데다가** | Thêm luận cứ cùng chiều để tăng sức nặng cho luận điểm. | Bổ sung thêm ưu điểm hoặc khuyết điểm tăng tiến. |
-| **또한 · 그리고 · 또** | **-기도 하고... -기도 하다** | Mở rộng danh sách các luận điểm ngang bằng nhau. | Phân tách các luận cứ độc lập trong cùng một luận điểm. |
-| **특히** | **-에 주목하다 -중에서도** | Đưa tiêu cự vào đối tượng điển hình nhất trong tập hợp. | Sau câu giới thiệu tổng quan, dùng từ này để mổ xẻ chi tiết. |
-| **이처럼 · 즉** | **-다는 뜻이다 -(으)ㅁ을 알 수 있다** | Đúc kết ngắn gọn bản chất của toàn bộ đoạn văn phía trước. | Thường nằm ở vị trí đầu câu áp chót hoặc câu kết luận của đoạn. |
-| **사실** | **-은/는 실정이다 -는 것이 현실이다** | Vạch rõ thực tế bên trong, đối lập với hình thức bên ngoài. | Dùng để bóc trần một lầm tưởng hoặc ngộ nhận phổ biến. |
-| **따라서 · 그래서 · 그러므로** | **-(으)므로 -(으)ㄹ 필요가 있다** | Dẫn ra hệ quả tất yếu hoặc kết luận logic từ các luận cứ trước. | Đứng đầu câu chốt luận điểm của toàn bài. |
+| **게다가 · 더욱이** | **-ㄹ 뿐만 아니라** // **-는 데다가** | Thêm luận cứ cùng chiều để tăng sức nặng cho luận điểm. | Bổ sung thêm ưu điểm hoặc khuyết điểm tăng tiến. |
+| **또한 · 그리고 · 또** | **-기도 하고...** // **-기도 하다** | Mở rộng danh sách các luận điểm ngang bằng nhau. | Phân tách các luận cứ độc lập trong cùng một luận điểm. |
+| **특히** | **-에 주목하다** // **-중에서도** | Đưa tiêu cự vào đối tượng điển hình nhất trong tập hợp. | Sau câu giới thiệu tổng quan, dùng từ này để mổ xẻ chi tiết. |
+| **이처럼 · 즉** | **-다는 뜻이다** // **-(으)ㅁ을 알 수 있다** | Đúc kết ngắn gọn bản chất của toàn bộ đoạn văn phía trước. | Thường nằm ở vị trí đầu câu áp chót hoặc câu kết luận của đoạn. |
+| **사실** | **-은/는 실정이다** // **-는 것이 현실이다** | Vạch rõ thực tế bên trong, đối lập với hình thức bên ngoài. | Dùng để bóc trần một lầm tưởng hoặc ngộ nhận phổ biến. |
+| **따라서 · 그래서 · 그러므로** | **-(으)므로** // **-(으)ㄹ 필요가 있다** | Dẫn ra hệ quả tất yếu hoặc kết luận logic từ các luận cứ trước. | Đứng đầu câu chốt luận điểm của toàn bài. |
 
 ### Xoay chuyển & Nghịch lý
 
@@ -189,8 +189,8 @@ Tổng hợp phó từ theo chức năng trong đoạn văn, giúp nhận diện
 | --- | --- | --- | --- |
 | **반면 · 반면에** | **-는 반면에** | Đặt 2 mặt đối lập lên bàn cân để so sánh song song. | Hai vế thường có hai chủ ngữ hoặc hai góc nhìn ngược nhau. |
 | **그러나 · 하지만 · 그렇지만** | **Câu trần thuật đối nghịch** | Đảo chiều tư duy, bác bỏ luận điểm đã nêu trước đó. | Luận điểm chính của tác giả thường nằm ngay sau các từ này. |
-| **오히려** | **-기도 하다 -은/는 편이다** | Chỉ ra nghịch lý: kết quả thực tế đi ngược lại kỳ vọng. | Trước là kỳ vọng ban đầu, sau là kết quả ngược lại. |
-| **그래도** | **-아/어야 한다 -는 것이 바람직하다** | Chấp nhận nghịch cảnh hiện tại nhưng không bỏ cuộc. | Vế trước là khó khăn, vế sau là giải pháp kiên trì. |
+| **오히려** | **-기도 하다** // **-은/는 편이다** | Chỉ ra nghịch lý: kết quả thực tế đi ngược lại kỳ vọng. | Trước là kỳ vọng ban đầu, sau là kết quả ngược lại. |
+| **그래도** | **-아/어야 한다** // **-는 것이 바람직하다** | Chấp nhận nghịch cảnh hiện tại nhưng không bỏ cuộc. | Vế trước là khó khăn, vế sau là giải pháp kiên trì. |
 
 ### Cường độ & Mức độ
 
@@ -204,7 +204,7 @@ Tổng hợp phó từ theo chức năng trong đoạn văn, giúp nhận diện
 | Phó từ | Cấu trúc hô ứng | Sắc thái | Dấu hiệu nhận diện |
 | --- | --- | --- | --- |
 | **어찌나** | **-(으)ㄴ/는지** | Nhấn mạnh trạng thái đạt đến mức độ gây ngạc nhiên. | Giải thích nguyên nhân cho một kết quả bất ngờ phía sau. |
-| **얼마나** | **-(으)ㄴ/는지 모르다 -(으)ㄴ/는지** | Nhấn mạnh mức độ sâu sắc, to lớn của hành động/cảm xúc. | Dùng trong câu cảm thán hoặc nhấn mạnh tầm quan trọng. |
+| **얼마나** | **-(으)ㄴ/는지 모르다** // **-(으)ㄴ/는지** | Nhấn mạnh mức độ sâu sắc, to lớn của hành động/cảm xúc. | Dùng trong câu cảm thán hoặc nhấn mạnh tầm quan trọng. |
 
 ### Biến chuyển & Xu hướng
 
@@ -216,22 +216,22 @@ Tổng hợp phó từ theo chức năng trong đoạn văn, giúp nhận diện
 
 | Phó từ | Cấu trúc hô ứng | Sắc thái | Dấu hiệu nhận diện |
 | --- | --- | --- | --- |
-| **점점** | **-아/어지다 -고 있다 -게 되다** | Trạng thái/hiện tượng đang biến đổi theo thời gian. | Dùng trong phân tích biểu đồ, xu hướng xã hội hoặc công nghệ. |
+| **점점** | **-아/어지다** // **-고 있다** // **-게 되다** | Trạng thái/hiện tượng đang biến đổi theo thời gian. | Dùng trong phân tích biểu đồ, xu hướng xã hội hoặc công nghệ. |
 
 ## III — Cấu trúc hô ứng và ví dụ
 
 *Mỗi nhóm được tách thành bảng công thức và bảng ví dụ để từ khóa, cấu trúc, ý nghĩa và hai ngôn ngữ không bị dồn vào cùng một ô.*
 
-### Bắt buộc & Xác quyết
+### Bắt buộc & xác định
 
 #### Công thức
 
 | Từ khóa | Cấu trúc hô ứng | Ý nghĩa |
 | --- | --- | --- |
-| **반드시 / 꼭** | **_____ -아/어야 한다 / -지 않으면 안 된다** | Nhất định phải... / Không thể không... (Thể hiện nghĩa vụ mang tính bắt buộc, tất yếu). |
-| **바로** | **_____ -(이)다 / -(으)로 인한 것이다** | Chính là... (Chỉ định rõ nguyên nhân cốt lõi hoặc đối tượng trọng tâm). |
-| **물론 / 당연히** | **_____ -지만 / -아/어도** | Đương nhiên là... thế nhưng... (Thừa nhận hiển nhiên vế 1 để làm đòn bẩy phản biện ở vế 2). |
-| **역시** | **_____ -(으)ㄴ/는 대로 / -(으)ㄴ/는 법이다** | Quả nhiên là / Đúng như dự đoán là... (Xác nhận sự việc xảy ra khớp với nhận định ban đầu). |
+| **반드시 / 꼭** | **_____ -아/어야 한다** // **_____ -지 않으면 안 된다** | Nhất định phải... / Không thể không... // *Thể hiện nghĩa vụ mang tính bắt buộc, tất yếu* |
+| **바로** | **_____ -(이)다** // **_____ -(으)로 인한 것이다** | Chính là... // *Chỉ định rõ nguyên nhân cốt lõi hoặc đối tượng trọng tâm* |
+| **물론 / 당연히** | **_____ -지만** // **_____ -아/어도** | Đương nhiên là... thế nhưng... // *Thừa nhận hiển nhiên vế 1 để làm đòn bẩy phản biện ở vế 2* |
+| **역시** | **_____ -(으)ㄴ/는 대로** // **_____ -(으)ㄴ/는 법이다** | Quả nhiên là / Đúng như dự đoán là... // *Xác nhận sự việc xảy ra khớp với nhận định ban đầu* |
 
 #### Ví dụ áp dụng
 
@@ -248,11 +248,11 @@ Tổng hợp phó từ theo chức năng trong đoạn văn, giúp nhận diện
 
 | Từ khóa | Cấu trúc hô ứng | Ý nghĩa |
 | --- | --- | --- |
-| **반드시 / 꼭 / 항상 / 모두** | **_____ -(으)ㄹ 필요는 없다 / -는 것은 아니다** | Không nhất thiết phải... / Không hẳn là tất cả đều... (Phủ định một phần, bác bỏ định kiến tuyệt đối). |
-| **그리 / 그다지** | **_____ -지 않다 / -지 못하다** | Không... đến mức như vậy / Không mấy... (Làm dịu mức độ phủ định). |
-| **단지 / 다만** | **_____ -(으)ㄹ 뿐이다 / -(으)ㄹ 따름이다** | Chỉ là... mà thôi / Chẳng qua chỉ... (Giới hạn phạm vi, nhấn mạnh tính chất duy nhất). |
-| **결코** | **_____ -지 않다 / -(으)ㄹ 수 없다** | Tuyệt đối không bao giờ... / Quyết không... (Phủ định tuyệt đối, dứt khoát). |
-| **차마** | **_____ -(으)ㄹ 수 없다** | Không nỡ / Không đành lòng làm điều gì đó... (Thể hiện sự trắc ẩn hoặc e ngại về mặt tâm lý, đạo đức). |
+| **반드시 / 꼭 / 항상 / 모두** | **_____ -(으)ㄹ 필요는 없다** // **_____ -는 것은 아니다** | Không nhất thiết phải... / Không hẳn là tất cả đều... // *Phủ định một phần, bác bỏ định kiến tuyệt đối* |
+| **그리 / 그다지** | **_____ -지 않다** // **_____ -지 못하다** | Không... đến mức như vậy / Không mấy... // *Làm dịu mức độ phủ định* |
+| **단지 / 다만** | **_____ -(으)ㄹ 뿐이다** // **_____ -(으)ㄹ 따름이다** | Chỉ là... mà thôi / Chẳng qua chỉ... // *Giới hạn phạm vi, nhấn mạnh tính chất duy nhất* |
+| **결코** | **_____ -지 않다** // **_____ -(으)ㄹ 수 없다** | Tuyệt đối không bao giờ... / Quyết không... // *Phủ định tuyệt đối, dứt khoát* |
+| **차마** | **_____ -(으)ㄹ 수 없다** | Không nỡ / Không đành lòng làm điều gì đó... // *Thể hiện sự trắc ẩn hoặc e ngại về mặt tâm lý, đạo đức* |
 
 #### Ví dụ áp dụng
 
@@ -270,8 +270,8 @@ Tổng hợp phó từ theo chức năng trong đoạn văn, giúp nhận diện
 
 | Từ khóa | Cấu trúc hô ứng | Ý nghĩa |
 | --- | --- | --- |
-| **마치** | **_____ -(으)ㄴ/는 것처럼 / 듯이 / -와/과 같이** | Cứ như thể là... / Trông giống như là... (So sánh tu từ hoặc liên tưởng ví von). |
-| **차라리** | **_____ -(으)ㄴ/는 편이 낫다 / -는 게 효율적이다** | Thà rằng... còn hơn / Lựa chọn... sẽ tốt hơn (So sánh hai phương án và nghiêng về phương án tối ưu hơn). |
+| **마치** | **_____ -(으)ㄴ/는 것처럼** // **_____ -듯이** // **_____ -와/과 같이** | Cứ như thể là... / Trông giống như là... // *So sánh tu từ hoặc liên tưởng ví von* |
+| **차라리** | **_____ -(으)ㄴ/는 편이 낫다** // **_____ -는 게 효율적이다** | Thà rằng... còn hơn / Lựa chọn... sẽ tốt hơn // *So sánh hai phương án và nghiêng về phương án tối ưu hơn* |
 
 #### Ví dụ áp dụng
 
@@ -286,11 +286,11 @@ Tổng hợp phó từ theo chức năng trong đoạn văn, giúp nhận diện
 
 | Từ khóa | Cấu trúc hô ứng | Ý nghĩa |
 | --- | --- | --- |
-| **이미 / 벌써** | **_____ -았/었/였다** | Đã... rồi (Sự việc đã hoàn tất hoặc đi trước một bước thời gian). |
-| **하마터면** | **_____ -(으)ㄹ 뻔했다** | Suýt nữa thì... (Một sự cố suýt nữa đã xảy ra nhưng may mắn tránh được). |
-| **문득 / 불현듯** | **_____ 생각이 들다 / 떠오르다** | Bất chợt / Bỗng nhiên... nhớ ra, nảy ra ý nghĩ. |
-| **하필** | **_____ -았/었는지 / 왜 하필이면** | Cớ sao lại / Sao lại đúng vào lúc... (Diễn tả sự trớ trêu, không may khi sự việc rơi trúng thời điểm hoặc đối tượng không mong muốn). |
-| **마침** | **_____ -(으)려던 참이다 / -(으)ㄴ 때에** | Vừa khéo / Đúng lúc... (Trùng hợp về mặt thời gian khi một hành động sắp hoặc đang diễn ra). |
+| **이미 / 벌써** | **_____ -았/었/였다** | Đã... rồi // *Sự việc đã hoàn tất hoặc đi trước một bước thời gian* |
+| **하마터면** | **_____ -(으)ㄹ 뻔했다** | Suýt nữa thì... // *Một sự cố suýt nữa đã xảy ra nhưng may mắn tránh được* |
+| **문득 / 불현듯** | **_____ 생각이 들다** // **_____ 떠오르다** | Bất chợt / Bỗng nhiên... nhớ ra, nảy ra ý nghĩ. |
+| **하필** | **_____ -았/었는지** // **_____ 왜 하필이면** | Cớ sao lại / Sao lại đúng vào lúc... // *Diễn tả sự trớ trêu, không may khi sự việc rơi trúng thời điểm hoặc đối tượng không mong muốn* |
+| **마침** | **_____ -(으)려던 참이다** // **_____ -(으)ㄴ 때에** | Vừa khéo / Đúng lúc... // *Trùng hợp về mặt thời gian khi một hành động sắp hoặc đang diễn ra* |
 
 #### Ví dụ áp dụng
 
@@ -308,7 +308,7 @@ Tổng hợp phó từ theo chức năng trong đoạn văn, giúp nhận diện
 
 | Từ khóa | Cấu trúc hô ứng | Ý nghĩa |
 | --- | --- | --- |
-| **결국 / 마침내 / 드디어** | **_____ -고 말았다 / -게 되었다** | Rốt cuộc thì... / Cuối cùng đã... (Diễn tả kết cục sau một tiến trình kéo dài). |
+| **결국 / 마침내 / 드디어** | **_____ -고 말았다** // **_____ -게 되었다** | Rốt cuộc thì... / Cuối cùng đã... // *Diễn tả kết cục sau một tiến trình kéo dài* |
 
 #### Ví dụ áp dụng
 
@@ -322,13 +322,13 @@ Tổng hợp phó từ theo chức năng trong đoạn văn, giúp nhận diện
 
 | Từ khóa | Cấu trúc hô ứng | Ý nghĩa |
 | --- | --- | --- |
-| **비록** | **_____ -지만 / -아/어도 / -(으)ㄹ지라도 / -(으)나** | Dù/Mặc dù... nhưng... (Biểu thị quan hệ nhượng bộ, vế sau không bị chi phối bởi vế trước). |
-| **만약 / 만일** | **_____ -(으)면 / -다면 / -거든** | Giả sử/Nếu như... thì... (Đặt ra giả định, tình huống có thể xảy ra). |
-| **혹시** | **_____ -(으)ㄹ까 봐 / -(으)면 / -거든 / -더라도** | Nhỡ đâu/Liệu rằng... (Diễn tả sự lo âu, phỏng đoán hoặc giả định tình huống bất ngờ). |
-| **아무리** | **_____ -아/어/여도 / -(으)ㄹ지라도** | Dù có... đến mức nào đi chăng nữa thì... (Nhấn mạnh mức độ cao nhưng kết quả vế sau không thay đổi). |
-| **과연** | **_____ -(으)ㄹ까? / -(으)ㄴ/는가? / -(으)ㄹ 수 있을까?** | Liệu rằng... thật sao? (Nghi vấn, đặt dấu hỏi hoài nghi hoặc gợi mở suy ngẫm cho người đọc). |
-| **어쩌면 / 혹시** | **_____ -(으)ㄹ지도 모른다** | Có lẽ... / Biết đâu lại... (Phỏng đoán dè dặt về một khả năng có thể phát sinh). |
-| **아마 / 대개** | **_____ -(으)ㄹ 것이다 / -(으)ㄴ/는 모양이다** | Có lẽ là... / Rất có thể sẽ... (Phỏng đoán có căn cứ về một hiện tượng). |
+| **비록** | **_____ -지만** // **_____ -아/어도** // **_____ -(으)ㄹ지라도** // **_____ -(으)나** | Dù/Mặc dù... nhưng... // *Biểu thị quan hệ nhượng bộ, vế sau không bị chi phối bởi vế trước* |
+| **만약 / 만일** | **_____ -(으)면** // **_____ -다면** // **_____ -거든** | Giả sử/Nếu như... thì... // *Đặt ra giả định, tình huống có thể xảy ra* |
+| **혹시** | **_____ -(으)ㄹ까 봐** // **_____ -(으)면** // **_____ -거든** // **_____ -더라도** | Nhỡ đâu/Liệu rằng... // *Diễn tả sự lo âu, phỏng đoán hoặc giả định tình huống bất ngờ* |
+| **아무리** | **_____ -아/어/여도** // **_____ -(으)ㄹ지라도** | Dù có... đến mức nào đi chăng nữa thì... // *Nhấn mạnh mức độ cao nhưng kết quả vế sau không thay đổi* |
+| **과연** | **_____ -(으)ㄹ까?** // **_____ -(으)ㄴ/는가?** // **_____ -(으)ㄹ 수 있을까?** | Liệu rằng... thật sao? // *Nghi vấn, đặt dấu hỏi hoài nghi hoặc gợi mở suy ngẫm cho người đọc* |
+| **어쩌면 / 혹시** | **_____ -(으)ㄹ지도 모른다** | Có lẽ... / Biết đâu lại... // *Phỏng đoán dè dặt về một khả năng có thể phát sinh* |
+| **아마 / 대개** | **_____ -(으)ㄹ 것이다** // **_____ -(으)ㄴ/는 모양이다** | Có lẽ là... / Rất có thể sẽ... // *Phỏng đoán có căn cứ về một hiện tượng* |
 
 #### Ví dụ áp dụng
 
@@ -348,12 +348,12 @@ Tổng hợp phó từ theo chức năng trong đoạn văn, giúp nhận diện
 
 | Từ khóa | Cấu trúc hô ứng | Ý nghĩa |
 | --- | --- | --- |
-| **그리고 / 또한 / 게다가** | **_____ -기도 하고 _____ -기도 하다** | Vừa... vừa... / Lại còn... (Liệt kê song song nhiều mặt tính chất hoặc lợi ích). |
-| **게다가 / 더욱이** | **_____ -ㄹ 뿐만 아니라 / -는 데다가** | Thêm vào đó / Hơn nữa... (Bổ sung tính chất cùng chiều theo hướng tăng tiến). |
-| **이처럼 / 즉** | **_____ -(으)ㅁ을 알 수 있다 / -다는 뜻이다** | Như vậy / Tức là... (Tóm tắt, đúc kết lại luận điểm trước đó). |
-| **특히 / 더욱** | **_____ -에 주목할 필요가 있다 / -(으)ㄴ 편이다** | Đặc biệt là... (Nhấn mạnh một đối tượng nổi bật trong tổng thể). |
-| **사실** | **_____ -(으)ㄴ/는 실정이다 / -(으)ㄴ 것이 현실이다** | Trên thực tế / Sự thật là... (Làm rõ thực trạng phía sau bề mặt vấn đề). |
-| **따라서 / 그래서 / 그러므로** | **_____ -(으)ㄹ 필요가 있다 / -아/어야 한다** | Do đó / Vì vậy cho nên... (Dẫn dắt mệnh đề kết quả hoặc lời khuyên rút ra từ nguyên nhân phía trước). |
+| **그리고 / 또한 / 게다가** | **_____ -기도 하고 _____** // **_____ -기도 하다** | Vừa... vừa... / Lại còn... // *Liệt kê song song nhiều mặt tính chất hoặc lợi ích* |
+| **게다가 / 더욱이** | **_____ -ㄹ 뿐만 아니라** // **_____ -는 데다가** | Thêm vào đó / Hơn nữa... // *Bổ sung tính chất cùng chiều theo hướng tăng tiến* |
+| **이처럼 / 즉** | **_____ -(으)ㅁ을 알 수 있다** // **_____ -다는 뜻이다** | Như vậy / Tức là... // *Tóm tắt, đúc kết lại luận điểm trước đó* |
+| **특히 / 더욱** | **_____ -에 주목할 필요가 있다** // **_____ -(으)ㄴ 편이다** | Đặc biệt là... // *Nhấn mạnh một đối tượng nổi bật trong tổng thể* |
+| **사실** | **_____ -(으)ㄴ/는 실정이다** // **_____ -(으)ㄴ 것이 현실이다** | Trên thực tế / Sự thật là... // *Làm rõ thực trạng phía sau bề mặt vấn đề* |
+| **따라서 / 그래서 / 그러므로** | **_____ -(으)ㄹ 필요가 있다** // **_____ -아/어야 한다** | Do đó / Vì vậy cho nên... // *Dẫn dắt mệnh đề kết quả hoặc lời khuyên rút ra từ nguyên nhân phía trước* |
 
 #### Ví dụ áp dụng
 
@@ -372,9 +372,9 @@ Tổng hợp phó từ theo chức năng trong đoạn văn, giúp nhận diện
 
 | Từ khóa | Cấu trúc hô ứng | Ý nghĩa |
 | --- | --- | --- |
-| **그러나 / 하지만** | **_____ 오히려 _____ -기도 한다** | Tuy nhiên... ngược lại còn... (Chỉ ra kết quả bất ngờ trái ngược hoàn toàn với giả định thông thường). |
-| **반면에 / 한편** | **_____ -는 반면(에)** | Trái lại / Trong khi đó... (So sánh tương phản giữa hai mặt của một vấn đề). |
-| **그래도** | **_____ -아/어야 한다 / -는 것이 바람직하다** | Dù vậy thì... (Chấp nhận thực tế nhưng vẫn duy trì lập trường hoặc hành động cần thiết). |
+| **그러나 / 하지만** | **_____ 오히려 _____** // **_____ -기도 한다** | Tuy nhiên... ngược lại còn... // *Chỉ ra kết quả bất ngờ trái ngược hoàn toàn với giả định thông thường* |
+| **반면에 / 한편** | **_____ -는 반면(에)** | Trái lại / Trong khi đó... // *So sánh tương phản giữa hai mặt của một vấn đề* |
+| **그래도** | **_____ -아/어야 한다** // **_____ -는 것이 바람직하다** | Dù vậy thì... // *Chấp nhận thực tế nhưng vẫn duy trì lập trường hoặc hành động cần thiết* |
 
 #### Ví dụ áp dụng
 
@@ -390,7 +390,7 @@ Tổng hợp phó từ theo chức năng trong đoạn văn, giúp nhận diện
 
 | Từ khóa | Cấu trúc hô ứng | Ý nghĩa |
 | --- | --- | --- |
-| **어찌나 / 얼마나** | **_____ -(으)ㄴ/는지** | Đến mức mà... / Quá... đến nỗi... (Nhấn mạnh mức độ nghiêm trọng hoặc sự bất ngờ của một trạng thái). |
+| **어찌나 / 얼마나** | **_____ -(으)ㄴ/는지** | Đến mức mà... / Quá... đến nỗi... // *Nhấn mạnh mức độ nghiêm trọng hoặc sự bất ngờ của một trạng thái* |
 
 #### Ví dụ áp dụng
 
@@ -404,7 +404,7 @@ Tổng hợp phó từ theo chức năng trong đoạn văn, giúp nhận diện
 
 | Từ khóa | Cấu trúc hô ứng | Ý nghĩa |
 | --- | --- | --- |
-| **점점 / 날로** | **_____ -아/어지다 / -고 있다** | Càng ngày càng... / Đang dần dần... (Mô tả sự biến chuyển của một xu hướng theo thời gian). |
+| **점점 / 날로** | **_____ -아/어지다** // **_____ -고 있다** | Càng ngày càng... / Đang dần dần... // *Mô tả sự biến chuyển của một xu hướng theo thời gian* |
 
 #### Ví dụ áp dụng
 

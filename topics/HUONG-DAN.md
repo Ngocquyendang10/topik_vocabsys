@@ -77,7 +77,9 @@ Giải thích từng dòng:
 | `! Nhãn: nội dung` | Khung ghi chú viền trái |
 | `- Nội dung` | Gạch đầu dòng |
 | `**đậm**` `*nghiêng*` | In đậm / in nghiêng |
+| `==nổi bật==` | Bôi sáng chữ quan trọng (nền tím nhạt) |
 | `\| a \| b \|` | Bảng (dòng đầu là tiêu đề cột) |
+| `//` **trong một ô bảng** | Xuống dòng bên trong ô đó (xem mục C1) |
 | `---` | Đường kẻ ngang |
 
 Vài điều đáng nhớ:
@@ -86,6 +88,30 @@ Vài điều đáng nhớ:
 - Số lượng mục và từ của mỗi phần **web tự đếm**, không cần ghi tay.
 - Chữ Hàn trong dòng `từ = nghĩa` phải đứng một mình, không kèm dấu ngoặc hay dấu chấm — web dò chính xác chuỗi này với thư viện từ vựng để học viên bấm vào xem thẻ chi tiết.
 - Dòng trống dùng để ngăn cách cho dễ đọc, thừa thiếu một dòng cũng không sao.
+
+## C1. Bảng cho đẹp
+
+**Xuống dòng trong một ô.** Ô nào chứa nhiều thứ (2–3 cấu trúc ngữ pháp, nghĩa kèm phần
+giải thích…) thì ngăn nhau bằng dấu `//`, web sẽ tách thành từng dòng riêng:
+
+```
+| **반드시 · 꼭** | **-아/어야 한다** // **-지 않으면 안 된다** | Yêu cầu bắt buộc. |
+| **바로** | **-(이)다** // **-(으)로 인한 것이다** | Nhấn mạnh. // *Ghi chú phụ viết nghiêng* |
+```
+
+**Web tự canh độ rộng cột theo tên cột ở dòng tiêu đề** — nên đặt tên cột đúng chữ:
+
+| Tên cột | Web xử lý |
+| --- | --- |
+| `Cấu trúc hô ứng` hoặc `Cấu trúc` | Cột rộng hẳn ra; mỗi cấu trúc in đậm thành một khung tím riêng |
+| `Phó từ` · `Từ khóa` · `Mẫu` | Cột hẹp lại, tô nền nhạt, chữ tím đậm để bám mắt theo hàng |
+| Tên khác | Cột thường, tự dãn theo nội dung |
+
+Vài mẹo nhỏ:
+
+- Chữ `**in đậm**` trong ô cột *Cấu trúc* sẽ thành khung tím; ở cột khác thì thành chữ tím đậm.
+- Chữ `*in nghiêng*` trong ô bảng thành dòng ghi chú chữ nhạt, cỡ nhỏ — hợp để giải thích thêm.
+- Bảng dài quá màn hình thì tự cuộn ngang được, không sợ vỡ giao diện.
 
 ## C2. Cú pháp riêng cho BÀI ĐỌC (nghe – hiểu – dịch – chép)
 
@@ -172,7 +198,6 @@ Khung báo lỗi trên web sẽ nói rõ đang vướng trường hợp nào.
 Copy từ dòng "Tôi cần bạn viết nội dung…" cho tới hết file, điền phần 【 】 rồi gửi cho AI.
 
 ---
-
 Tôi cần bạn viết nội dung cho một bài trong web học tiếng Hàn của tôi. Bài này sẽ được lưu
 thành một file .md và web tự dựng giao diện, nên bạn phải viết ĐÚNG cú pháp tôi mô tả ở dưới.
 
@@ -214,7 +239,9 @@ Sau đó là nội dung, dùng các dấu hiệu sau (không dùng cú pháp Mar
 | `! Đồng âm: nội dung` | Khung ghi chú, chữ trước dấu hai chấm là nhãn |
 | `- Nội dung` | Gạch đầu dòng |
 | `**đậm**` · `*nghiêng*` | In đậm / in nghiêng |
+| `==nổi bật==` | Bôi sáng chữ quan trọng |
 | `\| cột 1 \| cột 2 \|` | Bảng, dòng đầu tiên là tiêu đề cột |
+| `//` trong một ô bảng | Xuống dòng bên trong ô đó. Ô cột "Cấu trúc hô ứng" có nhiều cấu trúc thì bắt buộc tách bằng `//`, mỗi cấu trúc bọc `**...**` riêng |
 | `---` | Đường kẻ ngang ngăn đoạn |
 
 ## Quy tắc phải tuân thủ tuyệt đối
