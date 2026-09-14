@@ -4251,6 +4251,74 @@ input.quiz-wrong,
   #view-search-results #search-results-box{ flex:0 0 auto !important; }
 }
 
+/* Nút xoá từ khỏi sổ trong tab "List từ vựng" — xám bình thường, đỏ khi rê chuột */
+.pl-del-btn{ color:var(--clay-tertiary, #8A87A6); }
+.pl-del-btn:hover{ color:#ef4444; border-color:#ef444455; }
+
+/* ============================================================
+   TOAST — thông báo phản hồi ngay trong web (thay cho alert() của trình duyệt)
+   Nổi ở góc trên bên phải (desktop) / trên cùng (mobile), tự biến mất.
+   ============================================================ */
+#app-toast-host{
+  position:fixed; top:14px; right:14px; z-index:200;
+  display:flex; flex-direction:column; gap:10px;
+  width:min(360px, calc(100vw - 28px));
+  pointer-events:none;
+}
+@media (max-width:640px){
+  #app-toast-host{ top:10px; right:10px; left:10px; width:auto; }
+}
+.app-toast{
+  pointer-events:auto;
+  display:flex; align-items:flex-start; gap:11px;
+  padding:13px 13px 13px 14px;
+  border-radius:18px;
+  background:var(--clay-surface, #fff);
+  border:1.5px solid var(--clay-line, #e6ebf3);
+  border-left-width:5px;
+  box-shadow:0 12px 30px rgba(26,32,44,.16);
+  animation:appToastIn .28s cubic-bezier(.22,1,.36,1);
+}
+.app-toast.app-toast-out{ animation:appToastOut .22s ease forwards; }
+@keyframes appToastIn{ from{ opacity:0; transform:translateY(-10px) scale(.97);} to{ opacity:1; transform:none;} }
+@keyframes appToastOut{ to{ opacity:0; transform:translateY(-8px) scale(.97);} }
+@media (prefers-reduced-motion: reduce){
+  .app-toast, .app-toast.app-toast-out{ animation:none; }
+}
+.app-toast-success{ border-left-color:#2ec65e; }
+.app-toast-info{    border-left-color:#6C63FF; }
+.app-toast-warn{    border-left-color:#f59e0b; }
+.app-toast-error{   border-left-color:#ef4444; }
+.app-toast-ico{
+  width:30px; height:30px; border-radius:11px; flex:0 0 auto;
+  display:flex; align-items:center; justify-content:center;
+  font-size:15px; font-weight:800; color:#fff; line-height:1;
+}
+.app-toast-success .app-toast-ico{ background:#2ec65e; }
+.app-toast-info .app-toast-ico{    background:#6C63FF; }
+.app-toast-warn .app-toast-ico{    background:#f59e0b; }
+.app-toast-error .app-toast-ico{   background:#ef4444; }
+.app-toast-body{ flex:1 1 auto; min-width:0; }
+.app-toast-title{
+  font-size:13px; font-weight:800; line-height:1.3;
+  color:var(--clay-ink, #201D3B); margin:0;
+}
+.app-toast-msg{
+  font-size:12px; line-height:1.45; margin:2px 0 0;
+  color:var(--clay-body, #55536F); word-break:break-word;
+}
+.app-toast-act{
+  margin-top:7px; font-size:12px; font-weight:800; color:#6C63FF;
+  background:none; border:none; padding:0; cursor:pointer; text-decoration:underline;
+}
+.app-toast-x{
+  flex:0 0 auto; width:22px; height:22px; border-radius:50%;
+  border:none; background:transparent; cursor:pointer;
+  color:var(--clay-tertiary, #8A87A6); font-size:12px; line-height:1;
+}
+.app-toast-x:hover{ color:#ef4444; }
+:root[data-theme="dark"] .app-toast{ box-shadow:0 12px 30px rgba(0,0,0,.45); }
+
     </style>
 </head>
 <body class="font-sans antialiased text-[color:var(--c-3d3d4e)] px-3 sm:px-5 lg:px-8 pb-3 sm:pb-5 lg:pb-8 pt-1 sm:pt-2 min-h-screen">
@@ -5263,6 +5331,15 @@ input.quiz-wrong,
         }
 
         // Nạp 1 gói dữ liệu (từ server hoặc từ cache) vào bộ nhớ + vẽ lại giao diện.
+        // Bảo đảm mọi sổ đều có mảng words + số đếm count khớp nhau
+        function normalizeNotebookCounts(list) {
+            (Array.isArray(list) ? list : []).forEach(nb => {
+                if (!nb) return;
+                if (!Array.isArray(nb.words)) nb.words = [];
+                nb.count = nb.words.length;
+            });
+        }
+
         function applyBundleToMemory(loaded) {
             // Tương thích ngược: dữ liệu cũ lưu thẳng mảng notebooks, dữ liệu mới lưu { notebooks, ... }
             if (Array.isArray(loaded)) {
@@ -5295,6 +5372,11 @@ input.quiz-wrong,
                     renderActivityDashboardContent();
                 }
             }
+            // Chuẩn hoá lại dữ liệu sổ vừa nạp: có bản ghi cũ (hoặc ghi từ thiết bị khác) thiếu
+            // trường `count`/`words`, khiến card sổ hiện "undefined từ vựng" và các phép tính
+            // tiến độ bị lệch. Luôn tính lại count theo số từ thật sự có trong sổ.
+            normalizeNotebookCounts(notebooksList);
+            normalizeNotebookCounts(deletedNotebooksList);
             // Đồng bộ lại trạng thái "đã học" + "đã lưu vào sổ nào" lên dữ liệu từ vựng đang có trong bộ nhớ
             applyLearnedStateToArray(vocabDatabase);
             applyLearnedStateToArray(allLibraryCache);
@@ -5425,7 +5507,7 @@ input.quiz-wrong,
 
         function speakKorean(text, gender, onEnd) {
             if (!('speechSynthesis' in window)) {
-                alert('Trình duyệt của bạn chưa hỗ trợ phát âm giọng nói (Web Speech API). Hãy thử mở với Chrome nhé!');
+                showToast('Trình duyệt của bạn chưa hỗ trợ phát âm giọng nói (Web Speech API). Hãy thử mở với Chrome nhé!', 'warn', { title: 'Chưa phát âm được' });
                 if (onEnd) onEnd();
                 return;
             }
@@ -5483,7 +5565,7 @@ input.quiz-wrong,
 
         function playExampleAudioFrom(key, text, container) {
             if (!('speechSynthesis' in window)) {
-                alert('Trình duyệt của bạn chưa hỗ trợ phát âm giọng nói (Web Speech API). Hãy thử mở với Chrome nhé!');
+                showToast('Trình duyệt của bạn chưa hỗ trợ phát âm giọng nói (Web Speech API). Hãy thử mở với Chrome nhé!', 'warn', { title: 'Chưa phát âm được' });
                 return;
             }
             const prevContainer = audioPlaybackState.container;
@@ -6389,13 +6471,16 @@ input.quiz-wrong,
                 if (added >= n) break;
                 if (!libSelectedIds.has(w.id)) { libSelectedIds.add(w.id); added++; }
             }
-            if (added < n) alert(`Danh sách đang xem chỉ còn ${added} từ chưa chọn, không đủ ${n} từ như bạn muốn.`);
+            if (added < n) showToast(`Danh sách đang xem chỉ còn ${added} từ chưa chọn, không đủ ${n} từ như bạn muốn.`, 'warn', { title: `Đã chọn ${added} từ` });
+            else showToast(`Đã chọn nhanh ${added} từ đầu danh sách.`);
             renderVocabRows();
         }
 
         function libClearSelection() {
+            const n = libSelectedIds.size;
             libSelectedIds.clear();
             renderVocabRows();
+            showToast(n ? `Đã bỏ tick ${n} từ.` : 'Bạn chưa tick từ nào.', n ? 'success' : 'info', { title: n ? 'Đã bỏ chọn' : 'Chưa có gì để bỏ' });
         }
 
         function openAddSelectedToNotebookPopup(evt) {
@@ -6419,7 +6504,7 @@ input.quiz-wrong,
                         <span class="text-[11px] text-gray-400 font-mono">${nb.count} từ</span>
                     </button>`).join('') : `<p class="text-[12px] text-gray-400 px-2 py-2 max-w-[190px]">Bạn chưa có sổ từ vựng nào, tạo mới bên dưới nha!</p>`}
                 <div class="w-full h-[1.5px] my-1.5" style="background:linear-gradient(90deg,transparent,var(--c-d8e0ec),transparent);"></div>
-                <button class="bookmark-popup-item" style="color:#6C63FF;" onclick="closeBookmarkPopup(); openCreateNotebookModal();">
+                <button class="bookmark-popup-item" style="color:#6C63FF;" onclick="closeBookmarkPopup(); openCreateNotebookFromLibSelection();">
                     <span class="flex items-center justify-center w-4 h-4">+</span>
                     <span>Tạo sổ mới</span>
                 </button>
@@ -6446,11 +6531,13 @@ input.quiz-wrong,
             // này đều được đánh dấu "newlyAdded" nhất quán (kể cả các nhóm thêm sau qua confirm).
             const nbHadProgress = notebookHasAnyProgress(nb);
             const addList = (list) => {
+                let added = 0;
                 list.forEach(w => {
                     if (!nb.words.some(x => x.id === w.id)) {
                         const entry = { id: w.id, word: w.word, vietnamese: w.vietnamese || w.deep_meaning || '—', source: 'library' };
                         if (nbHadProgress) entry.newlyAdded = true;
                         nb.words.push(entry);
+                        added++;
                         w.savedNotebooks = w.savedNotebooks || [];
                         if (!w.savedNotebooks.includes(nbId)) w.savedNotebooks.push(nbId);
                     }
@@ -6459,11 +6546,20 @@ input.quiz-wrong,
                 const countEl = document.getElementById(`nb-count-${nb.id}`);
                 if (countEl) countEl.textContent = nb.count;
                 syncSavedNotebooksEverywhere();
+                updateNotebookCardProgressUI(nb);
+                refreshLessonCardPreview(nb);
+                renderRecentActivitySection();
+                renderHomeNotebookCards();
                 saveNotebooksToServer();
                 libSelectedIds.clear();
                 libSelQty = '';
                 renderFilterBar();
                 renderVocabRows();
+                if (added) {
+                    showToast(`Đã thêm ${added} từ vào sổ "${nb.name}" (tổng ${nb.count} từ).`, 'success', {
+                        actionText: 'Mở sổ ngay ➔', onAction: () => openPracticeView(nb.id),
+                    });
+                }
             };
 
             confirmIfNotebookHasProgress(nb, () => {
@@ -6487,7 +6583,7 @@ input.quiz-wrong,
                     });
                 }
                 if (!freeWords.length && !learnedWords.length && !dupWords.length) {
-                    alert('Tất cả từ đã chọn đều đã có sẵn trong sổ này rồi.');
+                    showToast(`Tất cả từ bạn chọn đều đã có sẵn trong sổ "${nb.name}" rồi, nên không thêm gì mới.`, 'info', { title: 'Không có từ nào mới' });
                 }
             });
         }
@@ -6577,7 +6673,7 @@ input.quiz-wrong,
                     </button>`;
                 }).join('')}
                 <div class="w-full h-[1.5px] my-1.5" style="background:linear-gradient(90deg,transparent,var(--c-d8e0ec),transparent);"></div>
-                <button class="bookmark-popup-item" style="color:#6C63FF;" onclick="closeBookmarkPopup(); openCreateNotebookModal();">
+                <button class="bookmark-popup-item" style="color:#6C63FF;" onclick="closeBookmarkPopup(); openCreateNotebookForWord(${globalIndex});">
                     <span class="flex items-center justify-center w-4 h-4">+</span>
                     <span>Tạo sổ mới</span>
                 </button>
@@ -6602,6 +6698,8 @@ input.quiz-wrong,
                     nb.count = (nb.words || []).length;
                     const countEl = document.getElementById(`nb-count-${nb.id}`);
                     if (countEl) countEl.textContent = nb.count;
+                    refreshLessonCardPreview(nb);
+                    updateNotebookCardProgressUI(nb);
                 }
                 syncSavedNotebooksEverywhere();
                 renderVocabRows();
@@ -6613,6 +6711,7 @@ input.quiz-wrong,
                 if (nb) nb.words = (nb.words || []).filter(w => w.id !== data.id);
                 closeBookmarkPopup();
                 finish();
+                showToast(`Đã bỏ "${data.word}" khỏi sổ "${nb ? nb.name : ''}".`, 'success', { title: 'Đã bỏ khỏi sổ' });
                 return;
             }
             const performAdd = () => {
@@ -6626,6 +6725,9 @@ input.quiz-wrong,
                     }
                 }
                 finish();
+                showToast(`Đã lưu "${data.word}" vào sổ "${nb ? nb.name : ''}" (tổng ${nb ? nb.count : 0} từ).`, 'success', {
+                    title: 'Đã lưu vào sổ', actionText: nb ? 'Mở sổ ngay ➔' : '', onAction: () => nb && openPracticeView(nb.id),
+                });
             };
             const doAdd = () => confirmIfNotebookHasProgress(nb, performAdd);
             closeBookmarkPopup();
@@ -7040,7 +7142,7 @@ input.quiz-wrong,
                     </button>`;
                 }).join('') : `<p class="text-[12px] text-gray-400 px-2 py-2 max-w-[190px]">Bạn chưa có sổ từ vựng nào, tạo mới bên dưới nha!</p>`}
                 <div class="w-full h-[1.5px] my-1.5" style="background:linear-gradient(90deg,transparent,var(--c-d8e0ec),transparent);"></div>
-                <button class="bookmark-popup-item" style="color:#6C63FF;" onclick="closeBookmarkPopup(); openCreateNotebookModal();">
+                <button class="bookmark-popup-item" style="color:#6C63FF;" onclick="closeBookmarkPopup(); openCreateNotebookForGenericWord('${wordId}');">
                     <span class="flex items-center justify-center w-4 h-4">+</span>
                     <span>Tạo sổ mới</span>
                 </button>
@@ -7059,6 +7161,8 @@ input.quiz-wrong,
                     nb.count = (nb.words || []).length;
                     const countEl = document.getElementById(`nb-count-${nb.id}`);
                     if (countEl) countEl.textContent = nb.count;
+                    refreshLessonCardPreview(nb);
+                    updateNotebookCardProgressUI(nb);
                 }
                 // Cập nhật icon bookmark ngay trên nút, không cần vẽ lại cả card
                 const btn = document.getElementById(`generic-bm-btn-${wordId}`);
@@ -7076,6 +7180,7 @@ input.quiz-wrong,
                 if (nb) nb.words = (nb.words || []).filter(x => x.id !== data.id);
                 closeBookmarkPopup();
                 finish();
+                showToast(`Đã bỏ "${data.word}" khỏi sổ "${nb ? nb.name : ''}".`, 'success', { title: 'Đã bỏ khỏi sổ' });
                 return;
             }
             const performAdd = () => {
@@ -7089,6 +7194,9 @@ input.quiz-wrong,
                     }
                 }
                 finish();
+                showToast(`Đã lưu "${data.word}" vào sổ "${nb ? nb.name : ''}" (tổng ${nb ? nb.count : 0} từ).`, 'success', {
+                    title: 'Đã lưu vào sổ', actionText: nb ? 'Mở sổ ngay ➔' : '', onAction: () => nb && openPracticeView(nb.id),
+                });
             };
             const doAdd = () => confirmIfNotebookHasProgress(nb, performAdd);
             closeBookmarkPopup();
@@ -7128,12 +7236,45 @@ input.quiz-wrong,
             bulkOptions = opts;
         }
 
-        function openCreateNotebookModal() {
+        // seedWords: danh sách từ mang sẵn vào sổ mới (ví dụ các từ vừa tick ở Thư viện).
+        // TRƯỚC ĐÂY hàm này luôn mở sổ RỖNG, nên học sinh tick 20 từ ở thư viện rồi bấm
+        // "Tạo sổ mới" là mất sạch lựa chọn → tạo ra sổ 0 từ và tưởng web hỏng.
+        function openCreateNotebookModal(seedWords) {
             nbModalState = freshNbModalState();
+            if (Array.isArray(seedWords) && seedWords.length) {
+                nbModalState.selectedWords = seedWords.filter(Boolean).map(w => ({
+                    id: w.id,
+                    word: w.word,
+                    vietnamese: w.vietnamese || w.deep_meaning || '—',
+                    source: w.source === 'custom' ? 'custom' : 'library',
+                }));
+                nbModalState.seededFromLibrary = true;
+            }
             document.getElementById('create-notebook-modal').classList.remove('hidden');
             document.getElementById('step-1-container').classList.remove('hidden');
             document.getElementById('step-2-container').classList.add('hidden');
             renderModalStep1();
+            if (nbModalState.selectedWords.length) {
+                showToast(`${nbModalState.selectedWords.length} từ bạn vừa chọn đã được mang sẵn vào sổ mới. Đặt tên sổ rồi bấm "Tiếp theo" nha!`, 'info', { title: 'Đã giữ lại từ đã chọn' });
+            }
+        }
+
+        // Mở "Tạo sổ mới" kèm theo các từ đang tick ở Thư viện
+        function openCreateNotebookFromLibSelection() {
+            const seed = [...libSelectedIds].map(id => vocabDatabase.find(w => w.id === id)).filter(Boolean);
+            openCreateNotebookModal(seed);
+        }
+
+        // Mở "Tạo sổ mới" kèm theo đúng 1 từ (từ nút bookmark của 1 dòng trong thư viện)
+        function openCreateNotebookForWord(globalIndex) {
+            const d = vocabDatabase[globalIndex];
+            openCreateNotebookModal(d ? [d] : []);
+        }
+
+        // Mở "Tạo sổ mới" kèm theo 1 từ ở các thẻ chi tiết dùng chung (tìm kiếm, chủ đề, dashboard...)
+        function openCreateNotebookForGenericWord(wordId) {
+            const d = GENERIC_DETAIL_DATA_MAP[wordId];
+            openCreateNotebookModal(d ? [d] : []);
         }
 
         // Mở thẳng bước "Thêm từ" cho 1 sổ tay đã có sẵn (bỏ qua bước Thông tin tên/ghi chú)
@@ -7433,6 +7574,8 @@ input.quiz-wrong,
             nbModalState.selectedWords.push({ id: `custom-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`, word: kr, vietnamese: vi || '—', source: 'custom' });
             krEl.value = ''; viEl.value = '';
             refreshModalSelectionUI();
+            krEl.focus();
+            showToast(`Đã thêm "${kr}" vào giỏ (giỏ đang có ${nbModalState.selectedWords.length} từ).`, 'success', { title: 'Đã thêm từ tự nhập' });
         }
 
         function removeSelectedWord(id) {
@@ -7456,6 +7599,10 @@ input.quiz-wrong,
             }
         }
 
+        // Chỉ vẽ tối đa từng này ô từ trong "giỏ" — lọc hàng loạt có thể ra hơn 1000 từ, vẽ hết
+        // ra màn hình làm điện thoại đứng vài giây, user tưởng bấm nút mà web không phản hồi.
+        const SELWORD_CHIP_LIMIT = 150;
+
         function renderSelectedWordsList() {
             const wrap = document.getElementById('modal-selected-list-wrap');
             if (!wrap) return;
@@ -7474,12 +7621,13 @@ input.quiz-wrong,
                         <button class="text-[10.5px] font-black text-[color:var(--c-8290aa)] hover:text-red-400" onclick="clearSelectedWords()">✕ Xoá hết</button>
                     </div>
                     <div class="flex flex-wrap gap-1.5" style="max-height:104px; overflow-y:auto;">
-                        ${words.map(w => `
+                        ${words.slice(0, SELWORD_CHIP_LIMIT).map(w => `
                             <span class="nb-selword" title="${(w.vietnamese || '').replace(/"/g, '&quot;')}">
                                 <b>${w.word}</b>
                                 <button class="x" onclick="removeSelectedWord('${w.id}')" title="Bỏ từ này">✕</button>
                             </span>
                         `).join('')}
+                        ${words.length > SELWORD_CHIP_LIMIT ? `<span class="nb-selword" style="opacity:.75;"><b>… và ${words.length - SELWORD_CHIP_LIMIT} từ nữa</b></span>` : ''}
                     </div>
                 </div>
             `;
@@ -7539,11 +7687,25 @@ input.quiz-wrong,
             nbModalState.bulkFilters = { libs: [], levels: [], examTypes: [], wordTypes: [], topics: [] };
             computeBulkOptionsCascaded();
             renderModalTabContent();
+            showToast('Đã bỏ hết bộ lọc, quay về toàn bộ thư viện.', 'success', { title: 'Đã xoá bộ lọc' });
         }
 
         function clearSelectedWords() {
+            const n = nbModalState.selectedWords.length;
+            if (!n) { showToast('Giỏ từ đang trống sẵn rồi.', 'info'); return; }
+            const removed = nbModalState.selectedWords.slice();
             nbModalState.selectedWords = [];
             refreshModalSelectionUI();
+            showToast(`Đã xoá hết ${n} từ khỏi giỏ.`, 'success', {
+                title: 'Đã xoá giỏ từ',
+                duration: 6000,
+                actionText: 'Hoàn tác',
+                onAction: () => {
+                    removed.forEach(w => { if (!nbModalState.selectedWords.some(x => x.id === w.id)) nbModalState.selectedWords.push(w); });
+                    refreshModalSelectionUI();
+                    showToast(`Đã trả ${removed.length} từ về giỏ.`, 'success', { title: 'Đã hoàn tác' });
+                },
+            });
         }
 
         function addAllBulkMatches() {
@@ -7560,6 +7722,8 @@ input.quiz-wrong,
                 refreshModalSelectionUI();
             };
             addList(freeWords);
+            if (freeWords.length) showToast(`Đã đưa ${freeWords.length} từ vào giỏ (giỏ đang có ${nbModalState.selectedWords.length} từ).`, 'success', { title: 'Đã thêm vào giỏ' });
+            else if (!dupWords.length) showToast('Bộ lọc này không còn từ nào mới để thêm — tất cả đã nằm trong giỏ rồi.', 'info', { title: 'Không có từ nào mới' });
             if (dupWords.length) {
                 showConfirmModal({
                     title: 'Có từ đã ở sổ khác',
@@ -7590,6 +7754,7 @@ input.quiz-wrong,
                 refreshModalSelectionUI();
             };
             addList(picked);
+            if (picked.length) showToast(`Đã lấy ngẫu nhiên ${picked.length} từ vào giỏ (giỏ đang có ${nbModalState.selectedWords.length} từ).`, 'success', { title: 'Đã thêm vào giỏ' });
             const shortBy = qty - picked.length;
             if (shortBy > 0 && dupWords.length) {
                 const extraAvailable = Math.min(shortBy, dupWords.length);
@@ -7601,15 +7766,28 @@ input.quiz-wrong,
                     onConfirm: () => addList(shuffleArr(dupWords).slice(0, extraAvailable)),
                 });
             } else if (shortBy > 0) {
-                alert(`Bộ lọc này chỉ có ${picked.length} từ phù hợp, không đủ ${qty} từ như bạn yêu cầu.`);
+                showToast(`Bộ lọc này chỉ có ${picked.length} từ phù hợp, không đủ ${qty} từ như bạn yêu cầu.`, 'warn', { title: `Đã thêm ${picked.length} từ` });
             }
         }
 
         function submitCreateNotebook() {
             if (nbModalState.editingNotebookId) { submitAddWordsToExistingNotebook(); return; }
+            // TRƯỚC ĐÂY dùng confirm() của trình duyệt — trên điện thoại hộp thoại này hay bị chặn,
+            // bấm "Tạo sổ" là im ru không có gì xảy ra. Nay hỏi bằng popup của chính web.
             if (!nbModalState.selectedWords.length) {
-                if (!confirm('Sổ chưa có từ vựng nào, bạn vẫn muốn tạo chứ?')) return;
+                showConfirmModal({
+                    title: 'Sổ chưa có từ vựng nào',
+                    message: 'Bạn vẫn muốn tạo sổ trống rồi thêm từ sau chứ?',
+                    confirmText: 'Vẫn tạo sổ trống',
+                    cancelText: 'Để tôi chọn từ đã',
+                    onConfirm: () => doCreateNotebook(),
+                });
+                return;
             }
+            doCreateNotebook();
+        }
+
+        function doCreateNotebook() {
             const palette = ['#2ec65e', '#3b82f6', '#f59e0b', '#ef4444', '#a855f7', '#14b8a6'];
             const newNb = {
                 id: `nb-${Date.now()}`,
@@ -7620,17 +7798,50 @@ input.quiz-wrong,
                 words: [...nbModalState.selectedWords],
                 createdAt: new Date(),
             };
+            const seeded = !!nbModalState.seededFromLibrary;
             notebooksList.push(newNb);
             renderNewNotebookLessonCard(newNb);
             closeCreateNotebookModal();
+            syncSavedNotebooksEverywhere();
+            renderRecentActivitySection();
+            renderHomeNotebookCards();
+            // Sổ vừa tạo từ các từ đang tick ở thư viện → bỏ tick cho sạch, tránh user thêm lại lần nữa
+            if (seeded && typeof libSelectedIds !== 'undefined' && libSelectedIds.size) {
+                libSelectedIds.clear();
+                libSelQty = '';
+                if (typeof renderFilterBar === 'function') renderFilterBar();
+                if (typeof renderVocabRows === 'function') renderVocabRows();
+            }
             saveNotebooksToServer();
+            // PHẢN HỒI RÕ RÀNG: trước đây modal chỉ đóng lại, mà card sổ mới lại nằm ở tab
+            // "Sổ từ vựng" — user đang đứng ở Trang chủ/Thư viện thì chẳng thấy gì, tưởng là tạo hụt.
+            showToast(
+                `Đã tạo sổ "${newNb.name}" với ${newNb.count} từ vựng.`,
+                'success',
+                { title: 'Tạo sổ thành công!', actionText: 'Mở sổ ngay ➔', onAction: () => openPracticeView(newNb.id) }
+            );
+            goToNotebookHomeAndHighlight(newNb.id);
+        }
+
+        // Chuyển sang tab "Sổ từ vựng" rồi cuộn + loé sáng đúng card vừa tạo/vừa đổi,
+        // để mọi thao tác tạo sổ đều KẾT THÚC bằng một thứ nhìn thấy được.
+        function goToNotebookHomeAndHighlight(nbId) {
+            const tabNotebook = document.getElementById('tab-notebook');
+            const onNotebookHome = !document.getElementById('view-notebook-home').classList.contains('hidden');
+            const inPractice = !document.getElementById('view-practice-stage').classList.contains('hidden');
+            // Đang luyện tập dở thì không giật user ra khỏi màn hình đó
+            if (!onNotebookHome && !inPractice && tabNotebook) tabNotebook.click();
+            setTimeout(() => {
+                const card = document.querySelector(`#my-lessons-grid .lesson-card[data-nb-id="${nbId}"]`);
+                if (card) flashNextStep(card, { delay: 0 });
+            }, 220);
         }
 
         // Gộp các từ vừa chọn vào 1 sổ tay đã có sẵn (không trùng lặp trong CHÍNH sổ đó)
         function submitAddWordsToExistingNotebook() {
             const nb = notebooksList.find(n => n.id === nbModalState.editingNotebookId);
             closeCreateNotebookModal();
-            if (!nb) return;
+            if (!nb) { showToast('Không tìm thấy sổ từ vựng này nữa, bạn thử tải lại trang nhé.', 'error'); return; }
             confirmIfNotebookHasProgress(nb, () => {
                 nb.words = nb.words || [];
                 const nbHadProgress = notebookHasAnyProgress(nb);
@@ -7647,8 +7858,18 @@ input.quiz-wrong,
                 if (countEl) countEl.textContent = nb.count;
                 syncSavedNotebooksEverywhere();
                 updateNotebookCardProgressUI(nb);
+                refreshLessonCardPreview(nb);
                 renderRecentActivitySection();
+                renderHomeNotebookCards();
                 saveNotebooksToServer();
+                if (addedCount) {
+                    showToast(`Đã thêm ${addedCount} từ vào sổ "${nb.name}" (tổng ${nb.count} từ).`, 'success', {
+                        actionText: 'Mở sổ ngay ➔', onAction: () => openPracticeView(nb.id),
+                    });
+                } else {
+                    showToast(`Những từ bạn chọn đều đã có sẵn trong sổ "${nb.name}" rồi, nên không thêm gì mới.`, 'info', { title: 'Không có từ nào mới' });
+                }
+                goToNotebookHomeAndHighlight(nb.id);
             });
         }
 
@@ -7679,7 +7900,7 @@ input.quiz-wrong,
                                 <span class="text-4xl font-black text-point font-mono leading-none" id="nb-count-${nb.id}">${nb.count}</span>
                                 <span class="text-xs text-gray-400 ml-1.5 font-bold">từ vựng</span>
                             </div>
-                            <p class="text-xs text-gray-500 font-bold tracking-wide mt-1 truncate">
+                            <p class="text-xs text-gray-500 font-bold tracking-wide mt-1 truncate lesson-preview">
                                 ${previewWords || 'Sổ từ vựng của bạn đang chờ được học!'}
                             </p>
                         </div>
@@ -7710,6 +7931,7 @@ input.quiz-wrong,
             popup._targetCard = cardEl;
             popup._anchorRect = rect;
             popup.innerHTML = `
+                <button class="bookmark-popup-item" onclick="addWordsFromLessonMenu()">${ic('books', 17)}<span>Thêm từ vào sổ</span></button>
                 <button class="bookmark-popup-item" onclick="openLessonEditPopup('name')">${ic('edit', 17)}<span>Đổi tên</span></button>
                 <button class="bookmark-popup-item" onclick="openLessonEditPopup('note')">${ic('doc', 17)}<span>Ghi chú</span></button>
                 <div class="w-full h-[1.5px] my-1.5" style="background:linear-gradient(90deg,transparent,var(--c-d8e0ec),transparent);"></div>
@@ -7717,6 +7939,16 @@ input.quiz-wrong,
             `;
             document.body.appendChild(popup);
             setTimeout(() => document.addEventListener('click', closeLessonMenu), 0);
+        }
+
+        // Mở modal "Thêm từ" cho đúng sổ đang bấm menu ⋯
+        function addWordsFromLessonMenu() {
+            const menu = document.getElementById('lesson-menu-popup');
+            const card = menu && menu._targetCard;
+            const nbId = card && card.dataset.nbId;
+            closeLessonMenu();
+            if (!nbId) { showToast('Không tìm thấy sổ từ vựng này. Bạn thử tải lại trang nhé.', 'error'); return; }
+            openAddWordsToNotebookModal(nbId);
         }
 
         function closeLessonMenu() {
@@ -7791,15 +8023,101 @@ input.quiz-wrong,
             }
             closeLessonEditPopup();
             saveNotebooksToServer();
+            renderRecentActivitySection();
+            renderHomeNotebookCards();
+            showToast(field === 'name' ? `Đã đổi tên sổ thành "${val}".` : `Đã lưu ghi chú cho sổ "${nb ? nb.name : ''}".`, 'success', { title: 'Đã lưu thay đổi' });
         }
 
-        // Popup xác nhận dùng UI riêng của web (thay cho confirm() mặc định của trình duyệt)
+        // ============================================================
+        // TOAST — phản hồi "đã xong / chưa xong" ngay trong web cho MỌI nút bấm.
+        // Thay hoàn toàn alert() của trình duyệt: alert() bị một số trình duyệt
+        // mobile chặn (hoặc user tick "chặn hộp thoại"), khiến nút bấm xong
+        // trông như "không phản hồi gì cả".
+        //   showToast('nội dung')                        → xanh lá, "Thành công!"
+        //   showToast('nội dung', 'error' | 'warn' | 'info')
+        //   showToast('nội dung', 'success', { title, duration, actionText, onAction })
+        // ============================================================
+        const TOAST_ICONS = { success: '✓', info: 'i', warn: '!', error: '✕' };
+        const TOAST_TITLES = { success: 'Thành công!', info: 'Thông tin', warn: 'Khoan đã', error: 'Chưa xong' };
+
+        function escToast(s) {
+            return String(s == null ? '' : s)
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        function showToast(message, type, opts) {
+            const o = opts || {};
+            const kind = TOAST_ICONS[type] ? type : 'success';
+            let host = document.getElementById('app-toast-host');
+            if (!host) {
+                host = document.createElement('div');
+                host.id = 'app-toast-host';
+                document.body.appendChild(host);
+            }
+            // Giữ tối đa 3 toast cùng lúc cho đỡ che màn hình
+            while (host.children.length >= 3) host.firstElementChild.remove();
+
+            const el = document.createElement('div');
+            el.className = `app-toast app-toast-${kind}`;
+            el.setAttribute('role', kind === 'error' ? 'alert' : 'status');
+            el.innerHTML = `
+                <span class="app-toast-ico">${TOAST_ICONS[kind]}</span>
+                <div class="app-toast-body">
+                    <p class="app-toast-title">${escToast(o.title || TOAST_TITLES[kind])}</p>
+                    <p class="app-toast-msg">${escToast(message)}</p>
+                    ${o.actionText ? `<button type="button" class="app-toast-act">${escToast(o.actionText)}</button>` : ''}
+                </div>
+                <button type="button" class="app-toast-x" aria-label="Đóng thông báo">✕</button>
+            `;
+            host.appendChild(el);
+
+            let timer = null;
+            const close = () => {
+                if (!el.isConnected) return;
+                clearTimeout(timer);
+                el.classList.add('app-toast-out');
+                setTimeout(() => el.remove(), 240);
+            };
+            el.querySelector('.app-toast-x').onclick = close;
+            const actBtn = el.querySelector('.app-toast-act');
+            if (actBtn) actBtn.onclick = () => { close(); if (o.onAction) o.onAction(); };
+            // Rê chuột vào thì tạm dừng đếm giờ để kịp đọc / bấm nút hành động
+            const arm = () => { clearTimeout(timer); timer = setTimeout(close, o.duration || (kind === 'error' ? 5200 : 3400)); };
+            el.addEventListener('mouseenter', () => clearTimeout(timer));
+            el.addEventListener('mouseleave', arm);
+            arm();
+            return el;
+        }
+
+        // Popup xác nhận dùng UI riêng của web (thay cho confirm() mặc định của trình duyệt).
+        // CÓ HÀNG ĐỢI: một lượt thao tác có thể cần hỏi 2-3 câu liên tiếp (ví dụ "sổ đã luyện tập"
+        // + "có từ đã học thuộc" + "có từ ở sổ khác"). Nếu đồng thời đặt chồng lên nhau thì user
+        // chỉ thấy cái trên cùng, bấm xong lại lộ ra cái dưới → tưởng web đơ / không phản hồi.
+        // Giờ mỗi lúc chỉ hiện 1 popup, trả lời xong mới hiện câu tiếp theo.
+        let confirmModalQueue = [];
+        let confirmModalOpen = false;
+
         function showConfirmModal(opts) {
-            const { title, message, confirmText, cancelText, danger, onConfirm } = opts;
+            confirmModalQueue.push(opts || {});
+            // Phao cứu: nếu vì lý do nào đó cờ "đang mở" còn bật mà popup đã biến mất khỏi màn hình
+            // thì tự gỡ kẹt, tránh tình trạng bấm nút mà không có popup nào hiện ra.
+            if (confirmModalOpen && !document.querySelector('.confirm-modal-overlay')) confirmModalOpen = false;
+            if (!confirmModalOpen) renderNextConfirmModal();
+        }
+
+        function renderNextConfirmModal() {
+            // Đã có 1 popup đang hiện trên màn hình thì chờ trả lời xong đã — chặn trường hợp
+            // việc vừa chạy xong lại tự mở popup mới, làm 2 popup đè lên nhau (trả lời cái trên
+            // xong lại lòi ra cái dưới, học sinh tưởng bấm hụt).
+            if (document.querySelector('.confirm-modal-overlay')) { confirmModalOpen = true; return; }
+            const opts = confirmModalQueue.shift();
+            if (!opts) { confirmModalOpen = false; return; }
+            confirmModalOpen = true;
+            const { title, message, confirmText, cancelText, danger, onConfirm, onCancel } = opts;
             const overlay = document.createElement('div');
-            overlay.className = 'fixed inset-0 z-[120] flex items-center justify-center p-4';
+            overlay.className = 'fixed inset-0 z-[120] flex items-center justify-center p-4 confirm-modal-overlay';
             overlay.style.background = 'rgba(26,32,44,0.45)';
-            overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
             overlay.innerHTML = `
                 <div class="neo-raised p-7 w-full max-w-[380px] max-h-[85vh] overflow-y-auto flex flex-col items-center text-center gap-3 !rounded-[26px]">
                     <div class="w-12 h-12 rounded-2xl flex items-center justify-center " style="background:${danger ? 'var(--c-ffeaea)' : 'var(--c-e6ebf3)'};">${danger ? icHex('warning', '#d9534f', 26) : ic('question', 26)}</div>
@@ -7811,9 +8129,24 @@ input.quiz-wrong,
                     </div>
                 </div>
             `;
+            // Đóng popup rồi mới chạy việc + mở câu hỏi kế tiếp trong hàng đợi.
+            // Nhường 1 nhịp (setTimeout) trước khi chạy việc nặng (thêm cả nghìn từ) để trình duyệt
+            // kịp xoá popup khỏi màn hình — không thì máy yếu sẽ thấy popup đứng im như treo.
+            // KHÔNG dùng requestAnimationFrame: trình duyệt ngừng chạy rAF khi tab bị ẩn/khoá màn hình,
+            // lúc đó việc sẽ không bao giờ chạy và hàng đợi kẹt luôn → mọi popup xác nhận sau đó im lặng.
+            let finished = false;
+            const finish = (cb) => {
+                if (finished) return;   // chặn bấm 2 lần (nhấp đúp / chạm 2 ngón) làm chạy việc 2 lần
+                finished = true;
+                overlay.remove();
+                setTimeout(() => {
+                    try { if (cb) cb(); } finally { renderNextConfirmModal(); }
+                }, 16);
+            };
+            overlay.onclick = (e) => { if (e.target === overlay) finish(onCancel); };
             document.body.appendChild(overlay);
-            overlay.querySelector('#confirm-modal-cancel').onclick = () => overlay.remove();
-            overlay.querySelector('#confirm-modal-ok').onclick = () => { overlay.remove(); if (onConfirm) onConfirm(); };
+            overlay.querySelector('#confirm-modal-cancel').onclick = () => finish(onCancel);
+            overlay.querySelector('#confirm-modal-ok').onclick = () => finish(onConfirm);
         }
 
         function deleteLessonCard(btn) {
@@ -7839,7 +8172,15 @@ input.quiz-wrong,
                     if (grid && !grid.querySelector('.lesson-card')) {
                         grid.insertAdjacentHTML('afterbegin', EMPTY_LESSONS_STATE_HTML);
                     }
+                    renderRecentActivitySection();
+                    renderHomeNotebookCards();
                     saveNotebooksToServer();
+                    showToast(`Đã chuyển sổ "${nb ? nb.name : ''}" vào mục "Những sổ đã xoá" ở Trang cá nhân.`, 'success', {
+                        title: 'Đã xoá sổ từ vựng',
+                        duration: 6000,
+                        actionText: 'Hoàn tác',
+                        onAction: () => { if (nb) restoreDeletedNotebook(nb.id); },
+                    });
                 },
             });
         }
@@ -8088,9 +8429,9 @@ input.quiz-wrong,
 
 
         async function openPracticeView(nbId, initialTab) {
-            if (!nbId) { alert('Không tìm thấy sổ từ vựng này.'); return; }
+            if (!nbId) { showToast('Không tìm thấy sổ từ vựng này. Bạn thử tải lại trang nhé.', 'error'); return; }
             const words = getNotebookWordsById(nbId);
-            if (!words.length) { alert('Sổ này chưa có từ vựng!'); return; }
+            if (!words.length) { showToast('Sổ này chưa có từ vựng. Bấm menu ⋯ trên card sổ rồi chọn "Thêm từ vào sổ" nha!', 'warn', { title: 'Sổ đang trống' }); return; }
             const nb = notebooksList.find(n => n.id === nbId);
 
             practiceState.nbId = nbId;
@@ -8198,6 +8539,104 @@ input.quiz-wrong,
             const w = practiceState.words[i];
             if (w) w._note = val;
         }
+
+        // ============================================================
+        // XOÁ 1 TỪ KHỎI SỔ TỪ VỰNG (ở tab "List từ vựng" của màn Ôn tập)
+        // Từ chỉ bị bỏ khỏi sổ, vẫn còn nguyên trong thư viện. Có nút Hoàn tác.
+        // ============================================================
+        function removeWordFromNotebook(i) {
+            const nb = notebooksList.find(n => n.id === practiceState.nbId);
+            const w = practiceState.words[i];
+            if (!nb || !w) { showToast('Không tìm thấy từ này trong sổ nữa.', 'error'); return; }
+            showConfirmModal({
+                title: 'Xoá từ này khỏi sổ?',
+                message: `"${w.word}" sẽ được bỏ khỏi sổ "${nb.name}". Từ vẫn còn nguyên trong thư viện, lúc nào muốn bạn thêm lại được nha.`,
+                confirmText: 'Xoá khỏi sổ',
+                cancelText: 'Giữ lại',
+                danger: true,
+                onConfirm: () => doRemoveWordFromNotebook(nb.id, w.id),
+            });
+        }
+
+        function doRemoveWordFromNotebook(nbId, wordId) {
+            const nb = notebooksList.find(n => n.id === nbId);
+            if (!nb) return;
+            nb.words = nb.words || [];
+            const idx = nb.words.findIndex(x => x.id === wordId);
+            if (idx === -1) { showToast('Từ này đã được xoá khỏi sổ từ trước rồi.', 'info'); return; }
+            const [removed] = nb.words.splice(idx, 1);
+            nb.count = nb.words.length;
+            // Dọn luôn kết quả luyện tập của từ đã xoá, nếu không thống kê/tiến độ sẽ đếm cả từ không còn trong sổ
+            if (nb.progress) {
+                Object.keys(nb.progress).forEach(k => {
+                    const pr = nb.progress[k];
+                    if (!pr) return;
+                    ['correctIds', 'wrongIds', 'viewedIds'].forEach(f => {
+                        if (Array.isArray(pr[f])) pr[f] = pr[f].filter(id => id !== wordId);
+                    });
+                });
+            }
+            afterNotebookWordsChanged(nb);
+            showToast(`Đã xoá "${removed.word}" khỏi sổ "${nb.name}". Sổ còn ${nb.count} từ.`, 'success', {
+                title: 'Đã xoá khỏi sổ',
+                duration: 6000,
+                actionText: 'Hoàn tác',
+                onAction: () => {
+                    const nb2 = notebooksList.find(n => n.id === nbId);
+                    if (!nb2) return;
+                    nb2.words = nb2.words || [];
+                    if (nb2.words.some(x => x.id === wordId)) return;
+                    nb2.words.splice(Math.min(idx, nb2.words.length), 0, removed);
+                    nb2.count = nb2.words.length;
+                    afterNotebookWordsChanged(nb2);
+                    showToast(`Đã trả "${removed.word}" về sổ "${nb2.name}".`, 'success', { title: 'Đã hoàn tác' });
+                },
+            });
+        }
+
+        // Vẽ lại dòng "xem trước 3 từ đầu" trên card sổ — nếu không, thêm/xoá từ xong card vẫn
+        // hiện mấy từ cũ (có khi sổ đã 0 từ mà vẫn liệt kê từ vừa bị xoá).
+        function refreshLessonCardPreview(nb) {
+            const card = document.querySelector(`#my-lessons-grid .lesson-card[data-nb-id="${nb.id}"]`);
+            const el = card && card.querySelector('.lesson-preview');
+            if (!el) return;
+            const preview = (nb.words || []).slice(0, 3)
+                .map(w => `<b class="text-[color:var(--c-2d2d3a)]">${w.word}</b> ${w.vietnamese || ''}`)
+                .join('  ·  ');
+            el.innerHTML = preview || 'Sổ từ vựng của bạn đang chờ được học!';
+        }
+
+        // Đồng bộ lại mọi nơi đang hiển thị số từ / tiến độ của 1 sổ sau khi danh sách từ thay đổi
+        function afterNotebookWordsChanged(nb) {
+            const countEl = document.getElementById(`nb-count-${nb.id}`);
+            if (countEl) countEl.textContent = nb.count;
+            refreshLessonCardPreview(nb);
+            syncSavedNotebooksEverywhere();
+            updateNotebookCardProgressUI(nb);
+            renderRecentActivitySection();
+            renderHomeNotebookCards();
+            if (typeof renderHomeAllWordsTable === 'function') renderHomeAllWordsTable();
+            if (typeof renderVocabRows === 'function' && !document.getElementById('view-library-stage').classList.contains('hidden')) renderVocabRows();
+            saveNotebooksToServer();
+            // Đang mở đúng sổ này ở màn Ôn tập → dựng lại danh sách + các hàng đợi luyện tập cho khớp
+            const inPractice = !document.getElementById('view-practice-stage').classList.contains('hidden');
+            if (!inPractice || practiceState.nbId !== nb.id) return;
+            if (!nb.count) {
+                closePracticeView();
+                showToast(`Sổ "${nb.name}" giờ đã hết từ vựng. Bấm menu ⋯ trên card sổ rồi chọn "Thêm từ vào sổ" để nạp thêm nha.`, 'info', { title: 'Sổ đang trống' });
+                return;
+            }
+            const keepList = Object.assign({}, practiceListState);
+            const keepTab = practiceState.activeTab;
+            plSelectedIdx = null;
+            Promise.resolve(openPracticeView(nb.id, keepTab)).then(() => {
+                practiceListState = keepList;
+                if (practiceState.activeTab === 'list') {
+                    renderPracticeListToolbar();
+                    renderPracticeListRowsOnly();
+                }
+            });
+        }
         // Bấm vào ô đang bị che mờ để lộ ra riêng từ đó, bấm lần nữa để che lại
         // (Đã gộp logic che mờ/xem chi tiết vào handlePlWordClick ở dưới)
 
@@ -8213,7 +8652,7 @@ input.quiz-wrong,
                     <div class="lib-list-panel-mobile-light order-1 lg:flex-1 w-full min-w-0 neo-raised !rounded-[28px] overflow-hidden flex flex-col sticky top-2 z-20 h-[34vh] lg:static lg:top-auto lg:z-auto lg:h-auto">
                         <div id="pl-toolbar" class="shrink-0"></div>
                         <div class="hidden lg:block overflow-x-auto" style="max-height:520px; overflow-y:auto;">
-                            <table class="w-full text-sm" style="border-collapse:collapse; table-layout:fixed; min-width:600px;">
+                            <table class="w-full text-sm" style="border-collapse:collapse; table-layout:fixed; min-width:640px;">
                                 <thead id="pl-thead" class="ui-thead"></thead>
                                 <tbody id="pl-tbody"></tbody>
                             </table>
@@ -8269,11 +8708,12 @@ input.quiz-wrong,
 
             thead.innerHTML = `
                 <tr class="text-left">
-                    <th class="py-2.5 px-3 ui-cap" style="width:${pls.hideEx ? '30%' : '23%'};">Tiếng Hàn</th>
-                    <th class="py-2.5 px-3 ui-cap" style="width:${pls.hideEx ? '34%' : '25%'};">Tiếng Việt</th>
-                    ${!pls.hideEx ? `<th class="py-2.5 px-3 ui-cap" style="width:24%;">Ví dụ</th>` : ''}
+                    <th class="py-2.5 px-3 ui-cap" style="width:${pls.hideEx ? '28%' : '22%'};">Tiếng Hàn</th>
+                    <th class="py-2.5 px-3 ui-cap" style="width:${pls.hideEx ? '31%' : '23%'};">Tiếng Việt</th>
+                    ${!pls.hideEx ? `<th class="py-2.5 px-3 ui-cap" style="width:22%;">Ví dụ</th>` : ''}
                     <th class="py-2.5 px-2 ui-cap" style="width:${pls.hideEx ? '21%' : '15%'};">Ghi chú</th>
-                    <th class="py-2.5 px-1.5 ui-cap text-center" style="width:${pls.hideEx ? '15%' : '13%'};">Trạng thái</th>
+                    <!-- Cột này chứa 3 nút (nghe / từ khó / xoá khỏi sổ) nên cần rộng hơn trước -->
+                    <th class="py-2.5 px-1.5 ui-cap text-center" style="width:${pls.hideEx ? '20%' : '18%'};">Trạng thái</th>
                 </tr>
             `;
 
@@ -8337,6 +8777,8 @@ input.quiz-wrong,
 
                 const starOnSvg = `<svg viewBox="0 0 24 24" width="15" height="15" fill="#f59e0b" stroke="#f59e0b" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`;
                 const starOffSvg = `<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#c0cad8" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`;
+                // Nút xoá từ khỏi sổ (có hỏi lại + hoàn tác được)
+                const trashBtn = `<button class="vr-status-btn pl-del-btn" title="Xoá từ này khỏi sổ" onclick="event.stopPropagation(); removeWordFromNotebook(${i})"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>`;
 
                 cardsHtml.push(`
                     <div class="vocab-row flex flex-col gap-2 shrink-0" data-row-idx="${i}">
@@ -8358,6 +8800,7 @@ input.quiz-wrong,
                                 <button class="vr-status-btn ${w._starred ? 'vr-active' : ''}" title="Từ khó nhớ" onclick="toggleWordStar(${i})">
                                     ${w._starred ? starOnSvg : starOffSvg}
                                 </button>
+                                ${trashBtn}
                             </div>
                         </div>
                         ${!pls.hideEx && full && full.examples && full.examples.length ? `
@@ -8383,6 +8826,7 @@ input.quiz-wrong,
                                 <button class="vr-status-btn ${w._starred ? 'vr-active' : ''}" title="Từ khó nhớ" onclick="toggleWordStar(${i})">
                                     ${w._starred ? starOnSvg : starOffSvg}
                                 </button>
+                                ${trashBtn}
                             </div>
                         </td>
                     </tr>
@@ -10649,13 +11093,14 @@ input.quiz-wrong,
             applyUserToUI();
             profilePopupEditMode = false;
             renderProfilePopupContent();
+            showToast(`Tên hiển thị của bạn giờ là "${val}".`, 'success', { title: 'Đã đổi tên hiển thị' });
         }
 
         // Đọc file ảnh người dùng chọn, resize/crop vuông về 160x160 rồi lưu dạng base64 (không cần server lưu file)
         function handleAvatarFileChange(e) {
             const file = e.target.files && e.target.files[0];
             if (!file || !currentUser) return;
-            if (file.size > 5 * 1024 * 1024) { alert('Ảnh quá lớn (tối đa 5MB), bạn chọn ảnh nhỏ hơn nhé!'); return; }
+            if (file.size > 5 * 1024 * 1024) { showToast('Ảnh quá lớn (tối đa 5MB), bạn chọn ảnh nhỏ hơn nhé!', 'error', { title: 'Ảnh chưa tải lên được' }); return; }
             const reader = new FileReader();
             reader.onload = (ev) => {
                 const img = new Image();
@@ -10672,8 +11117,9 @@ input.quiz-wrong,
                     saveNotebooksToServer(); // đồng bộ ảnh đại diện lên server để đổi thiết bị khác vẫn thấy
                     applyUserToUI();
                     renderProfilePopupContent(); // vẽ lại popup để cập nhật ảnh preview, không đóng/mở lại
+                    showToast('Ảnh đại diện mới đã được lưu.', 'success', { title: 'Đã đổi ảnh đại diện' });
                 };
-                img.onerror = () => alert('Không đọc được ảnh này, bạn thử ảnh khác nha!');
+                img.onerror = () => showToast('Không đọc được ảnh này, bạn thử ảnh khác nha!', 'error', { title: 'Ảnh chưa tải lên được' });
                 img.src = ev.target.result;
             };
             reader.readAsDataURL(file);
@@ -10685,6 +11131,7 @@ input.quiz-wrong,
             saveNotebooksToServer();
             applyUserToUI();
             renderProfilePopupContent();
+            showToast('Đã gỡ ảnh đại diện, quay về chữ cái tên viết tắt.', 'success', { title: 'Đã gỡ ảnh' });
         }
 
         // ============================================================
@@ -11401,9 +11848,12 @@ input.quiz-wrong,
         }
 
         function qmAddAllMatches() {
+            const before = qmSetup.basket.length;
             qmAddToBasket(qmHarvestPool());
             renderQuizMazeSetupModal(qmSetup.mode);
             qmFlashBasket();
+            const added = qmSetup.basket.length - before;
+            showToast(added ? `Đã thêm ${added} từ vào kho (kho đang có ${qmSetup.basket.length} từ).` : 'Bộ lọc này không còn từ nào mới — tất cả đã nằm trong kho rồi.', added ? 'success' : 'info', { title: added ? 'Đã thêm vào kho' : 'Không có từ nào mới' });
         }
 
         function qmAddRandomMatches() {
@@ -11411,9 +11861,13 @@ input.quiz-wrong,
             const qty = parseInt(input && input.value, 10);
             if (!qty || qty < 1) { if (input) input.focus(); return; }
             const have = new Set(qmSetup.basket.map(w => w.id));
+            const before = qmSetup.basket.length;
             qmAddToBasket(shuffleArr(qmHarvestPool().filter(w => !have.has(w.id))).slice(0, qty));
             renderQuizMazeSetupModal(qmSetup.mode);
             qmFlashBasket();
+            const added = qmSetup.basket.length - before;
+            if (added >= qty) showToast(`Đã lấy ngẫu nhiên ${added} từ vào kho (kho đang có ${qmSetup.basket.length} từ).`, 'success', { title: 'Đã thêm vào kho' });
+            else showToast(`Bộ lọc này chỉ còn ${added} từ chưa có trong kho, không đủ ${qty} từ như bạn yêu cầu.`, 'warn', { title: `Đã thêm ${added} từ` });
         }
 
         function qmRemoveFromBasket(id) {
@@ -11421,8 +11875,14 @@ input.quiz-wrong,
             renderQuizMazeSetupModal(qmSetup.mode);
         }
         function qmClearBasket() {
+            const n = qmSetup.basket.length;
+            const removed = qmSetup.basket.slice();
             qmSetup.basket = [];
             renderQuizMazeSetupModal(qmSetup.mode);
+            showToast(n ? `Đã xoá hết ${n} từ khỏi kho.` : 'Kho từ đang trống sẵn rồi.', n ? 'success' : 'info', n ? {
+                title: 'Đã xoá kho từ', duration: 6000, actionText: 'Hoàn tác',
+                onAction: () => { qmSetup.basket = removed; renderQuizMazeSetupModal(qmSetup.mode); showToast(`Đã trả ${removed.length} từ về kho.`, 'success', { title: 'Đã hoàn tác' }); },
+            } : {});
         }
 
         // ── Vẽ modal ───────────────────────────────────────────────────
@@ -11577,7 +12037,7 @@ input.quiz-wrong,
             let pool = [];
 
             if (qmSetup.source === 'nb') {
-                if (!qmSetup.pickedNb.size) { alert('Bạn chưa chọn sổ từ vựng nào.'); return; }
+                if (!qmSetup.pickedNb.size) { showToast('Bạn chưa chọn sổ từ vựng nào để ôn. Tick ít nhất 1 sổ rồi bấm lại nha!', 'warn', { title: 'Chưa bắt đầu được' }); return; }
                 if (!qtyRaw || qtyRaw < 1) { if (qtyInput) qtyInput.focus(); return; }
                 // Gom từ vựng từ các sổ đã chọn (kèm _nbId để ghi nhận kết quả vào đúng sổ), loại trùng theo id
                 const poolMap = new Map();
@@ -11592,13 +12052,13 @@ input.quiz-wrong,
                 });
                 pool = [...poolMap.values()];
                 if (!pool.length) {
-                    alert(qmSetup.includeLearned
+                    showToast(qmSetup.includeLearned
                         ? 'Các sổ đã chọn chưa có từ vựng nào.'
-                        : 'Các từ trong sổ đã chọn đều đã được đánh dấu học thuộc — bấm "Bao gồm cả từ đã học thuộc" nếu bạn vẫn muốn ôn lại.');
+                        : 'Các từ trong sổ đã chọn đều đã được đánh dấu học thuộc — bấm "Bao gồm cả từ đã học thuộc" nếu bạn vẫn muốn ôn lại.', 'warn', { title: 'Chưa bắt đầu được' });
                     return;
                 }
             } else {
-                if (!qmSetup.basket.length) { alert('Kho từ đang trống — lọc rồi bấm "Thêm … từ vào kho" trước nhé.'); return; }
+                if (!qmSetup.basket.length) { showToast('Kho từ đang trống — lọc rồi bấm "Thêm … từ vào kho" trước nhé.', 'warn', { title: 'Chưa bắt đầu được' }); return; }
                 pool = qmSetup.basket.slice();
             }
 
@@ -13336,8 +13796,14 @@ input.quiz-wrong,
         }
 
         function tpClearAll() {
+            const n = tpState.selectedWords.length;
+            const removed = tpState.selectedWords.slice();
             tpState.selectedWords = [];
             renderTopicPracticeModal();
+            showToast(n ? `Đã xoá hết ${n} từ khỏi giỏ.` : 'Giỏ từ đang trống sẵn rồi.', n ? 'success' : 'info', n ? {
+                title: 'Đã xoá giỏ từ', duration: 6000, actionText: 'Hoàn tác',
+                onAction: () => { tpState.selectedWords = removed; renderTopicPracticeModal(); showToast(`Đã trả ${removed.length} từ về giỏ.`, 'success', { title: 'Đã hoàn tác' }); },
+            } : {});
         }
 
         function tpSwitchTab(tab) { tpState.activeTab = tab; renderTopicPracticeModal(); }
@@ -13363,9 +13829,12 @@ input.quiz-wrong,
         }
 
         function tpAddAll() {
+            const before = tpState.selectedWords.length;
             tpGetMatches().forEach(tpAddWordObj);
             renderTopicPracticeModal();
             tpFlashBasket();
+            const added = tpState.selectedWords.length - before;
+            showToast(added ? `Đã thêm ${added} từ vào giỏ (giỏ đang có ${tpState.selectedWords.length} từ).` : 'Bộ lọc này không còn từ nào mới — tất cả đã nằm trong giỏ rồi.', added ? 'success' : 'info', { title: added ? 'Đã thêm vào giỏ' : 'Không có từ nào mới' });
         }
 
         // Giỏ vừa có từ đầu tiên → kéo xuống bước ③ cho thấy giỏ + nút bắt đầu
@@ -13380,9 +13849,13 @@ input.quiz-wrong,
             const qty = parseInt(qtyInput && qtyInput.value, 10);
             if (!qty || qty < 1) { if (qtyInput) qtyInput.focus(); return; }
             const pool = tpGetMatches().filter(w => !tpState.selectedWords.some(s => s.id === w.id));
+            const before = tpState.selectedWords.length;
             shuffleArr(pool).slice(0, qty).forEach(tpAddWordObj);
             renderTopicPracticeModal();
             tpFlashBasket();
+            const added = tpState.selectedWords.length - before;
+            if (added >= qty) showToast(`Đã lấy ngẫu nhiên ${added} từ vào giỏ (giỏ đang có ${tpState.selectedWords.length} từ).`, 'success', { title: 'Đã thêm vào giỏ' });
+            else showToast(`Bộ lọc này chỉ còn ${added} từ chưa có trong giỏ, không đủ ${qty} từ như bạn yêu cầu.`, 'warn', { title: `Đã thêm ${added} từ` });
         }
 
         function tpRenderSuggestions() {
@@ -13423,7 +13896,7 @@ input.quiz-wrong,
 
         function startTopicPractice() {
             const words = tpState.selectedWords;
-            if (!words.length) { alert('Bạn chưa chọn từ vựng nào để luyện. Hãy lọc theo chủ đề hoặc tìm từng từ để thêm nhé!'); return; }
+            if (!words.length) { showToast('Bạn chưa chọn từ vựng nào để luyện. Hãy lọc theo chủ đề hoặc tìm từng từ để thêm nhé!', 'warn', { title: 'Chưa bắt đầu được' }); return; }
             const qtyInput = document.getElementById('tp-qty-input');
             let qty = parseInt(qtyInput && qtyInput.value, 10);
             if (!qty || qty < 1) qty = words.length;
@@ -13959,7 +14432,10 @@ input.quiz-wrong,
             renderNewNotebookLessonCard(nb);
             renderTrashedNotebooksModalContent();
             renderActivityDashboardContent();
+            renderRecentActivitySection();
+            renderHomeNotebookCards();
             saveNotebooksToServer();
+            showToast(`Đã khôi phục sổ "${nb.name}" (${nb.count || (nb.words || []).length} từ) về mục "Bài học của tôi".`, 'success', { title: 'Đã khôi phục sổ' });
         }
 
         // Popup nhỏ hiện card chi tiết cho 1 từ đã từng sai (bấm từ trong dashboard)
