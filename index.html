@@ -6021,6 +6021,18 @@ input.quiz-wrong,
             renderFilterBar();
         }
 
+        function closeFilterDropdown() {
+            if (openDropdownKey === null) return;
+            openDropdownKey = null;
+            renderFilterBar();
+        }
+
+        // Bấm ra ngoài bảng xổ (hoặc nhấn Esc) thì tự đóng — giống mọi website khác.
+        // Bản thân bảng xổ và nút mở nó đã chặn sự kiện lan lên document nên bấm bên trong
+        // để tick chọn nhiều mục vẫn không bị đóng.
+        document.addEventListener('click', closeFilterDropdown);
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeFilterDropdown(); });
+
         function renderFilterBar() {
             const bar = document.getElementById('vocab-filter-bar');
             if (!bar) return;
@@ -6065,7 +6077,7 @@ input.quiz-wrong,
             // chọn xong bấm "Xong" thì rút lại còn 1 hàng gọn như cũ.
             const openDd = ddDef.find(dd => dd.key === openDropdownKey);
             const mobileExpandHtml = openDd ? `
-                <div class="lg:hidden flex flex-col border-t border-[color:var(--c-d8e0ec)]" style="height:33vh;">
+                <div class="lg:hidden flex flex-col border-t border-[color:var(--c-d8e0ec)]" style="height:33vh;" onclick="event.stopPropagation();">
                     <div class="flex items-center justify-between px-4 py-2.5 shrink-0 border-b border-[color:var(--c-eef1f7)]">
                         <span class="text-xs font-bold text-[color:var(--c-4b5563)]">${openDd.label}${filterState[openDd.key].length ? ` · Đã chọn ${filterState[openDd.key].length}` : ''}</span>
                         <button class="flex items-center gap-1 text-xs font-bold text-point" onclick="toggleDropdown('${openDd.key}')">Xong <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></button>
@@ -7578,19 +7590,49 @@ input.quiz-wrong,
             showToast(`Đã thêm "${kr}" vào giỏ (giỏ đang có ${nbModalState.selectedWords.length} từ).`, 'success', { title: 'Đã thêm từ tự nhập' });
         }
 
-        function removeSelectedWord(id) {
-            nbModalState.selectedWords = nbModalState.selectedWords.filter(w => w.id !== id);
-            refreshModalSelectionUI();
+        // Bỏ 1 từ khỏi giỏ. TRƯỚC ĐÂY vẽ lại toàn bộ giỏ nên khung tự nhảy về đầu danh sách —
+        // đang cuộn ở cuối mà xoá 1 từ là bị bắn ngược lên đầu, rất khó chịu. Nay chỉ gỡ đúng ô
+        // vừa bấm ra khỏi màn hình, vị trí cuộn giữ nguyên.
+        // Tham số nhận cả nút bấm (this) lẫn chuỗi id — id của từ có thể chứa ký tự lạ nên
+        // ưu tiên đọc từ thuộc tính data-wid của chính ô đó.
+        function removeSelectedWord(ref) {
+            const chip = (ref && ref.nodeType === 1) ? ref.closest('.nb-selword') : null;
+            const id = chip ? chip.getAttribute('data-wid') : String(ref);
+            const idx = nbModalState.selectedWords.findIndex(w => String(w.id) === id);
+            if (idx === -1) return;
+            nbModalState.selectedWords.splice(idx, 1);
+            const n = nbModalState.selectedWords.length;
+            const box = document.getElementById('nb-selword-box');
+
+            // Giỏ rỗng hoặc không tìm thấy ô để gỡ → vẽ lại như cũ cho chắc
+            if (!n || !box || !chip) { refreshModalSelectionUI(); }
+            else {
+                const keepScroll = box.scrollTop;   // nhớ chỗ đang cuộn để trả lại y nguyên
+                chip.remove();
+                // Đang ẩn bớt từ (giỏ quá nhiều) thì chèn bù 1 từ vào cuối cho đủ số ô hiển thị
+                const more = document.getElementById('nb-selword-more');
+                if (n > SELWORD_CHIP_LIMIT) {
+                    const nextW = nbModalState.selectedWords[SELWORD_CHIP_LIMIT - 1];
+                    if (nextW && more) more.insertAdjacentHTML('beforebegin', selWordChipHtml(nextW));
+                    if (more) more.innerHTML = `<b>… và ${n - SELWORD_CHIP_LIMIT} từ nữa</b>`;
+                } else if (more) {
+                    more.remove();
+                }
+                box.style.maxHeight = selWordBoxMaxHeight(n);
+                fitSelWordBoxToModal();
+                // Việc đo lại chiều cao ở trên làm trình duyệt kẹp lại vị trí cuộn → đặt lại đúng chỗ cũ
+                box.scrollTop = Math.min(keepScroll, Math.max(0, box.scrollHeight - box.clientHeight));
+                const titleEl = document.getElementById('nb-selword-title');
+                if (titleEl) titleEl.textContent = `Giỏ từ · ${n} từ`;
+                updateSubmitNotebookBtnLabel();
+            }
             const searchInput = document.getElementById('nb-search-input');
             if (searchInput) renderSuggestions(searchInput.value);
         }
 
         function refreshModalSelectionUI() {
             const n = nbModalState.selectedWords.length;
-            const btn = document.getElementById('btn-submit-notebook');
-            if (btn) btn.textContent = nbModalState.editingNotebookId
-                ? `Thêm ${n ? n + ' từ ' : ''}vào sổ`
-                : `Tạo sổ${n ? ` (${n} từ)` : ''}`;
+            updateSubmitNotebookBtnLabel();
             renderSelectedWordsList();
             // Giỏ từ vừa có từ đầu tiên → kéo xuống cho thấy giỏ + nút tạo sổ
             if (n && !nbModalState._flashedBasket) {
@@ -7602,6 +7644,59 @@ input.quiz-wrong,
         // Chỉ vẽ tối đa từng này ô từ trong "giỏ" — lọc hàng loạt có thể ra hơn 1000 từ, vẽ hết
         // ra màn hình làm điện thoại đứng vài giây, user tưởng bấm nút mà web không phản hồi.
         const SELWORD_CHIP_LIMIT = 150;
+
+        // HTML của 1 ô từ trong giỏ (dùng chung cho lúc vẽ cả giỏ và lúc chèn bù 1 ô)
+        function selWordChipHtml(w) {
+            const idAttr = String(w.id).replace(/"/g, '&quot;');
+            return `<span class="nb-selword" data-wid="${idAttr}" title="${(w.vietnamese || '').replace(/"/g, '&quot;')}">
+                        <b>${w.word}</b>
+                        <button class="x" onclick="removeSelectedWord(this)" title="Bỏ từ này">✕</button>
+                    </span>`;
+        }
+
+        // Chiều cao khung giỏ từ co giãn theo số từ đang có (ít từ thì khung thấp, nhiều từ thì
+        // cao dần) nhưng không vượt quá 42% chiều cao màn hình.
+        function selWordBoxMaxHeight(n) {
+            const rows = Math.ceil(n / 4);           // ước lượng ~4 ô mỗi hàng
+            const px = Math.max(60, rows * 28 + 10);
+            return `min(${px}px, 42vh)`;
+        }
+
+        // Ở desktop khung modal KHÔNG cuộn được, nên giỏ từ cao lên là nút "Tạo sổ" bị đẩy lọt ra
+        // ngoài khung, bấm không tới. Hàm này nhường chỗ cho giỏ theo thứ tự ưu tiên:
+        //   ① bóp khoảng cách giữa các khối → ② thu khung bộ lọc (vốn đã cuộn được)
+        //   → ③ cuối cùng mới thu chính giỏ từ.
+        // Nhờ vậy giỏ được cao hết mức có thể mà nút bấm luôn nằm trong khung.
+        function fitSelWordBoxToModal() {
+            const panel = document.querySelector('#create-notebook-modal > div');
+            const step2 = document.getElementById('step-2-container');
+            const box = document.getElementById('nb-selword-box');
+            const tab = document.getElementById('modal-tab-content');
+            if (!panel || !step2 || !box || !panel.clientHeight) return;
+            // Trả mọi chỉnh tay của lần trước về mặc định rồi mới đo lại cho đúng
+            step2.style.gap = '';
+            if (tab) tab.style.minHeight = '';
+            // Modal đang tự cuộn được (mobile) thì để nguyên, không cần nhường chỗ
+            if (getComputedStyle(panel).overflowY !== 'hidden') return;
+
+            const over = () => panel.scrollHeight - panel.clientHeight;
+            if (over() <= 0) return;
+            step2.style.gap = '10px';
+            if (over() <= 0) return;
+            if (tab) {
+                const cur = tab.getBoundingClientRect().height;
+                const give = Math.min(over(), Math.max(0, cur - 76));
+                if (give > 0) tab.style.minHeight = `${Math.round(cur - give)}px`;
+            }
+            if (over() <= 0) return;
+            const h = box.getBoundingClientRect().height;
+            box.style.maxHeight = `${Math.max(60, Math.round(h - over() - 4))}px`;
+        }
+
+        // Đổi cỡ cửa sổ / xoay ngang màn hình thì tính lại chiều cao giỏ từ cho vừa khung
+        window.addEventListener('resize', () => {
+            if (document.getElementById('nb-selword-box')) fitSelWordBoxToModal();
+        });
 
         function renderSelectedWordsList() {
             const wrap = document.getElementById('modal-selected-list-wrap');
@@ -7616,21 +7711,26 @@ input.quiz-wrong,
                 <div class="nb-block">
                     <div class="nb-block-head">
                         <span class="nb-num" style="background:linear-gradient(135deg,#2ec65e,#22a34a);">✓</span>
-                        <span class="nb-block-title">Giỏ từ · ${words.length} từ</span>
+                        <span class="nb-block-title" id="nb-selword-title">Giỏ từ · ${words.length} từ</span>
                         <div class="flex-1"></div>
                         <button class="text-[10.5px] font-black text-[color:var(--c-8290aa)] hover:text-red-400" onclick="clearSelectedWords()">✕ Xoá hết</button>
                     </div>
-                    <div class="flex flex-wrap gap-1.5" style="max-height:104px; overflow-y:auto;">
-                        ${words.slice(0, SELWORD_CHIP_LIMIT).map(w => `
-                            <span class="nb-selword" title="${(w.vietnamese || '').replace(/"/g, '&quot;')}">
-                                <b>${w.word}</b>
-                                <button class="x" onclick="removeSelectedWord('${w.id}')" title="Bỏ từ này">✕</button>
-                            </span>
-                        `).join('')}
-                        ${words.length > SELWORD_CHIP_LIMIT ? `<span class="nb-selword" style="opacity:.75;"><b>… và ${words.length - SELWORD_CHIP_LIMIT} từ nữa</b></span>` : ''}
+                    <div class="flex flex-wrap gap-1.5" id="nb-selword-box" style="max-height:${selWordBoxMaxHeight(words.length)}; overflow-y:auto;">
+                        ${words.slice(0, SELWORD_CHIP_LIMIT).map(selWordChipHtml).join('')}
+                        ${words.length > SELWORD_CHIP_LIMIT ? `<span class="nb-selword" id="nb-selword-more" style="opacity:.75;"><b>… và ${words.length - SELWORD_CHIP_LIMIT} từ nữa</b></span>` : ''}
                     </div>
                 </div>
             `;
+            fitSelWordBoxToModal();
+        }
+
+        // Cập nhật chữ trên nút "Tạo sổ / Thêm … vào sổ" mà không đụng tới danh sách
+        function updateSubmitNotebookBtnLabel() {
+            const n = nbModalState.selectedWords.length;
+            const btn = document.getElementById('btn-submit-notebook');
+            if (btn) btn.textContent = nbModalState.editingNotebookId
+                ? `Thêm ${n ? n + ' từ ' : ''}vào sổ`
+                : `Tạo sổ${n ? ` (${n} từ)` : ''}`;
         }
 
         function toggleBulkFilterVal(key, val) {
