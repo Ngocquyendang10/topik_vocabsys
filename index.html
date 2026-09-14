@@ -4319,6 +4319,234 @@ input.quiz-wrong,
 .app-toast-x:hover{ color:#ef4444; }
 :root[data-theme="dark"] .app-toast{ box-shadow:0 12px 30px rgba(0,0,0,.45); }
 
+/* ══════════════════════════════════════════════════════════════════════
+   HẠ MẬT ĐỘ MÀU TÍM — ƯU TIÊN NEUTRAL
+   Nguyên tắc: màu tím CHỈ dành cho (1) hành động chính đang SẴN SÀNG bấm
+   và (2) vị trí hiện tại trên thanh điều hướng chính. Mọi thứ còn lại đi
+   theo thang mực/xám trung tính (không ám tím).
+   Khối này đặt cuối <style> nên đè lên các khai báo phía trên.
+   ══════════════════════════════════════════════════════════════════════ */
+:root{
+  --nt-ink:        #23212F;   /* nút/chip đặc màu mực */
+  --nt-ink-2:      #3A3746;
+  --nt-face:       #F5F5F7;   /* nền khung xám sáng, trung tính */
+  --nt-face-2:     #EDEDF1;
+  --nt-line:       rgba(28,26,38,.11);
+  --nt-muted:      #6E6B80;
+  --nt-disabled:   #E7E7EC;
+  --nt-disabled-ink:#A4A2B2;
+}
+:root[data-theme="dark"]{
+  --nt-ink:        #E8E7EF;
+  --nt-ink-2:      #C9C7D6;
+  --nt-face:       #2A2E3A;
+  --nt-face-2:     #333846;
+  --nt-line:       rgba(255,255,255,.10);
+  --nt-muted:      #9E9CB0;
+  --nt-disabled:   #333846;
+  --nt-disabled-ink:#6C6A7C;
+}
+
+/* ─── Pastel tím dùng khắp nơi → xám sáng trung tính ─────────────────── */
+:root:not([data-theme="dark"]){
+  --clay-p-indigo: #F1F1F4;
+  --clay-i-indigo: #2F2C3D;
+}
+
+/* ─── Nút đặc màu mực (thay cho tím) theo đúng phong cách đất sét ─────
+   Độ ưu tiên phải bằng/hơn khối "Nút CHÍNH gradient tím" phía trên nên
+   viết đủ cả 2 biến thể sáng/tối.                                      */
+:root:not([data-theme="dark"]) .nt-solid-ink,
+:root[data-theme="dark"] .nt-solid-ink,
+:root:not([data-theme="dark"]) .nb-cta,
+:root[data-theme="dark"] .nb-cta,
+:root:not([data-theme="dark"]) .nb-num,
+:root[data-theme="dark"] .nb-num{
+  background: var(--nt-ink) !important;
+  box-shadow: 0 4px 17px rgba(32,29,59,.30),
+              inset  4px  4px  7px rgba(255,255,255,.18),
+              inset -4px -4px  9px rgba(0,0,0,.25) !important;
+  border: none !important;
+}
+:root:not([data-theme="dark"]) .nt-solid-ink,
+:root:not([data-theme="dark"]) .nb-cta,
+:root:not([data-theme="dark"]) .nb-num{ color:#FFFFFF !important; }
+:root[data-theme="dark"] .nt-solid-ink,
+:root[data-theme="dark"] .nb-cta,
+:root[data-theme="dark"] .nb-num{ color:#1B1E27 !important; }
+:root:not([data-theme="dark"]) .nb-num,
+:root[data-theme="dark"] .nb-num{ box-shadow:none !important; }
+
+/* ─── Hành động chính: chỉ TÍM khi đã sẵn sàng bấm ───────────────────── */
+:root:not([data-theme="dark"]) .nb-cta:disabled,
+:root[data-theme="dark"] .nb-cta:disabled,
+:root:not([data-theme="dark"]) .nb-cta-sub:disabled,
+:root[data-theme="dark"] .nb-cta-sub:disabled,
+#btn-submit-notebook:disabled,
+#btn-next-step:disabled,
+:root:not([data-theme="dark"]) .neo-button.bg-point:disabled,
+:root[data-theme="dark"] .neo-button.bg-point:disabled{
+  background: var(--nt-disabled) !important;
+  color: var(--nt-disabled-ink) !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+  cursor: not-allowed;
+  transform: none !important;
+  filter: none !important;
+}
+
+/* ─── Giỏ từ: ô từ trắng/mực, khung xám sáng ─────────────────────────── */
+:root:not([data-theme="dark"]) .nb-selword{
+  background: #FFFFFF !important;
+  color: var(--clay-ink) !important;
+  border: 1px solid var(--nt-line) !important;
+  box-shadow: none !important;
+}
+:root:not([data-theme="dark"]) .nb-selword .x,
+:root[data-theme="dark"] .nb-selword .x{ background: rgba(28,26,38,.06); color: var(--nt-muted); }
+:root:not([data-theme="dark"]) .nb-block,
+:root:not([data-theme="dark"]) .m-pressed-block{
+  background: #F7F7F9 !important;
+  border: 1px solid var(--nt-line) !important;
+  box-shadow: none !important;
+}
+:root[data-theme="dark"] .nb-selword{
+  background: var(--nt-face-2) !important;
+  color: var(--clay-ink) !important;
+  border: 1px solid var(--nt-line) !important;
+  box-shadow: none !important;
+}
+
+/* ─── Chip/nút phụ trong modal sổ: chữ mực thay vì tím ───────────────── */
+:root:not([data-theme="dark"]) .nb-cta-sub:not(:disabled),
+:root[data-theme="dark"] .nb-cta-sub:not(:disabled){ color: var(--nt-ink) !important; }
+
+/* ─── Chip bộ lọc đang chọn → viên mực đặc, không còn pastel tím ─────── */
+:root:not([data-theme="dark"]) .bulk-chip.bulk-chip-active,
+:root:not([data-theme="dark"]) #view-library-stage .bulk-chip.bulk-chip-active,
+:root:not([data-theme="dark"]) .filter-dd-trigger.dd-open,
+:root:not([data-theme="dark"]) .filter-dd-trigger.dd-has-selection,
+:root:not([data-theme="dark"]) #view-library-stage .filter-dd-trigger.dd-open,
+:root:not([data-theme="dark"]) #view-library-stage .filter-dd-trigger.dd-has-selection{
+  background: var(--nt-ink) !important;
+  color: #FFFFFF !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+}
+.filter-dd-trigger.dd-open svg,
+.filter-dd-trigger.dd-has-selection svg{ color:#fff; }
+.filter-dd-trigger.dd-has-selection span[style*="linear-gradient"]{
+  background: rgba(255,255,255,.22) !important; color:#fff;
+}
+.filter-dd-option.dd-opt-active{ color: var(--nt-ink); }
+
+/* ─── Ô tick / công tắc: trạng thái BẬT dùng màu mực, không dùng tím ───
+   (trên 1 màn hình có thể có vài chục ô tick — để tím thì cả trang rực lên) */
+.filter-dd-checkbox.checked,
+.lib-check.is-on,
+.neo-checkbox:checked,
+.meaning-toggle-switch.is-on,
+.toggle-switch input:checked + .slider{ background: var(--nt-ink) !important; }
+
+/* ─── Con số lớn trên card sổ từ vựng → màu mực (trước đây mảng tím to
+   lặp lại trên từng card làm cả trang rực lên) ───────────────────────── */
+:root:not([data-theme="dark"]) .lesson-card [id^="nb-count-"],
+:root:not([data-theme="dark"]) .hm-nb-count{ color: var(--nt-ink) !important; }
+:root[data-theme="dark"] .lesson-card [id^="nb-count-"],
+:root[data-theme="dark"] .hm-nb-count{ color: var(--clay-ink) !important; }
+
+/* ─── Hành động chính của thanh chọn trong Thư viện: phải nổi lên rõ ───
+   (trước đây bị khối màu riêng của Thư viện ghi đè thành nút xám, nhìn
+   không ra nút chính) */
+:root:not([data-theme="dark"]) #view-library-stage .sel-btn.sel-primary{
+  background: linear-gradient(145deg,#8079FF,#5B4FCF) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 16px rgba(108,99,255,.32) !important;
+}
+:root[data-theme="dark"] #view-library-stage .sel-btn.sel-primary{
+  background: linear-gradient(145deg,#8C85FF,#6257DB) !important;
+  color: #FFFFFF !important;
+}
+
+/* ─── Hàng đang chọn / đang xem: nền xám trung tính, viền mực mảnh ───── */
+:root:not([data-theme="dark"]) .vocab-row.row-selected,
+:root:not([data-theme="dark"]) .vocab-row.row-picked,
+:root:not([data-theme="dark"]) .search-row-active{
+  box-shadow: inset 0 0 0 1.5px rgba(35,33,47,.22) !important;
+}
+
+/* ─── BÀI VIẾT CHỦ ĐỀ: đổi sang thang mực, tím chỉ còn vài điểm nhấn nhỏ ── */
+.topic-doc{
+  --indigo:   #20232A;   /* tiêu đề, chữ đậm → gần đen */
+  --seal:     #2C2F37;   /* nét cấu trúc, gạch chân, tem → mực */
+  --seal-2:   #4A4E58;
+  --violet:   #3A3D45;   /* chữ trên chip cấu trúc */
+  --violet-bg:#F1F0EA;   /* nền chip/hàng nhấn → xám ấm trung tính */
+  --accent:   #6C63FF;   /* điểm nhấn tím, dùng rất tiết chế */
+}
+html[data-theme="dark"] .topic-doc{
+  --indigo:   #E7E9EF;
+  --seal:     #C7CBD6;
+  --seal-2:   #9BA1AF;
+  --violet:   #D2D6DF;
+  --violet-bg:#252A34;
+  --accent:   #8F89FF;
+}
+/* Vài điểm nhấn tím nhỏ giữ lại để bài không bị đơn sắc */
+.topic-doc .eyebrow{ color:var(--accent); }
+.topic-doc h3.group-title::before{ background:var(--accent); }
+.topic-doc h4.md-h4::before{ background:var(--accent); }
+.topic-doc ul.md-list li::marker{ color:var(--accent); }
+
+/* Chữ nhấn / tem / chip → khung mực trung tính */
+.topic-doc mark.md-mark{
+  background:color-mix(in srgb, var(--ink) 9%, transparent);
+  color:var(--ink);
+}
+.topic-doc table.md-table th{ border-bottom:2px solid var(--ink); }
+.topic-doc table.md-table tbody tr:hover{ background:var(--paper-2); }
+.topic-doc table.md-table:not([data-cols="2"]) td[data-col="pho tu"],
+.topic-doc table.md-table:not([data-cols="2"]) td[data-col="tu khoa"],
+.topic-doc table.md-table:not([data-cols="2"]) td[data-col="mau"]{
+  background:var(--paper-2); color:var(--ink);
+}
+.topic-doc table.md-table td[data-col="cau truc ho ung"] strong,
+.topic-doc table.md-table td[data-col="cau truc"] strong{
+  color:var(--ink);
+  background:var(--paper-2);
+  border:1px solid var(--line);
+}
+/* Hàng đầu tiên của bảng không còn bị tô tím */
+.topic-doc table.md-table tbody tr:first-child{ background:transparent; }
+
+/* Từ vựng bấm được: gạch chân trung tính, chỉ ánh tím khi rê chuột */
+.topic-doc .topic-word-link{ border-bottom-color:color-mix(in srgb, var(--ink) 38%, transparent); }
+.topic-doc .topic-word-link:hover{
+  color:var(--ink); background:color-mix(in srgb, var(--accent) 12%, transparent);
+  border-bottom-color:var(--accent); box-shadow:none;
+}
+
+/* ─── Thanh điều hướng của trình đọc bài ─────────────────────────────── */
+.topic-back-btn{ color:#20232A; }
+.topic-back-btn:hover{ border-color:#20232A; background:rgba(32,35,42,.06); }
+:root[data-theme="dark"] .topic-back-btn{ color:#e6e8ee; }
+:root[data-theme="dark"] .topic-back-btn:hover{ border-color:#e6e8ee; background:rgba(255,255,255,.08); }
+.topic-link-badge{ color:#3A3D45; background:#F1F0EA; border-color:#E0DED0; }
+:root[data-theme="dark"] .topic-link-badge{ color:#c7cbd6; background:#252a34; border-color:#3c4252; }
+.topic-icon-btn:hover{ border-color:#20232A; color:#20232A; }
+:root[data-theme="dark"] .topic-icon-btn:hover{ border-color:#e6e8ee; color:#e6e8ee; }
+/* Tab phần I·II·III·IV: đang mở = nền đen chữ trắng */
+.topic-part-chip .topic-chip-num{ color:#5B5F66; }
+.topic-part-chip:hover{ border-color:#20232A; color:#20232A; }
+.topic-part-chip[data-active="true"]{ background:#20232A; border-color:#20232A; color:#fff; }
+.topic-part-chip[data-active="true"] .topic-chip-num{ color:#fff; }
+:root[data-theme="dark"] .topic-part-chip .topic-chip-num{ color:#a4abb9; }
+:root[data-theme="dark"] .topic-part-chip:hover{ border-color:#e6e8ee; color:#e6e8ee; }
+:root[data-theme="dark"] .topic-part-chip[data-active="true"]{ background:#e6e8ee; border-color:#e6e8ee; color:#171a21; }
+:root[data-theme="dark"] .topic-part-chip[data-active="true"] .topic-chip-num{ color:#171a21; }
+.topic-progress > span{ background:#20232A; }
+:root[data-theme="dark"] .topic-progress > span{ background:#e6e8ee; }
+
     </style>
 </head>
 <body class="font-sans antialiased text-[color:var(--c-3d3d4e)] px-3 sm:px-5 lg:px-8 pb-3 sm:pb-5 lg:pb-8 pt-1 sm:pt-2 min-h-screen">
@@ -7328,13 +7556,26 @@ input.quiz-wrong,
                     <label class="text-xs font-bold text-gray-500 mb-1.5 block">Ghi chú</label>
                     <div class="neo-sunk p-[2px] !rounded-2xl"><input id="nb-note-input" type="text" placeholder="VD: từ vựng đề TOPIK 101..." class="w-full px-5 py-3.5 bg-transparent border-none outline-none text-sm text-[color:var(--c-2d2d3a)]"></div>
                 </div>
-                <p id="nb-step1-error" class="text-xs text-red-400 font-semibold hidden">Vui lòng nhập tên sổ từ vựng</p>
-                <button class="neo-button w-full py-4 mt-1 text-white bg-point font-bold !rounded-2xl" id="btn-next-step">Tiếp theo ➔</button>
+                <p id="nb-step1-error" class="text-xs text-gray-400 font-semibold">Nhập tên sổ để đi tiếp bước chọn từ vựng.</p>
+                <button class="neo-button w-full py-4 mt-1 text-white bg-point font-bold !rounded-2xl" id="btn-next-step" disabled>Tiếp theo ➔</button>
             `;
-            document.getElementById('btn-next-step').addEventListener('click', () => {
-                const nameVal = document.getElementById('nb-name-input').value.trim();
+            const nameInput = document.getElementById('nb-name-input');
+            const nextBtn = document.getElementById('btn-next-step');
+            // Nút chính chỉ "sáng màu" khi thật sự bấm được — chưa đặt tên thì còn xám
+            const syncNextBtn = () => {
+                const ok = !!nameInput.value.trim();
+                nextBtn.disabled = !ok;
+                document.getElementById('nb-step1-error').textContent = ok
+                    ? 'Bấm "Tiếp theo" để sang bước chọn từ vựng.'
+                    : 'Nhập tên sổ để đi tiếp bước chọn từ vựng.';
+            };
+            nameInput.addEventListener('input', syncNextBtn);
+            nameInput.addEventListener('keydown', (e) => { if (e.key === 'Enter' && nameInput.value.trim()) nextBtn.click(); });
+            syncNextBtn();
+            nextBtn.addEventListener('click', () => {
+                const nameVal = nameInput.value.trim();
                 const noteVal = document.getElementById('nb-note-input').value.trim();
-                if (!nameVal) { document.getElementById('nb-step1-error').classList.remove('hidden'); return; }
+                if (!nameVal) return;
                 nbModalState.name = nameVal;
                 nbModalState.note = noteVal;
                 goToModalStep2();
@@ -7398,6 +7639,7 @@ input.quiz-wrong,
                 </div>
             `;
             document.getElementById('btn-submit-notebook').addEventListener('click', submitCreateNotebook);
+            updateSubmitNotebookBtnLabel();
             renderModalTabContent();
             renderSelectedWordsList();
         }
@@ -7728,9 +7970,13 @@ input.quiz-wrong,
         function updateSubmitNotebookBtnLabel() {
             const n = nbModalState.selectedWords.length;
             const btn = document.getElementById('btn-submit-notebook');
-            if (btn) btn.textContent = nbModalState.editingNotebookId
+            if (!btn) return;
+            btn.textContent = nbModalState.editingNotebookId
                 ? `Thêm ${n ? n + ' từ ' : ''}vào sổ`
                 : `Tạo sổ${n ? ` (${n} từ)` : ''}`;
+            // Giỏ còn trống thì nút chính vẫn xám — chỉ chuyển màu khi đã sẵn sàng tạo sổ
+            btn.disabled = !n;
+            btn.title = n ? '' : 'Chọn ít nhất 1 từ vựng để tạo sổ';
         }
 
         function toggleBulkFilterVal(key, val) {
